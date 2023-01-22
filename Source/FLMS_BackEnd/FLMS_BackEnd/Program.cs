@@ -7,11 +7,40 @@ using FLMS_BackEnd.Services.Impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Project API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+
+
 builder.Services.AddAuthorization();
 builder.Services.AddDbContext<FLMS_DBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("dbUrl")));
@@ -30,9 +59,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ClockSkew = TimeSpan.Zero
             };
         });
-builder.Services.AddScoped<UserService, UserServiceImpl>();
 
+//Map service
+builder.Services.AddScoped<UserService, UserServiceImpl>();
+builder.Services.AddScoped<TokenService, TokenServiceImpl>();
+
+//Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();
+builder.Services.AddScoped<TokenRepository, TokenRepositoryImpl>();
 
 var app = builder.Build();
 

@@ -10,10 +10,12 @@ namespace FLMS_BackEnd.Services.Impl
     public class UserServiceImpl : UserService
     {
         private readonly UserRepository userRepository;
+        private readonly TokenService tokenService;
 
-        public UserServiceImpl(UserRepository userRepository)
+        public UserServiceImpl(UserRepository userRepository, TokenService tokenService)
         {
             this.userRepository = userRepository;
+            this.tokenService = tokenService;
         }
 
         public async Task<SignupResponse> CheckSignUp(SignupRequest signupRequest)
@@ -90,9 +92,37 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<TokenResponse> LoginAsync(LoginRequest loginRequest)
         {
-            return await userRepository.GetByUserName(username);
+            User user = await userRepository.GetByUserName(loginRequest.Username);
+
+            if (user == null || !user.Active)
+            {
+                return new TokenResponse
+                {
+                    Success = false,
+                    Message = Constants.Message.USERNAME_NOT_FOUND
+                };
+            }
+            var passwordHash = PasswordHelper.HashUsingPbkdf2(loginRequest.Password, Convert.FromBase64String(user.PasswordSalt));
+
+            if (user.Password != passwordHash)
+            {
+                return new TokenResponse
+                {
+                    Success = false,
+                    Message = Constants.Message.INVALID_PASSWORD
+                };
+            }
+
+            var token = await System.Threading.Tasks.Task.Run(() => tokenService.GenerateTokensAsync(user.UserId));
+
+            return new TokenResponse
+            {
+                Success = true,
+                AccessToken = token.Item1,
+                RefreshToken = token.Item2
+            };
         }
     }
 }

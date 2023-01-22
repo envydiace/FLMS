@@ -7,6 +7,6 @@ namespace FLMS_BackEnd.Services
     public interface UserService
     {
         Task<SignupResponse> CheckSignUp(SignupRequest signupRequest);
-        Task<User> GetUserByUsername(string username);
+        Task<TokenResponse> LoginAsync(LoginRequest loginRequest);
     }
 }

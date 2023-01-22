@@ -37,5 +37,11 @@ namespace FLMS_BackEnd.Repositories.Impl
             User user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username.Equals(username));
             return user;
         }
+
+        public async Task<User> GetUserByUserIdIncludeRefreshToken(int userId)
+        {
+            User user = await _dbContext.Users.Include(u=> u.RefreshTokens).FirstOrDefaultAsync(u => u.UserId == userId);
+            return user;
+        }
     }
 }

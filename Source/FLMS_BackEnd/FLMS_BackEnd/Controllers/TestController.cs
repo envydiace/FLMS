@@ -1,10 +1,12 @@
 ﻿using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FLMS_BackEnd.Controllers
 {
+    [Route("api/[controller]")]
     public class TestController : BaseApiController
     {
         private readonly UserService userService;
@@ -13,18 +15,12 @@ namespace FLMS_BackEnd.Controllers
         {
             this.userService = userService;
         }
+
         [HttpGet("[action]")]
-        public async Task<IActionResult> test(string username)
+        [Authorize]
+        public async Task<ActionResult<BaseResponse>> TestAuthen()
         {
-            User u = await userService.GetUserByUsername(username);
-            if (u != null)
-            {
-                return Ok(new TestResponse { user = u, Success = true, Message = "Success" });
-            } 
-            else
-            {
-                return NotFound(new TestResponse { Message = "User not found" });
-            }
+            return Ok();
         }
     }
 }

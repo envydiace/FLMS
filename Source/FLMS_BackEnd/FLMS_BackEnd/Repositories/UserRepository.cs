@@ -7,5 +7,6 @@ namespace FLMS_BackEnd.Repositories
         Task<User> GetByEmail(string email);
         Task<User> GetByUserName(string username);
         Task<bool> CreateAsync(User user);
+        Task<User> GetUserByUserIdIncludeRefreshToken(int userId);
     }
 }
