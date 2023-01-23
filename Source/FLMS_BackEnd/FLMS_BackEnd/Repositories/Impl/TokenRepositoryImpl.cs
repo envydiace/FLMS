@@ -25,7 +25,12 @@ namespace FLMS_BackEnd.Repositories.Impl
             }
         }
 
-        public async Task<bool> RemoveRefreshTokenAsync(int userId)
+        public async Task<RefreshToken> GetRefreshTokenByUserIdAsync(int userId)
+        {
+            return await _dbContext.RefreshTokens.FirstOrDefaultAsync(o => o.UserId == userId);
+        }
+
+        public async Task<bool> RemoveRefreshTokenByUserIdAsync(int userId)
         {
             var userRecord = await _dbContext.Users.Include(o => o.RefreshTokens).FirstOrDefaultAsync(e => e.UserId == userId);
 
@@ -39,6 +44,8 @@ namespace FLMS_BackEnd.Repositories.Impl
                 var currentRefreshToken = userRecord.RefreshTokens.First();
 
                 _dbContext.RefreshTokens.Remove(currentRefreshToken);
+                int savechanges = await _dbContext.SaveChangesAsync();
+                return savechanges > 0;
             }
 
             return false;

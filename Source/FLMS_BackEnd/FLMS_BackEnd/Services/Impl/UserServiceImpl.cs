@@ -10,12 +10,14 @@ namespace FLMS_BackEnd.Services.Impl
     public class UserServiceImpl : UserService
     {
         private readonly UserRepository userRepository;
+        private readonly TokenRepository tokenRepository;
         private readonly TokenService tokenService;
 
-        public UserServiceImpl(UserRepository userRepository, TokenService tokenService)
+        public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, TokenService tokenService)
         {
             this.userRepository = userRepository;
             this.tokenService = tokenService;
+            this.tokenRepository = tokenRepository;
         }
 
         public async Task<SignupResponse> CheckSignUp(SignupRequest signupRequest)
@@ -123,6 +125,25 @@ namespace FLMS_BackEnd.Services.Impl
                 AccessToken = token.Item1,
                 RefreshToken = token.Item2
             };
+        }
+
+        public async Task<LogoutResponse> LogoutAsync(int userId)
+        {
+            var refreshToken = await tokenRepository.GetRefreshTokenByUserIdAsync(userId);
+
+            if (refreshToken == null)
+            {
+                return new LogoutResponse { Success = true, Message = Constants.Message.LOGOUT_SUCCESS };
+            }
+            bool removed = await tokenRepository.RemoveRefreshTokenByUserIdAsync(userId);
+
+            if (removed)
+            {
+                return new LogoutResponse { Success = true , Message = Constants.Message.LOGOUT_SUCCESS };
+            }
+
+            return new LogoutResponse { Success = false, Message = Constants.Message.LOGOUT_FAIL };
+
         }
     }
 }

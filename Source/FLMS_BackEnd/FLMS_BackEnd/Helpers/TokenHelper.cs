@@ -26,7 +26,7 @@ namespace FLMS_BackEnd.Helpers
                 Subject = claimsIdentity,
                 Issuer = Issuer,
                 Audience = Audience,
-                Expires = DateTime.Now.AddSeconds(15),
+                Expires = DateTime.Now.AddSeconds(30),
                 SigningCredentials = signingCredentials,
 
             };

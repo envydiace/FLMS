@@ -2,12 +2,13 @@
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FLMS_BackEnd.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class UserController : BaseApiController
     {
@@ -65,7 +66,21 @@ namespace FLMS_BackEnd.Controllers
             {
                 return BadRequest(new TokenResponse { Message = e.Message });
             }
-            
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Logout()
+        {
+            var logout = await userService.LogoutAsync(UserID);
+
+            if (!logout.Success)
+            {
+                return BadRequest(logout);
+            }
+
+            return Ok();
         }
     }
 }

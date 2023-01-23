@@ -8,5 +8,7 @@ namespace FLMS_BackEnd.Services
     {
         Task<SignupResponse> CheckSignUp(SignupRequest signupRequest);
         Task<TokenResponse> LoginAsync(LoginRequest loginRequest);
+
+        Task<LogoutResponse> LogoutAsync(int userId);
     }
 }

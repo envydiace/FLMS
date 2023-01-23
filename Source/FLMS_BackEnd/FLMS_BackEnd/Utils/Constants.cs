@@ -13,6 +13,8 @@
             public const string MISSING_LOGIN_DETAILS = "Missing login details!";
             public const string USERNAME_NOT_FOUND = "Username not found!";
             public const string INVALID_PASSWORD = "Invalid password!";
+            public const string LOGOUT_SUCCESS = "Logout Success!";
+            public const string LOGOUT_FAIL = "Unable to logout user!";
         }
     }
 }

@@ -32,7 +32,7 @@ namespace FLMS_BackEnd.Services.Impl
 
             if (userRecord.RefreshTokens != null && userRecord.RefreshTokens.Any())
             {
-                await tokenRepository.RemoveRefreshTokenAsync(userId);
+                await tokenRepository.RemoveRefreshTokenByUserIdAsync(userId);
             }
 
             await tokenRepository.AddRefreshToken(new RefreshToken
@@ -44,18 +44,6 @@ namespace FLMS_BackEnd.Services.Impl
                 TokenSalt = Convert.ToBase64String(salt)
 
             });
-
-            //userRecord.RefreshTokens?.Add(new RefreshToken
-            //{
-            //    ExpiryDate = DateTime.Now.AddDays(30),
-            //    Ts = DateTime.Now,
-            //    UserId = userId,
-            //    TokenHash = refreshTokenHashed,
-            //    TokenSalt = Convert.ToBase64String(salt)
-
-            //});
-
-            //await tasksDbContext.SaveChangesAsync();
 
             var token = new Tuple<string, string>(accessToken, refreshToken);
 
