@@ -20,6 +20,7 @@ namespace FLMS_BackEnd.Models
         public string LastName { get; set; } = null!;
         public bool Active { get; set; }
         public DateTime CreateAt { get; set; }
+        public string Role { get; set; } = null!;
 
         public virtual ICollection<Club> Clubs { get; set; }
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }

@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using FLMS_BackEnd.Models;
+using FLMS_BackEnd.Repositories;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -7,16 +9,27 @@ namespace FLMS_BackEnd.Helpers
 {
     public class TokenHelper
     {
-        public const string Issuer = "JWTAuthenticationServer";
-        public const string Audience = "JWTServicePostmanClient";
-        public const string Secret = "p0GXO6VuVZLRPef0tyO9jCqK4uZufDa6LP4n8Gj+8hQPB30f94pFiECAnPeMi5N6VT3/uscoGH7+zJrv4AuuPg==";
-        public static async Task<string> GenerateAccessToken(int userId)
+        private readonly IConfiguration _configuration;
+        private readonly UserRepository userRepository;
+
+        public TokenHelper(IConfiguration configuration, UserRepository userRepository)
+        {
+            _configuration = configuration;
+            this.userRepository = userRepository;
+        }
+
+        public async Task<string> GenerateAccessToken(int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Convert.FromBase64String(Secret);
+            var key = Convert.FromBase64String(_configuration["Jwt:Key"]);
 
+            User user = await userRepository.GetUserByUserId(userId);
             var claimsIdentity = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString())
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ClaimTypes.Role, user.Role)
+                //,
+                //new Claim(ClaimTypes.Email, user.Email),
+                //new Claim(ClaimTypes.Name, user.Username)
             });
 
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
@@ -24,9 +37,9 @@ namespace FLMS_BackEnd.Helpers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
-                Issuer = Issuer,
-                Audience = Audience,
-                Expires = DateTime.Now.AddSeconds(30),
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"],
+                Expires = DateTime.Now.AddSeconds(Convert.ToInt32(_configuration["Jwt:AccessExpire"])),
                 SigningCredentials = signingCredentials,
 
             };
@@ -34,7 +47,7 @@ namespace FLMS_BackEnd.Helpers
 
             return await System.Threading.Tasks.Task.Run(() => tokenHandler.WriteToken(securityToken));
         }
-        public static async Task<string> GenerateRefreshToken()
+        public async Task<string> GenerateRefreshToken()
         {
             var secureRandomBytes = new byte[32];
 

@@ -42,8 +42,10 @@ builder.Services.AddSwaggerGen(option =>
 
 
 builder.Services.AddAuthorization();
+
 builder.Services.AddDbContext<FLMS_DBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("dbUrl")));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
@@ -52,9 +54,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = TokenHelper.Issuer,
-                ValidAudience = TokenHelper.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(TokenHelper.Secret)),
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(builder.Configuration["Jwt:Key"])),
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
@@ -67,6 +69,8 @@ builder.Services.AddScoped<TokenService, TokenServiceImpl>();
 //Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();
 builder.Services.AddScoped<TokenRepository, TokenRepositoryImpl>();
+
+builder.Services.AddScoped<TokenHelper>();
 
 var app = builder.Build();
 

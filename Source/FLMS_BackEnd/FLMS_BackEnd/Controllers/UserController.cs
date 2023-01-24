@@ -13,9 +13,11 @@ namespace FLMS_BackEnd.Controllers
     public class UserController : BaseApiController
     {
         private readonly UserService userService;
-        public UserController(UserService userService)
+        private readonly TokenService tokenService;
+        public UserController(UserService userService, TokenService tokenService)
         {
             this.userService = userService;
+            this.tokenService = tokenService;
         }
 
         [HttpPost("[action]")]
@@ -81,6 +83,30 @@ namespace FLMS_BackEnd.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("refresh_token")]
+        public async Task<ActionResult<TokenResponse>> RefreshToken(RefreshTokenRequest refreshTokenRequest)
+        {
+            if (refreshTokenRequest == null || string.IsNullOrEmpty(refreshTokenRequest.RefreshToken) || refreshTokenRequest.UserId == 0)
+            {
+                return BadRequest(new TokenResponse
+                {
+                    Message = Constants.Message.MISSING_REFRESH_TOKEN_DETAILS
+                });
+            }
+
+            var validateRefreshTokenResponse = await tokenService.ValidateRefreshTokenAsync(refreshTokenRequest);
+
+            if (!validateRefreshTokenResponse.Success)
+            {
+                return BadRequest(new TokenResponse { Message = validateRefreshTokenResponse.Message });
+            }
+
+            var tokenResponse = await tokenService.GenerateTokensAsync(validateRefreshTokenResponse.UserId);
+
+            return Ok(new TokenResponse { AccessToken = tokenResponse.Item1, RefreshToken = tokenResponse.Item2 });
         }
     }
 }

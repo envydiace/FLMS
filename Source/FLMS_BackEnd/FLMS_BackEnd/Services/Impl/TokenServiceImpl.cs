@@ -1,6 +1,9 @@
 ﻿using FLMS_BackEnd.Helpers;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
+using FLMS_BackEnd.Request;
+using FLMS_BackEnd.Response;
+using FLMS_BackEnd.Utils;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -8,16 +11,20 @@ namespace FLMS_BackEnd.Services.Impl
     {
         private readonly UserRepository userRepository;
         private readonly TokenRepository tokenRepository;
+        private readonly IConfiguration _configuration;
+        private readonly TokenHelper tokenHelper;
 
-        public TokenServiceImpl(UserRepository userRepository, TokenRepository tokenRepository)
+        public TokenServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, IConfiguration configuration, TokenHelper tokenHelper)
         {
             this.userRepository = userRepository;
             this.tokenRepository = tokenRepository;
+            _configuration = configuration;
+            this.tokenHelper = tokenHelper;
         }
         public async Task<Tuple<string, string>> GenerateTokensAsync(int userId)
         {
-            var accessToken = await TokenHelper.GenerateAccessToken(userId);
-            var refreshToken = await TokenHelper.GenerateRefreshToken();
+            var accessToken = await tokenHelper.GenerateAccessToken(userId);
+            var refreshToken = await tokenHelper.GenerateRefreshToken();
 
             User userRecord = await userRepository.GetUserByUserIdIncludeRefreshToken(userId);
 
@@ -37,7 +44,7 @@ namespace FLMS_BackEnd.Services.Impl
 
             await tokenRepository.AddRefreshToken(new RefreshToken
             {
-                ExpiryDate = DateTime.Now.AddMinutes(1),
+                ExpiryDate = DateTime.Now.AddSeconds(Convert.ToInt32(_configuration["Jwt:RefreshExpire"])),
                 CreateAt = DateTime.Now,
                 UserId = userId,
                 TokenHash = refreshTokenHashed,
@@ -49,6 +56,40 @@ namespace FLMS_BackEnd.Services.Impl
 
             return token;
         }
-       
+
+        public async Task<ValidateRefreshTokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
+        {
+            var refreshToken = await tokenRepository.GetRefreshTokenByUserIdAsync( refreshTokenRequest.UserId);
+
+            var response = new ValidateRefreshTokenResponse();
+            if (refreshToken == null)
+            {
+                response.Success = false;
+                response.Message = Constants.Message.INVALID_SESSION;
+                return response;
+            }
+
+            var refreshTokenToValidateHash = PasswordHelper.HashUsingPbkdf2(refreshTokenRequest.RefreshToken, Convert.FromBase64String(refreshToken.TokenSalt));
+
+            if (refreshToken.TokenHash != refreshTokenToValidateHash)
+            {
+                response.Success = false;
+                response.Message = Constants.Message.INVALID_REFRESH_TOKEN;
+                return response;
+            }
+
+            if (refreshToken.ExpiryDate < DateTime.Now)
+            {
+                response.Success = false;
+                response.Message = Constants.Message.REFRESH_TOKEN_EXPIRED;
+                return response;
+            }
+
+            response.Success = true;
+            response.UserId = refreshToken.UserId;
+
+            return response;
+        }
+
     }
 }

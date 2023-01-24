@@ -83,6 +83,8 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.PasswordSalt).HasMaxLength(255);
 
+                entity.Property(e => e.Role).HasMaxLength(10);
+
                 entity.Property(e => e.Username).HasMaxLength(50);
             });
 
