@@ -1,0 +1,11 @@
+Git convention:
+- tên nhánh: 
+	+ implement feature: feature/{mã task}/{tên người làm}
+		ex: feature/CP-77/anhnd
+	+ fix bug: fix_bug/{mã bug}/{tên người làm}
+
+-
+
+Coding convention:
+- API body trả về BaseResponse
+- API request body nhận vào Request
