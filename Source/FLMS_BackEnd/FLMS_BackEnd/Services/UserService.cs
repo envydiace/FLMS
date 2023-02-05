@@ -10,5 +10,6 @@ namespace FLMS_BackEnd.Services
         Task<TokenResponse> LoginAsync(LoginRequest loginRequest);
 
         Task<LogoutResponse> LogoutAsync(int userId);
+        Task<UserProfileResponse> GetUserProfile(int userId);
     }
 }

@@ -18,10 +18,11 @@ namespace FLMS_BackEnd.Controllers
         }
 
         [HttpGet("[action]")]
-        [Authorize(Roles = Constants.Role.ADMIN)]
+        [Authorize(Roles = Constants.Role.LEAGUE_MANAGER)]
         public async Task<ActionResult<BaseResponse>> TestAuthen()
         {
-            return Ok();
+            
+            return Ok(UserID);
         }
         [HttpGet("[action]")]
         public async Task<ActionResult<BaseResponse>> TestTole()

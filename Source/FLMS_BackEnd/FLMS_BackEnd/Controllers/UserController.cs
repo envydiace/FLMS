@@ -46,7 +46,7 @@ namespace FLMS_BackEnd.Controllers
         {
             try
             {
-                if (loginRequest == null || string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
+                if (loginRequest == null || string.IsNullOrEmpty(loginRequest.Email) || string.IsNullOrEmpty(loginRequest.Password))
                 {
                     return BadRequest(new TokenResponse
                     {
@@ -107,6 +107,22 @@ namespace FLMS_BackEnd.Controllers
             var tokenResponse = await tokenService.GenerateTokensAsync(validateRefreshTokenResponse.UserId);
 
             return Ok(new TokenResponse { AccessToken = tokenResponse.Item1, RefreshToken = tokenResponse.Item2 });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<UserProfileResponse>> GetUserProfile()
+        {
+            var response = await userService.GetUserProfile(UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
         }
     }
 }
