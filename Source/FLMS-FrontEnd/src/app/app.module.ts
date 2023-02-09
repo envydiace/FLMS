@@ -12,13 +12,17 @@ import { MatListModule } from "@angular/material/list";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatExpansionModule } from '@angular/material/expansion';
+import { LoginComponent } from './flms/authentication/login/login.component';
+import { SignUpComponent } from './flms/authentication/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
     MainComponent,
     NavbarComponent,
     FooterComponent,
-    VerticalMenuComponent
+    VerticalMenuComponent,
+    LoginComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,

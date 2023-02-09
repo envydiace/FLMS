@@ -1,34 +1,53 @@
 <mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer class="example-sidenav navbar-dark" mode="side" opened="true">
-        <mat-accordion>
-            <!-- #docregion basic-panel -->
-            <!-- #docregion hide-toggle -->
-              <mat-expansion-panel (opened)="panelOpenState = true"
-              (closed)="panelOpenState = false">
-            <!-- #enddocregion hide-toggle -->
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <a class="navbar-brand" href="#">Club Manager</a>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <p>This is the primary content of the panel.</p>
-              </mat-expansion-panel>
-            <!-- #enddocregion basic-panel -->
-              <mat-expansion-panel (opened)="panelOpenState = true"
-                                   (closed)="panelOpenState = false">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Self aware panel
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <p>I'm visible because I am open</p>
-              </mat-expansion-panel>
-            </mat-accordion>
-    </mat-drawer>
+  <mat-drawer #drawer class="example-sidenav navbar-dark" mode="side" opened="true">
+    <mat-accordion>
+      <!-- #docregion basic-panel -->
+      <mat-expansion-panel class="sidenav-item" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <!-- #enddocregion hide-toggle -->
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <a class="panel-title" href="#">Club Manager</a>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+      <!-- #enddocregion basic-panel -->
+      <mat-expansion-panel class="sidenav-item" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <a class="panel-title" href="#">Club Manager</a>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+        <div>
+          <a mat-button href="#" class="custom-button">Club's List</a>
+        </div>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+    </mat-accordion>
+  </mat-drawer>
 
-    <div class="example-sidenav-content">
-        <button type="button" mat-button (click)="drawer.toggle()">
-            Toggle sidenav
-        </button>
-    </div>
+  <button mat-flat-button color="primary" (click)="drawer.toggle()">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">view_headline</mat-icon>
+  </button>
 </mat-drawer-container>

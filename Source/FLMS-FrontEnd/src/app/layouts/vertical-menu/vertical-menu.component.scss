@@ -27,3 +27,37 @@ mat-drawer {
 .mat-form-field+.mat-form-field {
     margin-left: 8px;
 }
+
+.sidenav-item {
+    background-color: rgba(242, 246, 255, 0.1);
+    color: #eee;
+}
+
+a:hover {
+    color: #eee;
+    text-decoration: none;
+}
+
+.custom-button {
+    width: 100% !important;
+    min-width: unset !important;
+    margin-top: 10px;
+    text-align: left;
+    height: 40px;
+    line-height: 3;
+}
+
+.panel-title {
+    color: #eee;
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+button:focus {
+    outline: none;
+}
