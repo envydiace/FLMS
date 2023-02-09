@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Helpers;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Helpers;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
@@ -35,21 +36,23 @@ namespace FLMS_BackEnd.Services.Impl
                     Message = Constants.Message.EMAIL_EXISTED
                 };
             }
-            u = await userRepository.GetByUserName(signupRequest.Username);
-            if (u != null)
-            {
-                return new SignupResponse
-                {
-                    Success = false,
-                    Message = Constants.Message.USERNAME_EXISTED
-                };
-            }
             if (signupRequest.Password != signupRequest.ConfirmPassword)
             {
                 return new SignupResponse
                 {
                     Success = false,
                     Message = Constants.Message.PASSWORD_DOES_NOT_MATCH
+                };
+            }
+            if (!Enum.GetValues(typeof(Constants.SystemRole))
+                .Cast<Constants.SystemRole>()
+                .Select(v => v.ToString())
+                .ToList().Contains(signupRequest.Role))
+            {
+                return new SignupResponse
+                {
+                    Success = false,
+                    Message = Constants.Message.INVALID_ROLE
                 };
             }
 
@@ -67,13 +70,14 @@ namespace FLMS_BackEnd.Services.Impl
             var passwordHash = PasswordHelper.HashUsingPbkdf2(signupRequest.Password, salt);
             User user = new User
             {
-                Username = signupRequest.Username,
                 Email = signupRequest.Email,
                 Password = passwordHash,
                 PasswordSalt = Convert.ToBase64String(salt),
-                FirstName = signupRequest.FirstName,
-                LastName = signupRequest.LastName,
+                FullName = signupRequest.FullName,
+                Phone = signupRequest.Phone,
+                Address = signupRequest.Address,
                 CreateAt = DateTime.Now,
+                Role = signupRequest.Role,
                 Active = true // You can save is false and send confirmation email to the user, then once the user confirms the email you can make it true
             };
 
@@ -83,7 +87,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = true,
-                    Username = user.Username
+                    Email = user.Email
                 };
             }
 
@@ -94,9 +98,34 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
+        public async Task<UserProfileResponse> GetUserProfile(int userId)
+        {
+            User u = await userRepository.GetUserByUserId(userId);
+            if (u == null)
+            {
+                return new UserProfileResponse
+                {
+                    Success = false,
+                    Message = Constants.Message.USER_DOES_NOT_EXISTED
+                };
+            }
+            return new UserProfileResponse
+            {
+                Success = true,
+                // Need auto mapper
+                UserProfile = new UserProfileDTO
+                {
+                    Email = u.Email,
+                    FullName = u.FullName,
+                    Address = u.Address,
+                    Phone = u.Phone
+                }
+            };
+        }
+
         public async Task<TokenResponse> LoginAsync(LoginRequest loginRequest)
         {
-            User user = await userRepository.GetByUserName(loginRequest.Username);
+            User user = await userRepository.GetByEmail(loginRequest.Email);
 
             if (user == null || !user.Active)
             {
@@ -143,7 +172,6 @@ namespace FLMS_BackEnd.Services.Impl
             }
 
             return new LogoutResponse { Success = false, Message = Constants.Message.LOGOUT_FAIL };
-
         }
     }
 }

@@ -5,8 +5,6 @@ namespace FLMS_BackEnd.Request
     public class SignupRequest
     {
         [Required]
-        public string Username { get; set; }
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
@@ -14,8 +12,12 @@ namespace FLMS_BackEnd.Request
         [Required]
         public string ConfirmPassword { get; set; }
         [Required]
-        public string FirstName { get; set; }
+        public string FullName { get; set; }
         [Required]
-        public string LastName { get; set; }
+        public string Phone { get; set; }
+        [Required]
+        public string Address { get; set; }
+        [Required]
+        public string Role { get; set; }
     }
 }

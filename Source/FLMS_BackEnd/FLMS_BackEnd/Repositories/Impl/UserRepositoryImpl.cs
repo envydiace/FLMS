@@ -31,12 +31,6 @@ namespace FLMS_BackEnd.Repositories.Impl
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
         }
 
-        public async Task<User> GetByUserName(string username)
-        {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username.Equals(username));
-            
-        }
-
         public async Task<User> GetUserByUserId(int userId)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);

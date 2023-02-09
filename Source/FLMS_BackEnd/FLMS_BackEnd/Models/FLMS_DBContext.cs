@@ -71,21 +71,21 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("User");
 
+                entity.Property(e => e.Address).HasMaxLength(255);
+
                 entity.Property(e => e.CreateAt).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.Email).HasMaxLength(150);
 
-                entity.Property(e => e.FirstName).HasMaxLength(255);
-
-                entity.Property(e => e.LastName).HasMaxLength(255);
+                entity.Property(e => e.FullName).HasMaxLength(255);
 
                 entity.Property(e => e.Password).HasMaxLength(255);
 
                 entity.Property(e => e.PasswordSalt).HasMaxLength(255);
 
-                entity.Property(e => e.Role).HasMaxLength(10);
+                entity.Property(e => e.Phone).HasMaxLength(255);
 
-                entity.Property(e => e.Username).HasMaxLength(50);
+                entity.Property(e => e.Role).HasMaxLength(20);
             });
 
             OnModelCreatingPartial(modelBuilder);
