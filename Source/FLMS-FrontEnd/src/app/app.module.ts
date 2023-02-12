@@ -12,28 +12,28 @@ import { MatListModule } from "@angular/material/list";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatExpansionModule } from '@angular/material/expansion';
-import { LoginComponent } from './flms/authentication/login/login.component';
-import { SignUpComponent } from './flms/authentication/sign-up/sign-up.component';
+import { FlmsModule } from './flms/flms.module';
+import { HomepageComponent } from './guest-view/homepage/homepage.component';
+import { LoginComponent } from './guest-view/login/login.component';
+import { GuestViewModule } from './guest-view/guest-view.module';
 
 @NgModule({
   declarations: [
     MainComponent,
     NavbarComponent,
     FooterComponent,
-    VerticalMenuComponent,
-    LoginComponent,
-    SignUpComponent
+    VerticalMenuComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatSidenavModule,
     MatSidenavModule,
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatExpansionModule
+    MatExpansionModule,
+    FlmsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [MainComponent]
