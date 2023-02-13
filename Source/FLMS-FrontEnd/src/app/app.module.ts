@@ -16,6 +16,7 @@ import { FlmsModule } from './flms/flms.module';
 import { HomepageComponent } from './guest-view/homepage/homepage.component';
 import { LoginComponent } from './guest-view/login/login.component';
 import { GuestViewModule } from './guest-view/guest-view.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { GuestViewModule } from './guest-view/guest-view.module';
     MatButtonModule,
     MatExpansionModule,
     FlmsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [MainComponent]

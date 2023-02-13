@@ -1,0 +1,65 @@
+.home-container {
+
+    .home-background {
+        background: url('./../../../assets/image/cover.jpg');
+        width: 100%;
+        height: 915px;
+    }
+
+    .home-layer {
+        background-image: linear-gradient(to bottom left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1));
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: 915px;
+    }
+
+    .home-title {
+        color: white;
+        font-size: 100px;
+        margin-top: 270px;
+        font-weight: 500;
+    }
+
+    .home-content {
+        color: white;
+        margin-top: 50px;
+        margin-left: 10px;
+
+        p {
+            width: 600px;
+        }
+    }
+
+    .home-cover-action {
+        margin-top: 30px;
+
+        span {
+            color: white;
+            font-size: 100px;
+        }
+
+        button {
+            height: 50px;
+            width: 100%;
+            font-size: 20px;
+        }
+    }
+
+    .home-cover-list {
+        margin-top: 30px;
+
+        mat-icon {
+            color: rgb(180, 37, 37);
+        }
+
+        span {
+            color: white;
+        }
+    }
+
+    .row {
+        margin-right: 0px;
+    }
+}
