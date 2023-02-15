@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { SignupComponent } from './signup/signup.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     ClubDetailComponent,
     LeagueListComponent,
     LeagueDetailComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    SignupComponent
   ],
   imports: [
     CommonModule,
