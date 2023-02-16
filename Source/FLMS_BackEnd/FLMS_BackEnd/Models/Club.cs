@@ -14,8 +14,11 @@ namespace FLMS_BackEnd.Models
         }
 
         public int ClubId { get; set; }
-        public string ClubName { get; set; } = null!;
         public int UserId { get; set; }
+        public string ClubName { get; set; } = null!;
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? SocialCont { get; set; }
         public DateTime CreateAt { get; set; }
 
         public virtual User User { get; set; } = null!;
