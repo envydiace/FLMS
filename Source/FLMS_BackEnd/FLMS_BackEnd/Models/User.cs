@@ -8,6 +8,7 @@ namespace FLMS_BackEnd.Models
         public User()
         {
             Clubs = new HashSet<Club>();
+            Leagues = new HashSet<League>();
             RefreshTokens = new HashSet<RefreshToken>();
         }
 
@@ -16,13 +17,14 @@ namespace FLMS_BackEnd.Models
         public string Password { get; set; } = null!;
         public string PasswordSalt { get; set; } = null!;
         public string FullName { get; set; } = null!;
-        public string Phone { get; set; } = null!;
-        public string Address { get; set; } = null!;
+        public string? Phone { get; set; }
+        public string? Address { get; set; }
         public bool Active { get; set; }
         public DateTime CreateAt { get; set; }
         public string Role { get; set; } = null!;
 
         public virtual ICollection<Club> Clubs { get; set; }
+        public virtual ICollection<League> Leagues { get; set; }
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
     }
 }
