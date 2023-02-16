@@ -9,10 +9,15 @@ import { ClubListComponent } from './club/club-list/club-list.component';
 import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { MatInputModule } from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { SignupComponent } from './signup/signup.component';
 
 
 @NgModule({
@@ -23,7 +28,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ClubListComponent,
     ClubDetailComponent,
     LeagueListComponent,
-    LeagueDetailComponent
+    LeagueDetailComponent,
+    ChangePasswordComponent,
+    SignupComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +38,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class GuestViewModule { }
