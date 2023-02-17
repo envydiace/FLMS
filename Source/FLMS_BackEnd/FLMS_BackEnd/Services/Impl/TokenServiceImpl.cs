@@ -42,7 +42,7 @@ namespace FLMS_BackEnd.Services.Impl
                 await tokenRepository.RemoveRefreshTokenByUserIdAsync(userId);
             }
 
-            await tokenRepository.AddRefreshToken(new RefreshToken
+            await tokenRepository.CreateAsync(new RefreshToken
             {
                 ExpiryDate = DateTime.Now.AddSeconds(Convert.ToInt32(_configuration["Jwt:RefreshExpire"])),
                 CreateAt = DateTime.Now,
@@ -65,7 +65,7 @@ namespace FLMS_BackEnd.Services.Impl
             if (refreshToken == null)
             {
                 response.Success = false;
-                response.Message = Constants.Message.INVALID_SESSION;
+                response.Message = Constants.MessageUser.INVALID_SESSION;
                 return response;
             }
 
@@ -74,14 +74,14 @@ namespace FLMS_BackEnd.Services.Impl
             if (refreshToken.TokenHash != refreshTokenToValidateHash)
             {
                 response.Success = false;
-                response.Message = Constants.Message.INVALID_REFRESH_TOKEN;
+                response.Message = Constants.MessageUser.INVALID_REFRESH_TOKEN;
                 return response;
             }
 
             if (refreshToken.ExpiryDate < DateTime.Now)
             {
                 response.Success = false;
-                response.Message = Constants.Message.REFRESH_TOKEN_EXPIRED;
+                response.Message = Constants.MessageUser.REFRESH_TOKEN_EXPIRED;
                 return response;
             }
 
