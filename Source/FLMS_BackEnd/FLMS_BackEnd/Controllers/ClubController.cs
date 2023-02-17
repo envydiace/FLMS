@@ -43,5 +43,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<ListClubResponse>> GetListClubFilter([FromQuery]ListClubFilterRequest request)
+        {
+            var response = await clubService.GetListClubFilter(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

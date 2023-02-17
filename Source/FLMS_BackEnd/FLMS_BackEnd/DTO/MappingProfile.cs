@@ -14,7 +14,11 @@ namespace FLMS_BackEnd.DTO
                     request => DateTime.Now
                     ));
 
-            CreateMap<Club, ClubDTO>();
+            CreateMap<Club, ClubDTO>()
+                .ForMember(dto => dto.ManagerName,
+                map => map.MapFrom(
+                    club => club.User.FullName
+                    ));
 
             CreateMap<User,UserProfileDTO>();
         }

@@ -9,5 +9,6 @@
         public string? PhoneNumber { get; set; }
         public string? SocialCont { get; set; }
         public DateTime CreateAt { get; set; }
+        public string ManagerName { get; set; } = null!;
     }
 }
