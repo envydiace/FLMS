@@ -8,7 +8,7 @@ using FLMS_BackEnd.Utils;
 
 namespace FLMS_BackEnd.Services.Impl
 {
-    public class UserServiceImpl : UserService
+    public class UserServiceImpl :BaseService, UserService
     {
         private readonly UserRepository userRepository;
         private readonly TokenRepository tokenRepository;
@@ -25,7 +25,7 @@ namespace FLMS_BackEnd.Services.Impl
         {
             if (signupRequest == null)
             {
-                return new SignupResponse { Success = false, Message = Constants.Message.REQUEST_FAIL };
+                return new SignupResponse { Success = false, Message = Constants.MessageUser.REQUEST_FAIL };
             }
             User u = await userRepository.GetByEmail(signupRequest.Email);
             if (u != null)
@@ -33,7 +33,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.EMAIL_EXISTED
+                    Message = Constants.MessageUser.EMAIL_EXISTED
                 };
             }
             if (signupRequest.Password != signupRequest.ConfirmPassword)
@@ -41,7 +41,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.PASSWORD_DOES_NOT_MATCH
+                    Message = Constants.MessageUser.PASSWORD_DOES_NOT_MATCH
                 };
             }
             if (!Enum.GetValues(typeof(Constants.SystemRole))
@@ -52,7 +52,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.INVALID_ROLE
+                    Message = Constants.MessageUser.INVALID_ROLE
                 };
             }
 
@@ -62,7 +62,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.PASSWORD_IS_WEAK
+                    Message = Constants.MessageUser.PASSWORD_IS_WEAK
                 };
             }
 
@@ -94,7 +94,7 @@ namespace FLMS_BackEnd.Services.Impl
             return new SignupResponse
             {
                 Success = false,
-                Message = Constants.Message.SAVE_USER_FAIL
+                Message = Constants.MessageUser.SAVE_USER_FAIL
             };
         }
 
@@ -106,20 +106,13 @@ namespace FLMS_BackEnd.Services.Impl
                 return new UserProfileResponse
                 {
                     Success = false,
-                    Message = Constants.Message.USER_DOES_NOT_EXISTED
+                    Message = Constants.MessageUser.USER_DOES_NOT_EXISTED
                 };
             }
             return new UserProfileResponse
             {
                 Success = true,
-                // Need auto mapper
-                UserProfile = new UserProfileDTO
-                {
-                    Email = u.Email,
-                    FullName = u.FullName,
-                    Address = u.Address,
-                    Phone = u.Phone
-                }
+                UserProfile = mapper.Map<UserProfileDTO>(u)
             };
         }
 
@@ -132,7 +125,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new TokenResponse
                 {
                     Success = false,
-                    Message = Constants.Message.USERNAME_NOT_FOUND
+                    Message = Constants.MessageUser.USERNAME_NOT_FOUND
                 };
             }
             var passwordHash = PasswordHelper.HashUsingPbkdf2(loginRequest.Password, Convert.FromBase64String(user.PasswordSalt));
@@ -142,7 +135,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new TokenResponse
                 {
                     Success = false,
-                    Message = Constants.Message.INVALID_PASSWORD
+                    Message = Constants.MessageUser.INVALID_PASSWORD
                 };
             }
 
@@ -162,16 +155,16 @@ namespace FLMS_BackEnd.Services.Impl
 
             if (refreshToken == null)
             {
-                return new LogoutResponse { Success = true, Message = Constants.Message.LOGOUT_SUCCESS };
+                return new LogoutResponse { Success = true, Message = Constants.MessageUser.LOGOUT_SUCCESS };
             }
             bool removed = await tokenRepository.RemoveRefreshTokenByUserIdAsync(userId);
 
             if (removed)
             {
-                return new LogoutResponse { Success = true , Message = Constants.Message.LOGOUT_SUCCESS };
+                return new LogoutResponse { Success = true , Message = Constants.MessageUser.LOGOUT_SUCCESS };
             }
 
-            return new LogoutResponse { Success = false, Message = Constants.Message.LOGOUT_FAIL };
+            return new LogoutResponse { Success = false, Message = Constants.MessageUser.LOGOUT_FAIL };
         }
     }
 }

@@ -3,26 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Repositories.Impl
 {
-    public class TokenRepositoryImpl : TokenRepository
+    public class TokenRepositoryImpl :BaseRepositoryImpl<RefreshToken>, TokenRepository
     {
-        private readonly FLMS_DBContext _dbContext;
-        public TokenRepositoryImpl(FLMS_DBContext dbContext)
+        public TokenRepositoryImpl(FLMS_DBContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
-        }
-
-        public async Task<bool> AddRefreshToken(RefreshToken refreshToken)
-        {
-            try
-            {
-                _dbContext.Add<RefreshToken>(refreshToken);
-                int savechanges = await _dbContext.SaveChangesAsync();
-                return savechanges > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
 
         public async Task<RefreshToken> GetRefreshTokenByUserIdAsync(int userId)

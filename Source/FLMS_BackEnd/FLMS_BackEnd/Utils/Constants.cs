@@ -13,7 +13,7 @@
             public const string ADMIN = "ADMIN";
         }
 
-        public static class Message
+        public static class MessageUser
         {
             public const string REQUEST_FAIL = "Request fail!";
             public const string EMAIL_EXISTED = "Email existed!";

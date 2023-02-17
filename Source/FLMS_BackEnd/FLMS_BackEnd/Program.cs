@@ -65,10 +65,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //Map service
 builder.Services.AddScoped<UserService, UserServiceImpl>();
 builder.Services.AddScoped<TokenService, TokenServiceImpl>();
+builder.Services.AddScoped<ClubService, ClubServiceImpl>();
 
 //Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();
 builder.Services.AddScoped<TokenRepository, TokenRepositoryImpl>();
+builder.Services.AddScoped<ClubRepository, ClubRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 
