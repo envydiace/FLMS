@@ -20,9 +20,11 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { SignupComponent } from './signup/signup.component';
 import { MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
-  declarations: [ 
+  declarations: [
     HomepageComponent,
     LoginComponent,
     RegisterComponent,
@@ -31,7 +33,9 @@ import { FormsModule } from '@angular/forms';
     LeagueListComponent,
     LeagueDetailComponent,
     ChangePasswordComponent,
-    SignupComponent
+    SignupComponent,
+    ForgotPassComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -43,6 +47,7 @@ import { FormsModule } from '@angular/forms';
     MatGridListModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCardModule,
     MatSelectModule,
     FormsModule
   ]
