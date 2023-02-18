@@ -10,18 +10,18 @@ import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import { MatButtonModule} from '@angular/material/button';
+import { MatIconModule} from '@angular/material/icon';
+import { MatListModule} from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { MatGridListModule} from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule} from '@angular/material/form-field';
 import { SignupComponent } from './signup/signup.component';
+import { MatSelectModule} from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import {MatCardModule} from '@angular/material/card';
-
-
 
 @NgModule({
   declarations: [
@@ -48,6 +48,8 @@ import {MatCardModule} from '@angular/material/card';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    MatSelectModule,
+    FormsModule
   ]
 })
 export class GuestViewModule { }

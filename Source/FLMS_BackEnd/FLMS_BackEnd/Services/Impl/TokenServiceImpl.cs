@@ -4,6 +4,7 @@ using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -21,16 +22,16 @@ namespace FLMS_BackEnd.Services.Impl
             _configuration = configuration;
             this.tokenHelper = tokenHelper;
         }
-        public async Task<Tuple<string, string>> GenerateTokensAsync(int userId)
+        public async Task<TokenResponse> GenerateTokensAsync(int userId)
         {
             var accessToken = await tokenHelper.GenerateAccessToken(userId);
             var refreshToken = await tokenHelper.GenerateRefreshToken();
 
-            User userRecord = await userRepository.GetUserByUserIdIncludeRefreshToken(userId);
+            User userRecord = await userRepository.FindByCondition(user => user.UserId == userId).Include(u => u.RefreshTokens).FirstOrDefaultAsync(); ;
 
             if (userRecord == null)
             {
-                return null;
+                return new TokenResponse { Success = false, Message = "" };
             }
 
             var salt = PasswordHelper.GetSecureSalt();
@@ -51,15 +52,12 @@ namespace FLMS_BackEnd.Services.Impl
                 TokenSalt = Convert.ToBase64String(salt)
 
             });
-
-            var token = new Tuple<string, string>(accessToken, refreshToken);
-
-            return token;
+            return new TokenResponse { Success = true, AccessToken = accessToken, RefreshToken = refreshToken, Role = userRecord.Role };
         }
 
         public async Task<ValidateRefreshTokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
         {
-            var refreshToken = await tokenRepository.GetRefreshTokenByUserIdAsync( refreshTokenRequest.UserId);
+            var refreshToken = await tokenRepository.FindByCondition(token => token.UserId == refreshTokenRequest.UserId).FirstOrDefaultAsync();
 
             var response = new ValidateRefreshTokenResponse();
             if (refreshToken == null)
