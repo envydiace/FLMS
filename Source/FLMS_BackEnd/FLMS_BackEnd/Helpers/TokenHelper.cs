@@ -1,5 +1,6 @@
 ﻿using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,7 +24,7 @@ namespace FLMS_BackEnd.Helpers
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Convert.FromBase64String(_configuration["Jwt:Key"]);
 
-            User user = await userRepository.GetUserByUserId(userId);
+            User user = await userRepository.FindByCondition(user => user.UserId == userId).FirstOrDefaultAsync();
             var claimsIdentity = new ClaimsIdentity(new[] {
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                 new Claim(ClaimTypes.Role, user.Role)

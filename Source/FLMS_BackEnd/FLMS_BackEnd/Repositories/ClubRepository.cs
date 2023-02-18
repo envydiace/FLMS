@@ -2,7 +2,7 @@
 
 namespace FLMS_BackEnd.Repositories
 {
-    public interface UserRepository : BaseRepository<User> 
+    public interface ClubRepository: BaseRepository<Club>
     {
     }
 }
