@@ -69,7 +69,7 @@ namespace FLMS_BackEnd.Services.Impl
 
             var salt = PasswordHelper.GetSecureSalt();
             var passwordHash = PasswordHelper.HashUsingPbkdf2(signupRequest.Password, salt);
-            User user = new User
+            user = new User
             {
                 Email = signupRequest.Email,
                 Password = passwordHash,
