@@ -1,3 +1,4 @@
+import { ClubListComponent } from './club/club-list/club-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomepageComponent } from './homepage/homepage.component';
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'forgot-pass',
     component: ForgotPassComponent
+  },
+  {  
+    path : 'club-list',
+    component: ClubListComponent
   }
 ];
 
