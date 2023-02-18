@@ -5,10 +5,11 @@ using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
-    public class UserServiceImpl :BaseService, UserService
+    public class UserServiceImpl : BaseService, UserService
     {
         private readonly UserRepository userRepository;
         private readonly TokenRepository tokenRepository;
@@ -27,8 +28,8 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new SignupResponse { Success = false, Message = Constants.MessageUser.REQUEST_FAIL };
             }
-            User u = await userRepository.GetByEmail(signupRequest.Email);
-            if (u != null)
+            var user = await userRepository.FindByCondition(user => user.Email.Equals(signupRequest.Email)).FirstOrDefaultAsync();
+            if (user != null)
             {
                 return new SignupResponse
                 {
@@ -100,7 +101,7 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<UserProfileResponse> GetUserProfile(int userId)
         {
-            User u = await userRepository.GetUserByUserId(userId);
+            var u = await userRepository.FindByCondition(user => user.UserId == userId).FirstOrDefaultAsync();
             if (u == null)
             {
                 return new UserProfileResponse
@@ -118,7 +119,7 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<TokenResponse> LoginAsync(LoginRequest loginRequest)
         {
-            User user = await userRepository.GetByEmail(loginRequest.Email);
+            var user = await userRepository.FindByCondition(user => user.Email.Equals(loginRequest.Email)).FirstOrDefaultAsync();
 
             if (user == null || !user.Active)
             {
@@ -141,17 +142,12 @@ namespace FLMS_BackEnd.Services.Impl
 
             var token = await System.Threading.Tasks.Task.Run(() => tokenService.GenerateTokensAsync(user.UserId));
 
-            return new TokenResponse
-            {
-                Success = true,
-                AccessToken = token.Item1,
-                RefreshToken = token.Item2
-            };
+            return token;
         }
 
         public async Task<LogoutResponse> LogoutAsync(int userId)
         {
-            var refreshToken = await tokenRepository.GetRefreshTokenByUserIdAsync(userId);
+            var refreshToken = await tokenRepository.FindByCondition(token => token.UserId == userId).FirstOrDefaultAsync();
 
             if (refreshToken == null)
             {
@@ -161,7 +157,7 @@ namespace FLMS_BackEnd.Services.Impl
 
             if (removed)
             {
-                return new LogoutResponse { Success = true , Message = Constants.MessageUser.LOGOUT_SUCCESS };
+                return new LogoutResponse { Success = true, Message = Constants.MessageUser.LOGOUT_SUCCESS };
             }
 
             return new LogoutResponse { Success = false, Message = Constants.MessageUser.LOGOUT_FAIL };

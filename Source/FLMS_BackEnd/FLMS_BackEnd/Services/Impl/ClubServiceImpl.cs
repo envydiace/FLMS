@@ -19,7 +19,7 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<ClubResponse> GetClubById(int id)
         {
-            Club club = await clubRepository.FindByCondition(c => c.ClubId == id).Include(c => c.User).FirstOrDefaultAsync();
+            var club = await clubRepository.FindByCondition(c => c.ClubId == id).Include(c => c.User).FirstOrDefaultAsync();
             if (club == null)
             {
                 return new ClubResponse
@@ -63,7 +63,7 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<UpdateClubResponse> UpdateClub(UpdateClubRequest request)
         {
-            Club c = await clubRepository.FindByCondition(club => club.ClubId == request.ClubId).FirstOrDefaultAsync();
+            var c = await clubRepository.FindByCondition(club => club.ClubId == request.ClubId).FirstOrDefaultAsync();
             if (c == null)
             {
                 return new UpdateClubResponse { Success = false, Message = "Club doesn't existed!" };

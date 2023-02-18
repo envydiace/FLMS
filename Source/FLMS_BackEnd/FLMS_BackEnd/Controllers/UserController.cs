@@ -106,7 +106,7 @@ namespace FLMS_BackEnd.Controllers
 
             var tokenResponse = await tokenService.GenerateTokensAsync(validateRefreshTokenResponse.UserId);
 
-            return Ok(new TokenResponse { AccessToken = tokenResponse.Item1, RefreshToken = tokenResponse.Item2 });
+            return Ok(tokenResponse);
         }
 
         [Authorize]
