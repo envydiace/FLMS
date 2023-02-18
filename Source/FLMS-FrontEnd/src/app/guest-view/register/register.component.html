@@ -18,8 +18,8 @@
             <div class="form-group">
         
                 <input type="password" formControlName="re-password" class="form-control" placeholder="Re-password" maxlength="100" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.re-password.errors" class="invalid-feedback">
-                    <div *ngIf="f.re-password.errors.required">Re-password is required</div>
+                <div *ngIf="submitted && f.re_password.errors" class="invalid-feedback">
+                    <div *ngIf="f.re_password.errors.required">Re-password is required</div>
                 </div>
             </div>
             <div class="form-group">

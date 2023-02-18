@@ -60,5 +60,23 @@ namespace FLMS_BackEnd.Services.Impl
                 Total = total
             };
         }
+
+        public async Task<UpdateClubResponse> UpdateClub(UpdateClubRequest request)
+        {
+            Club c = await clubRepository.FindByCondition(club => club.ClubId == request.ClubId).FirstOrDefaultAsync();
+            if (c == null)
+            {
+                return new UpdateClubResponse { Success = false, Message = "Club doesn't existed!" };
+            }
+            Club club = mapper.Map<Club>(request);
+            club.CreateAt = c.CreateAt;
+            club.UserId = c.UserId;
+            Club result = await clubRepository.UpdateAsync(club);
+            if(result != null)
+            {
+                return new UpdateClubResponse { Success = true, ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo };
+            }
+            return new UpdateClubResponse { Success = false, Message = "Update Club Fail!" };
+        }
     }
 }

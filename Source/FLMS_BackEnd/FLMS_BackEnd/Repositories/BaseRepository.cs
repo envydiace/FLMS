@@ -7,5 +7,7 @@ namespace FLMS_BackEnd.Repositories
         public IQueryable<T> FindAll();
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
         public Task<bool> CreateAsync(T entity);
+        public Task<T> UpdateAsync(T entity);
+        public Task<T> DeleteAsync(T entity);
     }
 }

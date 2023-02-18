@@ -1,4 +1,6 @@
-﻿namespace FLMS_BackEnd.Utils
+﻿using System.Collections.Generic;
+
+namespace FLMS_BackEnd.Utils
 {
     public class Constants
     {
@@ -11,6 +13,14 @@
             public const string CLUB_MANAGER = "CLUB_MANAGER";
             public const string LEAGUE_MANAGER = "LEAGUE_MANAGER";
             public const string ADMIN = "ADMIN";
+        }
+
+        public static class Message
+        {
+            public static readonly Dictionary<string, string> Club = new Dictionary<string,string> {
+                {"","" },
+                {"","" }    
+            };
         }
 
         public static class MessageUser

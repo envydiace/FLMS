@@ -57,5 +57,18 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpPut("[action]")]
+        public async Task<ActionResult<UpdateClubResponse>> UpdateClub(UpdateClubRequest request)
+        {
+            var response = await clubService.UpdateClub(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
