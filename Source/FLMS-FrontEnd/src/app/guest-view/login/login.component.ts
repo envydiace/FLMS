@@ -48,7 +48,8 @@ export class LoginComponent implements OnInit {
             next: () => {
                 // get return url from query parameters or default to home page
                 // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                window.location.href= environment.apiUrl;
+                // window.location.href= environment.apiUrl;
+                this.router.navigateByUrl('');
             },
             error: error => {
                 this.loading = false;

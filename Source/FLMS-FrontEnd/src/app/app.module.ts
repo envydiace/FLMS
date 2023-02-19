@@ -17,6 +17,7 @@ import { HomepageComponent } from './guest-view/homepage/homepage.component';
 import { LoginComponent } from './guest-view/login/login.component';
 import { GuestViewModule } from './guest-view/guest-view.module';
 import { HttpClientModule } from '@angular/common/http';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
+    MatSnackBarModule,
     FlmsModule,
     AppRoutingModule,
     HttpClientModule
