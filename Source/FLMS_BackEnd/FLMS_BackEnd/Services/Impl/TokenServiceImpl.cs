@@ -4,6 +4,7 @@ using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -21,16 +22,16 @@ namespace FLMS_BackEnd.Services.Impl
             _configuration = configuration;
             this.tokenHelper = tokenHelper;
         }
-        public async Task<Tuple<string, string>> GenerateTokensAsync(int userId)
+        public async Task<TokenResponse> GenerateTokensAsync(int userId)
         {
             var accessToken = await tokenHelper.GenerateAccessToken(userId);
             var refreshToken = await tokenHelper.GenerateRefreshToken();
 
-            User userRecord = await userRepository.GetUserByUserIdIncludeRefreshToken(userId);
+            User userRecord = await userRepository.FindByCondition(user => user.UserId == userId).Include(u => u.RefreshTokens).FirstOrDefaultAsync(); ;
 
             if (userRecord == null)
             {
-                return null;
+                return new TokenResponse { Success = false, Message = "" };
             }
 
             var salt = PasswordHelper.GetSecureSalt();
@@ -42,7 +43,7 @@ namespace FLMS_BackEnd.Services.Impl
                 await tokenRepository.RemoveRefreshTokenByUserIdAsync(userId);
             }
 
-            await tokenRepository.AddRefreshToken(new RefreshToken
+            await tokenRepository.CreateAsync(new RefreshToken
             {
                 ExpiryDate = DateTime.Now.AddSeconds(Convert.ToInt32(_configuration["Jwt:RefreshExpire"])),
                 CreateAt = DateTime.Now,
@@ -51,21 +52,18 @@ namespace FLMS_BackEnd.Services.Impl
                 TokenSalt = Convert.ToBase64String(salt)
 
             });
-
-            var token = new Tuple<string, string>(accessToken, refreshToken);
-
-            return token;
+            return new TokenResponse { Success = true, AccessToken = accessToken, RefreshToken = refreshToken, Role = userRecord.Role };
         }
 
         public async Task<ValidateRefreshTokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
         {
-            var refreshToken = await tokenRepository.GetRefreshTokenByUserIdAsync( refreshTokenRequest.UserId);
+            var refreshToken = await tokenRepository.FindByCondition(token => token.UserId == refreshTokenRequest.UserId).FirstOrDefaultAsync();
 
             var response = new ValidateRefreshTokenResponse();
             if (refreshToken == null)
             {
                 response.Success = false;
-                response.Message = Constants.Message.INVALID_SESSION;
+                response.Message = Constants.MessageUser.INVALID_SESSION;
                 return response;
             }
 
@@ -74,14 +72,14 @@ namespace FLMS_BackEnd.Services.Impl
             if (refreshToken.TokenHash != refreshTokenToValidateHash)
             {
                 response.Success = false;
-                response.Message = Constants.Message.INVALID_REFRESH_TOKEN;
+                response.Message = Constants.MessageUser.INVALID_REFRESH_TOKEN;
                 return response;
             }
 
             if (refreshToken.ExpiryDate < DateTime.Now)
             {
                 response.Success = false;
-                response.Message = Constants.Message.REFRESH_TOKEN_EXPIRED;
+                response.Message = Constants.MessageUser.REFRESH_TOKEN_EXPIRED;
                 return response;
             }
 

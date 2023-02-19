@@ -51,7 +51,7 @@ namespace FLMS_BackEnd.Controllers
                     return BadRequest(new TokenResponse
                     {
                         Success = false,
-                        Message = Constants.Message.MISSING_LOGIN_DETAILS
+                        Message = Constants.MessageUser.MISSING_LOGIN_DETAILS
                     });
                 }
 
@@ -93,7 +93,7 @@ namespace FLMS_BackEnd.Controllers
             {
                 return BadRequest(new TokenResponse
                 {
-                    Message = Constants.Message.MISSING_REFRESH_TOKEN_DETAILS
+                    Message = Constants.MessageUser.MISSING_REFRESH_TOKEN_DETAILS
                 });
             }
 
@@ -106,7 +106,7 @@ namespace FLMS_BackEnd.Controllers
 
             var tokenResponse = await tokenService.GenerateTokensAsync(validateRefreshTokenResponse.UserId);
 
-            return Ok(new TokenResponse { AccessToken = tokenResponse.Item1, RefreshToken = tokenResponse.Item2 });
+            return Ok(tokenResponse);
         }
 
         [Authorize]

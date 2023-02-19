@@ -1,4 +1,6 @@
-﻿namespace FLMS_BackEnd.Utils
+﻿using System.Collections.Generic;
+
+namespace FLMS_BackEnd.Utils
 {
     public class Constants
     {
@@ -14,6 +16,14 @@
         }
 
         public static class Message
+        {
+            public static readonly Dictionary<string, string> Club = new Dictionary<string,string> {
+                {"","" },
+                {"","" }    
+            };
+        }
+
+        public static class MessageUser
         {
             public const string REQUEST_FAIL = "Request fail!";
             public const string EMAIL_EXISTED = "Email existed!";

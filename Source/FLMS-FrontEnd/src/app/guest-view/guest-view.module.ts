@@ -12,11 +12,22 @@ import { LeagueDetailComponent } from './league/league-detail/league-detail.comp
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { MatButtonModule} from '@angular/material/button';
+import { MatIconModule} from '@angular/material/icon';
+import { MatListModule} from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatGridListModule} from '@angular/material/grid-list';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { SignupComponent } from './signup/signup.component';
+import { MatSelectModule} from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -27,6 +38,11 @@ import { MatCardModule } from '@angular/material/card';
     ClubListComponent,
     ClubDetailComponent,
     LeagueListComponent,
+    LeagueDetailComponent,
+    ChangePasswordComponent,
+    SignupComponent,
+    ForgotPassComponent,
+    
     LeagueDetailComponent,
     ForgotPasswordComponent
   ],
@@ -39,6 +55,13 @@ import { MatCardModule } from '@angular/material/card';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatCardModule
+    ReactiveFormsModule,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatSelectModule,
+    FormsModule
   ]
 })
 export class GuestViewModule { }

@@ -2,11 +2,7 @@
 
 namespace FLMS_BackEnd.Repositories
 {
-    public interface UserRepository
+    public interface UserRepository : BaseRepository<User> 
     {
-        Task<User> GetByEmail(string email);
-        Task<bool> CreateAsync(User user);
-        Task<User> GetUserByUserId(int userId);
-        Task<User> GetUserByUserIdIncludeRefreshToken(int userId);
     }
 }
