@@ -58,9 +58,25 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpPut("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
         public async Task<ActionResult<UpdateClubResponse>> UpdateClub(UpdateClubRequest request)
         {
             var response = await clubService.UpdateClub(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+
+        [HttpDelete("[action]/{id}")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<DeleteClubResponse>> DeleteClub(int id)
+        {
+            var response = await clubService.DeleteClub(id, UserID);
             if (response.Success)
             {
                 return Ok(response);

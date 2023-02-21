@@ -9,6 +9,6 @@ namespace FLMS_BackEnd.Services
         Task<CreateResponse> CreateClub(CreateClubRequest request, int UserId);
         Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request); 
         Task<UpdateClubResponse> UpdateClub(UpdateClubRequest request);
-        
+        Task<DeleteClubResponse> DeleteClub(int id, int userId);
     }
 }

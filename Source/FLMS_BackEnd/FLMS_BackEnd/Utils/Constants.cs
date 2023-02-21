@@ -6,7 +6,7 @@ namespace FLMS_BackEnd.Utils
     {
         public enum SystemRole
         {
-            CLUB_MANAGER , LEAGUE_MANAGER , ADMIN
+            CLUB_MANAGER, LEAGUE_MANAGER, ADMIN
         }
         public static class Role
         {
@@ -17,11 +17,25 @@ namespace FLMS_BackEnd.Utils
 
         public static class Message
         {
-            public static readonly Dictionary<string, string> Club = new Dictionary<string,string> {
-                {"","" },
-                {"","" }    
+            public static readonly Dictionary<string, string> Club = new Dictionary<string, string> {
+                {"ER-CL-01","Cannot remove the club because there's still (a) players in the club" },
+                {"ER-CL-02","Club doesn't existed" },
+                {"ER-CL-02","Club doesn't existed" },
+                {"MS-CL-02","Club removed successfully" }
             };
         }
+
+        public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
+        {
+            {"MS-US-01","Get User Success" },
+            {"ER-CL-01","Cannot remove the club because there's still (a) players in the club" },
+            {"ER-CL-02","Club doesn't existed" },
+            {"ER-CL-03","User doesn't have permission to delete this club" },
+            {"ER-CL-04","Delete club failled" },
+            {"MS-CL-01","Club removed successfully" }
+
+
+        };
 
         public static class MessageUser
         {

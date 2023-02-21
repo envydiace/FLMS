@@ -113,6 +113,7 @@ namespace FLMS_BackEnd.Services.Impl
             return new UserProfileResponse
             {
                 Success = true,
+                MessageCode = "MS-US-01",
                 UserProfile = mapper.Map<UserProfileDTO>(u)
             };
         }

@@ -4,6 +4,7 @@ using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
+using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
@@ -72,11 +73,40 @@ namespace FLMS_BackEnd.Services.Impl
             club.CreateAt = c.CreateAt;
             club.UserId = c.UserId;
             Club result = await clubRepository.UpdateAsync(club);
-            if(result != null)
+            if (result != null)
             {
                 return new UpdateClubResponse { Success = true, ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo };
             }
             return new UpdateClubResponse { Success = false, Message = "Update Club Fail!" };
+        }
+
+        public async Task<DeleteClubResponse> DeleteClub(int id, int userId)
+        {
+            //TODO: check number of player in club
+            var club = await clubRepository.FindByCondition(club => club.ClubId == id).FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new DeleteClubResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            if (club.UserId != userId)
+            {
+                return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-03" };
+            }
+            Club result = await clubRepository.DeleteAsync(club);
+            if (result != null)
+            {
+                return new DeleteClubResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-CL-01",
+                    Club = mapper.Map<ClubDTO>(result)
+                };
+            }
+            return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-04" };
         }
     }
 }

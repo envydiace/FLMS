@@ -1,0 +1,17 @@
+- create Request (if neccessary)
+- create Response extends BaseResponse
+- Identify all neccessary service (normaly input Request and return Response)
+- Create service in interface 
+	Task<ActionResult<'Response'>> 'serviceNAme' ('Request' request)
+- implement in serviceImpl
+- create API: define authorize, input Request, return Response
+	public async Task<'Response'> 'apiName' ('Request' request )
+	if (response.Success) return OK(response)
+	else return BadRequest(response)
+- create neccessary method in interface Repository
+- Implement in RepositoryImpl
+- using in service
+- When implement service, list all message that require and
+link to: https://docs.google.com/spreadsheets/d/1XdXpqIT3Cj0yMUCt4XYXGXLSAdo0mr6FU6okUCYRczw/edit#gid=0
+
+
