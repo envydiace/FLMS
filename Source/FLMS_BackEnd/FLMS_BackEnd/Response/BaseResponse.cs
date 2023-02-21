@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using FLMS_BackEnd.Utils;
+using System.Text.Json.Serialization;
 
 namespace FLMS_BackEnd.Response
 {
@@ -7,8 +8,11 @@ namespace FLMS_BackEnd.Response
         [JsonIgnore()]
         public bool Success { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string ErrorCode { get; set; }
+
+        public string? MessageCode { get; set; } = null;
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Message { get; set; }
+        public string? Message { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Message2 { get { return MessageCode!=null?Constants.SystemMessage.GetValueOrDefault(MessageCode):null; } }
     }
 }
