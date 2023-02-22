@@ -59,5 +59,20 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpPut("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<UpdatePlayerResponse>> UpdatePlayer(UpdatePlayerRequest request)
+        {
+            var response = await playerService.UpdatePlayer(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
