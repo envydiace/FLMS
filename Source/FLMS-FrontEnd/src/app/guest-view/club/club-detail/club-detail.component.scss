@@ -1,0 +1,30 @@
+.club-detail-container {
+
+    .club-detail-cover {
+        background-color: #F5F5FA;
+        width: 100%;
+        height: 100px;
+    }
+
+    .club-detail-info {
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100px;
+
+        .club-detail-card {
+            max-width: 100%;
+
+            .club-detail-title {
+                padding-top: 40px;
+            }
+        }
+
+        .club-detail-logo {
+            background-image: url('./../../../../assets/image/Manchester_United_FC_crest.svg.png');
+            background-size: cover;
+            height: 130px;
+            width: 130px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    }
+}
