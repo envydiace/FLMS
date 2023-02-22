@@ -9,5 +9,13 @@
                 .Select(v => v.ToString())
                 .ToList().Contains(type);
         }
+
+        public static bool CheckUserRole(string role)
+        {
+            return Enum.GetValues(typeof(Constants.SystemRole))
+                .Cast<Constants.SystemRole>()
+                .Select(v => v.ToString())
+                .ToList().Contains(role);
+        }
     }
 }

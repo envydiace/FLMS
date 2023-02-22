@@ -51,7 +51,7 @@ namespace FLMS_BackEnd.Controllers
                     return BadRequest(new TokenResponse
                     {
                         Success = false,
-                        Message = Constants.MessageUser.MISSING_LOGIN_DETAILS
+                        MessageCode = "ER-US-13"
                     });
                 }
 
@@ -93,7 +93,7 @@ namespace FLMS_BackEnd.Controllers
             {
                 return BadRequest(new TokenResponse
                 {
-                    Message = Constants.MessageUser.MISSING_REFRESH_TOKEN_DETAILS
+                    MessageCode = "ER-US-14"
                 });
             }
 
