@@ -23,6 +23,8 @@ namespace FLMS_BackEnd.DTO
             CreateMap<User,UserProfileDTO>();
 
             CreateMap<UpdateClubRequest, Club>();
+
+            CreateMap<Player, PlayerDTO>();
         }
     }
 }
