@@ -59,5 +59,37 @@ namespace FLMS_BackEnd.Services.Impl
                 Players = result
             };
         }
+        public async Task<DeletePlayerResponse> DeletePlayer(int id, int userId)
+        {
+            //TODO: check number of player in club
+            var player = await playerRepository.FindByCondition(player => player.PlayerId == id).FirstOrDefaultAsync();
+            if (player == null)
+            {
+                return new DeletePlayerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PL-02"
+                };
+            }
+            var playerClubs = await playerClubRepository.FindByCondition(p => p.PlayerId == id).ToListAsync();
+            if (playerClubs != null)
+            {
+                foreach (var playerClub in playerClubs)
+                {
+                    PlayerClub pcresult = await playerClubRepository.DeleteAsync(playerClub);
+                }
+            }
+            Player result = await playerRepository.DeleteAsync(player);
+            if (result != null)
+            {
+                return new DeletePlayerResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-PL-02",
+                    Player = mapper.Map<PlayerDTO>(result)
+                };
+            }
+            return new DeletePlayerResponse { Success = false, MessageCode = "ER-PL-03" };
+        }
     }
 }

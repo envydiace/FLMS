@@ -8,6 +8,6 @@ namespace FLMS_BackEnd.Services
         Task<PlayerResponse> GetPlayerById(int id);
         Task<CreateResponse> CreatePlayer(CreatePlayerRequest request, int UserId);
         Task<ListPlayerResponse> GetListPlayerFilter(ListPlayerFilterRequest request);
-
+        Task<DeletePlayerResponse> DeletePlayer(int id, int userId);
     }
 }
