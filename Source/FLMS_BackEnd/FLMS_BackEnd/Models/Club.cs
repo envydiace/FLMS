@@ -10,6 +10,7 @@ namespace FLMS_BackEnd.Models
             ClubLeagues = new HashSet<ClubLeague>();
             MatchAways = new HashSet<Match>();
             MatchHomes = new HashSet<Match>();
+            PlayerClubs = new HashSet<PlayerClub>();
             Requests = new HashSet<Request>();
         }
 
@@ -25,6 +26,7 @@ namespace FLMS_BackEnd.Models
         public virtual ICollection<ClubLeague> ClubLeagues { get; set; }
         public virtual ICollection<Match> MatchAways { get; set; }
         public virtual ICollection<Match> MatchHomes { get; set; }
+        public virtual ICollection<PlayerClub> PlayerClubs { get; set; }
         public virtual ICollection<Request> Requests { get; set; }
     }
 }
