@@ -90,8 +90,8 @@ namespace FLMS_BackEnd.Services.Impl
                     Player = mapper.Map<PlayerDTO>(result)
                 };
             }
-            return new DeletePlayerResponse { Success = false, MessageCode = "ER-PL-03" };
-
+            return new DeletePlayerResponse { Success = false, MessageCode = "ER-PL-04" };
+        }
 
         public async Task<UpdatePlayerResponse> UpdatePlayer(UpdatePlayerRequest request, int UserId)
         {
