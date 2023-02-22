@@ -25,6 +25,17 @@ namespace FLMS_BackEnd.DTO
             CreateMap<UpdateClubRequest, Club>();
 
             CreateMap<Player, PlayerDTO>();
+            CreateMap<CreateLeagueRequest, League>()
+                .ForMember(league => league.CreateAt,
+                map => map.MapFrom(
+                    request => DateTime.Now
+                    )); 
+
+            CreateMap<LeagueFeeRequest, LeagueFee>()
+                .ForMember(fee => fee.IsActual,
+                map => map.MapFrom(
+                    request => false
+                    )); 
         }
     }
 }
