@@ -25,6 +25,11 @@ namespace FLMS_BackEnd.DTO
             CreateMap<UpdateClubRequest, Club>();
 
             CreateMap<Player, PlayerDTO>();
+
+            CreateMap<CreatePlayerRequest, Player>();
+
+            CreateMap<PlayerClubRequest, PlayerClub>();
+
             CreateMap<CreateLeagueRequest, League>()
                 .ForMember(league => league.CreateAt,
                 map => map.MapFrom(
