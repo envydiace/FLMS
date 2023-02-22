@@ -46,10 +46,11 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-04","League Type is not valid" },
 
             {"MS-PL-01","Add player successfully"},
+            {"MS-PL-02","Player deleted successfully"},
             {"ER-PL-01","Add player failed!" },
             {"ER-PL-02","Player does not exist!" },
             {"ER-PL-03","Update player failed!" },
-
+            {"ER-PL-04","Delete player failled!" }
 
         };
 
