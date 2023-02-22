@@ -45,5 +45,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<ListPlayerResponse>> GetListPlayerFilter([FromQuery] ListPlayerFilterRequest request)
+        {
+            var response = await playerService.GetListPlayerFilter(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
