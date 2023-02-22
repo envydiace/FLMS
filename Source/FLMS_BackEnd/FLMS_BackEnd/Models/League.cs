@@ -23,6 +23,9 @@ namespace FLMS_BackEnd.Models
         public string? Location { get; set; }
         public string? Fanpage { get; set; }
         public DateTime CreateAt { get; set; }
+        public string? Description { get; set; }
+        public string LeagueType { get; set; } = null!;
+        public int? NoRound { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<LeagueFee> LeagueFees { get; set; }
