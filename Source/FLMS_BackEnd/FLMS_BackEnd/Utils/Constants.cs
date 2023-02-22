@@ -36,8 +36,11 @@ namespace FLMS_BackEnd.Utils
             {"MS-CL-01","Club removed successfully" },
 
             {"MS-LE-01","Create league success" },
-            {"ER-LE-01","Create league fail" }
+            {"ER-LE-01","Create league fail" },
 
+            {"MS-PL-01","Add player successfully"},
+            {"ER-PL-01","Add player failed!" },
+            {"ER-PL-02","Player does not exist!" }
 
         };
 
