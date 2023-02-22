@@ -44,6 +44,20 @@ namespace FLMS_BackEnd.Services.Impl
                 : new CreateResponse { Success = false, MessageCode = "ER-PL-01" };
         }
 
-
+        public async Task<ListPlayerResponse> GetListPlayerFilter(ListPlayerFilterRequest request)
+        {
+            var players = await playerRepository.FindByCondition(player =>
+            ((request.searchPlayerName == null || request.searchPlayerName == "" || player.Name.StartsWith(request.searchPlayerName)
+            || player.NickName.StartsWith(request.searchPlayerName ))
+            &&(player.PlayerClubs.FirstOrDefault(playerClub => playerClub.ClubId == request.clubId) != null))
+            ).Include(player => player.PlayerClubs).ToListAsync();
+            int total = players.Count;
+            var result = mapper.Map<List<PlayerDTO>>(players.ToList());
+            return new ListPlayerResponse
+            {
+                Success = true,
+                Players = result
+            };
+        }
     }
 }
