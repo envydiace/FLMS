@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FLMS_BackEnd.Controllers
 {
-    [Route("api")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ClubController : BaseApiController
     {
