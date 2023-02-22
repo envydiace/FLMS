@@ -67,6 +67,7 @@ builder.Services.AddScoped<UserService, UserServiceImpl>();
 builder.Services.AddScoped<TokenService, TokenServiceImpl>();
 builder.Services.AddScoped<ClubService, ClubServiceImpl>();
 builder.Services.AddScoped<PlayerService, PlayerServiceImpl>();
+builder.Services.AddScoped<LeagueService, LeagueServiceImpl>();
 
 //Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();
@@ -74,6 +75,7 @@ builder.Services.AddScoped<TokenRepository, TokenRepositoryImpl>();
 builder.Services.AddScoped<ClubRepository, ClubRepositoryImpl>();
 builder.Services.AddScoped<PlayerRepository, PlayerRepositoryImpl>();
 builder.Services.AddScoped<PlayerClubRepository, PlayerClubRepositoryImpl>();
+builder.Services.AddScoped<LeagueRepository, LeagueRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 

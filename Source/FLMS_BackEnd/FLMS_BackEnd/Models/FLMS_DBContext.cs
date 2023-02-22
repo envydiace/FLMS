@@ -78,6 +78,8 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("League");
 
+                entity.Property(e => e.CreateAt).HasColumnType("datetime");
+
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Fanpage).HasMaxLength(255);
@@ -106,6 +108,7 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.LeagueFees)
                     .HasForeignKey(d => d.LeagueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__LeagueFee__Leagu__3E52440B");
             });
 

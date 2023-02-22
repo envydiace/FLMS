@@ -13,5 +13,7 @@
 - using in service
 - When implement service, list all message that require and
 link to: https://docs.google.com/spreadsheets/d/1XdXpqIT3Cj0yMUCt4XYXGXLSAdo0mr6FU6okUCYRczw/edit#gid=0
-
+- thêm message mới, đặt message code mới theo pattern MS/ER/WN-CL/LE/PL/...-xx
+- ghi message code và message vào Utils/Constants/SystemMessage
+- gán message code trong response tương ứng
 
