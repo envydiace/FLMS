@@ -14,6 +14,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FlmsModule } from './flms/flms.module';
 import { HomepageComponent } from './guest-view/homepage/homepage.component';
+import { LeagueListComponent } from './guest-view/league/league-list/league-list.component';
 import { LoginComponent } from './guest-view/login/login.component';
 import { GuestViewModule } from './guest-view/guest-view.module';
 import { HttpClientModule } from '@angular/common/http';

@@ -59,6 +59,7 @@ namespace FLMS_BackEnd.Services.Impl
                 Players = result
             };
         }
+
         public async Task<DeletePlayerResponse> DeletePlayer(int id, int userId)
         {
             //TODO: check number of player in club
@@ -90,6 +91,23 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             return new DeletePlayerResponse { Success = false, MessageCode = "ER-PL-03" };
+
+
+        public async Task<UpdatePlayerResponse> UpdatePlayer(UpdatePlayerRequest request, int UserId)
+        {
+            var p = await playerRepository.FindByCondition(player => player.PlayerId == request.PlayerId).FirstOrDefaultAsync();
+            if (p == null)
+            {
+                return new UpdatePlayerResponse { Success = false, MessageCode = "ER-PL-02" };
+            }
+            Player player = mapper.Map<Player>(request);
+            Player result = await playerRepository.UpdateAsync(player);
+            if (result != null)
+            {
+                return new UpdatePlayerResponse { Success = true, PlayerInfo = this.GetPlayerById(result.PlayerId).Result.PlayerInfo };
+            }
+            return new UpdatePlayerResponse { Success = false, MessageCode = "ER-PL-03" };
+
         }
     }
 }

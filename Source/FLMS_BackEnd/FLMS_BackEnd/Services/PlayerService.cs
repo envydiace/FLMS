@@ -9,5 +9,6 @@ namespace FLMS_BackEnd.Services
         Task<CreateResponse> CreatePlayer(CreatePlayerRequest request, int UserId);
         Task<ListPlayerResponse> GetListPlayerFilter(ListPlayerFilterRequest request);
         Task<DeletePlayerResponse> DeletePlayer(int id, int userId);
+        Task<UpdatePlayerResponse> UpdatePlayer(UpdatePlayerRequest request, int UserId);
     }
 }
