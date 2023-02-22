@@ -14,6 +14,10 @@ namespace FLMS_BackEnd.Utils
             public const string LEAGUE_MANAGER = "LEAGUE_MANAGER";
             public const string ADMIN = "ADMIN";
         }
+        public enum LeagueType
+        {
+            KO, TABLE, LEAGUE
+        }
 
         public static class Message
         {
@@ -37,6 +41,9 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-LE-01","Create league success" },
             {"ER-LE-01","Create league fail" },
+            {"ER-LE-02","League name existed" },
+            {"ER-LE-03","End date must after start date" },
+            {"ER-LE-04","League Type is not valid" },
 
             {"MS-PL-01","Add player successfully"},
             {"ER-PL-01","Add player failed!" },

@@ -80,11 +80,15 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.CreateAt).HasColumnType("datetime");
 
+                entity.Property(e => e.Description).HasColumnType("text");
+
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Fanpage).HasMaxLength(255);
 
                 entity.Property(e => e.LeagueName).HasMaxLength(100);
+
+                entity.Property(e => e.LeagueType).HasMaxLength(50);
 
                 entity.Property(e => e.Location).HasMaxLength(255);
 

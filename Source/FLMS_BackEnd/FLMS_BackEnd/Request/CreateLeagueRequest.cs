@@ -10,6 +10,8 @@
         public int NoPlayerSquad { get; set; }
         public string? Location { get; set; }
         public string? Fanpage { get; set; }
+        public string LeagueType { get; set; } = null!;
+        public int? NoRound { get; set; }
         public virtual ICollection<LeagueFeeRequest> LeagueFees { get; set; }
     }
 }

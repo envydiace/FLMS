@@ -34,6 +34,10 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(league => league.CreateAt,
                 map => map.MapFrom(
                     request => DateTime.Now
+                    ))
+                .ForMember(league => league.LeagueName,
+                map => map.MapFrom(
+                    request => request.LeagueName.Trim()
                     )); 
 
             CreateMap<LeagueFeeRequest, LeagueFee>()
