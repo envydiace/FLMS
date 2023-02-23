@@ -55,11 +55,11 @@ namespace FLMS_BackEnd.Services.Impl
             return new TokenResponse { Success = true, AccessToken = accessToken, RefreshToken = refreshToken, Role = userRecord.Role };
         }
 
-        public async Task<ValidateRefreshTokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
+        public async Task<TokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
         {
             var refreshToken = await tokenRepository.FindByCondition(token => token.UserId == refreshTokenRequest.UserId).FirstOrDefaultAsync();
 
-            var response = new ValidateRefreshTokenResponse();
+            var response = new TokenResponse();
             if (refreshToken == null)
             {
                 response.Success = false;
@@ -82,9 +82,7 @@ namespace FLMS_BackEnd.Services.Impl
                 response.MessageCode = "ER-US-12";
                 return response;
             }
-
-            response.Success = true;
-            response.UserId = refreshToken.UserId;
+            response = await this.GenerateTokensAsync(refreshToken.UserId);
 
             return response;
         }

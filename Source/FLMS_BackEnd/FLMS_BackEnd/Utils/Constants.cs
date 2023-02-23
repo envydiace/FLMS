@@ -21,6 +21,8 @@ namespace FLMS_BackEnd.Utils
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
+            {"ER-CO-01","Something happend" },
+
             {"MS-US-01","Get User Success" },
             {"MS-US-02","Sign up success" },
             {"MS-US-03","Logout Success" },
@@ -43,7 +45,10 @@ namespace FLMS_BackEnd.Utils
             {"ER-CL-02","Club doesn't existed" },
             {"ER-CL-03","User doesn't have permission to delete this club" },
             {"ER-CL-04","Delete club failled" },
+            {"ER-CL-05","Create club failled" },
+            {"ER-CL-06","Update club failled" },
             {"MS-CL-01","Club removed successfully" },
+            {"MS-CL-02","Create club success" },
 
             {"MS-LE-01","Create league success" },
             {"ER-LE-01","Create league fail" },
