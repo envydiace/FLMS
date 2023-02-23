@@ -61,7 +61,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-PL-01","Add player failed!" },
             {"ER-PL-02","Player does not exist!" },
             {"ER-PL-03","Update player failed!" },
-            {"ER-PL-04","Delete player failled!" }
+            {"ER-PL-04","Delete player failled!" },
+            {"ER-PL-05","This player was already added in this club!" },
 
         };
     }

@@ -6,7 +6,7 @@ namespace FLMS_BackEnd.Services
     public interface PlayerService
     {
         Task<PlayerResponse> GetPlayerById(int id);
-        Task<ListPlayerResponse> GetPlayerByNickname(string nickname);
+        Task<PlayerResponse> GetPlayerByNickname(string nickname);
         Task<CreateResponse> CreatePlayer(CreatePlayerRequest request, int UserId);
         Task<ListPlayerResponse> GetListPlayerFilter(ListPlayerFilterRequest request);
         Task<DeletePlayerResponse> DeletePlayer(int id, int userId);
