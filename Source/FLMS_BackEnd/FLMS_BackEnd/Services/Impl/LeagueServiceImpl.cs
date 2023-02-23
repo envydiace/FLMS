@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
-    public class LeagueServiceImpl: BaseService, LeagueService
+    public class LeagueServiceImpl : BaseService, LeagueService
     {
         private readonly LeagueRepository leagueRepository;
 
@@ -27,7 +27,8 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-04"
                 };
             }
-            if(request.EndDate.CompareTo(request.StartDate) <= 0)
+            int numberOfRound = MethodUtils.CountNumberOfRound(request.LeagueType, request.NoParticipate);
+            if (request.EndDate.CompareTo(request.StartDate) <= 0)
             {
                 return new CreateLeagueResponse
                 {
@@ -46,6 +47,12 @@ namespace FLMS_BackEnd.Services.Impl
             }
             league = mapper.Map<League>(request);
             league.UserId = userId;
+            ICollection<ClubClone> clubClones = new List<ClubClone>();
+            for (int i = 0; i < request.NoParticipate; i++)
+            {
+                clubClones.Add(new ClubClone { ClubCloneKey = "C" + (i + 1) });
+            }
+            league.ClubClones = clubClones;
             var result = await leagueRepository.CreateAsync(league);
             if (result)
             {
