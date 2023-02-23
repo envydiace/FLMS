@@ -23,7 +23,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { MatCardModule } from '@angular/material/card';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -52,6 +54,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatCardModule,
     MatGridListModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatInputModule,
     MatCardModule,
     MatSelectModule,

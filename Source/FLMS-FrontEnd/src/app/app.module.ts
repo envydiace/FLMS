@@ -17,12 +17,7 @@ import { HomepageComponent } from './guest-view/homepage/homepage.component';
 import { LoginComponent } from './guest-view/login/login.component';
 import { GuestViewModule } from './guest-view/guest-view.module';
 import { HttpClientModule } from '@angular/common/http';
-
-import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -42,8 +37,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatExpansionModule,
     FlmsModule,
     AppRoutingModule,
-    HttpClientModule,
-    MatDatepickerModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [MainComponent]

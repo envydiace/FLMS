@@ -1,34 +1,50 @@
 <section class="landing-banner">
-    <div class="container">
-        <div class="col-sm-12 col-xs-12 text-center">
-            <h1></h1>
-            <form action="" method="">
-                <div class="form-group">                           
+    <div class="container" style="    margin-top: 45px;">
+        <div class="col-sm-12 col-xs-12 text-center nav-search">
+            <!-- <form action="" method="">
+                <div class="form-group">
                     <input type="text" class="form-control" name="key" placeholder="League's Name">
                     <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+                </div>
+            </form> -->
+
+            <form class="example-form">
+                <div class="input-group">
+                    <mat-form-field class="example-full-width">
+                        <!-- <mat-label>Search</mat-label> -->
+                        <input type="tel" matInput>
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    <div style="line-height: 85px; margin-left: 25px;"><button mat-raised-button color="warn">Search</button></div>
                 </div>
             </form>
         </div>
     </div>
 </section>
 
-<div>
-    <mat-form-field class="example-form-field" appearance="fill">
-        <mat-label></mat-label>
-        <mat-date-range-input
-          [formGroup]="campaignOne"
-          [rangePicker]="campaignOnePicker"
-          [comparisonStart]="campaignTwo.value.start"
-          [comparisonEnd]="campaignTwo.value.end">
-          <input matStartDate placeholder="Start date" formControlName="start">
-          <input matEndDate placeholder="End date" formControlName="end">
-        </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-      </mat-form-field>
-      
-     
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xs-6 justify-content-center">
+            
+            <mat-form-field appearance="fill">
+                <mat-label>Form</mat-label>
+                <input matInput [matDatepicker]="from">
+                <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                <mat-datepicker #from></mat-datepicker>
+            </mat-form-field>
+
+
+
+            <mat-form-field appearance="fill" style="margin-left: 20px;">
+                <mat-label>To</mat-label>
+                <input matInput [matDatepicker]="to">
+                <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                <mat-datepicker #to></mat-datepicker>
+            </mat-form-field>
+
+
+        </div>
+    </div>
 </div>
 
 
@@ -40,7 +56,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
@@ -54,7 +71,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
@@ -68,7 +86,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
@@ -82,7 +101,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
@@ -96,7 +116,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
@@ -110,7 +131,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
@@ -124,7 +146,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
@@ -138,7 +161,8 @@
                     <mat-card-subtitle>1/1/2023 - 6/1/2023</mat-card-subtitle>
                     <mat-card-title>FPT League</mat-card-title>
                     <mat-card-subtitle>Hai Bà Trưng - Hà Nội</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image" src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
                         alt="Photo of a Shiba Inu">
                     <mat-card-actions>
                         <button mat-button>Join</button>
