@@ -101,5 +101,20 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpDelete("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<DeletePlayerClubResponse>> DeletePlayerClub(DeletePlayerClubRequest request)
+        {
+            var response = await playerService.DeletePlayerClub(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
