@@ -4,6 +4,7 @@ using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -143,6 +144,31 @@ namespace FLMS_BackEnd.Services.Impl
                 Success = true,
                 PlayerInfo = mapper.Map<PlayerDTO>(player)
             };
+        }
+
+        public async Task<DeletePlayerClubResponse> DeletePlayerClub(DeletePlayerClubRequest request, int UserId)
+        {
+            var playerClub = await playerClubRepository.FindByCondition(pClub
+                => pClub.PlayerId == request.PlayerId && pClub.ClubId == request.ClubId).FirstOrDefaultAsync();
+            if (playerClub == null)
+            {
+                return new DeletePlayerClubResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PL-02"
+                };
+            }
+            PlayerClub result = await playerClubRepository.DeleteAsync(playerClub);
+            if (result != null)
+            {
+                return new DeletePlayerClubResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-PL-02",
+                    PlayerClub = mapper.Map<PlayerClubDTO>(result)
+                };
+            }
+            return new DeletePlayerClubResponse { Success = false, MessageCode = "ER-PL-04" };
         }
     }
 }
