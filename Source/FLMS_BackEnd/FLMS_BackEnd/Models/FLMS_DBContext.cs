@@ -17,6 +17,7 @@ namespace FLMS_BackEnd.Models
         }
 
         public virtual DbSet<Club> Clubs { get; set; } = null!;
+        public virtual DbSet<ClubClone> ClubClones { get; set; } = null!;
         public virtual DbSet<ClubLeague> ClubLeagues { get; set; } = null!;
         public virtual DbSet<League> Leagues { get; set; } = null!;
         public virtual DbSet<LeagueFee> LeagueFees { get; set; } = null!;
@@ -60,6 +61,26 @@ namespace FLMS_BackEnd.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Club__UserId__6A30C649");
+            });
+
+            modelBuilder.Entity<ClubClone>(entity =>
+            {
+                entity.ToTable("ClubClone");
+
+                entity.Property(e => e.ClubCloneKey)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.Club)
+                    .WithMany(p => p.ClubClones)
+                    .HasForeignKey(d => d.ClubId)
+                    .HasConstraintName("FK_ClubClone_Club");
+
+                entity.HasOne(d => d.League)
+                    .WithMany(p => p.ClubClones)
+                    .HasForeignKey(d => d.LeagueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClubClone_League");
             });
 
             modelBuilder.Entity<ClubLeague>(entity =>
@@ -124,13 +145,13 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.MatchAways)
                     .HasForeignKey(d => d.AwayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Match__AwayId__71D1E811");
+                    .HasConstraintName("FK_Match_ClubClone1");
 
                 entity.HasOne(d => d.Home)
                     .WithMany(p => p.MatchHomes)
                     .HasForeignKey(d => d.HomeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Match__HomeId__70DDC3D8");
+                    .HasConstraintName("FK_Match_ClubClone");
 
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.Matches)

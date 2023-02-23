@@ -35,5 +35,18 @@ namespace FLMS_BackEnd.Controllers
                 .ToList()
                 );
         }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetMatrix(int number)
+        {
+
+            return Ok(MethodUtils.GetLeagueMatchMatrix(number));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetTree(int number)
+        {
+
+            return Ok(MethodUtils.GetKoList(number));
+        }
     }
 }
