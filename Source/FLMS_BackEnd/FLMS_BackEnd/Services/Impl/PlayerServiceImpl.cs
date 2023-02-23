@@ -19,7 +19,8 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<PlayerResponse> GetPlayerById(int id)
         {
-            var player = await playerRepository.FindByCondition(p => p.PlayerId == id).FirstOrDefaultAsync();
+            var player = await playerRepository.FindByCondition(p => p.PlayerId == id)
+                .Include(player => player.PlayerClubs).FirstOrDefaultAsync();
             if (player == null)
             {
                 return new PlayerResponse
@@ -108,6 +109,25 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return new UpdatePlayerResponse { Success = false, MessageCode = "ER-PL-03" };
 
+        }
+
+        public async Task<ListPlayerResponse> GetPlayerByNickname(string nickname)
+        {
+            var players = await playerRepository.FindByCondition(p => p.NickName.StartsWith(nickname))
+                .Include(player => player.PlayerClubs).ToListAsync();
+            if (players == null)
+            {
+                return new ListPlayerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PL-02"
+                };
+            }
+            return new ListPlayerResponse
+            {
+                Success = true,
+                Players = mapper.Map<List<PlayerDTO>>(players.ToList())
+            };
         }
     }
 }
