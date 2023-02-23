@@ -19,7 +19,8 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<PlayerResponse> GetPlayerById(int id)
         {
-            var player = await playerRepository.FindByCondition(p => p.PlayerId == id).FirstOrDefaultAsync();
+            var player = await playerRepository.FindByCondition(p => p.PlayerId == id)
+                .Include(player => player.PlayerClubs).FirstOrDefaultAsync();
             if (player == null)
             {
                 return new PlayerResponse
@@ -37,6 +38,21 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<CreateResponse> CreatePlayer(CreatePlayerRequest request, int UserId)
         {
+            var p = await GetPlayerByNickname(request.NickName);
+            if(p.Success)
+            {
+                if(p.PlayerInfo.PlayerClubs.FirstOrDefault(pc => pc.ClubId 
+                == (request.PlayerClubs.FirstOrDefault() !=null? request.PlayerClubs.FirstOrDefault().ClubId : 0))!=null)
+                {
+                    return new CreateResponse { Success = true, MessageCode = "ER-PL-05" };
+                }
+                PlayerClub playerClub = mapper.Map<PlayerClub>(request.PlayerClubs.FirstOrDefault());
+                playerClub.PlayerId = p.PlayerInfo.PlayerId;
+                bool resultClub = await playerClubRepository.CreateAsync(playerClub);
+                return resultClub ?
+                new CreateResponse { Success = true, MessageCode = "MS-PL-01" }
+                : new CreateResponse { Success = false, MessageCode = "ER-PL-01" };
+            }
             Player player = mapper.Map<Player>(request);
             bool result = await playerRepository.CreateAsync(player);
             return result ?
@@ -108,6 +124,25 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return new UpdatePlayerResponse { Success = false, MessageCode = "ER-PL-03" };
 
+        }
+
+        public async Task<PlayerResponse> GetPlayerByNickname(string nickname)
+        {
+            var player = await playerRepository.FindByCondition(p => p.NickName.Equals(nickname))
+                .Include(player => player.PlayerClubs).FirstOrDefaultAsync();
+            if (player == null)
+            {
+                return new PlayerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PL-02"
+                };
+            }
+            return new PlayerResponse
+            {
+                Success = true,
+                PlayerInfo = mapper.Map<PlayerDTO>(player)
+            };
         }
     }
 }

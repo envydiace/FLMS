@@ -26,6 +26,8 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<Player, PlayerDTO>();
 
+            CreateMap<PlayerClub, PlayerClubDTO>();
+
             CreateMap<CreatePlayerRequest, Player>();
 
             CreateMap<PlayerClubRequest, PlayerClub>();
