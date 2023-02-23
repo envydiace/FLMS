@@ -26,7 +26,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new ClubResponse
                 {
                     Success = false,
-                    Message = "Club Not Found!"
+                    MessageCode = "ER-CL-02"
                 };
             }
             return new ClubResponse
@@ -42,8 +42,8 @@ namespace FLMS_BackEnd.Services.Impl
             club.UserId = UserId;
             bool result = await clubRepository.CreateAsync(club);
             return result ?
-                new CreateResponse { Success = true, Message = "Create Success!" }
-                : new CreateResponse { Success = false, Message = "Create Fail!" };
+                new CreateResponse { Success = true, MessageCode = "MS-CL-02" }
+                : new CreateResponse { Success = false, MessageCode = "ER-CL-05" };
         }
 
         public async Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request)
@@ -67,7 +67,7 @@ namespace FLMS_BackEnd.Services.Impl
             var c = await clubRepository.FindByCondition(club => club.ClubId == request.ClubId).FirstOrDefaultAsync();
             if (c == null)
             {
-                return new UpdateClubResponse { Success = false, Message = "Club doesn't existed!" };
+                return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-02" };
             }
             Club club = mapper.Map<Club>(request);
             club.CreateAt = c.CreateAt;
@@ -77,7 +77,7 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new UpdateClubResponse { Success = true, ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo };
             }
-            return new UpdateClubResponse { Success = false, Message = "Update Club Fail!" };
+            return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-06" };
         }
 
         public async Task<DeleteClubResponse> DeleteClub(int id, int userId)
