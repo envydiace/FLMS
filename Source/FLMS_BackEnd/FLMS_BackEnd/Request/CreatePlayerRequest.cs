@@ -7,7 +7,6 @@ namespace FLMS_BackEnd.Request
     {
         public string Name { get; set; } = null!;
         public string NickName { get; set; } = null!;
-        public int? Number { get; set; }
         public DateTime? Dob { get; set; }
         public string? Height { get; set; }
         public string? Weight { get; set; }

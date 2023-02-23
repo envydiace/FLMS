@@ -32,7 +32,7 @@ namespace FLMS_BackEnd.Controllers
             }
         }
 
-        [HttpGet("[action]/{id}")]
+        [HttpGet("[action]/{id:int}")]
         public async Task<ActionResult<PlayerResponse>> GetPlayer(int id)
         {
             var response = await playerService.GetPlayerById(id);
@@ -79,6 +79,34 @@ namespace FLMS_BackEnd.Controllers
         public async Task<ActionResult<UpdatePlayerResponse>> UpdatePlayer(UpdatePlayerRequest request)
         {
             var response = await playerService.UpdatePlayer(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]/{nickname}")]
+        public async Task<ActionResult<PlayerResponse>> GetPlayerByNickName(string nickname)
+        {
+            var response = await playerService.GetPlayerByNickname(nickname);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+
+        [HttpDelete("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<DeletePlayerClubResponse>> DeletePlayerClub(DeletePlayerClubRequest request)
+        {
+            var response = await playerService.DeletePlayerClub(request, UserID);
             if (response.Success)
             {
                 return Ok(response);
