@@ -49,17 +49,31 @@ namespace FLMS_BackEnd.Services.Impl
             league = mapper.Map<League>(request);
             league.UserId = userId;
 
-            ICollection<ClubClone> clubClones = new List<ClubClone>();
-            for (int i = 0; i < request.NoParticipate; i++)
+            switch (MethodUtils.GetLeagueTypeByName( request.LeagueType))
             {
-                clubClones.Add(new ClubClone { ClubCloneKey = "C" + (i + 1) });
-            }
-            league.ClubClones = clubClones;
+                case Constants.LeagueType.KO:
+                    ICollection<ClubClone> clubClones = new List<ClubClone>();
+                    ICollection<ParticipateNodeDTO> participateNodes = MethodUtils.GetKoList(request.NoParticipate);
 
-            league.ParticipateNodes = mapper.Map <List<ParticipateNode>>(MethodUtils.GetKoList(request.NoParticipate));
+                    List<ParticipateNode> participates = mapper.Map<List<ParticipateNode>>(participateNodes);
+                    int index = 0;
+                    foreach (ParticipateNode participateNode in participates.Where(p => p.LeftId == 0))
+                    {
+                        var clubClone = new ClubClone { ClubCloneKey = "C" + (index + 1) };
+                        participateNode.ClubClone = clubClone;
+                        clubClones.Add(clubClone);
+                        index++;
+                    }
+                    league.ClubClones = clubClones;
+                    league.ParticipateNodes = participates;
+                    break;
+                case Constants.LeagueType.LEAGUE:
+                    break;
+                case Constants.LeagueType.TABLE:
+                    break;
+            }
 
             var result = await leagueRepository.CreateAsync(league);
-
             if (result)
             {
                 return new CreateLeagueResponse
