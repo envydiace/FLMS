@@ -4,6 +4,7 @@ using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
+using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
@@ -25,7 +26,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new ClubResponse
                 {
                     Success = false,
-                    Message = "Club Not Found!"
+                    MessageCode = "ER-CL-02"
                 };
             }
             return new ClubResponse
@@ -41,8 +42,8 @@ namespace FLMS_BackEnd.Services.Impl
             club.UserId = UserId;
             bool result = await clubRepository.CreateAsync(club);
             return result ?
-                new CreateResponse { Success = true, Message = "Create Success!" }
-                : new CreateResponse { Success = false, Message = "Create Fail!" };
+                new CreateResponse { Success = true, MessageCode = "MS-CL-02" }
+                : new CreateResponse { Success = false, MessageCode = "ER-CL-05" };
         }
 
         public async Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request)
@@ -66,17 +67,46 @@ namespace FLMS_BackEnd.Services.Impl
             var c = await clubRepository.FindByCondition(club => club.ClubId == request.ClubId).FirstOrDefaultAsync();
             if (c == null)
             {
-                return new UpdateClubResponse { Success = false, Message = "Club doesn't existed!" };
+                return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-02" };
             }
             Club club = mapper.Map<Club>(request);
             club.CreateAt = c.CreateAt;
             club.UserId = c.UserId;
             Club result = await clubRepository.UpdateAsync(club);
-            if(result != null)
+            if (result != null)
             {
                 return new UpdateClubResponse { Success = true, ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo };
             }
-            return new UpdateClubResponse { Success = false, Message = "Update Club Fail!" };
+            return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-06" };
+        }
+
+        public async Task<DeleteClubResponse> DeleteClub(int id, int userId)
+        {
+            //TODO: check number of player in club
+            var club = await clubRepository.FindByCondition(club => club.ClubId == id).FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new DeleteClubResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            if (club.UserId != userId)
+            {
+                return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-03" };
+            }
+            Club result = await clubRepository.DeleteAsync(club);
+            if (result != null)
+            {
+                return new DeleteClubResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-CL-01",
+                    Club = mapper.Map<ClubDTO>(result)
+                };
+            }
+            return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-04" };
         }
     }
 }

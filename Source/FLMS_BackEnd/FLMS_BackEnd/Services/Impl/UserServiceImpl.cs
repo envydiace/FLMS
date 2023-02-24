@@ -26,7 +26,7 @@ namespace FLMS_BackEnd.Services.Impl
         {
             if (signupRequest == null)
             {
-                return new SignupResponse { Success = false, Message = Constants.MessageUser.REQUEST_FAIL };
+                return new SignupResponse { Success = false, MessageCode = "ER-US-01" };
             }
             var user = await userRepository.FindByCondition(user => user.Email.Equals(signupRequest.Email)).FirstOrDefaultAsync();
             if (user != null)
@@ -34,7 +34,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.MessageUser.EMAIL_EXISTED
+                    MessageCode = "ER-US-02"
                 };
             }
             if (signupRequest.Password != signupRequest.ConfirmPassword)
@@ -42,18 +42,15 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.MessageUser.PASSWORD_DOES_NOT_MATCH
+                    MessageCode = "ER-US-03"
                 };
             }
-            if (!Enum.GetValues(typeof(Constants.SystemRole))
-                .Cast<Constants.SystemRole>()
-                .Select(v => v.ToString())
-                .ToList().Contains(signupRequest.Role))
+            if (!MethodUtils.CheckUserRole(signupRequest.Role))
             {
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.MessageUser.INVALID_ROLE
+                    MessageCode = "ER-US-04"
                 };
             }
 
@@ -63,13 +60,13 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.MessageUser.PASSWORD_IS_WEAK
+                    MessageCode = "ER-US-05"
                 };
             }
 
             var salt = PasswordHelper.GetSecureSalt();
             var passwordHash = PasswordHelper.HashUsingPbkdf2(signupRequest.Password, salt);
-            User user = new User
+            user = new User
             {
                 Email = signupRequest.Email,
                 Password = passwordHash,
@@ -88,6 +85,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = true,
+                    MessageCode = "MS-US-02",
                     Email = user.Email
                 };
             }
@@ -95,7 +93,7 @@ namespace FLMS_BackEnd.Services.Impl
             return new SignupResponse
             {
                 Success = false,
-                Message = Constants.MessageUser.SAVE_USER_FAIL
+                MessageCode = "ER-US-06"
             };
         }
 
@@ -107,12 +105,13 @@ namespace FLMS_BackEnd.Services.Impl
                 return new UserProfileResponse
                 {
                     Success = false,
-                    Message = Constants.MessageUser.USER_DOES_NOT_EXISTED
+                    MessageCode = "ER-US-07"
                 };
             }
             return new UserProfileResponse
             {
                 Success = true,
+                MessageCode = "MS-US-01",
                 UserProfile = mapper.Map<UserProfileDTO>(u)
             };
         }
@@ -126,7 +125,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new TokenResponse
                 {
                     Success = false,
-                    Message = Constants.MessageUser.USERNAME_NOT_FOUND
+                    MessageCode = "ER-US-08"
                 };
             }
             var passwordHash = PasswordHelper.HashUsingPbkdf2(loginRequest.Password, Convert.FromBase64String(user.PasswordSalt));
@@ -136,7 +135,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new TokenResponse
                 {
                     Success = false,
-                    Message = Constants.MessageUser.INVALID_PASSWORD
+                    MessageCode = "ER-US-08"
                 };
             }
 
@@ -151,16 +150,16 @@ namespace FLMS_BackEnd.Services.Impl
 
             if (refreshToken == null)
             {
-                return new LogoutResponse { Success = true, Message = Constants.MessageUser.LOGOUT_SUCCESS };
+                return new LogoutResponse { Success = true, MessageCode = "MS-US-03" };
             }
             bool removed = await tokenRepository.RemoveRefreshTokenByUserIdAsync(userId);
 
             if (removed)
             {
-                return new LogoutResponse { Success = true, Message = Constants.MessageUser.LOGOUT_SUCCESS };
+                return new LogoutResponse { Success = true, MessageCode = "MS-US-03" };
             }
 
-            return new LogoutResponse { Success = false, Message = Constants.MessageUser.LOGOUT_FAIL };
+            return new LogoutResponse { Success = false, MessageCode = "ER-US-09" };
         }
     }
 }
