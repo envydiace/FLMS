@@ -54,12 +54,18 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 clubClones.Add(new ClubClone { ClubCloneKey = "C" + (i + 1) });
             }
+            ICollection<ParticipateNodeDTO> participateNodes = MethodUtils.GetKoList(request.NoParticipate);
             league.ClubClones = clubClones;
-
-            league.ParticipateNodes = mapper.Map <List<ParticipateNode>>(MethodUtils.GetKoList(request.NoParticipate));
+            List<ParticipateNode> participates = mapper.Map<List<ParticipateNode>>(participateNodes);
+            int index = 0;
+            foreach(ParticipateNode participateNode in participates.Where(p => p.LeftId==0))
+            {
+                participateNode.ClubClone = clubClones.ElementAt(index);
+                index++;
+            }
+            league.ParticipateNodes = participates;
 
             var result = await leagueRepository.CreateAsync(league);
-
             if (result)
             {
                 return new CreateLeagueResponse

@@ -51,6 +51,8 @@ namespace FLMS_BackEnd.DTO
                     ));
 
             CreateMap<ParticipateNodeDTO, ParticipateNode>();
+
+            CreateMap<ClubCloneDTO, ClubClone>();
         }
     }
 }
