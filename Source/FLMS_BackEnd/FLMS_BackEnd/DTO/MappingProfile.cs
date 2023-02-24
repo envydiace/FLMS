@@ -48,7 +48,9 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(fee => fee.IsActual,
                 map => map.MapFrom(
                     request => false
-                    )); 
+                    ));
+
+            CreateMap<ParticipateNodeDTO, ParticipateNode>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
@@ -47,13 +48,18 @@ namespace FLMS_BackEnd.Services.Impl
             }
             league = mapper.Map<League>(request);
             league.UserId = userId;
+
             ICollection<ClubClone> clubClones = new List<ClubClone>();
             for (int i = 0; i < request.NoParticipate; i++)
             {
                 clubClones.Add(new ClubClone { ClubCloneKey = "C" + (i + 1) });
             }
             league.ClubClones = clubClones;
+
+            league.ParticipateNodes = mapper.Map <List<ParticipateNode>>(MethodUtils.GetKoList(request.NoParticipate));
+
             var result = await leagueRepository.CreateAsync(league);
+
             if (result)
             {
                 return new CreateLeagueResponse

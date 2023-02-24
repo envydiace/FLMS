@@ -24,6 +24,7 @@ namespace FLMS_BackEnd.Models
         public virtual DbSet<Match> Matches { get; set; } = null!;
         public virtual DbSet<MatchEvent> MatchEvents { get; set; } = null!;
         public virtual DbSet<MatchStat> MatchStats { get; set; } = null!;
+        public virtual DbSet<ParticipateNode> ParticipateNodes { get; set; } = null!;
         public virtual DbSet<Participation> Participations { get; set; } = null!;
         public virtual DbSet<Player> Players { get; set; } = null!;
         public virtual DbSet<PlayerClub> PlayerClubs { get; set; } = null!;
@@ -193,6 +194,22 @@ namespace FLMS_BackEnd.Models
                     .HasForeignKey(d => d.MatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MatchStat__Match__47DBAE45");
+            });
+
+            modelBuilder.Entity<ParticipateNode>(entity =>
+            {
+                entity.ToTable("ParticipateNode");
+
+                entity.HasOne(d => d.ClubClone)
+                    .WithMany(p => p.ParticipateNodes)
+                    .HasForeignKey(d => d.ClubCloneId)
+                    .HasConstraintName("FK_ParticipateNode_ClubClone");
+
+                entity.HasOne(d => d.League)
+                    .WithMany(p => p.ParticipateNodes)
+                    .HasForeignKey(d => d.LeagueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ParticipateNode_League");
             });
 
             modelBuilder.Entity<Participation>(entity =>
