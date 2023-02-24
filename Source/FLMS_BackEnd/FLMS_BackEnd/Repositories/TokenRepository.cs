@@ -2,10 +2,8 @@
 
 namespace FLMS_BackEnd.Repositories
 {
-    public interface TokenRepository
+    public interface TokenRepository : BaseRepository<RefreshToken>
     {
         Task<bool> RemoveRefreshTokenByUserIdAsync(int userId);
-        Task<bool> AddRefreshToken(RefreshToken refreshToken);
-        Task<RefreshToken> GetRefreshTokenByUserIdAsync(int userId);
     }
 }

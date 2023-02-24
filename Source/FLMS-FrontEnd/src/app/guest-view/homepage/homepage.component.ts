@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HomepageService }  from './homepage.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-homepage',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./homepage.component.scss']
 })
 export class HomepageComponent implements OnInit {
+  clubs = null;
 
-  constructor() { }
+  constructor(
+    private homeService: HomepageService
+  ) { }
 
   ngOnInit(): void {
+    this.homeService.getAll()
+            .pipe(first())
+            .subscribe(clubList => this.clubs = clubList);
   }
 
 }

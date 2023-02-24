@@ -1,9 +1,11 @@
-﻿using FLMS_BackEnd.Models;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace FLMS_BackEnd.Controllers
 {
@@ -34,6 +36,24 @@ namespace FLMS_BackEnd.Controllers
                 .Select(v => v.ToString())
                 .ToList()
                 );
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetMatrix(int number)
+        {
+
+            return Ok(MethodUtils.GetLeagueMatchMatrix(number));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetTree(int number)
+        {
+            return Ok(MethodUtils.GetKoList(number));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetNumberOfRound(string type,int number)
+        {
+
+            return Ok(MethodUtils.CountNumberOfRound(type,number));
         }
     }
 }

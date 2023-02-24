@@ -17,12 +17,14 @@ namespace FLMS_BackEnd.Models
         }
 
         public virtual DbSet<Club> Clubs { get; set; } = null!;
+        public virtual DbSet<ClubClone> ClubClones { get; set; } = null!;
         public virtual DbSet<ClubLeague> ClubLeagues { get; set; } = null!;
         public virtual DbSet<League> Leagues { get; set; } = null!;
         public virtual DbSet<LeagueFee> LeagueFees { get; set; } = null!;
         public virtual DbSet<Match> Matches { get; set; } = null!;
         public virtual DbSet<MatchEvent> MatchEvents { get; set; } = null!;
         public virtual DbSet<MatchStat> MatchStats { get; set; } = null!;
+        public virtual DbSet<ParticipateNode> ParticipateNodes { get; set; } = null!;
         public virtual DbSet<Participation> Participations { get; set; } = null!;
         public virtual DbSet<Player> Players { get; set; } = null!;
         public virtual DbSet<PlayerClub> PlayerClubs { get; set; } = null!;
@@ -59,7 +61,27 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.Clubs)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Club__UserId__3F466844");
+                    .HasConstraintName("FK__Club__UserId__6A30C649");
+            });
+
+            modelBuilder.Entity<ClubClone>(entity =>
+            {
+                entity.ToTable("ClubClone");
+
+                entity.Property(e => e.ClubCloneKey)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.Club)
+                    .WithMany(p => p.ClubClones)
+                    .HasForeignKey(d => d.ClubId)
+                    .HasConstraintName("FK_ClubClone_Club");
+
+                entity.HasOne(d => d.League)
+                    .WithMany(p => p.ClubClones)
+                    .HasForeignKey(d => d.LeagueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClubClone_League");
             });
 
             modelBuilder.Entity<ClubLeague>(entity =>
@@ -78,11 +100,17 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("League");
 
+                entity.Property(e => e.CreateAt).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasColumnType("text");
+
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Fanpage).HasMaxLength(255);
 
                 entity.Property(e => e.LeagueName).HasMaxLength(100);
+
+                entity.Property(e => e.LeagueType).HasMaxLength(50);
 
                 entity.Property(e => e.Location).HasMaxLength(255);
 
@@ -106,6 +134,7 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.LeagueFees)
                     .HasForeignKey(d => d.LeagueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__LeagueFee__Leagu__3E52440B");
             });
 
@@ -117,13 +146,13 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.MatchAways)
                     .HasForeignKey(d => d.AwayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Match__AwayId__46E78A0C");
+                    .HasConstraintName("FK_Match_ClubClone1");
 
                 entity.HasOne(d => d.Home)
                     .WithMany(p => p.MatchHomes)
                     .HasForeignKey(d => d.HomeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Match__HomeId__45F365D3");
+                    .HasConstraintName("FK_Match_ClubClone");
 
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.Matches)
@@ -165,6 +194,22 @@ namespace FLMS_BackEnd.Models
                     .HasForeignKey(d => d.MatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MatchStat__Match__47DBAE45");
+            });
+
+            modelBuilder.Entity<ParticipateNode>(entity =>
+            {
+                entity.ToTable("ParticipateNode");
+
+                entity.HasOne(d => d.ClubClone)
+                    .WithMany(p => p.ParticipateNodes)
+                    .HasForeignKey(d => d.ClubCloneId)
+                    .HasConstraintName("FK_ParticipateNode_ClubClone");
+
+                entity.HasOne(d => d.League)
+                    .WithMany(p => p.ParticipateNodes)
+                    .HasForeignKey(d => d.LeagueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ParticipateNode_League");
             });
 
             modelBuilder.Entity<Participation>(entity =>
@@ -211,18 +256,16 @@ namespace FLMS_BackEnd.Models
 
             modelBuilder.Entity<PlayerClub>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("PlayerClub");
 
                 entity.HasOne(d => d.Club)
-                    .WithMany()
+                    .WithMany(p => p.PlayerClubs)
                     .HasForeignKey(d => d.ClubId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PlayerClu__ClubI__440B1D61");
 
                 entity.HasOne(d => d.Player)
-                    .WithMany()
+                    .WithMany(p => p.PlayerClubs)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PlayerClu__Playe__4316F928");
@@ -260,7 +303,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.Requests)
                     .HasForeignKey(d => d.ClubId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Request__ClubId__49C3F6B7");
+                    .HasConstraintName("FK__Request__ClubId__74AE54BC");
 
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.Requests)

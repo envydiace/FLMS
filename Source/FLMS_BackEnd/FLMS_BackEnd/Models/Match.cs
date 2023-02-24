@@ -16,8 +16,8 @@ namespace FLMS_BackEnd.Models
         public int HomeId { get; set; }
         public int AwayId { get; set; }
 
-        public virtual Club Away { get; set; } = null!;
-        public virtual Club Home { get; set; } = null!;
+        public virtual ClubClone Away { get; set; } = null!;
+        public virtual ClubClone Home { get; set; } = null!;
         public virtual League League { get; set; } = null!;
         public virtual ICollection<MatchEvent> MatchEvents { get; set; }
         public virtual ICollection<MatchStat> MatchStats { get; set; }

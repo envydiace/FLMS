@@ -5,10 +5,11 @@ using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
-    public class UserServiceImpl : UserService
+    public class UserServiceImpl : BaseService, UserService
     {
         private readonly UserRepository userRepository;
         private readonly TokenRepository tokenRepository;
@@ -25,15 +26,15 @@ namespace FLMS_BackEnd.Services.Impl
         {
             if (signupRequest == null)
             {
-                return new SignupResponse { Success = false, Message = Constants.Message.REQUEST_FAIL };
+                return new SignupResponse { Success = false, MessageCode = "ER-US-01" };
             }
-            User u = await userRepository.GetByEmail(signupRequest.Email);
-            if (u != null)
+            var user = await userRepository.FindByCondition(user => user.Email.Equals(signupRequest.Email)).FirstOrDefaultAsync();
+            if (user != null)
             {
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.EMAIL_EXISTED
+                    MessageCode = "ER-US-02"
                 };
             }
             if (signupRequest.Password != signupRequest.ConfirmPassword)
@@ -41,18 +42,15 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.PASSWORD_DOES_NOT_MATCH
+                    MessageCode = "ER-US-03"
                 };
             }
-            if (!Enum.GetValues(typeof(Constants.SystemRole))
-                .Cast<Constants.SystemRole>()
-                .Select(v => v.ToString())
-                .ToList().Contains(signupRequest.Role))
+            if (!MethodUtils.CheckUserRole(signupRequest.Role))
             {
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.INVALID_ROLE
+                    MessageCode = "ER-US-04"
                 };
             }
 
@@ -62,13 +60,13 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = false,
-                    Message = Constants.Message.PASSWORD_IS_WEAK
+                    MessageCode = "ER-US-05"
                 };
             }
 
             var salt = PasswordHelper.GetSecureSalt();
             var passwordHash = PasswordHelper.HashUsingPbkdf2(signupRequest.Password, salt);
-            User user = new User
+            user = new User
             {
                 Email = signupRequest.Email,
                 Password = passwordHash,
@@ -87,6 +85,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new SignupResponse
                 {
                     Success = true,
+                    MessageCode = "MS-US-02",
                     Email = user.Email
                 };
             }
@@ -94,45 +93,39 @@ namespace FLMS_BackEnd.Services.Impl
             return new SignupResponse
             {
                 Success = false,
-                Message = Constants.Message.SAVE_USER_FAIL
+                MessageCode = "ER-US-06"
             };
         }
 
         public async Task<UserProfileResponse> GetUserProfile(int userId)
         {
-            User u = await userRepository.GetUserByUserId(userId);
+            var u = await userRepository.FindByCondition(user => user.UserId == userId).FirstOrDefaultAsync();
             if (u == null)
             {
                 return new UserProfileResponse
                 {
                     Success = false,
-                    Message = Constants.Message.USER_DOES_NOT_EXISTED
+                    MessageCode = "ER-US-07"
                 };
             }
             return new UserProfileResponse
             {
                 Success = true,
-                // Need auto mapper
-                UserProfile = new UserProfileDTO
-                {
-                    Email = u.Email,
-                    FullName = u.FullName,
-                    Address = u.Address,
-                    Phone = u.Phone
-                }
+                MessageCode = "MS-US-01",
+                UserProfile = mapper.Map<UserProfileDTO>(u)
             };
         }
 
         public async Task<TokenResponse> LoginAsync(LoginRequest loginRequest)
         {
-            User user = await userRepository.GetByEmail(loginRequest.Email);
+            var user = await userRepository.FindByCondition(user => user.Email.Equals(loginRequest.Email)).FirstOrDefaultAsync();
 
             if (user == null || !user.Active)
             {
                 return new TokenResponse
                 {
                     Success = false,
-                    Message = Constants.Message.USERNAME_NOT_FOUND
+                    MessageCode = "ER-US-08"
                 };
             }
             var passwordHash = PasswordHelper.HashUsingPbkdf2(loginRequest.Password, Convert.FromBase64String(user.PasswordSalt));
@@ -142,36 +135,31 @@ namespace FLMS_BackEnd.Services.Impl
                 return new TokenResponse
                 {
                     Success = false,
-                    Message = Constants.Message.INVALID_PASSWORD
+                    MessageCode = "ER-US-08"
                 };
             }
 
             var token = await System.Threading.Tasks.Task.Run(() => tokenService.GenerateTokensAsync(user.UserId));
 
-            return new TokenResponse
-            {
-                Success = true,
-                AccessToken = token.Item1,
-                RefreshToken = token.Item2
-            };
+            return token;
         }
 
         public async Task<LogoutResponse> LogoutAsync(int userId)
         {
-            var refreshToken = await tokenRepository.GetRefreshTokenByUserIdAsync(userId);
+            var refreshToken = await tokenRepository.FindByCondition(token => token.UserId == userId).FirstOrDefaultAsync();
 
             if (refreshToken == null)
             {
-                return new LogoutResponse { Success = true, Message = Constants.Message.LOGOUT_SUCCESS };
+                return new LogoutResponse { Success = true, MessageCode = "MS-US-03" };
             }
             bool removed = await tokenRepository.RemoveRefreshTokenByUserIdAsync(userId);
 
             if (removed)
             {
-                return new LogoutResponse { Success = true , Message = Constants.Message.LOGOUT_SUCCESS };
+                return new LogoutResponse { Success = true, MessageCode = "MS-US-03" };
             }
 
-            return new LogoutResponse { Success = false, Message = Constants.Message.LOGOUT_FAIL };
+            return new LogoutResponse { Success = false, MessageCode = "ER-US-09" };
         }
     }
 }

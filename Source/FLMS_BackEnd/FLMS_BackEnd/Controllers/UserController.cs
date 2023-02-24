@@ -37,7 +37,7 @@ namespace FLMS_BackEnd.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(new SignupResponse { Message = e.Message });
+                return BadRequest(new SignupResponse { MessageCode = "ER-CO-01" });
             }
         }
 
@@ -51,7 +51,7 @@ namespace FLMS_BackEnd.Controllers
                     return BadRequest(new TokenResponse
                     {
                         Success = false,
-                        Message = Constants.Message.MISSING_LOGIN_DETAILS
+                        MessageCode = "ER-US-13"
                     });
                 }
 
@@ -66,7 +66,7 @@ namespace FLMS_BackEnd.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(new TokenResponse { Message = e.Message });
+                return BadRequest(new TokenResponse { MessageCode = "ER-CO-01" });
             }
         }
 
@@ -93,7 +93,7 @@ namespace FLMS_BackEnd.Controllers
             {
                 return BadRequest(new TokenResponse
                 {
-                    Message = Constants.Message.MISSING_REFRESH_TOKEN_DETAILS
+                    MessageCode = "ER-US-14"
                 });
             }
 
@@ -101,12 +101,10 @@ namespace FLMS_BackEnd.Controllers
 
             if (!validateRefreshTokenResponse.Success)
             {
-                return BadRequest(new TokenResponse { Message = validateRefreshTokenResponse.Message });
+                return BadRequest(validateRefreshTokenResponse);
             }
 
-            var tokenResponse = await tokenService.GenerateTokensAsync(validateRefreshTokenResponse.UserId);
-
-            return Ok(new TokenResponse { AccessToken = tokenResponse.Item1, RefreshToken = tokenResponse.Item2 });
+            return Ok(validateRefreshTokenResponse);
         }
 
         [Authorize]

@@ -6,7 +6,7 @@ namespace FLMS_BackEnd.Services
 {
     public interface TokenService
     {
-        Task<Tuple<string, string>> GenerateTokensAsync(int userId);
-        Task<ValidateRefreshTokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest);
+        Task<TokenResponse> GenerateTokensAsync(int userId);
+        Task<TokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest);
     }
 }

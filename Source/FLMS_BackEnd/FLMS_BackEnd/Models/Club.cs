@@ -7,9 +7,9 @@ namespace FLMS_BackEnd.Models
     {
         public Club()
         {
+            ClubClones = new HashSet<ClubClone>();
             ClubLeagues = new HashSet<ClubLeague>();
-            MatchAways = new HashSet<Match>();
-            MatchHomes = new HashSet<Match>();
+            PlayerClubs = new HashSet<PlayerClub>();
             Requests = new HashSet<Request>();
         }
 
@@ -22,9 +22,9 @@ namespace FLMS_BackEnd.Models
         public DateTime CreateAt { get; set; }
 
         public virtual User User { get; set; } = null!;
+        public virtual ICollection<ClubClone> ClubClones { get; set; }
         public virtual ICollection<ClubLeague> ClubLeagues { get; set; }
-        public virtual ICollection<Match> MatchAways { get; set; }
-        public virtual ICollection<Match> MatchHomes { get; set; }
+        public virtual ICollection<PlayerClub> PlayerClubs { get; set; }
         public virtual ICollection<Request> Requests { get; set; }
     }
 }
