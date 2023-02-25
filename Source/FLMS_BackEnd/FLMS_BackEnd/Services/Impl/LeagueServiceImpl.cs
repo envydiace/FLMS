@@ -53,11 +53,10 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 case Constants.LeagueType.KO:
                     ICollection<ClubClone> clubClones = new List<ClubClone>();
-                    ICollection<ParticipateNodeDTO> participateNodes = MethodUtils.GetKoList(request.NoParticipate);
 
-                    List<ParticipateNode> participates = mapper.Map<List<ParticipateNode>>(participateNodes);
+                    List<ParticipateNode> participates = MethodUtils.GetListKo(request.NoParticipate);
                     int index = 0;
-                    foreach (ParticipateNode participateNode in participates.Where(p => p.LeftId == 0))
+                    foreach (ParticipateNode participateNode in participates.Where(p => p.InverseParent == null || p.InverseParent.Count == 0))
                     {
                         var clubClone = new ClubClone { ClubCloneKey = "C" + (index + 1) };
                         participateNode.ClubClone = clubClone;
@@ -67,12 +66,12 @@ namespace FLMS_BackEnd.Services.Impl
                     List<Match> matchList = new List<Match>();
                     foreach (ParticipateNode participate in participates)
                     {
-                        if (participate.LeftId != 0)
+                        if (participate.InverseParent != null && participate.InverseParent.Count != 0)
                         {
                             Match match = new Match
                             {
-                                Home = participates.FirstOrDefault(x => x.ParticipateId == participate.LeftId),
-                                Away = participates.FirstOrDefault(x => x.ParticipateId == participate.RightId),
+                                Home = participate.InverseParent.FirstOrDefault(),
+                                Away = participate.InverseParent.LastOrDefault(),
                                 MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2)
                             };
                             matchList.Add(match);

@@ -202,6 +202,8 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("ParticipateNode");
 
+                entity.Property(e => e.ParticipateNodeId).ValueGeneratedNever();
+
                 entity.HasOne(d => d.ClubClone)
                     .WithMany(p => p.ParticipateNodes)
                     .HasForeignKey(d => d.ClubCloneId)
@@ -212,6 +214,11 @@ namespace FLMS_BackEnd.Models
                     .HasForeignKey(d => d.LeagueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ParticipateNode_League");
+
+                entity.HasOne(d => d.Parent)
+                    .WithMany(p => p.InverseParent)
+                    .HasForeignKey(d => d.ParentId)
+                    .HasConstraintName("FK_ParticipateNode_ParticipateNode1");
             });
 
             modelBuilder.Entity<Participation>(entity =>

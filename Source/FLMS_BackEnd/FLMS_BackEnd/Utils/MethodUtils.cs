@@ -1,4 +1,5 @@
 ﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 
 namespace FLMS_BackEnd.Utils
 {
@@ -50,61 +51,105 @@ namespace FLMS_BackEnd.Utils
             }
             return result;
         }
-
-        public static ParticipateNodeDTO GetKoRoot(int numberOfParticipate)
+        public static List<ParticipateNode >GetListKo(int numberOfParticipate)
         {
-            int rootId = 1;
+            List<ParticipateNode> result = new List<ParticipateNode>();
+
             int count = 1;
             int sumNode = numberOfParticipate * 2 - 1;
 
             //Init tree
-            Queue<ParticipateNodeDTO> queue = new Queue<ParticipateNodeDTO>();
-            ParticipateNodeDTO root = new ParticipateNodeDTO { ParticipateId = rootId, Deep = 1 };
+            Queue<ParticipateNode> queue = new Queue<ParticipateNode>();
+            ParticipateNode root = new ParticipateNode { Deep = 1 };
+            queue.Enqueue(root);
+            List<ParticipateNode> participates = new List<ParticipateNode>();
+            participates.Add(root);
+            while (count < sumNode)
+            {
+                ParticipateNode participate = queue.Dequeue();
+                ParticipateNode left = new ParticipateNode
+                {
+                    Parent = participate,
+                    Deep = participate.Deep + 1
+                };
+                ParticipateNode right = new ParticipateNode
+                {
+                    Parent = participate,
+                    Deep = participate.Deep + 1
+                };
+                queue.Enqueue(left);
+                queue.Enqueue(right);
+                participates.Add(left);
+                participates.Add(right);
+                count += 2;
+            }
+            queue = new Queue<ParticipateNode>();
+            queue.Enqueue(root);
+
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+                result.Add(node);
+                if (participates.FirstOrDefault(p => node.Equals(p.Parent))!=null)
+                {
+                    queue.Enqueue(participates.FirstOrDefault(p => node.Equals(p.Parent)));
+                    queue.Enqueue(participates.LastOrDefault(p => node.Equals(p.Parent)));
+                }
+            }
+            return result;
+        }
+        public static ParticipateNode GetKoRoot(int numberOfParticipate)
+        {
+            int count = 1;
+            int sumNode = numberOfParticipate * 2 - 1;
+
+            //Init tree
+            Queue<ParticipateNode> queue = new Queue<ParticipateNode>();
+            ParticipateNode root = new ParticipateNode { Deep = 1 };
             queue.Enqueue(root);
             while (count < sumNode)
             {
-                ParticipateNodeDTO participate = queue.Dequeue();
-                participate.LeftParticipate = new ParticipateNodeDTO
+                List<ParticipateNode> participates = new List<ParticipateNode>();
+                ParticipateNode participate = queue.Dequeue();
+                ParticipateNode left = new ParticipateNode
                 {
-                    ParticipateId = count + rootId,
-                    ParentParticipate = participate,
+                    Parent = participate,
                     Deep = participate.Deep + 1
                 };
-                participate.RightParticipate = new ParticipateNodeDTO
+                ParticipateNode right = new ParticipateNode
                 {
-                    ParticipateId = count + rootId + 1,
-                    ParentParticipate = participate,
+                    Parent = participate,
                     Deep = participate.Deep + 1
                 };
-                queue.Enqueue(participate.LeftParticipate);
-                queue.Enqueue(participate.RightParticipate);
+                queue.Enqueue(left);
+                queue.Enqueue(right);
+                participates.Add(left);
+                participates.Add(right);
+                participate.InverseParent = participates;
                 count += 2;
             }
             return root;
         }
-        public static List<ParticipateNodeDTO> GetKoListBFS(ParticipateNodeDTO root)
+        public static List<ParticipateNode> GetKoListBFS(ParticipateNode root)
         {
-            Queue<ParticipateNodeDTO> queue = new Queue<ParticipateNodeDTO>();
+            Queue<ParticipateNode> queue = new Queue<ParticipateNode>();
             queue.Enqueue(root);
 
-            List<ParticipateNodeDTO> r = new List<ParticipateNodeDTO>();
+            List<ParticipateNode> r = new List<ParticipateNode>();
             while (queue.Count > 0)
             {
                 var node = queue.Dequeue();
                 r.Add(node);
-                if (node.LeftParticipate != null)
+                if (node.InverseParent != null && node.InverseParent.Count!=0)
                 {
-                    queue.Enqueue(node.LeftParticipate);
-                }
-                if (node.RightParticipate != null)
-                {
-                    queue.Enqueue(node.RightParticipate);
+                    queue.Enqueue(node.InverseParent.FirstOrDefault());
+                    queue.Enqueue(node.InverseParent.LastOrDefault());
                 }
             }
             return r;
         }
 
-        public static List<ParticipateNodeDTO> GetKoList(int numberOfParticipate)
+        public static List<ParticipateNode> GetKoList(int numberOfParticipate)
         {
             return GetKoListBFS(GetKoRoot(numberOfParticipate));
         }
