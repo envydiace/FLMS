@@ -49,7 +49,7 @@ namespace FLMS_BackEnd.Services.Impl
             league = mapper.Map<League>(request);
             league.UserId = userId;
 
-            switch (MethodUtils.GetLeagueTypeByName( request.LeagueType))
+            switch (MethodUtils.GetLeagueTypeByName(request.LeagueType))
             {
                 case Constants.LeagueType.KO:
                     ICollection<ClubClone> clubClones = new List<ClubClone>();
@@ -64,6 +64,21 @@ namespace FLMS_BackEnd.Services.Impl
                         clubClones.Add(clubClone);
                         index++;
                     }
+                    List<Match> matchList = new List<Match>();
+                    foreach (ParticipateNode participate in participates)
+                    {
+                        if (participate.LeftId != 0)
+                        {
+                            Match match = new Match
+                            {
+                                Home = participates.FirstOrDefault(x => x.ParticipateId == participate.LeftId),
+                                Away = participates.FirstOrDefault(x => x.ParticipateId == participate.RightId),
+                                MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2)
+                            };
+                            matchList.Add(match);
+                        }
+                    }
+                    league.Matches = matchList;
                     league.ClubClones = clubClones;
                     league.ParticipateNodes = participates;
                     break;

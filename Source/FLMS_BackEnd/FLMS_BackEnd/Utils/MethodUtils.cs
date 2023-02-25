@@ -51,23 +51,6 @@ namespace FLMS_BackEnd.Utils
             return result;
         }
 
-        public static int[][] GetLeagueMatchMatrix(int numberOfParticipate)
-        {
-            int participate = 2;
-            while (participate < numberOfParticipate)
-            {
-                participate *= 2;
-            }
-            int round = participate - 1;
-            int[][] matrix = new int[participate][];
-            for (int i = 0; i < participate; i++)
-            {
-                matrix[i] = new int[round];
-            }
-
-            return matrix;
-        }
-
         public static ParticipateNodeDTO GetKoRoot(int numberOfParticipate)
         {
             int rootId = 1;
@@ -121,10 +104,74 @@ namespace FLMS_BackEnd.Utils
             return r;
         }
 
-
         public static List<ParticipateNodeDTO> GetKoList(int numberOfParticipate)
         {
             return GetKoListBFS(GetKoRoot(numberOfParticipate));
+        }
+        public static int[][] GetLeagueMatchMatrix(int numberOfParticipate)
+        {
+            int participate = 2;
+            while (participate < numberOfParticipate)
+            {
+                participate *= 2;
+            }
+            int round = participate - 1;
+            int[][] matrix = new int[participate][];
+            for (int i = 0; i < participate; i++)
+            {
+                matrix[i] = new int[round];
+            }
+
+            return matrix;
+        }
+        public static string[][] GetListMatches(List<string> ListTeam)
+        {
+            int numTeams = ListTeam.Count;
+            int noParti = 1;
+            while (noParti < numTeams)
+            {
+                noParti *= 2;
+            }
+            for (int i = numTeams; i < noParti; i++)
+            {
+                ListTeam.Add("Bye");
+            }
+
+            int numDays = (noParti - 1);
+            int halfSize = noParti / 2;
+
+            string[][] result = new string[numDays][];
+
+            for (int i = 0; i < numDays; i++)
+            {
+                result[i] = new string[halfSize];
+            }
+
+            List<string> teams = new List<string>();
+
+            teams.AddRange(ListTeam);
+            teams.RemoveAt(0);
+
+            int teamsSize = teams.Count;
+
+            for (int day = 0; day < numDays; day++)
+            {
+                //Console.WriteLine("Day {0}", (day + 1));
+
+                int teamIdx = day % teamsSize;
+
+                //Console.WriteLine("{0} vs {1}", teams[teamIdx], ListTeam[0]);
+                result[day][0] = (teams[teamIdx]+ " vs "+ ListTeam[0]);
+                for (int idx = 1; idx < halfSize; idx++)
+                {
+                    int firstTeam = (day + idx) % teamsSize;
+                    int secondTeam = (day + teamsSize - idx) % teamsSize;
+                    //Console.WriteLine("{0} vs {1}", teams[firstTeam], teams[secondTeam]);
+                    result[day][idx] = (teams[firstTeam] + " vs " + teams[secondTeam]);
+                }
+            }
+
+            return result;
         }
     }
 }

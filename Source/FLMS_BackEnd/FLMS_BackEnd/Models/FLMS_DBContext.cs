@@ -142,17 +142,19 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("Match");
 
+                entity.Property(e => e.MatchDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Away)
                     .WithMany(p => p.MatchAways)
                     .HasForeignKey(d => d.AwayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Match_ClubClone1");
+                    .HasConstraintName("FK_Match_ParticipateNode1");
 
                 entity.HasOne(d => d.Home)
                     .WithMany(p => p.MatchHomes)
                     .HasForeignKey(d => d.HomeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Match_ClubClone");
+                    .HasConstraintName("FK_Match_ParticipateNode");
 
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.Matches)

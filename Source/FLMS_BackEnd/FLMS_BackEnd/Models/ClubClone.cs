@@ -7,8 +7,6 @@ namespace FLMS_BackEnd.Models
     {
         public ClubClone()
         {
-            MatchAways = new HashSet<Match>();
-            MatchHomes = new HashSet<Match>();
             ParticipateNodes = new HashSet<ParticipateNode>();
         }
 
@@ -19,8 +17,6 @@ namespace FLMS_BackEnd.Models
 
         public virtual Club? Club { get; set; }
         public virtual League League { get; set; } = null!;
-        public virtual ICollection<Match> MatchAways { get; set; }
-        public virtual ICollection<Match> MatchHomes { get; set; }
         public virtual ICollection<ParticipateNode> ParticipateNodes { get; set; }
     }
 }
