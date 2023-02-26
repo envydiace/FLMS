@@ -147,5 +147,28 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
         }
+
+        public async Task<ListLeagueResponse> GetListLeagueFilters(ListLeagueFilterRequest request)
+        {
+            var leagues = await leagueRepository.FindByCondition(league =>
+            (request.searchLeagueName == null
+                || request.searchLeagueName == ""
+                || league.LeagueName.StartsWith(request.searchLeagueName))
+            && 
+            (request.from == null
+                || request.from.GetValueOrDefault().CompareTo(league.StartDate)<=0)
+            &&
+            (request.to == null
+                || request.to.GetValueOrDefault().CompareTo(league.StartDate) >= 0)
+            ).ToListAsync();
+            int total = leagues.Count;
+            var result = mapper.Map<List<LeagueDTO>>(leagues.Skip((request.page - 1) * request.pageSize).Take(request.pageSize).ToList());
+            return new ListLeagueResponse
+            {
+                Success = true,
+                Leagues = result,
+                Total = total
+            };
+        }
     }
 }
