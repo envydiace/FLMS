@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { LeagueListComponent } from './league/league-list/league-list.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {  
     path : 'club-list',
     component: ClubListComponent
+  },
+  {  
+    path : 'league-list',
+    component: LeagueListComponent
   }
 ];
 

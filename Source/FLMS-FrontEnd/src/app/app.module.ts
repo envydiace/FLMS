@@ -17,13 +17,14 @@ import { HomepageComponent } from './guest-view/homepage/homepage.component';
 import { LoginComponent } from './guest-view/login/login.component';
 import { GuestViewModule } from './guest-view/guest-view.module';
 import { HttpClientModule } from '@angular/common/http';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 
 @NgModule({
   declarations: [
     MainComponent,
     NavbarComponent,
-    FooterComponent,
+    FooterComponent, 
     VerticalMenuComponent
   ],
   imports: [
@@ -34,7 +35,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
-    MatSnackBarModule,
     FlmsModule,
     AppRoutingModule,
     HttpClientModule
