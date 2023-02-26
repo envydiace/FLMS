@@ -23,7 +23,7 @@ namespace FLMS_BackEnd.Controllers
         [Authorize(Roles = Constants.Role.LEAGUE_MANAGER)]
         public async Task<ActionResult<BaseResponse>> TestAuthen()
         {
-            
+
             return Ok(UserID);
         }
         [HttpGet("[action]")]
@@ -39,21 +39,20 @@ namespace FLMS_BackEnd.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetMatrix(int number)
+        public async Task<IActionResult> GetListMatches(int number)
         {
-
-            return Ok(MethodUtils.GetLeagueMatchMatrix(number));
+            List<ClubCloneDTO> list = new List<ClubCloneDTO>();
+            for (int i = 0; i < number; i++)
+            {
+                list.Add(new ClubCloneDTO { ClubCloneKey = "C" + (i + 1) });
+            }
+            List<string> listTeam = list.Select(x => x.ClubCloneKey != null ? x.ClubCloneKey : "Bye").ToList();
+            return Ok(MethodUtils.GetListMatches(listTeam));
         }
         [HttpGet("[action]")]
         public async Task<IActionResult> GetTree(int number)
         {
             return Ok(MethodUtils.GetKoList(number));
-        }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetNumberOfRound(string type,int number)
-        {
-
-            return Ok(MethodUtils.CountNumberOfRound(type,number));
         }
     }
 }
