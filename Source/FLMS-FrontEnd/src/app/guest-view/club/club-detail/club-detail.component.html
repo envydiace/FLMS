@@ -14,17 +14,34 @@
                 </mat-card-header>
                 <div class="row">
                     <mat-card-actions>
-                        <button mat-button>LIKE</button> <br>
-                        <button mat-button>SHARE</button>
+                        <!-- <button mat-button>LIKE</button> <br>
+                        <button mat-button>SHARE</button> -->
                     </mat-card-actions>
-                    <mat-card-content>
-                        <p>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem perferendis similique beatae odio quaerat praesentium inventore ullam ipsam magni quidem provident perspiciatis, voluptatum aperiam, aspernatur quam quibusdam reiciendis nihil corporis?
-                        </p>
+                    <mat-card-content class="club-detail-content">
+                        <mat-tab-group>
+                            <mat-tab label="Schedule">
+                                <ng-template matTabContent>
+                                    <app-club-schedule></app-club-schedule>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="Player">
+                                <ng-template matTabContent>
+                                    <app-club-player></app-club-player>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="League History">
+                                <ng-template matTabContent>
+                                    <app-league-history></app-league-history>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="Match History">
+                                <ng-template matTabContent>
+                                    <app-match-history></app-match-history>
+                                </ng-template>
+                            </mat-tab>
+                        </mat-tab-group>
                     </mat-card-content>
                 </div>
-
-
             </mat-card>
         </div>
     </div>

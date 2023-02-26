@@ -26,7 +26,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-schedule.component';
+import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
+import { LeagueHistoryComponent } from './club/club-detail/league-history/league-history.component';
+import { MatchHistoryComponent } from './club/club-detail/match-history/match-history.component';
+import { LeagueScheduleComponent } from './league/league-detail/league-schedule/league-schedule.component';
+import { JoinedClubsComponent } from './league/league-detail/joined-clubs/joined-clubs.component';
+import { LeagueStatisticComponent } from './league/league-detail/league-statistic/league-statistic.component';
+import { LeagueFeeComponent } from './league/league-detail/league-fee/league-fee.component';
+import { LeagueSettingsComponent } from './league/league-detail/league-settings/league-settings.component';
 
 
 @NgModule({
@@ -42,7 +51,16 @@ import { MatNativeDateModule } from '@angular/material/core';
     SignupComponent,
     ForgotPassComponent,
     LeagueDetailComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ClubScheduleComponent,
+    ClubPlayerComponent,
+    LeagueHistoryComponent,
+    MatchHistoryComponent,
+    LeagueScheduleComponent,
+    JoinedClubsComponent,
+    LeagueStatisticComponent,
+    LeagueFeeComponent,
+    LeagueSettingsComponent
   ],
   imports: [
     CommonModule,
@@ -54,6 +72,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatCardModule,
     MatPaginatorModule,
+    MatTabsModule,
     MatGridListModule,
     MatFormFieldModule,
     MatDatepickerModule,
