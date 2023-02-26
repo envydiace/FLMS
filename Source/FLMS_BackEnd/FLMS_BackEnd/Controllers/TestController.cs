@@ -39,12 +39,6 @@ namespace FLMS_BackEnd.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetMatrix(int number)
-        {
-
-            return Ok(MethodUtils.GetLeagueMatchMatrix(number));
-        }
-        [HttpGet("[action]")]
         public async Task<IActionResult> GetListMatches(int number)
         {
             List<ClubCloneDTO> list = new List<ClubCloneDTO>();
@@ -59,12 +53,6 @@ namespace FLMS_BackEnd.Controllers
         public async Task<IActionResult> GetTree(int number)
         {
             return Ok(MethodUtils.GetKoList(number));
-        }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetNumberOfRound(string type, int number)
-        {
-
-            return Ok(MethodUtils.CountNumberOfRound(type, number));
         }
     }
 }

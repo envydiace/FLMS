@@ -48,14 +48,17 @@ namespace FLMS_BackEnd.Services.Impl
             }
             league = mapper.Map<League>(request);
             league.UserId = userId;
-
+            List<ParticipateNode> participates;
+            ICollection<ClubClone> clubClones;
+            List<Match> matchList;
             switch (MethodUtils.GetLeagueTypeByName(request.LeagueType))
             {
                 case Constants.LeagueType.KO:
-                    ICollection<ClubClone> clubClones = new List<ClubClone>();
+                    clubClones = new List<ClubClone>();
+                    matchList = new List<Match>();
                     ICollection<ParticipateNodeDTO> participateNodes = MethodUtils.GetKoList(request.NoParticipate);
 
-                    List<ParticipateNode> participates = mapper.Map<List<ParticipateNode>>(participateNodes);
+                    participates = mapper.Map<List<ParticipateNode>>(participateNodes);
                     int index = 0;
                     foreach (ParticipateNode participateNode in participates.Where(p => p.LeftId == 0))
                     {
@@ -64,7 +67,6 @@ namespace FLMS_BackEnd.Services.Impl
                         clubClones.Add(clubClone);
                         index++;
                     }
-                    List<Match> matchList = new List<Match>();
                     foreach (ParticipateNode participate in participates)
                     {
                         if (participate.LeftId != 0)
@@ -83,6 +85,45 @@ namespace FLMS_BackEnd.Services.Impl
                     league.ParticipateNodes = participates;
                     break;
                 case Constants.LeagueType.LEAGUE:
+                    participates = new List<ParticipateNode>();
+                    clubClones = new List<ClubClone>();
+                    matchList = new List<Match>();
+                    for (int i = 0; i < request.NoParticipate; i++)
+                    {
+                        var clubClone = new ClubClone { ClubCloneKey = "C" + (i + 1) };
+                        participates.Add(new ParticipateNode
+                        {
+                            ClubClone = clubClone
+                        });
+                        clubClones.Add(clubClone);
+                    }
+                    string[][] matchs = MethodUtils.GetListMatches(participates.Select(x => x.ClubClone != null ? x.ClubClone.ClubCloneKey : "Bye").ToList());
+
+                    for (int day = 0; day < matchs.Length; day++)
+                    {
+                        for (int matchIndex = 0; matchIndex < matchs[day].Length; matchIndex++)
+                        {
+                            string[] key = matchs[day][matchIndex].Split('/');
+                            if (key.Length == 2)
+                            {
+                                var home = participates.FirstOrDefault(p => key[0].Equals(p.ClubClone.ClubCloneKey));
+                                var away = participates.FirstOrDefault(p => key[1].Equals(p.ClubClone.ClubCloneKey));
+                                if (home != null && away != null)
+                                {
+                                    matchList.Add(new Match
+                                    {
+                                        Home = home,
+                                        Away = away,
+                                        MatchDate = league.StartDate.AddDays(day * 2)
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    league.Matches = matchList;
+                    league.ClubClones = clubClones;
+                    league.ParticipateNodes = participates;
                     break;
                 case Constants.LeagueType.TABLE:
                     break;

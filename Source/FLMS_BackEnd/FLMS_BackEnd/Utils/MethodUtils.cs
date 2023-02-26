@@ -1,4 +1,5 @@
 ﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 
 namespace FLMS_BackEnd.Utils
 {
@@ -108,22 +109,6 @@ namespace FLMS_BackEnd.Utils
         {
             return GetKoListBFS(GetKoRoot(numberOfParticipate));
         }
-        public static int[][] GetLeagueMatchMatrix(int numberOfParticipate)
-        {
-            int participate = 2;
-            while (participate < numberOfParticipate)
-            {
-                participate *= 2;
-            }
-            int round = participate - 1;
-            int[][] matrix = new int[participate][];
-            for (int i = 0; i < participate; i++)
-            {
-                matrix[i] = new int[round];
-            }
-
-            return matrix;
-        }
         public static string[][] GetListMatches(List<string> ListTeam)
         {
             int numTeams = ListTeam.Count;
@@ -161,13 +146,13 @@ namespace FLMS_BackEnd.Utils
                 int teamIdx = day % teamsSize;
 
                 //Console.WriteLine("{0} vs {1}", teams[teamIdx], ListTeam[0]);
-                result[day][0] = (teams[teamIdx]+ " vs "+ ListTeam[0]);
+                result[day][0] = (teams[teamIdx] + "/" + ListTeam[0]);
                 for (int idx = 1; idx < halfSize; idx++)
                 {
                     int firstTeam = (day + idx) % teamsSize;
                     int secondTeam = (day + teamsSize - idx) % teamsSize;
                     //Console.WriteLine("{0} vs {1}", teams[firstTeam], teams[secondTeam]);
-                    result[day][idx] = (teams[firstTeam] + " vs " + teams[secondTeam]);
+                    result[day][idx] = (teams[firstTeam] + "/" + teams[secondTeam]);
                 }
             }
 
