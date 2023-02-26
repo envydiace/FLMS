@@ -1,8 +1,8 @@
 import { ClubDetail } from './club-detail.model';
 
 export class ClubList {
-    private total: number;
-    private clubs: ClubDetail[];
+    public total: number;
+    public clubs: ClubDetail[];
 
     constructor(
         total: number,
