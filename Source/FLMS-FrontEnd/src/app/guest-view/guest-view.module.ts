@@ -26,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 
+
 @NgModule({
   declarations: [
     HomepageComponent,
@@ -56,6 +57,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatInputModule,
     MatCardModule,
     MatSelectModule,
+    MatPaginatorModule,
     FormsModule
   ]
 })

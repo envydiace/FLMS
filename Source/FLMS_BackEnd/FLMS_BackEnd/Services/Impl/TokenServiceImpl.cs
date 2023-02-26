@@ -27,11 +27,11 @@ namespace FLMS_BackEnd.Services.Impl
             var accessToken = await tokenHelper.GenerateAccessToken(userId);
             var refreshToken = await tokenHelper.GenerateRefreshToken();
 
-            User userRecord = await userRepository.FindByCondition(user => user.UserId == userId).Include(u => u.RefreshTokens).FirstOrDefaultAsync(); ;
+            var userRecord = await userRepository.FindByCondition(user => user.UserId == userId).Include(u => u.RefreshTokens).FirstOrDefaultAsync(); ;
 
             if (userRecord == null)
             {
-                return new TokenResponse { Success = false, Message = "" };
+                return new TokenResponse { Success = false, MessageCode = "ER-US-07" };
             }
 
             var salt = PasswordHelper.GetSecureSalt();
@@ -55,15 +55,15 @@ namespace FLMS_BackEnd.Services.Impl
             return new TokenResponse { Success = true, AccessToken = accessToken, RefreshToken = refreshToken, Role = userRecord.Role };
         }
 
-        public async Task<ValidateRefreshTokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
+        public async Task<TokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
         {
             var refreshToken = await tokenRepository.FindByCondition(token => token.UserId == refreshTokenRequest.UserId).FirstOrDefaultAsync();
 
-            var response = new ValidateRefreshTokenResponse();
+            var response = new TokenResponse();
             if (refreshToken == null)
             {
                 response.Success = false;
-                response.Message = Constants.MessageUser.INVALID_SESSION;
+                response.MessageCode = "ER-US-10";
                 return response;
             }
 
@@ -72,19 +72,17 @@ namespace FLMS_BackEnd.Services.Impl
             if (refreshToken.TokenHash != refreshTokenToValidateHash)
             {
                 response.Success = false;
-                response.Message = Constants.MessageUser.INVALID_REFRESH_TOKEN;
+                response.MessageCode = "ER-US-11";
                 return response;
             }
 
             if (refreshToken.ExpiryDate < DateTime.Now)
             {
                 response.Success = false;
-                response.Message = Constants.MessageUser.REFRESH_TOKEN_EXPIRED;
+                response.MessageCode = "ER-US-12";
                 return response;
             }
-
-            response.Success = true;
-            response.UserId = refreshToken.UserId;
+            response = await this.GenerateTokensAsync(refreshToken.UserId);
 
             return response;
         }

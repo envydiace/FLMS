@@ -11,8 +11,6 @@ namespace FLMS_BackEnd.Response
 
         public string? MessageCode { get; set; } = null;
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Message { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Message2 { get { return MessageCode!=null?Constants.SystemMessage.GetValueOrDefault(MessageCode):null; } }
+        public string? Message { get { return MessageCode != null ? Constants.SystemMessage.GetValueOrDefault(MessageCode) : null; } }
     }
 }

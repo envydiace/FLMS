@@ -1,1 +1,6 @@
 dotnet tool update --global dotnet-ef --version 6.0.12
+
+- note create league:
+	- Knock-out: 
+		- [Number of node in tree] = [Number of participate] * 2 -1
+ 

@@ -76,6 +76,7 @@ builder.Services.AddScoped<ClubRepository, ClubRepositoryImpl>();
 builder.Services.AddScoped<PlayerRepository, PlayerRepositoryImpl>();
 builder.Services.AddScoped<PlayerClubRepository, PlayerClubRepositoryImpl>();
 builder.Services.AddScoped<LeagueRepository, LeagueRepositoryImpl>();
+builder.Services.AddScoped<ParticipateNodeRepository, ParticipateNodeRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 
