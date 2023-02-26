@@ -1,97 +1,247 @@
 
-.club-search form{
-    background-color: white ;
-    width: 750px;
-    height: 40px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border: 2px solid black;
-   	margin: 20px 400px 10px;
+// .club-search form{
+//     background-color: white ;
+//     width: 750px;
+//     height: 40px;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     border: 2px solid black;
+//    	margin: 20px 400px 10px;
 
-}
-
-.club-search input {
-    all: unset;
-    font: 16px system-ui;
-    height: 100%;
-    width: 100%;
-    padding: 6px 10px;
-    align-items: center;
-    border: 50px;
-   	border-color: black;
-}
-
-.manager-search input{
-	margin: 5px 270px;
-	width: 170px;
-	border-radius: 5px;
-	border: 1px solid black;
-}
-    
-::placeholder {
-    color: black;
-    opacity: 0.8; 
-}
-
-.club-search button {
-    all: unset;
-    cursor: pointer;
-    width: 44px;
-    height: 44px;
-    color: blue;
-}
-
-p{
-  	margin: 0px 290px;
-}
-
-.club-list {
-    display: grid;
-    max-width: 960px;
-    margin: 0 auto;
-    grid-template-columns: repeat(3,280px);
-    grid-template-rows: repeat(2, 250px);
-    grid-column-gap: 60px;
-    grid-row-gap: 20px;
-}	
-
-.club-list div {
-    cursor: pointer;
-    text-align: center;
-    padding: 30px;
-    border: 2px solid black;
-}
-
-.club-list button{
-    background-color: greenyellow;
-    border: 1px solid black;
-    border-radius: 5px;
-    margin-left: 135px;
-    cursor: pointer;
-}
-.club-list button:hover{
-    opacity: 0.8;
-}
-
-img {
-	max-width: 95px;
-	max-height: 95px;
-	width: auto;
-	height: auto;
-	margin: 20px;
-}
-
-.pagination button{
-	cursor: pointer;
-	color: rgb(81, 81, 211);
-    background-color: white;
-}
-
-.pagination{
-	margin: 10px 650px;
-}
-
-// .pagination:active{
-//     background-color: cyan;
 // }
+
+// .club-search input {
+//     all: unset;
+//     font: 16px system-ui;
+//     height: 100%;
+//     width: 100%;
+//     padding: 6px 10px;
+//     align-items: center;
+//     border: 50px;
+//    	border-color: black;
+// }
+
+// .manager-search input{
+// 	margin: 5px 270px;
+// 	width: 170px;
+// 	border-radius: 5px;
+// 	border: 1px solid black;
+// }
+    
+// ::placeholder {
+//     color: black;
+//     opacity: 0.8; 
+// }
+
+// .club-search button {
+//     all: unset;
+//     cursor: pointer;
+//     width: 44px;
+//     height: 44px;
+//     color: blue;
+// }
+
+// p{
+//   	margin: 0px 290px;
+// }
+
+// .club-list {
+//     display: grid;
+//     max-width: 960px;
+//     margin: 0 auto;
+//     grid-template-columns: repeat(3,280px);
+//     grid-template-rows: repeat(2, 250px);
+//     grid-column-gap: 60px;
+//     grid-row-gap: 20px;
+// }	
+
+// .club-list div {
+//     cursor: pointer;
+//     text-align: center;
+//     padding: 30px;
+//     border: 2px solid black;
+// }
+
+// .club-list button{
+//     background-color: greenyellow;
+//     border: 1px solid black;
+//     border-radius: 5px;
+//     margin-left: 135px;
+//     cursor: pointer;
+// }
+// .club-list button:hover{
+//     opacity: 0.8;
+// }
+
+// img {
+// 	max-width: 95px;
+// 	max-height: 95px;
+// 	width: auto;
+// 	height: auto;
+// 	margin: 20px;
+// }
+
+// .pagination button{
+// 	cursor: pointer;
+// 	color: rgb(81, 81, 211);
+//     background-color: white;
+// }
+
+// .pagination{
+// 	margin: 10px 650px;
+// }
+
+// // .pagination:active{
+// //     background-color: cyan;
+// // }
+
+
+// .list-container {
+//   text-align: center;
+//   width: 100%;
+//   margin: 25px 0;
+//   margin-top: 50px;
+//   padding: 6px 15px 0;
+
+//   .list-id {
+//     display: block;
+//     padding: 6px 15px;
+//     margin-top: 10px;
+//   }
+
+//   .list-img {
+//     margin-top: -35px;
+//     position: relative;
+//   }
+
+//   .list-heading {
+//     margin: 10px 0;
+//   }
+// }
+
+// .league-list-card {
+//   max-width: 400px;
+// }
+
+// .league-header-image {
+//   height: 200px;
+//   width: 200px;
+// }
+
+// .league-paginator {
+//   text-align: center;
+// }
+
+// .landing-banner {
+//   background-color: #b2b2b2;
+//   background-image: url(./../../../../assets/image/CoverFB.jpg);
+//   // background-blend-mode: multiply;
+//   background-size: 50%;
+//   background-position: bottom;
+//   width: 100%;
+//   text-align: center;
+//   overflow: hidden;
+//   padding: 60px 0;
+//   min-height: 300px;
+//   margin-bottom: 10px;
+// }
+
+// .landing-banner form input {
+//   height: 45px;
+//   font-size: 18px;
+// }
+
+// // article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+// //   display: block;
+// // }
+
+// .example-form {
+//   min-width: 150px;
+//   // max-width: 500px;
+//   // width: 100%;
+// }
+
+// .example-full-width {
+//   width: 975px;
+// }
+
+// .nav-search {
+//   background-color: #fff;
+//   border-radius: 30px;
+// }
+
+// -----
+
+.list-container {
+    text-align: center;
+    width: 100%;
+    margin: 25px 0;
+    margin-top: 50px;
+    padding: 6px 15px 0;
+  
+    .list-id {
+      display: block;
+      padding: 6px 15px;
+      margin-top: 10px;
+    }
+  
+    .list-img {
+      margin-top: -35px;
+      position: relative;
+    }
+  
+    .list-heading {
+      margin: 10px 0;
+    }
+  }
+  
+  .league-list-card {
+    max-width: 400px;
+  }
+  
+  .league-header-image {
+    height: 200px;
+    width: 200px;
+  }
+  
+  .league-paginator {
+    text-align: center;
+  }
+  
+  .landing-banner {
+    background-color: #b2b2b2;
+    background-image: url(./../../../../assets/image/ClubWP.jpg);
+    // background-blend-mode: multiply;
+    background-size: 100%;
+    background-position: bottom;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    padding: 60px 0;
+    min-height: 300px;
+    // max-height: 500px;
+    margin-bottom: 10px;
+  }
+  
+  .landing-banner form input {
+    height: 45px;
+    font-size: 18px;
+  }
+  
+  
+  
+  .example-form {
+    min-width: 150px;
+    // max-width: 500px;
+    // width: 100%;
+  }
+  
+  .example-full-width {
+    width: 975px;
+  }
+  
+  .nav-search {
+    background-color: #fff;
+    border-radius: 30px;
+  }

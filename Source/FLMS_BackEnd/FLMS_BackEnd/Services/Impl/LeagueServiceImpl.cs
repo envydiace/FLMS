@@ -1,4 +1,5 @@
 ﻿
+using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
-    public class LeagueServiceImpl: BaseService, LeagueService
+    public class LeagueServiceImpl : BaseService, LeagueService
     {
         private readonly LeagueRepository leagueRepository;
 
@@ -27,7 +28,8 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-04"
                 };
             }
-            if(request.EndDate.CompareTo(request.StartDate) <= 0)
+            int numberOfRound = MethodUtils.CountNumberOfRound(request.LeagueType, request.NoParticipate);
+            if (request.EndDate.CompareTo(request.StartDate) <= 0)
             {
                 return new CreateLeagueResponse
                 {
@@ -46,6 +48,87 @@ namespace FLMS_BackEnd.Services.Impl
             }
             league = mapper.Map<League>(request);
             league.UserId = userId;
+            List<ParticipateNode> participates;
+            ICollection<ClubClone> clubClones;
+            List<Match> matchList;
+            switch (MethodUtils.GetLeagueTypeByName(request.LeagueType))
+            {
+                case Constants.LeagueType.KO:
+                    clubClones = new List<ClubClone>();
+                    matchList = new List<Match>();
+                    ICollection<ParticipateNodeDTO> participateNodes = MethodUtils.GetKoList(request.NoParticipate);
+
+                    participates = mapper.Map<List<ParticipateNode>>(participateNodes);
+                    int index = 0;
+                    foreach (ParticipateNode participateNode in participates.Where(p => p.LeftId == 0))
+                    {
+                        var clubClone = new ClubClone { ClubCloneKey = "C" + (index + 1) };
+                        participateNode.ClubClone = clubClone;
+                        clubClones.Add(clubClone);
+                        index++;
+                    }
+                    foreach (ParticipateNode participate in participates)
+                    {
+                        if (participate.LeftId != 0)
+                        {
+                            Match match = new Match
+                            {
+                                Home = participates.FirstOrDefault(x => x.ParticipateId == participate.LeftId),
+                                Away = participates.FirstOrDefault(x => x.ParticipateId == participate.RightId),
+                                MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2)
+                            };
+                            matchList.Add(match);
+                        }
+                    }
+                    league.Matches = matchList;
+                    league.ClubClones = clubClones;
+                    league.ParticipateNodes = participates;
+                    break;
+                case Constants.LeagueType.LEAGUE:
+                    participates = new List<ParticipateNode>();
+                    clubClones = new List<ClubClone>();
+                    matchList = new List<Match>();
+                    for (int i = 0; i < request.NoParticipate; i++)
+                    {
+                        var clubClone = new ClubClone { ClubCloneKey = "C" + (i + 1) };
+                        participates.Add(new ParticipateNode
+                        {
+                            ClubClone = clubClone
+                        });
+                        clubClones.Add(clubClone);
+                    }
+                    string[][] matchs = MethodUtils.GetListMatches(participates.Select(x => x.ClubClone != null ? x.ClubClone.ClubCloneKey : "Bye").ToList());
+
+                    for (int day = 0; day < matchs.Length; day++)
+                    {
+                        for (int matchIndex = 0; matchIndex < matchs[day].Length; matchIndex++)
+                        {
+                            string[] key = matchs[day][matchIndex].Split('/');
+                            if (key.Length == 2)
+                            {
+                                var home = participates.FirstOrDefault(p => key[0].Equals(p.ClubClone.ClubCloneKey));
+                                var away = participates.FirstOrDefault(p => key[1].Equals(p.ClubClone.ClubCloneKey));
+                                if (home != null && away != null)
+                                {
+                                    matchList.Add(new Match
+                                    {
+                                        Home = home,
+                                        Away = away,
+                                        MatchDate = league.StartDate.AddDays(day * 2)
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    league.Matches = matchList;
+                    league.ClubClones = clubClones;
+                    league.ParticipateNodes = participates;
+                    break;
+                case Constants.LeagueType.TABLE:
+                    break;
+            }
+
             var result = await leagueRepository.CreateAsync(league);
             if (result)
             {
