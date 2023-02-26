@@ -36,7 +36,8 @@ import { JoinedClubsComponent } from './league/league-detail/joined-clubs/joined
 import { LeagueStatisticComponent } from './league/league-detail/league-statistic/league-statistic.component';
 import { LeagueFeeComponent } from './league/league-detail/league-fee/league-fee.component';
 import { LeagueSettingsComponent } from './league/league-detail/league-settings/league-settings.component';
-
+import {MatTableModule} from '@angular/material/table';
+import { CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -71,8 +72,10 @@ import { LeagueSettingsComponent } from './league/league-detail/league-settings/
     ReactiveFormsModule,
     MatFormFieldModule,
     MatCardModule,
+    CdkTableModule,
     MatPaginatorModule,
     MatTabsModule,
+    MatTableModule,
     MatGridListModule,
     MatFormFieldModule,
     MatDatepickerModule,
