@@ -55,6 +55,15 @@ namespace FLMS_BackEnd.DTO
             CreateMap<ClubCloneDTO, ClubClone>();
 
             CreateMap<League, LeagueDTO>();
+
+            CreateMap<League, LeagueInfoDTO>()
+                .ForMember(dto => dto.ManagerName,
+                map => map.MapFrom(
+                    league => league.User.FullName
+                    ))
+                .ForMember(dto => dto.TotalPrize,
+                map => map.MapFrom(
+                    league => league.LeagueFees.Sum( fee => fee.Cost)));
         }
     }
 }

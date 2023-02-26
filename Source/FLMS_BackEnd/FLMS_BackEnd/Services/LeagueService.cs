@@ -7,5 +7,6 @@ namespace FLMS_BackEnd.Services
     {
         Task<CreateLeagueResponse> CreateLeague(CreateLeagueRequest request, int userId);
         Task<ListLeagueResponse> GetListLeagueFilters(ListLeagueFilterRequest request);
+        Task<LeagueInfoResponse> GetLeagueInfo(int leagueId);
     }
 }
