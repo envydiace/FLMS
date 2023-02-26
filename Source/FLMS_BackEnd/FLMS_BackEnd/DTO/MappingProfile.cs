@@ -20,7 +20,7 @@ namespace FLMS_BackEnd.DTO
                     club => club.User.FullName
                     ));
 
-            CreateMap<User,UserProfileDTO>();
+            CreateMap<User, UserProfileDTO>();
 
             CreateMap<UpdateClubRequest, Club>();
 
@@ -42,7 +42,7 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(league => league.LeagueName,
                 map => map.MapFrom(
                     request => request.LeagueName.Trim()
-                    )); 
+                    ));
 
             CreateMap<LeagueFeeRequest, LeagueFee>()
                 .ForMember(fee => fee.IsActual,
@@ -53,6 +53,8 @@ namespace FLMS_BackEnd.DTO
             CreateMap<ParticipateNodeDTO, ParticipateNode>();
 
             CreateMap<ClubCloneDTO, ClubClone>();
+
+            CreateMap<League, LeagueDTO>();
         }
     }
 }

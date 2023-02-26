@@ -65,5 +65,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-PL-05","This player was already added in this club!" },
 
         };
+
+        public static int DEFAULT_PAGE = 1;
+        public static int DEFAULT_LEAGUE_PAGE_SIZE = 6;
     }
 }
