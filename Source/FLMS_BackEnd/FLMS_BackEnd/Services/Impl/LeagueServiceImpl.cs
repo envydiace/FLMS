@@ -170,5 +170,26 @@ namespace FLMS_BackEnd.Services.Impl
                 Total = total
             };
         }
+
+        public async Task<LeagueInfoResponse> GetLeagueInfo(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(league => league.LeagueId == leagueId)
+                .Include(league => league.User)
+                .Include(league => league.LeagueFees)
+                .FirstOrDefaultAsync();
+            if (league != null)
+            {
+                return new LeagueInfoResponse
+                {
+                    Success = true,
+                    leagueInfo = mapper.Map<LeagueInfoDTO>(league)
+                };
+            }
+            return new LeagueInfoResponse
+            {
+                Success = false,
+                MessageCode = "ER-LE-05"
+            };
+        }
     }
 }

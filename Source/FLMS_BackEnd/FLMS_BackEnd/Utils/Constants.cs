@@ -55,6 +55,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-02","League name existed" },
             {"ER-LE-03","End date must after start date" },
             {"ER-LE-04","League Type is not valid" },
+            {"ER-LE-05","League doesn't exist" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},

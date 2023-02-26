@@ -28,6 +28,7 @@ namespace FLMS_BackEnd.Models
         public string? Description { get; set; }
         public string LeagueType { get; set; } = null!;
         public int? NoRound { get; set; }
+        public string? Logo { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ClubClone> ClubClones { get; set; }
