@@ -33,8 +33,6 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<CreatePlayerRequest, Player>();
 
-            CreateMap<PlayerClubRequest, PlayerClub>();
-
             CreateMap<UpdatePlayerRequest, Player>();
 
             //League
@@ -89,24 +87,7 @@ namespace FLMS_BackEnd.DTO
                 )
                 ;
 
-            CreateMap<Match, MatchDTO>()
-                //.ForMember(dto => dto.HomeName,
-                //map => map.MapFrom(
-                //    match => match.Home.ClubClone!=null? 
-                //        (match.Home.ClubClone.Club!=null? 
-                //            match.Home.ClubClone.Club.ClubName.Trim() : 
-                //            match.Home.ClubClone.ClubCloneKey.Trim()) :
-                //        "Not Yet"
-                //    ))
-                //.ForMember(dto => dto.AwayName,
-                //map => map.MapFrom(
-                //    match => match.Away.ClubClone != null ?
-                //        (match.Away.ClubClone.Club != null ?
-                //            match.Away.ClubClone.Club.ClubName.Trim() :
-                //            match.Away.ClubClone.ClubCloneKey.Trim()) :
-                //        "Not Yet"
-                //    ))
-                ;
+            CreateMap<Match, MatchDTO>();
         }
     }
 }
