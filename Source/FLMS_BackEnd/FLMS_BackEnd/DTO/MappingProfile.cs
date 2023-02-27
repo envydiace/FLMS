@@ -8,6 +8,7 @@ namespace FLMS_BackEnd.DTO
     {
         public MappingProfile()
         {
+            //Club
             CreateMap<CreateClubRequest, Club>()
                 .ForMember(club => club.CreateAt,
                 map => map.MapFrom(
@@ -20,10 +21,12 @@ namespace FLMS_BackEnd.DTO
                     club => club.User.FullName
                     ));
 
-            CreateMap<User, UserProfileDTO>();
-
             CreateMap<UpdateClubRequest, Club>();
 
+            //User
+            CreateMap<User, UserProfileDTO>();
+
+            //Player
             CreateMap<Player, PlayerDTO>();
 
             CreateMap<PlayerClub, PlayerClubDTO>();
@@ -34,6 +37,7 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<UpdatePlayerRequest, Player>();
 
+            //League
             CreateMap<CreateLeagueRequest, League>()
                 .ForMember(league => league.CreateAt,
                 map => map.MapFrom(
@@ -63,7 +67,46 @@ namespace FLMS_BackEnd.DTO
                     ))
                 .ForMember(dto => dto.TotalPrize,
                 map => map.MapFrom(
-                    league => league.LeagueFees.Sum( fee => fee.Cost)));
+                    league => league.LeagueFees.Sum(fee => fee.Cost)));
+
+            //Match
+            CreateMap<ParticipateNode, ClubMatchDTO>()
+                .ForMember(dto => dto.ClubId,
+                map => map.MapFrom(
+                    node => (node.ClubClone != null && node.ClubClone.Club != null) ? node.ClubClone.Club.ClubId : 0)
+                )
+                .ForMember(dto => dto.Name,
+                map => map.MapFrom(
+                    node => node.ClubClone != null ?
+                        (node.ClubClone.Club != null ?
+                            node.ClubClone.Club.ClubName.Trim() :
+                            node.ClubClone.ClubCloneKey.Trim()) :
+                        "Not Yet"
+                    ))
+                .ForMember(dto => dto.Logo,
+                map => map.MapFrom(
+                    node => (node.ClubClone != null && node.ClubClone.Club != null) ? node.ClubClone.Club.Logo : null)
+                )
+                ;
+
+            CreateMap<Match, MatchDTO>()
+                //.ForMember(dto => dto.HomeName,
+                //map => map.MapFrom(
+                //    match => match.Home.ClubClone!=null? 
+                //        (match.Home.ClubClone.Club!=null? 
+                //            match.Home.ClubClone.Club.ClubName.Trim() : 
+                //            match.Home.ClubClone.ClubCloneKey.Trim()) :
+                //        "Not Yet"
+                //    ))
+                //.ForMember(dto => dto.AwayName,
+                //map => map.MapFrom(
+                //    match => match.Away.ClubClone != null ?
+                //        (match.Away.ClubClone.Club != null ?
+                //            match.Away.ClubClone.Club.ClubName.Trim() :
+                //            match.Away.ClubClone.ClubCloneKey.Trim()) :
+                //        "Not Yet"
+                //    ))
+                ;
         }
     }
 }

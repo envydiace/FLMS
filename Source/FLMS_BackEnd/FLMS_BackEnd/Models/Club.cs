@@ -20,6 +20,8 @@ namespace FLMS_BackEnd.Models
         public string? PhoneNumber { get; set; }
         public string? SocialCont { get; set; }
         public DateTime CreateAt { get; set; }
+        public string? Logo { get; set; }
+        public string? Kit { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ClubClone> ClubClones { get; set; }
