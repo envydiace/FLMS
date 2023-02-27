@@ -38,6 +38,13 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<CreateResponse> CreateClub(CreateClubRequest request, int UserId)
         {
+            var c = await clubRepository.FindByCondition(c => 
+                    c.ClubName.ToLower().Trim().Equals(request.ClubName.ToLower().Trim()))
+                .FirstOrDefaultAsync();
+            if(c != null)
+            {
+                return new CreateResponse { Success = false, MessageCode = "ER-CL-07" };
+            }
             Club club = mapper.Map<Club>(request);
             club.UserId = UserId;
             bool result = await clubRepository.CreateAsync(club);
@@ -75,7 +82,12 @@ namespace FLMS_BackEnd.Services.Impl
             Club result = await clubRepository.UpdateAsync(club);
             if (result != null)
             {
-                return new UpdateClubResponse { Success = true, ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo };
+                return new UpdateClubResponse 
+                { 
+                    Success = true, 
+                    MessageCode = "MS-CL-03",
+                    ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo 
+                };
             }
             return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-06" };
         }
