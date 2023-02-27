@@ -47,8 +47,10 @@ namespace FLMS_BackEnd.Utils
             {"ER-CL-04","Delete club failled" },
             {"ER-CL-05","Create club failled" },
             {"ER-CL-06","Update club failled" },
+            {"ER-CL-07","Club name already existed" },
             {"MS-CL-01","Club removed successfully" },
             {"MS-CL-02","Create club success" },
+            {"MS-CL-03","Update club success" },
 
             {"MS-LE-01","Create league success" },
             {"ER-LE-01","Create league fail" },
