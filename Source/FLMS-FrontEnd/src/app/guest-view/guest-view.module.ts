@@ -71,6 +71,7 @@ import { CdkTableModule} from '@angular/cdk/table';
     MatListModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    MatTableModule,
     MatCardModule,
     CdkTableModule,
     MatPaginatorModule,
