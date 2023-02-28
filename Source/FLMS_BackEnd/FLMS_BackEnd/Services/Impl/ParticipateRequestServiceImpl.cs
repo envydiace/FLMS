@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Models;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
@@ -20,9 +21,9 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<InvitationResponse> SendInvitation(InvitationRequest request, int UserId)
         {
-            var league = await leagueRepository.FindByCondition(l => 
-                    l.UserId==UserId && 
-                    l.LeagueId==request.LeagueId
+            var league = await leagueRepository.FindByCondition(l =>
+                    l.UserId == UserId &&
+                    l.LeagueId == request.LeagueId
                 )
                     .FirstOrDefaultAsync();
             if (league == null)
@@ -36,13 +37,13 @@ namespace FLMS_BackEnd.Services.Impl
             var listRequest = await participateRequestRepository.FindByCondition(r =>
                     r.ClubId == request.ClubId &&
                     r.LeagueId == request.LeagueId)
-                .Include(r=>r.League)
-                .ThenInclude(l=>l.Participations)
+                .Include(r => r.League)
+                .ThenInclude(l => l.Participations)
                 .ToListAsync();
-                
-            foreach(var r in listRequest)
+
+            foreach (var r in listRequest)
             {
-                if (r.League.Participations.FirstOrDefault(c => c.ClubId == request.ClubId)!=null)
+                if (r.League.Participations.FirstOrDefault(c => c.ClubId == request.ClubId) != null)
                 {
                     return new InvitationResponse
                     {
@@ -51,7 +52,8 @@ namespace FLMS_BackEnd.Services.Impl
                     };
                 }
 
-                if(r.Response==null && r.RequestType.Equals(Constants.RequestType.Register.ToString()))
+                if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
+                    r.RequestType.Equals(Constants.RequestType.Register.ToString()))
                 {
                     return new InvitationResponse
                     {
@@ -59,7 +61,8 @@ namespace FLMS_BackEnd.Services.Impl
                         MessageCode = "ER-RE-02"
                     };
                 }
-                if (r.Response == null && r.RequestType.Equals(Constants.RequestType.Invite.ToString()))
+                if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
+                    r.RequestType.Equals(Constants.RequestType.Invite.ToString()))
                 {
                     return new InvitationResponse
                     {
@@ -69,7 +72,6 @@ namespace FLMS_BackEnd.Services.Impl
                 }
             }
             var participateRequest = mapper.Map<ParticipateRequest>(request);
-            participateRequest.RequestType = Constants.RequestType.Invite.ToString();
             var result = await participateRequestRepository.CreateAsync(participateRequest);
             if (result)
             {
@@ -87,6 +89,21 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-RE-04"
                 };
             }
+        }
+        public async Task<RequestListResponse> GetRequestList(int userId)
+        {
+            var listRequest = await participateRequestRepository.FindByCondition(r =>
+                    r.Club.UserId == userId ||
+                    r.League.UserId == userId
+                )
+                .Include(r => r.League)
+                .Include(r => r.Club)
+                .ToListAsync();
+            return new RequestListResponse
+            {
+                Success = true,
+                requests = mapper.Map<List<RequestDTO>>(listRequest)
+            };
         }
     }
 }

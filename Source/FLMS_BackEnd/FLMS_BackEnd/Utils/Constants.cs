@@ -23,6 +23,10 @@ namespace FLMS_BackEnd.Utils
         {
             Invite ,Register
         }
+        public enum RequestStatus
+        {
+            Pending, Accepted, Rejected
+        }
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {

@@ -9,11 +9,11 @@ namespace FLMS_BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParticipateRequestController : BaseApiController
+    public class RequestController : BaseApiController
     {
         private readonly ParticipateRequestService participateRequestService;
 
-        public ParticipateRequestController(ParticipateRequestService participateRequestService)
+        public RequestController(ParticipateRequestService participateRequestService)
         {
             this.participateRequestService = participateRequestService;
         }
@@ -23,6 +23,21 @@ namespace FLMS_BackEnd.Controllers
         public async Task<ActionResult<InvitationResponse>> SendInvitation(InvitationRequest request)
         {
             var response = await participateRequestService.SendInvitation(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER,CLUB_MANAGER")]
+        public async Task<ActionResult<RequestListResponse>> RequestList()
+        {
+            var response = await participateRequestService.GetRequestList(UserID);
             if (response.Success)
             {
                 return Ok(response);
