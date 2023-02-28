@@ -22,6 +22,7 @@ namespace FLMS_BackEnd.Models
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? SocialCont { get; set; }
+        public string? Avatar { get; set; }
 
         public virtual ICollection<MatchEvent> MatchEventMains { get; set; }
         public virtual ICollection<MatchEvent> MatchEventSupports { get; set; }

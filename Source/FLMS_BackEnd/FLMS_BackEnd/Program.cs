@@ -69,7 +69,7 @@ builder.Services.AddScoped<ClubService, ClubServiceImpl>();
 builder.Services.AddScoped<PlayerService, PlayerServiceImpl>();
 builder.Services.AddScoped<LeagueService, LeagueServiceImpl>();
 builder.Services.AddScoped<MatchService, MatchServiceImpl>();
-
+builder.Services.AddScoped<ParticipateRequestService, ParticipateRequestServiceImpl>();
 
 //Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();
@@ -80,6 +80,7 @@ builder.Services.AddScoped<PlayerClubRepository, PlayerClubRepositoryImpl>();
 builder.Services.AddScoped<LeagueRepository, LeagueRepositoryImpl>();
 builder.Services.AddScoped<ParticipateNodeRepository, ParticipateNodeRepositoryImpl>();
 builder.Services.AddScoped<MatchRepository, MatchRepositoryImpl>();
+builder.Services.AddScoped<ParticipateRequestRepository, ParticipateRequestRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 

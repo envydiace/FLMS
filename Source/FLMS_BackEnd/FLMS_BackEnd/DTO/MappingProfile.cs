@@ -88,6 +88,9 @@ namespace FLMS_BackEnd.DTO
                 ;
 
             CreateMap<Match, MatchDTO>();
+
+            //Request
+            CreateMap<InvitationRequest, ParticipateRequest>();
         }
     }
 }
