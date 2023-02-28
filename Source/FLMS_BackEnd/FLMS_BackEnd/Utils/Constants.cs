@@ -19,6 +19,11 @@ namespace FLMS_BackEnd.Utils
             KO, TABLE, LEAGUE
         }
 
+        public enum RequestType
+        {
+            Invite ,Register
+        }
+
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
             {"ER-CO-01","Something happend" },
@@ -58,6 +63,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-03","End date must after start date" },
             {"ER-LE-04","League Type is not valid" },
             {"ER-LE-05","League doesn't exist" },
+            {"ER-LE-06","League doesn't belong to user" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
@@ -66,6 +72,12 @@ namespace FLMS_BackEnd.Utils
             {"ER-PL-03","Update player failed!" },
             {"ER-PL-04","Delete player failled!" },
             {"ER-PL-05","This player was already added in this club!" },
+
+            {"ER-RE-01","This club already in the league" },
+            {"ER-RE-02","This club has request to regist the league" },
+            {"ER-RE-03","This club already be invited to join the league" },
+            {"ER-RE-04","Send Invitation Fail" },
+            {"MS-RE-01","Send Invitation Success" },
 
         };
 
