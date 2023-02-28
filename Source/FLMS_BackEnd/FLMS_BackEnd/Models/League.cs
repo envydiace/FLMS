@@ -11,7 +11,8 @@ namespace FLMS_BackEnd.Models
             LeagueFees = new HashSet<LeagueFee>();
             Matches = new HashSet<Match>();
             ParticipateNodes = new HashSet<ParticipateNode>();
-            Requests = new HashSet<Request>();
+            ParticipateRequests = new HashSet<ParticipateRequest>();
+            Participations = new HashSet<Participation>();
         }
 
         public int LeagueId { get; set; }
@@ -35,6 +36,7 @@ namespace FLMS_BackEnd.Models
         public virtual ICollection<LeagueFee> LeagueFees { get; set; }
         public virtual ICollection<Match> Matches { get; set; }
         public virtual ICollection<ParticipateNode> ParticipateNodes { get; set; }
-        public virtual ICollection<Request> Requests { get; set; }
+        public virtual ICollection<ParticipateRequest> ParticipateRequests { get; set; }
+        public virtual ICollection<Participation> Participations { get; set; }
     }
 }

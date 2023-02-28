@@ -5,6 +5,7 @@ namespace FLMS_BackEnd.Models
 {
     public partial class Participation
     {
+        public int ParticipationId { get; set; }
         public int LeagueId { get; set; }
         public int ClubId { get; set; }
 

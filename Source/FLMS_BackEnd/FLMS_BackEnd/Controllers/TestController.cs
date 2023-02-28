@@ -54,5 +54,10 @@ namespace FLMS_BackEnd.Controllers
         {
             return Ok(MethodUtils.GetKoList(number));
         }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> CheckType(string type)
+        {
+            return Ok(type.Equals(Constants.RequestType.Invite.ToString()));
+        }
     }
 }
