@@ -56,10 +56,6 @@ const routes: Routes = [
   {  
     path : 'league-list',
     component: LeagueListComponent
-  },
-  {  
-    path : 'league-detail',
-    component: LeagueDetailComponent
   }
 ];
 
