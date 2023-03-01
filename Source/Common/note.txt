@@ -1,0 +1,9 @@
+{
+  "email": "league@gmail.com",
+  "password": "league123"
+}
+
+{
+  "email": "club@gmail.com",
+  "password": "club123"
+}
