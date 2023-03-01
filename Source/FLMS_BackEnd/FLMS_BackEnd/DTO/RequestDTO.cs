@@ -10,5 +10,7 @@
         public string RequestType { get; set; } = null!;
         public string RequestStatus { get; set; } = null!;
         public DateTime RequestDate { get; set; }
+        public bool CanCancel { get; set; } 
+        public bool CanResponse { get; set; }
     }
 }

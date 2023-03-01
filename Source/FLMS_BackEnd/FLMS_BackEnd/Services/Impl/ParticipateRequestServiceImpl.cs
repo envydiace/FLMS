@@ -12,11 +12,13 @@ namespace FLMS_BackEnd.Services.Impl
     {
         private readonly ParticipateRequestRepository participateRequestRepository;
         private readonly LeagueRepository leagueRepository;
+        private readonly UserRepository userRepository;
 
-        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository)
+        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository)
         {
             this.participateRequestRepository = participateRequestRepository;
             this.leagueRepository = leagueRepository;
+            this.userRepository = userRepository;
         }
 
         public async Task<InvitationResponse> SendInvitation(InvitationRequest request, int UserId)
@@ -90,19 +92,55 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
         }
-        public async Task<RequestListResponse> GetRequestList(int userId)
+        public async Task<RequestListResponse> GetRequestList(ListRequestFilterRequest request, int userId)
         {
+            var user = await userRepository.FindByCondition(u => u.UserId == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return new RequestListResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-07"
+                };
+            }
+            string role = user.Role;
             var listRequest = await participateRequestRepository.FindByCondition(r =>
-                    r.Club.UserId == userId ||
-                    r.League.UserId == userId
+                    (r.Club.UserId == userId || r.League.UserId == userId) &&
+                    (request.From == null || r.RequestDate.CompareTo(request.From.GetValueOrDefault()) >= 0) &&
+                    (request.To == null || r.RequestDate.CompareTo(request.To.GetValueOrDefault()) <= 0) &&
+                    (request.Type == null || request.Type.Equals("All") || r.RequestType.Equals(request.Type)) &&
+                    (request.Status == null || request.Status.Equals("All") || r.RequestType.Equals(request.Status))
                 )
                 .Include(r => r.League)
                 .Include(r => r.Club)
+                .OrderByDescending(r => r.RequestDate)
                 .ToListAsync();
+            List<RequestDTO> results = mapper.Map<List<RequestDTO>>(listRequest);
+            results.ForEach(request =>
+            {
+                if (request.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString())
+                )
+                {
+                    string invite = Constants.RequestType.Invite.ToString();
+                    string register = Constants.RequestType.Register.ToString();
+                    string clubRole = Constants.SystemRole.CLUB_MANAGER.ToString();
+                    string leagueRole = Constants.SystemRole.LEAGUE_MANAGER.ToString();
+
+                    request.CanResponse = (request.RequestType.Equals(invite) &&
+                                            clubRole.Equals(role)) ||
+                                            (request.RequestType.Equals(register) &&
+                                            leagueRole.Equals(role));
+
+                    request.CanCancel = (request.RequestType.Equals(invite) &&
+                                            leagueRole.Equals(role)) ||
+                                            (request.RequestType.Equals(register) &&
+                                            clubRole.Equals(role));
+                }
+            });
             return new RequestListResponse
             {
                 Success = true,
-                requests = mapper.Map<List<RequestDTO>>(listRequest)
+                requests = results
             };
         }
     }

@@ -35,9 +35,9 @@ namespace FLMS_BackEnd.Controllers
 
         [HttpGet("[action]")]
         [Authorize(Roles = "LEAGUE_MANAGER,CLUB_MANAGER")]
-        public async Task<ActionResult<RequestListResponse>> RequestList()
+        public async Task<ActionResult<RequestListResponse>> RequestList([FromQuery]ListRequestFilterRequest request)
         {
-            var response = await participateRequestService.GetRequestList(UserID);
+            var response = await participateRequestService.GetRequestList(request,UserID);
             if (response.Success)
             {
                 return Ok(response);
