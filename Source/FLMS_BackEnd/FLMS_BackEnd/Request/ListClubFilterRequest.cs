@@ -7,6 +7,6 @@ namespace FLMS_BackEnd.Request
         public string? searchClubName { get; set; }
         public string? searchManagerName { get; set; }
         public int page { get; set; } = Constants.DEFAULT_PAGE;
-        public int pageSize { get; set; }
+        public int pageSize { get; set; } = Constants.DEFAULT_CLUB_PAGE_SIZE;
     }
 }

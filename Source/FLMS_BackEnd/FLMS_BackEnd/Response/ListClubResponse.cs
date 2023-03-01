@@ -2,9 +2,8 @@
 
 namespace FLMS_BackEnd.Response
 {
-    public class ListClubResponse : BaseResponse
+    public class ListClubResponse : BasePagingResponse
     {
         public List<ClubDTO> Clubs { get; set; }
-        public int Total { get; set; }
     }
 }

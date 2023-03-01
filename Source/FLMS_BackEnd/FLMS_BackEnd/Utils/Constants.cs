@@ -83,5 +83,6 @@ namespace FLMS_BackEnd.Utils
 
         public static int DEFAULT_PAGE = 1;
         public static int DEFAULT_LEAGUE_PAGE_SIZE = 6;
+        public static int DEFAULT_CLUB_PAGE_SIZE = 8;
     }
 }
