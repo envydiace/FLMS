@@ -1,7 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { ViewProfileComponent } from './../profile/view-profile/view-profile.component';
+
+const routes: Routes = [
+  {
+    path: 'profile',
+    component: ViewProfileComponent
+  },
+
+
+
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

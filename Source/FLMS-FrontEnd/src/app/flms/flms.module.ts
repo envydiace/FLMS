@@ -3,12 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { FlmsRoutingModule } from './flms-routing.module';
 
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCardModule} from '@angular/material/card';
+
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
     CommonModule,
-    FlmsRoutingModule
+    FlmsRoutingModule,
+    MatGridListModule, 
+    MatFormFieldModule, 
+    MatCardModule
   ]
 })
 export class FlmsModule { }
