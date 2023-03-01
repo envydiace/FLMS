@@ -1,14 +1,18 @@
-export class ClubDetail {
-    private id: number;
-    private clubName: string;
-    private managerName: string;
-    private phone: number;
-    private facebook: string;
-    private email: string;
-    private wins: number;
-    private loses: number;
-    private draws: number;
 
+
+export interface ClubDetail {
+    id: number;
+    clubName: string;
+    managerName: string;
+    phone: number;
+    facebook: string;
+    email: string;
+    wins: number;
+    loses: number;
+    draws: number;
+}
+
+export class ClubDetail implements ClubDetail{
     constructor(
         id: number,
         clubName: string,
