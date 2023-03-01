@@ -7,9 +7,9 @@ export interface ClubDetail {
     phone: number;
     facebook: string;
     email: string;
-    wins: number;
-    loses: number;
-    draws: number;
+    win: number;
+    lose: number;
+    draw: number;
 }
 
 export class ClubDetail implements ClubDetail{
@@ -20,9 +20,9 @@ export class ClubDetail implements ClubDetail{
         phone: number,
         facebook: string,
         email: string,
-        wins: number,
-        loses: number,
-        draws: number
+        win: number,
+        lose: number,
+        draw: number
     ) {
         this.id = id;
         this.clubName = clubName;
@@ -30,8 +30,8 @@ export class ClubDetail implements ClubDetail{
         this.phone = phone;
         this.facebook = facebook;
         this.email = email;
-        this.wins = wins;
-        this.loses = loses;
-        this.draws = draws;
+        this.win = win;
+        this.lose = lose;
+        this.draw = draw;
     }
 }

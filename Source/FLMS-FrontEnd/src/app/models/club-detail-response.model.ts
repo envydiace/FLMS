@@ -1,16 +1,19 @@
 import { ClubDetail } from './club-detail.model';
 
-export interface ClubList {
-    total: number;
-    clubs: ClubDetail[];
+export interface ClubDetailResponse {
+    messageCode: number;
+    message:number;
+    clubInfo: ClubDetail;
 }
 
-export class ClubList implements ClubList {
+export class ClubDetailResponse implements ClubDetailResponse {
     constructor(
-        total: number,
-        clubs: ClubDetail[]
+        messageCode: number,
+        message:number,
+        clubInfo: ClubDetail,
     ) {
-        this.total = total;
-        this.clubs = clubs;
+        this.messageCode = messageCode;
+        this.message = message;
+        this.clubInfo = clubInfo;
     }
 }
