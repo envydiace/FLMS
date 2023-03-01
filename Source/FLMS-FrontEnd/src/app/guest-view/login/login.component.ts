@@ -18,8 +18,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
     private authService: AuthService
   ) { }
 
@@ -48,8 +46,7 @@ export class LoginComponent implements OnInit {
             next: () => {
                 // get return url from query parameters or default to home page
                 // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                // window.location.href= environment.apiUrl;
-                this.router.navigateByUrl('');
+                window.location.href= environment.localUrl;
             },
             error: error => {
                 this.loading = false;
