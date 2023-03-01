@@ -223,6 +223,10 @@ namespace FLMS_BackEnd.Models
 
                 entity.ToTable("ParticipateRequest");
 
+                entity.Property(e => e.RequestDate).HasColumnType("datetime");
+
+                entity.Property(e => e.RequestStatus).HasMaxLength(50);
+
                 entity.Property(e => e.RequestType).HasMaxLength(255);
 
                 entity.HasOne(d => d.Club)

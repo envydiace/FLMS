@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
+using FLMS_BackEnd.Utils;
 
 namespace FLMS_BackEnd.DTO
 {
@@ -90,7 +91,30 @@ namespace FLMS_BackEnd.DTO
             CreateMap<Match, MatchDTO>();
 
             //Request
-            CreateMap<InvitationRequest, ParticipateRequest>();
+            CreateMap<InvitationRequest, ParticipateRequest>()
+                .ForMember(request => request.RequestDate,
+                map => map.MapFrom(
+                    r => DateTime.Now
+                    ))
+                .ForMember(request => request.RequestStatus,
+                map => map.MapFrom(
+                    r => Constants.RequestStatus.Pending.ToString()
+                    ))
+                .ForMember(request => request.RequestType,
+                map => map.MapFrom(
+                    r => Constants.RequestType.Invite.ToString()
+                    ));
+
+            CreateMap<ParticipateRequest, RequestDTO>()
+                .ForMember(dto => dto.ClubName,
+                map => map.MapFrom(
+                    request => request.Club.ClubName
+                    ))
+                .ForMember(dto => dto.LeagueName,
+                map => map.MapFrom(
+                    request => request.League.LeagueName
+                    ))
+                ;
         }
     }
 }
