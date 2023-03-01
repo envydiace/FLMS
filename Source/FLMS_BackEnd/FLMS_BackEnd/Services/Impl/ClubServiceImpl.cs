@@ -65,7 +65,9 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 Success = true,
                 Clubs = result,
-                Total = total
+                Total = total,
+                PageIndex = request.page,
+                PageSize = request.pageSize
             };
         }
 
