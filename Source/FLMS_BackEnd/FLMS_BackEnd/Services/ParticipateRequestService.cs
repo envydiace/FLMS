@@ -8,5 +8,7 @@ namespace FLMS_BackEnd.Services
     {
         public Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type);
         public Task<RequestListResponse> GetRequestList(ListRequestFilterRequest request, int userId);
+        public Task<ResponseRequestResponse> ResponseJoinRequest(int requestId, Constants.RequestResponse response, int userId);
+        public Task<string> HandleSendMail(int clubId, int leagueId, Constants.RequestResponse response, string requestType);
     }
 }

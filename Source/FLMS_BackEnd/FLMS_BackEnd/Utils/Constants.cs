@@ -25,7 +25,11 @@ namespace FLMS_BackEnd.Utils
         }
         public enum RequestStatus
         {
-            Pending, Accepted, Rejected
+            Pending, Accepted, Rejected, Canceled
+        }
+        public enum RequestResponse
+        {
+            Accept, Reject, Cancel
         }
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
@@ -84,9 +88,19 @@ namespace FLMS_BackEnd.Utils
             {"ER-RE-04","Send Invitation Fail" },
             {"ER-RE-05","Send Registration Fail" },
             {"ER-RE-06","Send Request Fail" },
+            {"ER-RE-07","Request doesn't exist" },
+            {"ER-RE-08","Response Invalid" },
+            {"ER-RE-09","Request has been response" },
+            {"ER-RE-10","User don't have permission to accept this request" },
+            {"ER-RE-11","User don't have permission to reject this request" },
+            {"ER-RE-12","User don't have permission to cancel this request" },
+            {"ER-RE-13","Response Fail" },
             {"MS-RE-01","Send Invitation Success" },
             {"MS-RE-02","Send Registration Success" },
             {"MS-RE-03","Send Request Success" },
+            {"MS-RE-04","Accept Success" },
+            {"MS-RE-05","Reject Success" },
+            {"MS-RE-06","Cancel Success" },
 
         };
 
