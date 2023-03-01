@@ -31,5 +31,33 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<ListLeagueResponse>> GetListLeagueFilters([FromQuery] ListLeagueFilterRequest request)
+        {
+            var response = await leagueService.GetListLeagueFilters(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueInfoResponse>> GetListLeagueInfo(int id)
+        {
+            var response = await leagueService.GetLeagueInfo(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
+import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: 'club-info',
     component: ClubDetailComponent
+  },
+  {
+    path: 'league-info',
+    component: LeagueDetailComponent
   },
   {
     path: 'change-password',

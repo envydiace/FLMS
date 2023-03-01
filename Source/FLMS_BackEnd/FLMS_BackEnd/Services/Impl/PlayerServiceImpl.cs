@@ -1,9 +1,14 @@
-﻿using FLMS_BackEnd.DTO;
+﻿using ClosedXML.Excel;
+using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 using System.Numerics;
 
 namespace FLMS_BackEnd.Services.Impl
@@ -12,11 +17,13 @@ namespace FLMS_BackEnd.Services.Impl
     {
         private readonly PlayerRepository playerRepository;
         private readonly PlayerClubRepository playerClubRepository;
+        private readonly ClubRepository clubRepository;
 
-        public PlayerServiceImpl(PlayerRepository playerRepository, PlayerClubRepository playerClubRepository)
+        public PlayerServiceImpl(PlayerRepository playerRepository, PlayerClubRepository playerClubRepository, ClubRepository clubRepository)
         {
             this.playerRepository = playerRepository;
             this.playerClubRepository = playerClubRepository;
+            this.clubRepository = clubRepository;
         }
         public async Task<PlayerResponse> GetPlayerById(int id)
         {
@@ -39,22 +46,37 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<CreateResponse> CreatePlayer(CreatePlayerRequest request, int UserId)
         {
-            var p = await GetPlayerByNickname(request.NickName);
-            if(p.Success)
+            var c = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).FirstOrDefaultAsync();
+            if (c == null)
             {
-                if(p.PlayerInfo.PlayerClubs.FirstOrDefault(pc => pc.ClubId 
-                == (request.PlayerClubs.FirstOrDefault() !=null? request.PlayerClubs.FirstOrDefault().ClubId : 0))!=null)
+                return new CreateResponse { Success = false, MessageCode = "ER-CL-02" };
+            }
+            var p = await GetPlayerByNickname(request.NickName);
+            if (p.Success)
+            {
+                if (p.PlayerInfo.PlayerClubs.FirstOrDefault(pc => pc.ClubId
+                == request.ClubId ) != null)
                 {
-                    return new CreateResponse { Success = true, MessageCode = "ER-PL-05" };
+                    return new CreateResponse { Success = false, MessageCode = "ER-PL-05" };
                 }
-                PlayerClub playerClub = mapper.Map<PlayerClub>(request.PlayerClubs.FirstOrDefault());
-                playerClub.PlayerId = p.PlayerInfo.PlayerId;
+                PlayerClub playerClub = new PlayerClub
+                {
+                    ClubId = request.ClubId,
+                    Number = request.Number,
+                    PlayerId = p.PlayerInfo.PlayerId
+                };
                 bool resultClub = await playerClubRepository.CreateAsync(playerClub);
                 return resultClub ?
                 new CreateResponse { Success = true, MessageCode = "MS-PL-01" }
                 : new CreateResponse { Success = false, MessageCode = "ER-PL-01" };
             }
             Player player = mapper.Map<Player>(request);
+            PlayerClub pc = new PlayerClub
+            {
+                ClubId = request.ClubId,
+                Number = request.Number
+            };
+            player.PlayerClubs.Add(pc);
             bool result = await playerRepository.CreateAsync(player);
             return result ?
                 new CreateResponse { Success = true, MessageCode = "MS-PL-01" }
@@ -65,8 +87,8 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var players = await playerRepository.FindByCondition(player =>
             ((request.searchPlayerName == null || request.searchPlayerName == "" || player.Name.StartsWith(request.searchPlayerName)
-            || player.NickName.StartsWith(request.searchPlayerName ))
-            &&(player.PlayerClubs.FirstOrDefault(playerClub => playerClub.ClubId == request.clubId) != null))
+            || player.NickName.StartsWith(request.searchPlayerName))
+            && (player.PlayerClubs.FirstOrDefault(playerClub => playerClub.ClubId == request.clubId) != null))
             ).Include(player => player.PlayerClubs).ToListAsync();
             int total = players.Count;
             var result = mapper.Map<List<PlayerDTO>>(players.ToList());
@@ -169,6 +191,23 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             return new DeletePlayerClubResponse { Success = false, MessageCode = "ER-PL-04" };
+        }
+
+        public async Task<DataTable> ExportPlayer()
+        {
+            var players = await playerRepository.FindAll().ToListAsync();
+            var result = mapper.Map<List<PlayerDTO>>(players.ToList());
+            DataTable dtPlayer = new DataTable("Players");
+            dtPlayer.Columns.AddRange(new DataColumn[4] { new DataColumn("Name"),
+                                            new DataColumn("NickName"),
+                                            new DataColumn("Height"),
+                                            new DataColumn("Weight") });
+            foreach (var player in result)
+            {
+                dtPlayer.Rows.Add(player.Name, player.NickName, player.Height, player.Weight);
+            }
+
+            return dtPlayer;
         }
     }
 }

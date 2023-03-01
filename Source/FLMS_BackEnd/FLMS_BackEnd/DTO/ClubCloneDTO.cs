@@ -2,6 +2,7 @@
 {
     public class ClubCloneDTO
     {
-        public int LeagueId { get; set; }
+        public int? LeagueId { get; set; }
+        public string? ClubCloneKey { get; set; }
     }
 }

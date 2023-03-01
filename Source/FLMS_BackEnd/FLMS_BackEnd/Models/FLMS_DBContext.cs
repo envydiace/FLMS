@@ -25,11 +25,11 @@ namespace FLMS_BackEnd.Models
         public virtual DbSet<MatchEvent> MatchEvents { get; set; } = null!;
         public virtual DbSet<MatchStat> MatchStats { get; set; } = null!;
         public virtual DbSet<ParticipateNode> ParticipateNodes { get; set; } = null!;
+        public virtual DbSet<ParticipateRequest> ParticipateRequests { get; set; } = null!;
         public virtual DbSet<Participation> Participations { get; set; } = null!;
         public virtual DbSet<Player> Players { get; set; } = null!;
         public virtual DbSet<PlayerClub> PlayerClubs { get; set; } = null!;
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
-        public virtual DbSet<Request> Requests { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -61,7 +61,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.Clubs)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Club__UserId__6A30C649");
+                    .HasConstraintName("FK__Club__UserId__3E52440B");
             });
 
             modelBuilder.Entity<ClubClone>(entity =>
@@ -93,7 +93,7 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.ClubLeagues)
                     .HasForeignKey(d => d.ClubId)
-                    .HasConstraintName("FK__ClubLeagu__ClubI__403A8C7D");
+                    .HasConstraintName("FK__ClubLeagu__ClubI__412EB0B6");
             });
 
             modelBuilder.Entity<League>(entity =>
@@ -127,6 +127,8 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("LeagueFee");
 
+                entity.Property(e => e.Cost).HasColumnType("money");
+
                 entity.Property(e => e.ExpenseKey).HasMaxLength(10);
 
                 entity.Property(e => e.ExpenseName).HasMaxLength(50);
@@ -142,17 +144,19 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("Match");
 
+                entity.Property(e => e.MatchDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Away)
                     .WithMany(p => p.MatchAways)
                     .HasForeignKey(d => d.AwayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Match_ClubClone1");
+                    .HasConstraintName("FK_Match_ParticipateNode1");
 
                 entity.HasOne(d => d.Home)
                     .WithMany(p => p.MatchHomes)
                     .HasForeignKey(d => d.HomeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Match_ClubClone");
+                    .HasConstraintName("FK_Match_ParticipateNode");
 
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.Matches)
@@ -171,7 +175,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.MatchEventMains)
                     .HasForeignKey(d => d.MainId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MatchEven__MainI__4AB81AF0");
+                    .HasConstraintName("FK__MatchEven__MainI__46E78A0C");
 
                 entity.HasOne(d => d.Match)
                     .WithMany(p => p.MatchEvents)
@@ -182,7 +186,7 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Support)
                     .WithMany(p => p.MatchEventSupports)
                     .HasForeignKey(d => d.SupportId)
-                    .HasConstraintName("FK__MatchEven__Suppo__4BAC3F29");
+                    .HasConstraintName("FK__MatchEven__Suppo__48CFD27E");
             });
 
             modelBuilder.Entity<MatchStat>(entity =>
@@ -212,20 +216,44 @@ namespace FLMS_BackEnd.Models
                     .HasConstraintName("FK_ParticipateNode_League");
             });
 
+            modelBuilder.Entity<ParticipateRequest>(entity =>
+            {
+                entity.HasKey(e => e.RequestId)
+                    .HasName("PK__Request__33A8517A9027761E");
+
+                entity.ToTable("ParticipateRequest");
+
+                entity.Property(e => e.RequestDate).HasColumnType("datetime");
+
+                entity.Property(e => e.RequestStatus).HasMaxLength(50);
+
+                entity.Property(e => e.RequestType).HasMaxLength(255);
+
+                entity.HasOne(d => d.Club)
+                    .WithMany(p => p.ParticipateRequests)
+                    .HasForeignKey(d => d.ClubId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Request__ClubId__5165187F");
+
+                entity.HasOne(d => d.League)
+                    .WithMany(p => p.ParticipateRequests)
+                    .HasForeignKey(d => d.LeagueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Request__LeagueI__48CFD27E");
+            });
+
             modelBuilder.Entity<Participation>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Participation");
 
                 entity.HasOne(d => d.Club)
-                    .WithMany()
+                    .WithMany(p => p.Participations)
                     .HasForeignKey(d => d.ClubId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Participa__ClubI__4222D4EF");
+                    .HasConstraintName("FK__Participa__ClubI__4CA06362");
 
                 entity.HasOne(d => d.League)
-                    .WithMany()
+                    .WithMany(p => p.Participations)
                     .HasForeignKey(d => d.LeagueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Participa__Leagu__412EB0B6");
@@ -274,7 +302,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEA56195B9D");
+                    .HasName("PK__RefreshT__658FEEEA5CEDB901");
 
                 entity.ToTable("RefreshToken");
 
@@ -290,26 +318,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.RefreshTokens)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__RefreshTo__UserI__3C69FB99");
-            });
-
-            modelBuilder.Entity<Request>(entity =>
-            {
-                entity.ToTable("Request");
-
-                entity.Property(e => e.RequestType).HasMaxLength(255);
-
-                entity.HasOne(d => d.Club)
-                    .WithMany(p => p.Requests)
-                    .HasForeignKey(d => d.ClubId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Request__ClubId__74AE54BC");
-
-                entity.HasOne(d => d.League)
-                    .WithMany(p => p.Requests)
-                    .HasForeignKey(d => d.LeagueId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Request__LeagueI__48CFD27E");
+                    .HasConstraintName("FK__RefreshTo__UserI__5070F446");
             });
 
             modelBuilder.Entity<User>(entity =>

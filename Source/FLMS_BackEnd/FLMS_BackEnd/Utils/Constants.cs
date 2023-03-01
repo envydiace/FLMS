@@ -19,6 +19,19 @@ namespace FLMS_BackEnd.Utils
             KO, TABLE, LEAGUE
         }
 
+        public enum RequestType
+        {
+            Invite, Register
+        }
+        public enum RequestStatus
+        {
+            Pending, Accepted, Rejected, Canceled
+        }
+        public enum RequestResponse
+        {
+            Accept, Reject, Cancel
+        }
+
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
             {"ER-CO-01","Something happend" },
@@ -47,14 +60,19 @@ namespace FLMS_BackEnd.Utils
             {"ER-CL-04","Delete club failled" },
             {"ER-CL-05","Create club failled" },
             {"ER-CL-06","Update club failled" },
+            {"ER-CL-07","Club name already existed" },
+            {"ER-CL-08","Club doesn't belong to user" },
             {"MS-CL-01","Club removed successfully" },
             {"MS-CL-02","Create club success" },
+            {"MS-CL-03","Update club success" },
 
             {"MS-LE-01","Create league success" },
             {"ER-LE-01","Create league fail" },
             {"ER-LE-02","League name existed" },
             {"ER-LE-03","End date must after start date" },
             {"ER-LE-04","League Type is not valid" },
+            {"ER-LE-05","League doesn't exist" },
+            {"ER-LE-06","League doesn't belong to user" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
@@ -64,6 +82,30 @@ namespace FLMS_BackEnd.Utils
             {"ER-PL-04","Delete player failled!" },
             {"ER-PL-05","This player was already added in this club!" },
 
+            {"ER-RE-01","This club already in the league" },
+            {"ER-RE-02","This club has request to regist the league" },
+            {"ER-RE-03","This club already be invited to join the league" },
+            {"ER-RE-04","Send Invitation Fail" },
+            {"ER-RE-05","Send Registration Fail" },
+            {"ER-RE-06","Send Request Fail" },
+            {"ER-RE-07","Request doesn't exist" },
+            {"ER-RE-08","Response Invalid" },
+            {"ER-RE-09","Request has been response" },
+            {"ER-RE-10","User don't have permission to accept this request" },
+            {"ER-RE-11","User don't have permission to reject this request" },
+            {"ER-RE-12","User don't have permission to cancel this request" },
+            {"ER-RE-13","Response Fail" },
+            {"MS-RE-01","Send Invitation Success" },
+            {"MS-RE-02","Send Registration Success" },
+            {"MS-RE-03","Send Request Success" },
+            {"MS-RE-04","Accept Success" },
+            {"MS-RE-05","Reject Success" },
+            {"MS-RE-06","Cancel Success" },
+
         };
+
+        public static int DEFAULT_PAGE = 1;
+        public static int DEFAULT_LEAGUE_PAGE_SIZE = 6;
+        public static int DEFAULT_CLUB_PAGE_SIZE = 8;
     }
 }
