@@ -34,4 +34,26 @@
         width: 100%;
         margin: 0 10px;
     }
+    .club-detail-container {
+        display: flex;
+    }
+
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
+    .box-border {
+        border-right: 1px solid black;
+    }
+
+    .club-content {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
 }

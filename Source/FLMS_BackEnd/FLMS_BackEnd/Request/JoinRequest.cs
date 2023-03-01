@@ -1,8 +1,8 @@
 ﻿namespace FLMS_BackEnd.Request
 {
-    public class PlayerClubRequest
+    public class JoinRequest
     {
+        public int LeagueId { get; set; }
         public int ClubId { get; set; }
-        public int Number { get; set; }
     }
 }

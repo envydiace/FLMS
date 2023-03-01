@@ -81,7 +81,6 @@ namespace FLMS_BackEnd.Controllers
             {
                 return BadRequest(logout);
             }
-
             return Ok();
         }
 

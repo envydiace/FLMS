@@ -167,7 +167,9 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 Success = true,
                 Leagues = result,
-                Total = total
+                Total = total,
+                PageIndex = request.page,
+                PageSize = request.pageSize
             };
         }
 

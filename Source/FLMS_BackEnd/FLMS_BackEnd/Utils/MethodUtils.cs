@@ -20,14 +20,22 @@ namespace FLMS_BackEnd.Utils
                 .Select(v => v.ToString())
                 .ToList().Contains(role);
         }
-        public static Constants.LeagueType GetLeagueTypeByName(string name)
+        public static Constants.LeagueType? GetLeagueTypeByName(string name)
         {
-            return (Constants.LeagueType)Enum.Parse(typeof(Constants.LeagueType), name);
+            try
+            {
+                return (Constants.LeagueType)Enum.Parse(typeof(Constants.LeagueType), name);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+           
         }
 
         public static int CountNumberOfRound(string type, int NumberOfParticipate)
         {
-            Constants.LeagueType leagueType = GetLeagueTypeByName(type);
+            Constants.LeagueType? leagueType = GetLeagueTypeByName(type);
             int result = 0;
             switch (leagueType)
             {

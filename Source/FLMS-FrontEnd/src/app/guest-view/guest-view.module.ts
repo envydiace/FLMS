@@ -38,6 +38,9 @@ import { LeagueFeeComponent } from './league/league-detail/league-fee/league-fee
 import { LeagueSettingsComponent } from './league/league-detail/league-settings/league-settings.component';
 import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
+import { MatChipsModule } from '@angular/material/chips';
+
+
 
 @NgModule({
   declarations: [
@@ -72,6 +75,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatTableModule,
+    MatChipsModule,
     MatCardModule,
     CdkTableModule,
     MatPaginatorModule,
