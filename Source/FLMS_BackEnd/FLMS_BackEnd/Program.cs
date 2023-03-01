@@ -1,18 +1,25 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using FLMS_BackEnd.Helpers;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Repositories.Impl;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Services.Impl;
+using FLMS_BackEnd.Utils;
+using MailKit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using IMailService = FLMS_BackEnd.Services.IMailService;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllers();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddTransient<IMailService, MailServiceImpl>();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Project API", Version = "v1" });
