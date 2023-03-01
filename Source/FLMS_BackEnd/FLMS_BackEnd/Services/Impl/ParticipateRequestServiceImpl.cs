@@ -22,7 +22,6 @@ namespace FLMS_BackEnd.Services.Impl
             this.userRepository = userRepository;
             this.clubRepository = clubRepository;
         }
-
         public async Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type)
         {
             string defaultFailMessageCode = "ER-RE-06";
@@ -129,6 +128,7 @@ namespace FLMS_BackEnd.Services.Impl
             var result = await participateRequestRepository.CreateAsync(participateRequest);
             if (result)
             {
+                //TODO: handle Send mail
                 return new JoinResponse
                 {
                     Success = true,
@@ -194,6 +194,192 @@ namespace FLMS_BackEnd.Services.Impl
                 Success = true,
                 requests = results
             };
+        }
+        public async Task<ResponseRequestResponse> ResponseJoinRequest(int requestId, Constants.RequestResponse response, int userId)
+        {
+            string messageCode = "ER-RE-13";
+            var request = await participateRequestRepository.FindByCondition(r => r.RequestId == requestId)
+                    .Include(r => r.Club)
+                    .Include(r => r.League).ThenInclude(l => l.Participations)
+                .FirstOrDefaultAsync();
+            if (request == null)
+            {
+                return new ResponseRequestResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-RE-07"
+                };
+            }
+            if (!request.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()))
+            {
+                return new ResponseRequestResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-RE-09"
+                };
+            }
+            var user = await userRepository.FindByCondition(u => u.UserId == userId)
+                    .FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return new ResponseRequestResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-07"
+                };
+            }
+
+            string role = user.Role;
+            string roleClubManager = Constants.SystemRole.CLUB_MANAGER.ToString();
+            string roleLeagueManager = Constants.SystemRole.LEAGUE_MANAGER.ToString();
+
+            if (role.Equals(roleClubManager) && request.Club.UserId != userId)
+            {
+                return new ResponseRequestResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-08"
+                };
+            }
+            if (role.Equals(roleLeagueManager) && request.League.UserId != userId)
+            {
+                return new ResponseRequestResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+
+            switch (response)
+            {
+                case Constants.RequestResponse.Accept:
+                    if ((request.RequestType.Equals(Constants.RequestType.Invite.ToString()) && role.Equals(roleLeagueManager)) ||
+                        (request.RequestType.Equals(Constants.RequestType.Register.ToString()) && role.Equals(roleClubManager)))
+                    {
+                        return new ResponseRequestResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-RE-10"
+                        };
+                    }
+                    request.RequestStatus = Constants.RequestStatus.Accepted.ToString();
+                    messageCode = "MS-RE-04";
+                    request.League.Participations.Add(new Participation { ClubId = request.ClubId });
+                    break;
+                case Constants.RequestResponse.Reject:
+                    if ((request.RequestType.Equals(Constants.RequestType.Invite.ToString()) && role.Equals(roleLeagueManager)) ||
+                        (request.RequestType.Equals(Constants.RequestType.Register.ToString()) && role.Equals(roleClubManager)))
+                    {
+                        return new ResponseRequestResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-RE-11"
+                        };
+                    }
+                    request.RequestStatus = Constants.RequestStatus.Rejected.ToString();
+                    messageCode = "MS-RE-05";
+                    break;
+                case Constants.RequestResponse.Cancel:
+                    if ((request.RequestType.Equals(Constants.RequestType.Invite.ToString()) && role.Equals(roleClubManager)) ||
+                        (request.RequestType.Equals(Constants.RequestType.Register.ToString()) && role.Equals(roleLeagueManager)))
+                    {
+                        return new ResponseRequestResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-RE-12"
+                        };
+                    }
+                    request.RequestStatus = Constants.RequestStatus.Canceled.ToString();
+                    messageCode = "MS-RE-06";
+                    break;
+                default:
+                    return new ResponseRequestResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-RE-08"
+                    };
+            }
+
+            var result = await participateRequestRepository.UpdateAsync(request);
+            if (result != null)
+            {
+                string mailMessage = await this.HandleSendMail(request.ClubId, request.LeagueId, response, request.RequestType);
+                return new ResponseRequestResponse
+                {
+                    Success = true,
+                    mailMessage = mailMessage,
+                    MessageCode = messageCode
+                };
+            }
+            else
+            {
+                return new ResponseRequestResponse
+                {
+                    Success = false,
+                    MessageCode = messageCode
+                };
+            }
+        }
+
+        public async Task<string> HandleSendMail(int clubId, int leagueId, Constants.RequestResponse response, string requestType)
+        {
+            try
+            {
+                var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).Include(c => c.User).FirstOrDefaultAsync();
+                var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId).Include(l => l.User).FirstOrDefaultAsync();
+                if (club == null || league == null)
+                {
+                    throw new Exception("Send Mail Fail");
+                }
+                switch (response)
+                {
+                    case Constants.RequestResponse.Accept:
+                        if (requestType.Equals(Constants.RequestType.Invite.ToString()))
+                        {
+                            return $"Send Accept Invitation Mail from club {club.ClubName} to {league.User.Email} ";
+                        }else if (requestType.Equals(Constants.RequestType.Register.ToString()))
+                        {
+                            return $"Send Accept Registration Mail from league {league.LeagueName} to {club.User.Email} ";
+                        }
+                        else
+                        {
+                            throw new Exception("Send Mail Fail");
+                        }
+                    case Constants.RequestResponse.Reject:
+                        if (requestType.Equals(Constants.RequestType.Invite.ToString()))
+                        {
+                            return $"Send Reject Invitation Mail from club {club.ClubName} to {league.User.Email} ";
+                        }
+                        else if (requestType.Equals(Constants.RequestType.Register.ToString()))
+                        {
+                            return $"Send Reject Registration Mail from league {league.LeagueName} to {club.User.Email} ";
+                        }
+                        else
+                        {
+                            throw new Exception("Send Mail Fail");
+                        }
+                    case Constants.RequestResponse.Cancel:
+                        if (requestType.Equals(Constants.RequestType.Invite.ToString()))
+                        {
+                            return $"Send Cancel Invitation Mail from league {league.LeagueName} to {club.User.Email} ";
+                        }
+                        else if (requestType.Equals(Constants.RequestType.Register.ToString()))
+                        {
+                            return $"Send Cancel Registration Mail from club {club.ClubName} to {league.User.Email} ";
+                        }
+                        else
+                        {
+                            throw new Exception("Send Mail Fail");
+                        }
+                    default:
+                        throw new Exception("Send Mail Fail");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
         }
     }
 }
