@@ -21,7 +21,7 @@ namespace FLMS_BackEnd.Utils
 
         public enum RequestType
         {
-            Invite ,Register
+            Invite, Register
         }
         public enum RequestStatus
         {
@@ -57,6 +57,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-CL-05","Create club failled" },
             {"ER-CL-06","Update club failled" },
             {"ER-CL-07","Club name already existed" },
+            {"ER-CL-08","Club doesn't belong to user" },
             {"MS-CL-01","Club removed successfully" },
             {"MS-CL-02","Create club success" },
             {"MS-CL-03","Update club success" },
@@ -81,7 +82,11 @@ namespace FLMS_BackEnd.Utils
             {"ER-RE-02","This club has request to regist the league" },
             {"ER-RE-03","This club already be invited to join the league" },
             {"ER-RE-04","Send Invitation Fail" },
+            {"ER-RE-05","Send Registration Fail" },
+            {"ER-RE-06","Send Request Fail" },
             {"MS-RE-01","Send Invitation Success" },
+            {"MS-RE-02","Send Registration Success" },
+            {"MS-RE-03","Send Request Success" },
 
         };
 
