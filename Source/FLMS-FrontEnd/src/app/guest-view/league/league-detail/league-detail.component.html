@@ -1,1 +1,70 @@
-<p>league-detail works!</p>
+<div class="league-detail-container">
+    <div class="league-detail-cover">
+
+    </div>
+    <div class="league-detail-info row justify-content-center">
+        <div class="col-8">
+            <mat-card class="league-detail-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="league-detail-logo"></div>
+                    <div class="league-detail-title">
+                        <mat-card-subtitle>COMPETITION</mat-card-subtitle>
+                        <mat-card-title>PREMIER LEAGUE</mat-card-title>
+                    </div>
+                </mat-card-header>
+                <br>
+                <section class="league-detail-container">
+                    <div class="left-detail" style="text-align: center;">
+                        <p class="league-detail-content">Start date: 2022-02-03</p>
+                        <p class="league-detail-content">Number of teams: 8</p>
+                        <p class="league-detail-content">Tournament type: </p>
+                        <p class="league-detail-content">League manager: Ninh Vu Duc Anh</p>
+                        <p class="league-detail-content">Fanpage: </p>
+                    </div>
+                    <div class="right-detail" style="text-align: center;">
+                        <p class="league-detail-content">End date: 2022-03-15</p>
+                        <p class="league-detail-content">Number of groups: 4</p>
+                        <p class="league-detail-content">Number of players in squad: 7</p>
+                        <p class="league-detail-content">Prize pool: 15.000.000 VND</p>
+                        <p class="league-detail-content">Location: Ha Noi</p>
+                    </div>
+                </section>
+                <div class="row">
+                    <mat-card-actions>
+                        <!-- <button mat-button>LIKE</button> <br>
+                        <button mat-button>SHARE</button> -->
+                    </mat-card-actions>
+                    <mat-card-content class="league-detail-content">
+                        <mat-tab-group>
+                            <mat-tab label="Schedule">
+                                <ng-template matTabContent>
+                                    <app-league-schedule></app-league-schedule>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="Clubs">
+                                <ng-template matTabContent>
+                                    <app-joined-clubs></app-joined-clubs>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="League Statistic">
+                                <ng-template matTabContent>
+                                    <app-league-statistic></app-league-statistic>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="Fee">
+                                <ng-template matTabContent>
+                                    <app-league-fee></app-league-fee>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="League Settings">
+                                <ng-template matTabContent>
+                                    <app-league-settings></app-league-settings>
+                                </ng-template>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </mat-card-content>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
