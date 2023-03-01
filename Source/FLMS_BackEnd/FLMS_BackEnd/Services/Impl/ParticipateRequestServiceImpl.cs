@@ -12,30 +12,81 @@ namespace FLMS_BackEnd.Services.Impl
     {
         private readonly ParticipateRequestRepository participateRequestRepository;
         private readonly LeagueRepository leagueRepository;
+        private readonly ClubRepository clubRepository;
         private readonly UserRepository userRepository;
 
-        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository)
+        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository, ClubRepository clubRepository)
         {
             this.participateRequestRepository = participateRequestRepository;
             this.leagueRepository = leagueRepository;
             this.userRepository = userRepository;
+            this.clubRepository = clubRepository;
         }
 
-        public async Task<InvitationResponse> SendInvitation(InvitationRequest request, int UserId)
+        public async Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type)
         {
-            var league = await leagueRepository.FindByCondition(l =>
-                    l.UserId == UserId &&
-                    l.LeagueId == request.LeagueId
-                )
-                    .FirstOrDefaultAsync();
-            if (league == null)
+            string defaultFailMessageCode = "ER-RE-06";
+            string defaultSuccessMessageCode = "MS-RE-03";
+            switch (type)
             {
-                return new InvitationResponse
-                {
-                    Success = false,
-                    MessageCode = "ER-LE-06"
-                };
+                case Constants.RequestType.Invite:
+                    var league = await leagueRepository.FindByCondition(l =>
+                    l.UserId == UserId &&
+                    l.LeagueId == request.LeagueId)
+                    .FirstOrDefaultAsync();
+                    if (league == null)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-LE-06"
+                        };
+                    }
+                    var c = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).FirstOrDefaultAsync();
+                    if (c == null)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-CL-02"
+                        };
+                    }
+                    defaultSuccessMessageCode = "MS-RE-01";
+                    defaultFailMessageCode = "ER-RE-04";
+                    break;
+                case Constants.RequestType.Register:
+                    var club = await clubRepository.FindByCondition(c =>
+                    c.UserId == UserId &&
+                    c.ClubId == request.ClubId)
+                    .FirstOrDefaultAsync();
+                    if (club == null)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-CL-08"
+                        };
+                    }
+                    var l = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+                    if (l == null)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-LE-05"
+                        };
+                    }
+                    defaultSuccessMessageCode = "MS-RE-02";
+                    defaultFailMessageCode = "ER-RE-05";
+                    break;
+                default:
+                    return new JoinResponse
+                    {
+                        Success = false,
+                        MessageCode = defaultFailMessageCode
+                    };
             }
+
             var listRequest = await participateRequestRepository.FindByCondition(r =>
                     r.ClubId == request.ClubId &&
                     r.LeagueId == request.LeagueId)
@@ -47,7 +98,7 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 if (r.League.Participations.FirstOrDefault(c => c.ClubId == request.ClubId) != null)
                 {
-                    return new InvitationResponse
+                    return new JoinResponse
                     {
                         Success = false,
                         MessageCode = "ER-RE-01"
@@ -57,7 +108,7 @@ namespace FLMS_BackEnd.Services.Impl
                 if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
                     r.RequestType.Equals(Constants.RequestType.Register.ToString()))
                 {
-                    return new InvitationResponse
+                    return new JoinResponse
                     {
                         Success = false,
                         MessageCode = "ER-RE-02"
@@ -66,7 +117,7 @@ namespace FLMS_BackEnd.Services.Impl
                 if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
                     r.RequestType.Equals(Constants.RequestType.Invite.ToString()))
                 {
-                    return new InvitationResponse
+                    return new JoinResponse
                     {
                         Success = false,
                         MessageCode = "ER-RE-03"
@@ -74,21 +125,22 @@ namespace FLMS_BackEnd.Services.Impl
                 }
             }
             var participateRequest = mapper.Map<ParticipateRequest>(request);
+            participateRequest.RequestType = type.ToString();
             var result = await participateRequestRepository.CreateAsync(participateRequest);
             if (result)
             {
-                return new InvitationResponse
+                return new JoinResponse
                 {
                     Success = true,
-                    MessageCode = "MS-RE-01"
+                    MessageCode = defaultSuccessMessageCode
                 };
             }
             else
             {
-                return new InvitationResponse
+                return new JoinResponse
                 {
                     Success = false,
-                    MessageCode = "ER-RE-04"
+                    MessageCode = defaultFailMessageCode
                 };
             }
         }
