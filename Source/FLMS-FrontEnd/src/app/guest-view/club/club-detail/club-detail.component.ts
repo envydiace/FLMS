@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ClubService } from './../club.service';
+import { ClubDetailResponse } from 'src/app/models/club-detail-response.model';
+import { map, tap } from 'rxjs/operators';
+import { ClubDetail } from 'src/app/models/club-detail.model';
+
+
 
 @Component({
   selector: 'app-club-detail',
@@ -7,9 +13,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClubDetailComponent implements OnInit {
   linkFb: string = 'https://www.facebook.com/profile.php?id=100009422590770';
-  constructor() { }
+  
+  clubdetail: ClubDetail = null;
+
+  constructor(
+    private clubService: ClubService
+  ) { }
 
   ngOnInit(): void {
+    this.initDataSource();
   }
   tabLoadTimes: Date[] = [];
 
@@ -21,5 +33,12 @@ export class ClubDetailComponent implements OnInit {
     return this.tabLoadTimes[index];
   }
 
+  initDataSource() {
+    this.clubService.getdetailinfo(1).pipe(
+      map((res: ClubDetailResponse) => this.clubdetail = res.clubInfo)
+    ).subscribe();
+  }
 
 }
+
+
