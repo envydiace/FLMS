@@ -12,6 +12,7 @@
         public string? Fanpage { get; set; }
         public string LeagueType { get; set; } = null!;
         public int? NoRound { get; set; }
+        public string? Description { get; set; }
         public virtual ICollection<LeagueFeeRequest> LeagueFees { get; set; }
     }
 }

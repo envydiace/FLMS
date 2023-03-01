@@ -5,6 +5,7 @@ using FLMS_BackEnd.Repositories.Impl;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Services.Impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -41,6 +42,11 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.AllowSynchronousIO = true;
+});
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<FLMS_DBContext>(
@@ -68,6 +74,8 @@ builder.Services.AddScoped<TokenService, TokenServiceImpl>();
 builder.Services.AddScoped<ClubService, ClubServiceImpl>();
 builder.Services.AddScoped<PlayerService, PlayerServiceImpl>();
 builder.Services.AddScoped<LeagueService, LeagueServiceImpl>();
+builder.Services.AddScoped<MatchService, MatchServiceImpl>();
+builder.Services.AddScoped<ParticipateRequestService, ParticipateRequestServiceImpl>();
 
 //Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();
@@ -77,6 +85,8 @@ builder.Services.AddScoped<PlayerRepository, PlayerRepositoryImpl>();
 builder.Services.AddScoped<PlayerClubRepository, PlayerClubRepositoryImpl>();
 builder.Services.AddScoped<LeagueRepository, LeagueRepositoryImpl>();
 builder.Services.AddScoped<ParticipateNodeRepository, ParticipateNodeRepositoryImpl>();
+builder.Services.AddScoped<MatchRepository, MatchRepositoryImpl>();
+builder.Services.AddScoped<ParticipateRequestRepository, ParticipateRequestRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 

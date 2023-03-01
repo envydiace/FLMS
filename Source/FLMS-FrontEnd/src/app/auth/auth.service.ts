@@ -4,11 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +19,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private _snackBar: MatSnackBar
+    private router: Router
   ) {
     this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user') || '{}'));
     this.user = this.userSubject.asObservable();
@@ -41,16 +35,8 @@ export class AuthService {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
-        this.openSnackBar();
         return true;
       }));
-  }
-
-  openSnackBar() {
-    this._snackBar.open('Login success!!', 'Close', {
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
   }
 
   logout() {

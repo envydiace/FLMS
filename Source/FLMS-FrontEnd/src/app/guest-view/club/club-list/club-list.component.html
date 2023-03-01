@@ -1,57 +1,65 @@
-<div class="club-search">
-	<form action="#">
-		<input type="text" placeholder="Club's Name" name="club-search-bar">		
-		<button type="submit"><mat-icon>search</mat-icon></button>
-	</form>
-</div>	
-<div class="manager-search">
-	<p><b>Manager</b></p>
-	<form action="#">
-		<input type="text" name="manager-search-bar">
-	</form>
-</div>
-<div class="club-list">
-    <div>
-        <b>Club's Name</b><br>
-        Manager: Name<br>
-        <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1024px-Man_Utd_FC_.svg.png" alt="Club Image"><br>
-        <button>Invite Club</button>
+<section class="landing-banner">
+    <div class="container" style="margin-top: 45px;">
+        <div class="col-sm-12 col-xs-12 text-center nav-search" style="display: flex;">
+            <div style="flex: 1;">
+                <mat-form-field class="club-list-full-width">
+                    <mat-label>Search by Club's Name</mat-label>
+                    <input matInput type="text" [(ngModel)]="clubName" (input)="findClubsByName(clubName, managerName)"
+                        placeholder="Enter Club Name">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div style="flex: 1;">
+                <mat-form-field class="club-list-full-width">
+                    <mat-label>Search by Manager</mat-label>
+                    <input matInput type="text" [(ngModel)]="managerName"
+                        (input)="findClubsByName(clubName, managerName)" placeholder="Enter Manager Name">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
     </div>
-    <div>
-        <b>Club's Name</b><br>
-        Manager: Name<br>
-        <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1024px-Man_Utd_FC_.svg.png" alt="Club Image"><br>
-        <button>Invite Club</button>
+</section>
+
+<!-- <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xs-6 justify-content-center">
+
+            <form class="manager-search">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Manager</mat-label>
+                    <span matPrefix>+1 &nbsp;</span>
+                    <input type="tel" matInput placeholder="Manager">
+                    <mat-icon matSuffix>mode_edit</mat-icon>
+                </mat-form-field>
+            </form>
+
+        </div>
     </div>
-    <div>
-        <b>Club's Name</b><br>
-        Manager: Name<br>
-        <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1024px-Man_Utd_FC_.svg.png" alt="Club Image"><br>
-        <button>Invite Club</button>
+</div> -->
+
+<div *ngIf="clubList">
+    <div class="container">
+        <div class="row">
+            <div *ngFor="let club of clubList.clubs" class="col-sm-3">
+                <div class="list-container">
+                    <mat-card class="league-list-card">
+
+                        <mat-card-title>{{club.clubName}}</mat-card-title>
+                        <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
+                        <img mat-card-avatar class="league-header-image"
+                            src="./../../../../assets/image/Manchester_United_FC_crest.svg.png"
+                            alt="Photo of a Shiba Inu">
+                        <mat-card-actions>
+                            <button mat-button>Invite</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+            <mat-paginator class="Club-paginator" [length]="clubList.total" [pageSize]="8"
+                [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent = $event; onPaginateChange($event)"
+                showFirstLastButtons>
+            </mat-paginator>
+        </div>
     </div>
-    <div>
-        <b>Club's Name</b><br>
-        Manager: Name<br>
-        <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1024px-Man_Utd_FC_.svg.png" alt="Club Image"><br>
-        <button>Invite Club</button>
-    </div>
-    <div>
-        <b>Club's Name</b><br>
-        Manager: Name<br>
-        <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1024px-Man_Utd_FC_.svg.png" alt="Club Image"><br>
-        <button>Invite Club</button>
-    </div>
-    <div>
-        <b>Club's Name</b><br>
-        Manager: Name<br>
-        <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1024px-Man_Utd_FC_.svg.png" alt="Club Image"><br>
-        <button>Invite Club</button>
-    </div>
-</div>
-<div class="pagination">
-	<button>Previous</button>
-	<button>1</button>
-	<button>2</button>
-	<button>...</button>
-	<button>Next</button>		
 </div>

@@ -10,5 +10,10 @@
         public string? SocialCont { get; set; }
         public DateTime CreateAt { get; set; }
         public string ManagerName { get; set; } = null!;
+        public string? Logo { get; set; }
+        public string? Kit { get; set; }
+        public int Win { get; set; }
+        public int Draw { get; set; }
+        public int Lose { get; set; }
     }
 }

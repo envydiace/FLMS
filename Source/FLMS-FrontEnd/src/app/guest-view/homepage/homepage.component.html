@@ -9,11 +9,12 @@
         </div>
         <div class="row justify-content-center">
             <div class="home-content col-8 ">
-                <p>For league managers, our website focus on creating and customizing football leagues, helping to manage the league with
+                <p>For league managers, our website focus on creating and customizing football leagues, helping to
+                    manage the league with
                     some proposal suggestions, and manage the list of football clubs participating in the league. For
                     club managers, the system supports managing the football club with players information, team’s
                     tactical line up and also the leagues information that help registration easier.
-                     <!-- And for all other
+                    <!-- And for all other
                     users, FLMS will bring the tournament’s information and statistics as soon as possible. Football
                     League Management System wishes to support the teams manager work process easily, less time
                     consuming, ensure accurate info for users as well as increase operational efficiency of the league
@@ -43,12 +44,25 @@
                 </mat-list>
             </div>
         </div>
-        
-        
     </div>
-    <div class="demo" style="height: 100px; width: 100%; background-color: aliceblue;">
-        <div *ngFor="let club of clubs.clubs">
-            <h1>{{club.clubName}}</h1>
+
+    <div class="container">
+        <div class="row">
+
+            <div *ngFor="let club of clubs" class="col-sm-3">
+                <div class="list-container">
+                    <mat-card class="league-list-card">
+                        <mat-card-title>{{club.clubName}}</mat-card-title>
+                        <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
+                        <img mat-card-avatar class="league-header-image"
+                            src="./../../../assets/image/Manchester_United_FC_crest.svg.png">
+                        <mat-card-actions>
+                            <button mat-button>Invite</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -4,6 +4,8 @@
         background-color: #F5F5FA;
         width: 100%;
         height: 100px;
+        background-image: url('./../../../../assets/image/ClubWP.jpg');
+        background-position: bottom;
     }
 
     .club-detail-info {
@@ -27,4 +29,31 @@
             border: 1px solid rgba(0, 0, 0, 0.2);
         }
     }
+
+    .club-detail-content {
+        width: 100%;
+        margin: 0 10px;
+    }
+    .club-detail-container {
+        display: flex;
+    }
+
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
+    .box-border {
+        border-right: 1px solid black;
+    }
+
+    .club-content {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
 }

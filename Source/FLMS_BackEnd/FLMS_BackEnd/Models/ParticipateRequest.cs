@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 namespace FLMS_BackEnd.Models
 {
-    public partial class Request
+    public partial class ParticipateRequest
     {
         public int RequestId { get; set; }
         public int LeagueId { get; set; }
         public int ClubId { get; set; }
         public string RequestType { get; set; } = null!;
+        public string RequestStatus { get; set; } = null!;
+        public DateTime RequestDate { get; set; }
 
         public virtual Club Club { get; set; } = null!;
         public virtual League League { get; set; } = null!;
