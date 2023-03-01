@@ -5,6 +5,7 @@ using FLMS_BackEnd.Repositories.Impl;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Services.Impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -40,6 +41,11 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.AllowSynchronousIO = true;
+});
 
 builder.Services.AddAuthorization();
 

@@ -1,9 +1,14 @@
-﻿using FLMS_BackEnd.DTO;
+﻿using ClosedXML.Excel;
+using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 using System.Numerics;
 
 namespace FLMS_BackEnd.Services.Impl
@@ -186,6 +191,23 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             return new DeletePlayerClubResponse { Success = false, MessageCode = "ER-PL-04" };
+        }
+
+        public async Task<DataTable> ExportPlayer()
+        {
+            var players = await playerRepository.FindAll().ToListAsync();
+            var result = mapper.Map<List<PlayerDTO>>(players.ToList());
+            DataTable dtPlayer = new DataTable("Players");
+            dtPlayer.Columns.AddRange(new DataColumn[4] { new DataColumn("Name"),
+                                            new DataColumn("NickName"),
+                                            new DataColumn("Height"),
+                                            new DataColumn("Weight") });
+            foreach (var player in result)
+            {
+                dtPlayer.Rows.Add(player.Name, player.NickName, player.Height, player.Weight);
+            }
+
+            return dtPlayer;
         }
     }
 }
