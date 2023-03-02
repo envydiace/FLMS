@@ -32,5 +32,18 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<ParticipationByLeagueResponse>> GetClubByLeague([FromQuery] ParticipationByLeagueRequest request)
+        {
+            var response = await participationService.GetParticipationByLeague(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
