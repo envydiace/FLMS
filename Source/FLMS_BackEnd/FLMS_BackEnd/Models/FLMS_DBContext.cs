@@ -246,6 +246,8 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("Participation");
 
+                entity.Property(e => e.Evidence).HasColumnName("Evidence");
+
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.Participations)
                     .HasForeignKey(d => d.ClubId)
