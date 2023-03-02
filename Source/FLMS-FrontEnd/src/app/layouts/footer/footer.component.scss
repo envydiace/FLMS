@@ -1,0 +1,176 @@
+
+.footer-section {
+	padding-top: 60px;
+}
+
+.fs-logo {
+	margin-bottom: 30px;
+}
+
+.fs-logo .logo {
+	margin-bottom: 30px;
+}
+
+.fs-logo .logo a {
+	display: inline-block;
+}
+
+.fs-logo ul {
+	margin-bottom: 22px;
+}
+
+.fs-logo ul li {
+	font-size: 16px;
+	color: #ababab;
+	line-height: 36px;
+	position: relative;
+	list-style: none;
+	padding-left: 30px;
+}
+
+.fs-logo ul li i {
+	font-size: 16px;
+	color: #dd1515;
+	margin-right: 10px;
+	position: absolute;
+	left: 0;
+	top: 8px;
+}
+
+.fs-logo .fs-social a {
+	display: inline-block;
+	height: 39px;
+	width: 39px;
+	border: 1px solid #3d3d3f;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 39px;
+	color: #b3b7c8;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.fs-logo .fs-social a:last-child {
+	margin-right: 0;
+}
+
+.fs-logo .fs-social a:hover {
+	background: #dd1515;
+	border-color: #dd1515;
+	color: #ffffff;
+}
+
+.fs-widget {
+	margin-bottom: 30px;
+	overflow: hidden;
+}
+
+.fs-widget h4 {
+	color: #ffffff;
+	font-weight: 500;
+	margin-bottom: 26px;
+}
+
+.fs-widget .fw-links {
+	width: 42%;
+	float: left;
+}
+
+.fs-widget .fw-links li {
+	list-style: none;
+}
+
+.fs-widget .fw-links li a {
+	font-size: 16px;
+	color: #b5b8be;
+	line-height: 36px;
+	font-weight: 500;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.fs-widget .fw-links li a:hover {
+	color: #dd1515;
+}
+
+.fs-widget .fw-item {
+	margin-bottom: 18px;
+}
+
+.fs-widget .fw-item h5 {
+	margin-bottom: 8px;
+}
+
+.fs-widget .fw-item h5 a {
+	color: #ffffff;
+	font-weight: 500;
+	line-height: 26px;
+}
+
+.fs-widget .fw-item ul li {
+	list-style: none;
+	display: inline-block;
+	font-size: 14px;
+	color: #ababab;
+	margin-right: 20px;
+	position: relative;
+}
+
+.fs-widget .fw-item ul li i {
+	color: #dd1515;
+}
+
+.fs-widget .fw-item ul li:after {
+	position: absolute;
+	right: -12px;
+	top: 0;
+	content: "|";
+}
+
+.fs-widget .fw-item ul li:last-child {
+	margin-right: 0;
+}
+
+.fs-widget .fw-item ul li:last-child:after {
+	display: none;
+}
+
+.copyright-option {
+	border-top: 1px solid #2d2e30;
+	padding-top: 10px;
+	padding-bottom: 12px;
+	margin-top: 20px;
+}
+
+.copyright-option .co-text {
+	font-size: 14px;
+	color: #636363;
+	float: left;
+	line-height: 24px;
+}
+
+.copyright-option .co-widget {
+	text-align: right;
+}
+
+.copyright-option .co-widget ul {
+	list-style: none;
+}
+
+.copyright-option .co-widget ul li {
+	font-size: 14px;
+	display: inline-block;
+	margin-right: 45px;
+}
+
+.copyright-option .co-widget ul li a {
+	color: #636363;
+}
+
+.copyright-option .co-widget ul li:last-child {
+	margin-right: 0;
+}
