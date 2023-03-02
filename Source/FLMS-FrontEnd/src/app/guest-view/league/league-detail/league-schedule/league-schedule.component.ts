@@ -1,33 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { MatchSchedule } from 'src/app/models/match-schedule.model';
+import { LeagueService } from '../../league.service';
+import { map, tap } from 'rxjs/operators';
+import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 
-export interface PeriodicElement {
-  time: string;
-  clubA: string;
-  clubB: string;
-  group: string;
-  action: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { time: '2/2/2023', clubA: 'Club s name', clubB: 'Club s name', group: 'A', action: '' },
-  { time: '2/2/2023', clubA: 'Club s name', clubB: 'Club s name', group: 'A', action: '' },
-  { time: '2/2/2023', clubA: 'Club s name', clubB: 'Club s name', group: 'A', action: '' },
-  { time: '2/2/2023', clubA: 'Club s name', clubB: 'Club s name', group: 'A', action: '' },
-  { time: '2/2/2023', clubA: 'Club s name', clubB: 'Club s name', group: 'A', action: '' },
-  { time: '2/2/2023', clubA: 'Club s name', clubB: 'Club s name', group: 'A', action: '' },
-
-];
 @Component({
   selector: 'app-league-schedule',
   templateUrl: './league-schedule.component.html',
   styleUrls: ['./league-schedule.component.scss']
 })
 export class LeagueScheduleComponent implements OnInit {
-  displayedColumns: string[] = ['time', 'clubA', 'clubB', 'group', 'action'];
-  dataSource = ELEMENT_DATA;
-  constructor() { }
+  displayedColumns: string[] = ['time', 'home','vs', 'away', 'group', 'action'];
+  leagueId: number = null;
+  listMatch: MatchSchedule[] = [];
+
+  constructor(
+    private LeagueService: LeagueService
+  ) { }
 
   ngOnInit(): void {
+    this.initDataSource();
   }
 
+  initDataSource() {
+    this.LeagueService.getmatch(1).pipe(
+      map((res: MatchScheduleResponse) => this.listMatch = res.listMatch)
+    ).subscribe();
+  }
 }

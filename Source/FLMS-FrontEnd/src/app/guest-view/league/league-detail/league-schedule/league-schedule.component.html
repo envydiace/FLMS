@@ -42,39 +42,43 @@
 
 </div>
 <div>
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
           <!-- Name Column -->
           <ng-container matColumnDef="time">
             <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.time}}</mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.matchDate}}</mat-cell>
         </ng-container>
         <!-- clubA Column -->
-        <ng-container matColumnDef="clubA">
-            <mat-header-cell *matHeaderCellDef> Club A </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.clubA}} 
-                
-            </mat-cell>
+        <ng-container matColumnDef="home">
+            <mat-header-cell *matHeaderCellDef> Home </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.home.name}} </mat-cell>
         </ng-container>
 
       
 
         <!-- clubB Column -->
-        <ng-container matColumnDef="clubB">
-            <mat-header-cell *matHeaderCellDef> Club B </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.clubB}}
-                
+        <ng-container matColumnDef="away">
+            <mat-header-cell *matHeaderCellDef> Away </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{element.away.name}}
             </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="vs">
+            <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+            - vs -
+            </mat-cell>
+        </ng-container>
         <!-- Symbol Column -->
         <ng-container matColumnDef="group">
-            <mat-header-cell *matHeaderCellDef> Group </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.group}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef> Round </mat-header-cell>
+            <mat-cell *matCellDef="let element"> A </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.action}}</mat-cell>
+            <mat-cell *matCellDef="let element"> </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
