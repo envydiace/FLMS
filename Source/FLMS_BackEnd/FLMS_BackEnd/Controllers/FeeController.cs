@@ -31,5 +31,32 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]/{LeagueFeeId}")]
+        public async Task<ActionResult<LeagueFeeResponse>> GetFeeDetail(int LeagueFeeId)
+        {
+            var response = await feeService.GetLeagueFeeDetail(LeagueFeeId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<FeeDetailResponse>> UpdateFee(FeeDetailRequest request)
+        {
+            var response = await feeService.UpdateFeeDetail(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
