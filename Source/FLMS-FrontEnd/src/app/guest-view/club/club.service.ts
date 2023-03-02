@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ClubList } from './../../models/club-list.model';
+import { ClubDetail } from 'src/app/models/club-detail.model';
+import { ClubDetailResponse } from './../../models/club-detail-response.model'
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +28,14 @@ export class ClubService {
     params = params.append('page', String(page));
     params = params.append('pageSize', String(size));
 
-    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, {params}).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, { params }).pipe(
       map((clubList: ClubList) => clubList),
       catchError(err => throwError(err))
     )
   }
+
+
+
 
   public getListClubFilter(
     clubName: string,
@@ -47,4 +52,17 @@ export class ClubService {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, { params });
   }
+
+
+  getdetailinfo(id: number): Observable<ClubDetailResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClub/${id}`).pipe(
+      map((res: ClubDetailResponse) => res),
+      catchError(err => throwError(err))
+    )
+  }
+
+
 }
+
+
+
