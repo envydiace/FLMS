@@ -1,28 +1,83 @@
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-    </ng-container>
+<div>
+    <div>
+        <div class="container">
+            <div class="row justify-content-left">
+                <div class="col-xs-6 justify-content-left">
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-    </ng-container>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Form</mat-label>
+                        <input matInput [matDatepicker]="from">
+                        <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                        <mat-datepicker #from></mat-datepicker>
+                    </mat-form-field>
 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-        <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-    </ng-container>
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-        <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-    </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+                    <mat-form-field appearance="fill" style="margin-left: 20px;">
+                        <mat-label>To</mat-label>
+                        <input matInput [matDatepicker]="to">
+                        <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                        <mat-datepicker #to></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width" style="max-width: 240px; margin-left: 20px;">
+                        <mat-label>Club</mat-label>
+                        <input matInput >
+                        <mat-icon matSuffix>search</mat-icon>
+                      </mat-form-field>
+
+                </div>
+
+            </div>
+            <div class="row justify-content-right">
+                <div class=" justify-content-right" style="display: inline block; ">
+                    <button mat-raised-button color="primary">Export</button>
+                   
+                    <button mat-raised-button>Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <!-- Name Column -->
+          <ng-container matColumnDef="time">
+            <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.time}}</mat-cell>
+        </ng-container>
+        <!-- clubA Column -->
+        <ng-container matColumnDef="clubA">
+            <mat-header-cell *matHeaderCellDef> Club A </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.clubA}} 
+                
+            </mat-cell>
+        </ng-container>
+
+      
+
+        <!-- clubB Column -->
+        <ng-container matColumnDef="clubB">
+            <mat-header-cell *matHeaderCellDef> Club B </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.clubB}}
+                
+            </mat-cell>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="group">
+            <mat-header-cell *matHeaderCellDef> Group </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.group}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.action}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
