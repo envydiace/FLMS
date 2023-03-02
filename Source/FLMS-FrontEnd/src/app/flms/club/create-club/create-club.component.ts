@@ -64,7 +64,7 @@ export class CreateClubComponent implements OnInit {
     this.clubService.addClub(this.form.value)
       .pipe(first()).subscribe({
         next: () => {
-          // this.router.navigate(['/home'])
+          this.router.navigate(['/club-list'])
         },
         error: error => {
           this.loading = false;
