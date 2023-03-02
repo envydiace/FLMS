@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Response;
+﻿using FLMS_BackEnd.Request;
+using FLMS_BackEnd.Response;
 
 namespace FLMS_BackEnd.Services
 {
@@ -6,5 +7,6 @@ namespace FLMS_BackEnd.Services
     {
         Task<LeagueFeeResponse> GetListLeagueFee(int LeagueId);
         Task<FeeDetailResponse> GetLeagueFeeDetail(int LeagueFeeId);
+        Task<FeeDetailResponse> UpdateFeeDetail(FeeDetailRequest feeDetailRequest, int UserID);
     }
 }
