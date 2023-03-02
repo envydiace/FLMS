@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Repositories;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
-    public class ParticipationServiceImpl: BaseService, ParticipationService
+    public class ParticipationServiceImpl : BaseService, ParticipationService
     {
         private readonly ParticipationRepository participationRepository;
 
@@ -21,9 +22,9 @@ namespace FLMS_BackEnd.Services.Impl
                     p.ClubId == request.ClubId &&
                     p.LeagueId == request.LeagueId)
                 .Include(p => p.League)
-                .ThenInclude(l=>l.ClubClones)
+                .ThenInclude(l => l.ClubClones)
                 .FirstOrDefaultAsync();
-            if(participation == null)
+            if (participation == null)
             {
                 return new ConfirmRegistFeeResponse
                 {
@@ -57,7 +58,7 @@ namespace FLMS_BackEnd.Services.Impl
                     };
                 }
             }
-            
+
             var result = await participationRepository.UpdateAsync(participation);
             if (result != null)
             {
@@ -66,7 +67,8 @@ namespace FLMS_BackEnd.Services.Impl
                     Success = true,
                     MessageCode = "MS-PA-01"
                 };
-            }else
+            }
+            else
             {
                 return new ConfirmRegistFeeResponse
                 {
@@ -74,6 +76,20 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-PA-02"
                 };
             }
+        }
+
+        public async Task<ParticipationByLeagueResponse> GetParticipationByLeague(ParticipationByLeagueRequest request)
+        {
+            var participations = await participationRepository.FindByCondition(p =>
+                p.LeagueId == request.LeagueId &&
+                (request.SearchName == null || p.Club.ClubName.ToLower().Contains(request.SearchName.ToLower())))
+                .Include(p => p.Club)
+                .ToListAsync();
+            return new ParticipationByLeagueResponse
+            {
+                Success = true,
+                Clubs = mapper.Map<List<ParticipationClubDTO>>(participations)
+            };
         }
     }
 }
