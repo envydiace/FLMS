@@ -1,7 +1,10 @@
 ﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -59,6 +62,28 @@ namespace FLMS_BackEnd.Services.Impl
                 MessageCode = "ER-FE-01"
             };
             
+        }
+
+        public async Task<FeeDetailResponse> UpdateFeeDetail(FeeDetailRequest request, int UserID)
+        {
+            var fd = await feeRepository.FindByCondition(fd => fd.LeagueFeeId == request.LeagueFeeId)
+                .Include(fd => fd.League).FirstOrDefaultAsync();
+            if (fd == null)
+            {
+                return new FeeDetailResponse { Success = false, MessageCode = "ER-FE-02" };
+            }
+            if(fd.League.UserId != UserID)
+            {
+                return new FeeDetailResponse { Success = false, MessageCode = "ER-LE-06" };
+            }
+            fd.Cost = request.Cost;
+            fd.ExpenseName = request.ExpenseName;
+            LeagueFee result = await feeRepository.UpdateAsync(fd);
+            if (result != null)
+            {
+                return new FeeDetailResponse { Success = true, FeeInfo = this.GetLeagueFeeDetail(result.LeagueFeeId).Result.FeeInfo };
+            }
+            return new FeeDetailResponse { Success = false, MessageCode = "ER-FE-03" };
         }
     }
 }
