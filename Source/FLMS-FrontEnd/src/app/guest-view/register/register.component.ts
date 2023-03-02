@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
 import { RegisterService } from '../../guest-view/register/register.service';
 import { LoginComponent } from '../login/login.component';
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   form: FormGroup;
   loading = false;
   submitted = false;
-  roles: string[] = ['CLUB_MANAGER', 'LEAGUE_MANAGER']
+  roles: string[] = ['Club Manager', 'League Manager']
   selectedValue: string;
 
   constructor(
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private RegisterServer: RegisterService
-  ) { 
+  ) {
     this.form = new FormGroup({
       email: new FormControl(),
       password: new FormControl(),
@@ -68,16 +68,32 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          // get return url from query parameters or default to home page
-          // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          // this.router.navigateByUrl(returnUrl);
-          // this.router.navigate([../LoginComponent],)
+          this.router.navigate(['/login'])
         },
         error: error => {
           this.loading = false;
         }
       });
   }
-}
 
+  getErrorEmail() {
+    return this.form.get('email').hasError('required') ? 'Field Email is required': '';
+  }
+  getErrorPassword() {
+    return this.form.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
+      this.form.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
+  }
+  getErrorName() {
+    return this.form.get('fullName').hasError('required') ? 'Field Name is required': '';
+  }
+  getErrorPhone() {
+    return this.form.get('phone').hasError('required') ? 'Field Phone is required': '';
+  }
+  getErrorAddress() {
+    return this.form.get('address').hasError('required') ? 'Field Address is required': '';
+  }
+  getErrorRole() {
+    return this.form.get('role').hasError('required') ? 'Role is required': '';
+  }
+}
 
