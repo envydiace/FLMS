@@ -9,15 +9,6 @@ const routes: Routes = [
   }
 ];
 
-const routes: Routes = [
-  {
-    path: 'profile',
-    component: ViewProfileComponent
-  },
-
-
-
-];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
