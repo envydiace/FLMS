@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ClubList } from './../../models/club-list.model';
-import { ClubDetail } from 'src/app/models/club-detail.model';
+import { Player } from 'src/app/models/player.model';
 import { ClubDetailResponse } from './../../models/club-detail-response.model'
 
 @Injectable({
@@ -34,9 +34,6 @@ export class ClubService {
     )
   }
 
-
-
-
   public getListClubFilter(
     clubName: string,
     managerName: string,
@@ -61,6 +58,9 @@ export class ClubService {
     )
   }
 
+  public addPlayer(player: Player) {
+
+  }
 
 }
 

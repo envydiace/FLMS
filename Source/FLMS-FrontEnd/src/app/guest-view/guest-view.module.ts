@@ -39,7 +39,8 @@ import { LeagueSettingsComponent } from './league/league-detail/league-settings/
 import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { MatChipsModule } from '@angular/material/chips';
     JoinedClubsComponent,
     LeagueStatisticComponent,
     LeagueFeeComponent,
-    LeagueSettingsComponent
+    LeagueSettingsComponent,
+    PopUpAddPlayerComponent
   ],
   imports: [
     CommonModule,
@@ -89,7 +91,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatCardModule,
     MatSelectModule,
     MatPaginatorModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ]
 })
 export class GuestViewModule { }

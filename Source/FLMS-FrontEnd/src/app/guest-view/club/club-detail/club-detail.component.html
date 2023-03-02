@@ -55,7 +55,7 @@
                                 </mat-tab>
                                 <mat-tab label="Player">
                                     <ng-template matTabContent>
-                                        <app-club-player></app-club-player>
+                                        <app-club-player [id]="clubdetail.clubId" [clubName]="clubdetail.clubName"></app-club-player>
                                     </ng-template>
                                 </mat-tab>
                                 <!-- <mat-tab label="League History">
