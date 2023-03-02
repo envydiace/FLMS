@@ -87,8 +87,7 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.Logo,
                 map => map.MapFrom(
                     node => (node.ClubClone != null && node.ClubClone.Club != null) ? node.ClubClone.Club.Logo : null)
-                )
-                ;
+                );
 
             CreateMap<Match, MatchDTO>();
 
@@ -111,8 +110,14 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.LeagueName,
                 map => map.MapFrom(
                     request => request.League.LeagueName
-                    ))
-                ;
+                    ));
+
+            //Participation
+            CreateMap<Participation, ParticipationClubDTO>()
+                .ForMember(dto => dto.ClubName,
+                map => map.MapFrom(
+                    pa => pa.Club.ClubName
+                    ));
         }
     }
 }
