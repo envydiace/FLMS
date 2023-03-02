@@ -68,6 +68,8 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     league => league.LeagueFees.Sum(fee => fee.Cost)));
 
+            CreateMap<LeagueFee, LeagueFeeDTO>();
+
             //Match
             CreateMap<ParticipateNode, ClubMatchDTO>()
                 .ForMember(dto => dto.ClubId,

@@ -108,6 +108,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-PA-04","This participation has been confirmed" },
             {"MS-PA-01","Confirm success" },
 
+            {"ER-FE-01","No fees have been announced for this league" }
+
         };
 
         public static int DEFAULT_PAGE = 1;

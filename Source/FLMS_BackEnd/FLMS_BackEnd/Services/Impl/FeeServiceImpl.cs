@@ -1,4 +1,7 @@
-﻿using FLMS_BackEnd.Repositories;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Repositories;
+using FLMS_BackEnd.Response;
+using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -9,6 +12,35 @@ namespace FLMS_BackEnd.Services.Impl
         public FeeServiceImpl(FeeRepository feeRepository)
         {
             this.feeRepository = feeRepository;
+        }
+
+        public async Task<LeagueFeeResponse> GetListLeagueFee(int LeagueId)
+        {
+            var leaguefees = await feeRepository.FindByCondition(lf => lf.LeagueId == LeagueId).ToListAsync();
+            var result = mapper.Map<List<LeagueFeeDTO>>(leaguefees.ToList());
+            if (result != null)
+            {
+                LeagueFeeResponse leagueFeeResponse = new LeagueFeeResponse();
+                foreach(var leaguefee in result)
+                {
+                    if (leaguefee.IsActual)
+                    {
+                        leagueFeeResponse.Actual.Add(leaguefee);
+                    }
+                    else
+                    {
+                        leagueFeeResponse.Plan.Add(leaguefee);
+                    }
+                }
+                leagueFeeResponse.Success = true;
+                return leagueFeeResponse;
+            }
+            return new LeagueFeeResponse
+            {
+                Success = false,
+                MessageCode = "ER-FE-01"
+            };
+            
         }
     }
 }
