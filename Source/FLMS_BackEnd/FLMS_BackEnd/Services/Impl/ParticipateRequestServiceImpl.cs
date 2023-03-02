@@ -264,7 +264,7 @@ namespace FLMS_BackEnd.Services.Impl
                     }
                     request.RequestStatus = Constants.RequestStatus.Accepted.ToString();
                     messageCode = "MS-RE-04";
-                    request.League.Participations.Add(new Participation { ClubId = request.ClubId });
+                    request.League.Participations.Add(new Participation { ClubId = request.ClubId, Confirmed = false });
                     break;
                 case Constants.RequestResponse.Reject:
                     if ((request.RequestType.Equals(Constants.RequestType.Invite.ToString()) && role.Equals(roleLeagueManager)) ||

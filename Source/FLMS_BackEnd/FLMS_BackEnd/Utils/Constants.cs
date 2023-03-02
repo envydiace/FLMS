@@ -102,6 +102,12 @@ namespace FLMS_BackEnd.Utils
             {"MS-RE-05","Reject Success" },
             {"MS-RE-06","Cancel Success" },
 
+            {"ER-PA-01","Can not found this participation" },
+            {"ER-PA-02","Confirm fail" },
+            {"ER-PA-03","There's no more slot in the league" },
+            {"ER-PA-04","This participation has been confirmed" },
+            {"MS-PA-01","Confirm success" },
+
         };
 
         public static int DEFAULT_PAGE = 1;

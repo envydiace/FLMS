@@ -83,6 +83,8 @@ builder.Services.AddScoped<PlayerService, PlayerServiceImpl>();
 builder.Services.AddScoped<LeagueService, LeagueServiceImpl>();
 builder.Services.AddScoped<MatchService, MatchServiceImpl>();
 builder.Services.AddScoped<ParticipateRequestService, ParticipateRequestServiceImpl>();
+builder.Services.AddScoped<FeeService, FeeServiceImpl>();
+builder.Services.AddScoped<ParticipationService, ParticipationServiceImpl>();
 
 //Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();
@@ -94,6 +96,8 @@ builder.Services.AddScoped<LeagueRepository, LeagueRepositoryImpl>();
 builder.Services.AddScoped<ParticipateNodeRepository, ParticipateNodeRepositoryImpl>();
 builder.Services.AddScoped<MatchRepository, MatchRepositoryImpl>();
 builder.Services.AddScoped<ParticipateRequestRepository, ParticipateRequestRepositoryImpl>();
+builder.Services.AddScoped<FeeRepository, FeeRepositoryImpl>();
+builder.Services.AddScoped<ParticipationRepository, ParticipationRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 
