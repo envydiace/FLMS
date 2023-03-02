@@ -14,6 +14,24 @@ namespace FLMS_BackEnd.Services.Impl
             this.feeRepository = feeRepository;
         }
 
+        public async Task<FeeDetailResponse> GetLeagueFeeDetail(int LeagueFeeId)
+        {
+            var feedetail = await feeRepository.FindByCondition(fd => fd.LeagueFeeId == LeagueFeeId).FirstOrDefaultAsync();
+            if (feedetail == null)
+            {
+                return new FeeDetailResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-FE-02"
+                };
+            }
+            return new FeeDetailResponse
+            {
+                Success = true,
+                FeeInfo = mapper.Map<LeagueFeeDTO>(feedetail)
+            };
+        }
+
         public async Task<LeagueFeeResponse> GetListLeagueFee(int LeagueId)
         {
             var leaguefees = await feeRepository.FindByCondition(lf => lf.LeagueId == LeagueId).ToListAsync();
