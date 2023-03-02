@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { LeagueDetail } from './../../models/league-detail.model';
 import { LeagueDetailResponse } from './../../models/league-detail-response.model';
+import { MatchScheduleResponse } from './../../models/match-schedule-response.model';
 
 
 @Injectable({
@@ -29,4 +30,14 @@ export class LeagueService {
     return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueInfo/${leagueId}`);
   }
 
+  getmatch(leagueId: number): Observable<MatchScheduleResponse>{
+    let params = new HttpParams();
+
+    params = params.append("leagueId", String(leagueId) )
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Match/GetLeagueSchedule`, { params }).pipe(
+      map((res: MatchScheduleResponse) => res),
+      catchError(err => throwError(err))
+    )
+  } 
 }
