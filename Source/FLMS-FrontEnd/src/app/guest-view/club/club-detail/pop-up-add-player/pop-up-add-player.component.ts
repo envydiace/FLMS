@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ClubService } from '../../club.service';
+import { first } from 'rxjs/operators';
+import { Player } from 'src/app/models/player.model';
 
 @Component({
   selector: 'app-pop-up-add-player',
@@ -9,11 +12,14 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class PopUpAddPlayerComponent implements OnInit {
   addPlayerFormGroup: FormGroup;
+  loading = false;
+  player: Player;
 
   constructor(
     private formBuilder: FormBuilder,
+    private clubService: ClubService,
     public dialogRef: MatDialogRef<PopUpAddPlayerComponent>,
-    @Inject(MAT_DIALOG_DATA) 
+    @Inject(MAT_DIALOG_DATA)
     public data: {
       clubId: number;
       clubName: string;
@@ -43,7 +49,44 @@ export class PopUpAddPlayerComponent implements OnInit {
     });
   }
 
+  getControl(name: string) {
+    return this.addPlayerFormGroup.get(name) as FormControl;
+  }
+
+  bindDataIntoPlayer() {
+    this.player = {
+      name: this.getControl('playerName').value,
+      nickName: this.getControl('nickname').value,
+      dob: this.getControl('dob').value,
+      height: this.getControl('playerHeight').value,
+      weight: this.getControl('weight').value,
+      address: this.getControl('address').value,
+      phoneNumber: this.getControl('phoneNumber').value,
+      email: this.getControl('email').value,
+      socialCont: this.getControl('socialCont').value,
+      clubId: this.data.clubId,
+      number: this.getControl('number').value
+    }
+  }
+
   onSubmit() {
-    
+    this.bindDataIntoPlayer();
+
+    // stop here if form is invalid
+    if (this.addPlayerFormGroup.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    this.clubService.addPlayer(this.player)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+
+        },
+        error: error => {
+          this.loading = false;
+        }
+      });
   }
 }
