@@ -2,7 +2,7 @@
     <div class="logo">
         <a class="navbar-brand" [routerLink]="['/home']">FLMS</a>
     </div>
-    
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,9 +26,26 @@
             </li>
         </ul>
     </div>
-    <a mat-raised-button [routerLink]="['/login']" class="btn">Login</a>
-    <!-- <a href="#" class="navbar-btn-login">
-        <button class="btn btn-outline-light my-2 my-sm-0">Login</button>
-    </a> -->
-    
+    <a *ngIf="user == null" mat-raised-button [routerLink]="['/login']" class="btn">Login</a>
+    <div *ngIf="user != null">
+        <mat-card class="avatar-card">
+            <mat-card-header>
+                <div mat-card-avatar class="avatar-header-image"></div>
+                <mat-card-title style="line-height: 38px;">{{user.fullName}}</mat-card-title>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>account_circle</mat-icon>
+                        <span>View Profile</span>
+                    </button>
+                    <button mat-menu-item (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                        <span>Logout</span>
+                    </button>
+                </mat-menu>
+            </mat-card-header>
+        </mat-card>
+    </div>
 </nav>

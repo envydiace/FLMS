@@ -9,6 +9,20 @@
 
 .navbar-container {
     // background-image: url("img/bg.png");
-    background-color: rgba(21, 29, 49, 1); 
+    background-color: rgba(21, 29, 49, 1);
     height: 70px;
+}
+
+.avatar-card {
+    padding: 5px;
+    border-radius: 35px;
+    height: 50px;
+}
+
+.avatar-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+    height: 35px;
+    width: 35px;
+    margin: 2px 0px 0px 2px;
 }

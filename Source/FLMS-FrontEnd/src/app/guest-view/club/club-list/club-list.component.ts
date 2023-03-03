@@ -3,6 +3,7 @@ import { ClubService } from './../club.service';
 import { ClubList } from 'src/app/models/club-list.model';
 import { map, tap } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-club-list',
@@ -16,7 +17,8 @@ export class ClubListComponent implements OnInit {
   pageEvent: PageEvent;
 
   constructor(
-    private clubService: ClubService
+    private clubService: ClubService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,5 +57,9 @@ export class ClubListComponent implements OnInit {
     this.clubService.getListClubFilter(clubName, managerName, 1, 8).pipe(
       map((clubList: ClubList) => this.clubList = clubList)
     ).subscribe()
+  }
+
+  navigateToClubDetail(id: number) {
+    this.router.navigate(['/club-info'], { queryParams: {clubId : id}, skipLocationChange: true});
   }
 }

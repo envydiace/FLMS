@@ -13,18 +13,16 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FlmsModule } from './flms/flms.module';
-import { HomepageComponent } from './guest-view/homepage/homepage.component';
-import { LoginComponent } from './guest-view/login/login.component';
-import { GuestViewModule } from './guest-view/guest-view.module';
+import { MatMenuModule } from '@angular/material/menu';
 import { HttpClientModule } from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
   declarations: [
     MainComponent,
     NavbarComponent,
-    FooterComponent, 
+    FooterComponent,
     VerticalMenuComponent
   ],
   imports: [
@@ -32,6 +30,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     BrowserAnimationsModule,
     MatSidenavModule,
     MatListModule,
+    MatMenuModule,
+    MatCardModule,
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,

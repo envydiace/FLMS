@@ -1,0 +1,107 @@
+<h1 mat-dialog-title style="font-weight: 600;">Add Player for {{data.clubName}}</h1>
+
+<form [formGroup]="addPlayerFormGroup">
+    <div mat-dialog-content>
+        <div class="player-container">
+            <mat-card class="player-list-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="profile-image"></div>
+                    <mat-card-title style="line-height: 85px;">
+                        <button mat-raised-button color="primary">Upload</button>
+                    </mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>
+                    <!-- <div style="text-align: right; 
+                         position:absolute; right:10px; top: 40px;">
+                           2 - Goal <br/>
+                           0 - yel <br/>
+                           0 - red
+                        </div> -->
+                </mat-card-header>
+                <mat-card-actions>
+                    <!-- <button mat-button>Update </button>
+                    <button mat-button>Delete</button> -->
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        <section class="add-player-content">
+            <div class="left-content">
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Player Name" formControlName="playerName">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['playerName'].valid && addPlayerFormGroup.controls['playerName'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Number" formControlName="number">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['number'].valid && addPlayerFormGroup.controls['number'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Height" formControlName="playerHeight">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['playerHeight'].valid && addPlayerFormGroup.controls['playerHeight'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Address" formControlName="address">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['address'].valid && addPlayerFormGroup.controls['address'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Email" formControlName="email">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['email'].valid && addPlayerFormGroup.controls['email'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="right-content">
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Nickname" formControlName="nickname">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <mat-label>Form</mat-label>
+                    <input matInput [matDatepicker]="from" formControlName="dob">
+                    <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                    <mat-datepicker #from></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Weight" formControlName="weight">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['weight'].valid && addPlayerFormGroup.controls['weight'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Nickname" formControlName="phoneNumber">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Social Cont" formControlName="socialCont">
+                    <mat-error
+                        *ngIf="!addPlayerFormGroup.controls['socialCont'].valid && addPlayerFormGroup.controls['socialCont'].touched">
+                        Required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </section>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button [mat-dialog-close]="data.clubName" [disabled]="!addPlayerFormGroup.valid" type="submit" (click)="onSubmit()"
+            cdkFocusInitial>Add</button>
+    </div>
+</form>

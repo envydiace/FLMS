@@ -4,23 +4,28 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ClubList } from './../../models/club-list.model';
-import { ClubDetail } from 'src/app/models/club-detail.model';
+import { Player } from 'src/app/models/player.model';
 import { ClubDetailResponse } from './../../models/club-detail-response.model'
+
+export interface token {
+  accessToken: string,
+  refreshToken: string,
+  role: string
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClubService {
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      // Authorization: 'my-auth-token'
-    }),
-  };
+  private headers: HttpHeaders;
+  token: token;
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) { 
+    this.token = JSON.parse(localStorage.getItem('user'));
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
+  }
 
   findAll(page: number, size: number): Observable<ClubList> {
     let params = new HttpParams();
@@ -33,9 +38,6 @@ export class ClubService {
       catchError(err => throwError(err))
     )
   }
-
-
-
 
   public getListClubFilter(
     clubName: string,
@@ -61,6 +63,9 @@ export class ClubService {
     )
   }
 
+  public addPlayer(player: Player) {
+    return this.http.post(`${environment.apiUrl}/api/Player/CreatePlayer`, player, {headers: this.headers});
+  }
 
 }
 

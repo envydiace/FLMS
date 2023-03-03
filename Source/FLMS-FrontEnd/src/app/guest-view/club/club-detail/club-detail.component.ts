@@ -3,7 +3,7 @@ import { ClubService } from './../club.service';
 import { ClubDetailResponse } from 'src/app/models/club-detail-response.model';
 import { map, tap } from 'rxjs/operators';
 import { ClubDetail } from 'src/app/models/club-detail.model';
-
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -13,12 +13,17 @@ import { ClubDetail } from 'src/app/models/club-detail.model';
 })
 export class ClubDetailComponent implements OnInit {
   linkFb: string = 'https://www.facebook.com/profile.php?id=100009422590770';
-  
+  clubId: number;
   clubdetail: ClubDetail = null;
 
   constructor(
-    private clubService: ClubService
-  ) { }
+    private clubService: ClubService,
+    private route: ActivatedRoute
+  ) { 
+    this.route.queryParams.subscribe(params => {
+      this.clubId = params['clubId'];
+    });
+  }
 
   ngOnInit(): void {
     this.initDataSource();
@@ -34,7 +39,7 @@ export class ClubDetailComponent implements OnInit {
   }
 
   initDataSource() {
-    this.clubService.getdetailinfo(1).pipe(
+    this.clubService.getdetailinfo(this.clubId).pipe(
       map((res: ClubDetailResponse) => this.clubdetail = res.clubInfo)
     ).subscribe();
   }
