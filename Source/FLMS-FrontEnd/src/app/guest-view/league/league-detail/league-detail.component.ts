@@ -11,6 +11,7 @@ import { LeagueService } from '../league.service';
 })
 export class LeagueDetailComponent implements OnInit {
   leagueDetail: LeagueDetail= null;
+  leagueId: number = 1;
 
   constructor(
     private LeagueService: LeagueService
@@ -21,9 +22,13 @@ export class LeagueDetailComponent implements OnInit {
   }
 
   initDataSource() {
-    this.LeagueService.getLeagueInfo(1).pipe(
+    this.LeagueService.getLeagueInfo(this.leagueId).pipe(
       map((res: LeagueDetailResponse) => this.leagueDetail = res.leagueInfo)
     ).subscribe();
+  }
+
+  onJoinLeague() {
+
   }
 
 }

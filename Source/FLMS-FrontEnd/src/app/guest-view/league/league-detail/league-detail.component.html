@@ -25,16 +25,34 @@
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate}}</p>
                             <p class="league-detail-content">Number of groups: </p>
-                            <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}</p>
+                            <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
+                            </p>
                             <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize}}</p>
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-xs-6 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                        mat-raised-button style="width: 120px;" color="primary">Edit</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                        mat-raised-button style="width: 120px;" color="warn">Delete</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                        mat-raised-button color="warn" 
+                                        style="width: 120px; background-color: #7bae37;">Join</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                     <div class="row">
-                        <mat-card-actions>
-                            <!-- <button mat-button>LIKE</button> <br>
-                        <button mat-button>SHARE</button> -->
-                        </mat-card-actions>
                         <mat-card-content class="league-detail-content">
                             <mat-tab-group>
                                 <mat-tab label="Schedule">

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { FlmsComponent } from './flms/flms.component';
 
 
 const routes: Routes = [
@@ -9,9 +10,8 @@ const routes: Routes = [
     loadChildren: () => import('./guest-view/guest-view.module').then(m => m.GuestViewModule)
   },
   {
-    //lazy-load
     path: 'manager',
-    loadChildren: () => import('./flms/flms.module').then(m => m.FlmsModule)
+    component: FlmsComponent
   }
 ];
 

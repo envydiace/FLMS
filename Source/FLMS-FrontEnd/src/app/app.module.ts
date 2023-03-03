@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
-import { VerticalMenuComponent } from './layouts/vertical-menu/vertical-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListModule } from "@angular/material/list";
@@ -22,8 +21,7 @@ import { MatCardModule } from '@angular/material/card';
   declarations: [
     MainComponent,
     NavbarComponent,
-    FooterComponent,
-    VerticalMenuComponent
+    FooterComponent
   ],
   imports: [
     BrowserModule,

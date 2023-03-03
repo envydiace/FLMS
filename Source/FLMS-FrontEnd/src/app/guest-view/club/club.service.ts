@@ -6,12 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { ClubList } from './../../models/club-list.model';
 import { Player } from 'src/app/models/player.model';
 import { ClubDetailResponse } from './../../models/club-detail-response.model'
-
-export interface token {
-  accessToken: string,
-  refreshToken: string,
-  role: string
-}
+import { token } from 'src/app/models/token.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +19,7 @@ export class ClubService {
     private http: HttpClient
   ) { 
     this.token = JSON.parse(localStorage.getItem('user'));
-    this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
+    if(this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
   }
 
   findAll(page: number, size: number): Observable<ClubList> {
