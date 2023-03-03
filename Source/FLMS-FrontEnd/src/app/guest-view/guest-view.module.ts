@@ -42,6 +42,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 import { PopUpSendRegistrationComponent } from './league/league-detail/pop-up-send-registration/pop-up-send-registration.component';
+import { PopUpSendInvitationComponent } from './club/club-detail/pop-up-send-invitation/pop-up-send-invitation.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { PopUpSendRegistrationComponent } from './league/league-detail/pop-up-se
     LeagueFeeComponent,
     LeagueSettingsComponent,
     PopUpAddPlayerComponent,
-    PopUpSendRegistrationComponent
+    PopUpSendRegistrationComponent,
+    PopUpSendInvitationComponent
   ],
   imports: [
     CommonModule,
