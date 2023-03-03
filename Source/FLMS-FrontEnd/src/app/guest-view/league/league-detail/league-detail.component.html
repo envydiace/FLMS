@@ -25,11 +25,17 @@
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate}}</p>
                             <p class="league-detail-content">Number of groups: </p>
-                            <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}</p>
+                            <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
+                            </p>
                             <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize}}</p>
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
+                    <div>
+                        <button mat-raised-button color="primary" (click)="openSendRegistation()">
+                            Join
+                        </button>
+                    </div>
                     <div class="row">
                         <mat-card-actions>
                             <!-- <button mat-button>LIKE</button> <br>

@@ -41,6 +41,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
+import { PopUpSendRegistrationComponent } from './league/league-detail/pop-up-send-registration/pop-up-send-registration.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/po
     LeagueStatisticComponent,
     LeagueFeeComponent,
     LeagueSettingsComponent,
-    PopUpAddPlayerComponent
+    PopUpAddPlayerComponent,
+    PopUpSendRegistrationComponent
   ],
   imports: [
     CommonModule,
