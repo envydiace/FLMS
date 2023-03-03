@@ -14,7 +14,6 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly LeagueRepository leagueRepository;
         private readonly ClubRepository clubRepository;
         private readonly UserRepository userRepository;
-
         public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository, ClubRepository clubRepository)
         {
             this.participateRequestRepository = participateRequestRepository;
@@ -32,6 +31,7 @@ namespace FLMS_BackEnd.Services.Impl
                     var league = await leagueRepository.FindByCondition(l =>
                     l.UserId == UserId &&
                     l.LeagueId == request.LeagueId)
+                        .Include(l => l.User)
                     .FirstOrDefaultAsync();
                     if (league == null)
                     {
@@ -41,7 +41,7 @@ namespace FLMS_BackEnd.Services.Impl
                             MessageCode = "ER-LE-06"
                         };
                     }
-                    var c = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).FirstOrDefaultAsync();
+                    var c = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).Include(c => c.User).FirstOrDefaultAsync();
                     if (c == null)
                     {
                         return new JoinResponse
@@ -52,11 +52,26 @@ namespace FLMS_BackEnd.Services.Impl
                     }
                     defaultSuccessMessageCode = "MS-RE-01";
                     defaultFailMessageCode = "ER-RE-04";
+                    if(league != null && c != null)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = true,
+                            mailData = new MailDTO
+                            {
+                                LeagueManagerName = league.User.FullName,
+                                ClubManagerName = c.User.FullName,
+                                Email = c.User.Email,
+                            },
+                            MessageCode = "MS-MAIL-01"
+                        };
+                    }
                     break;
                 case Constants.RequestType.Register:
                     var club = await clubRepository.FindByCondition(c =>
                     c.UserId == UserId &&
                     c.ClubId == request.ClubId)
+                        .Include(c => c.User)
                     .FirstOrDefaultAsync();
                     if (club == null)
                     {
@@ -66,7 +81,7 @@ namespace FLMS_BackEnd.Services.Impl
                             MessageCode = "ER-CL-08"
                         };
                     }
-                    var l = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+                    var l = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).Include(l => l.User).FirstOrDefaultAsync();
                     if (l == null)
                     {
                         return new JoinResponse
@@ -77,6 +92,20 @@ namespace FLMS_BackEnd.Services.Impl
                     }
                     defaultSuccessMessageCode = "MS-RE-02";
                     defaultFailMessageCode = "ER-RE-05";
+                    if (club != null && l != null)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = true,
+                            mailData = new MailDTO
+                            {
+                                LeagueManagerName = l.User.FullName,
+                                ClubManagerName = club.User.FullName,
+                                Email = l.User.Email
+                            },
+                            MessageCode = "MS-MAIL-02"
+                        };
+                    }
                     break;
                 default:
                     return new JoinResponse

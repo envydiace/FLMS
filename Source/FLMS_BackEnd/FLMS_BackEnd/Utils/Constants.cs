@@ -110,7 +110,10 @@ namespace FLMS_BackEnd.Utils
 
             {"ER-FE-01","No fees have been announced for this league" },
             {"ER-FE-02","League fee not found!" },
-            {"ER-FE-03","Update league fee failed!" }
+            {"ER-FE-03","Update league fee failed!" },
+
+            {"MS-MAIL-01","You got a new invitation!!!" },
+            {"MS-MAIL-02","You got a new registration" }
 
         };
 
