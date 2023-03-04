@@ -19,7 +19,27 @@ namespace FLMS_BackEnd.Controllers
             this.userService = userService;
             this.tokenService = tokenService;
         }
-
+        [HttpPost("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER,LEAGUE_MANAGER")]
+        public async Task<ActionResult<ChangePasswordResponse>> ChangePassword(ChangePasswordRequest changePasswordRequest)
+        {
+            try
+            {
+                ChangePasswordResponse response = await userService.ChangePass(changePasswordRequest,UserID);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ChangePasswordResponse { MessageCode = "ER-CO-01" });
+            }
+        }
         [HttpPost("[action]")]
         public async Task<ActionResult<SignupResponse>> Signup(SignupRequest signupRequest)
         {
