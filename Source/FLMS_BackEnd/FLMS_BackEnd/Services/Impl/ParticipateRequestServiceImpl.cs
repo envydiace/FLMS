@@ -63,7 +63,8 @@ namespace FLMS_BackEnd.Services.Impl
                                 ClubManagerName = c.User.FullName,
                                 Email = c.User.Email,
                             },
-                            MessageCode = "MS-MAIL-01"
+                            MessageCode = defaultSuccessMessageCode,
+                            MessageMailCode = "MS-MAIL-01"
                         };
                     }
                     break;
@@ -103,7 +104,8 @@ namespace FLMS_BackEnd.Services.Impl
                                 ClubManagerName = club.User.FullName,
                                 Email = l.User.Email
                             },
-                            MessageCode = "MS-MAIL-02"
+                            MessageCode = defaultSuccessMessageCode,
+                            MessageMailCode = "MS-MAIL-02"
                         };
                     }
                     break;

@@ -2,7 +2,7 @@
 
 namespace FLMS_BackEnd.Response
 {
-    public class JoinResponse: BaseResponse
+    public class JoinResponse: BaseMailResponse
     {
         public MailDTO mailData {get; set; }
 }
