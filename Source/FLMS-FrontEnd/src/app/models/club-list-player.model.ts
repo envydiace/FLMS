@@ -12,6 +12,10 @@ export interface ClubListPlayer {
     email: string;
     socialCont: string;
     playerClubs: ClubListPlayerClub[];
+    goal:number;
+    assistant:number;
+    redCard:number;
+    yellowCard:number;
 }
 
 export class ClubListPlayer implements ClubListPlayer {
@@ -26,7 +30,11 @@ export class ClubListPlayer implements ClubListPlayer {
         phoneNumber: string,
         email: string,
         socialCont: string,
-        playerClubs: ClubListPlayerClub[]
+        playerClubs: ClubListPlayerClub[],
+        goal:number,
+        assistant:number,
+        redCard:number,
+        yellowCard:number
     ) {
         this.playerId = playerId;
         this.name = name;
@@ -39,5 +47,9 @@ export class ClubListPlayer implements ClubListPlayer {
         this.email = email;
         this.socialCont = socialCont;
         this.playerClubs = playerClubs;
+        this.goal = goal;
+        this.assistant = assistant;
+        this.redCard = redCard;
+        this.yellowCard = yellowCard;
     }
 }
