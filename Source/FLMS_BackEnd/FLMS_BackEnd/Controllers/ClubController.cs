@@ -24,7 +24,8 @@ namespace FLMS_BackEnd.Controllers
             if (response.Success)
             {
                 return Ok(response);
-            }else
+            }
+            else
             {
                 return BadRequest(response);
             }
@@ -45,7 +46,7 @@ namespace FLMS_BackEnd.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult<ListClubResponse>> GetListClubFilter([FromQuery]ListClubFilterRequest request)
+        public async Task<ActionResult<ListClubResponse>> GetListClubFilter([FromQuery] ListClubFilterRequest request)
         {
             var response = await clubService.GetListClubFilter(request);
             if (response.Success)
@@ -84,6 +85,20 @@ namespace FLMS_BackEnd.Controllers
             else
             {
                 return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<IActionResult> GetListClubByUser()
+        {
+            try
+            {
+                var response = await clubService.GetListClubByUser(UserID);
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
             }
         }
     }
