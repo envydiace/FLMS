@@ -20,7 +20,7 @@ namespace FLMS_BackEnd.Controllers
             this.tokenService = tokenService;
         }
         [HttpPost("[action]")]
-        [Authorize(Roles = "CLUB_MANAGER,LEAGUE_MANAGER")]
+        [Authorize]
         public async Task<ActionResult<ChangePasswordResponse>> ChangePassword(ChangePasswordRequest changePasswordRequest)
         {
             try
@@ -35,7 +35,7 @@ namespace FLMS_BackEnd.Controllers
                     return BadRequest(response);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest(new ChangePasswordResponse { MessageCode = "ER-CO-01" });
             }
@@ -55,7 +55,7 @@ namespace FLMS_BackEnd.Controllers
                     return BadRequest(response);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest(new SignupResponse { MessageCode = "ER-CO-01" });
             }
@@ -84,7 +84,7 @@ namespace FLMS_BackEnd.Controllers
 
                 return Ok(loginResponse);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest(new TokenResponse { MessageCode = "ER-CO-01" });
             }
