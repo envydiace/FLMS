@@ -24,6 +24,8 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<UpdateClubRequest, Club>();
 
+            CreateMap<Club, ClubByUserDTO>();
+
             //User
             CreateMap<User, UserProfileDTO>();
 
@@ -69,6 +71,8 @@ namespace FLMS_BackEnd.DTO
                     league => league.LeagueFees.Sum(fee => fee.Cost)));
 
             CreateMap<LeagueFee, LeagueFeeDTO>();
+
+            CreateMap<League, LeagueByUserDTO>();
 
             //Match
             CreateMap<ParticipateNode, ClubMatchDTO>()
