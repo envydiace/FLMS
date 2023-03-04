@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLMS_BackEnd", "FLMS_BackEnd\FLMS_BackEnd.csproj", "{8E65FE9F-D818-4183-885D-195E3C9D400F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FLMS_BackEnd.Test", "FLMS_BackEnd.Test\FLMS_BackEnd.Test.csproj", "{3311711E-702F-4BB3-9F1D-C794C1C6EAB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLMS_BackEnd.Test", "FLMS_BackEnd.Test\FLMS_BackEnd.Test.csproj", "{3311711E-702F-4BB3-9F1D-C794C1C6EAB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

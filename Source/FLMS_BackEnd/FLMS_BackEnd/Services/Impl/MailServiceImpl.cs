@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Models;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
 using MailKit.Net.Smtp;
@@ -6,6 +7,8 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Org.BouncyCastle.Asn1.Pkcs;
+using RazorEngineCore;
+using System.Text;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -113,6 +116,32 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return false;
             }
+
         }
+        public string GetEmailTemplate(string emailTemplate, MailDTO emailTemplateModel)
+        {
+            string mailTemplate = LoadTemplate(emailTemplate);
+
+            IRazorEngine razorEngine = new RazorEngine();
+            IRazorEngineCompiledTemplate modifiedMailTemplate = razorEngine.Compile(mailTemplate);
+
+            return modifiedMailTemplate.Run(emailTemplateModel);
+
+        }
+        public string LoadTemplate(string emailTemplate)
+        {
+            string baseDir = "";
+            string templateDir = Path.Combine(baseDir, "Files\\MailTemplates");
+            string templatePath = Path.Combine(templateDir, $"{emailTemplate}.cshtml");
+
+            using FileStream fileStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using StreamReader streamReader = new StreamReader(fileStream, Encoding.Default);
+
+            string mailTemplate = streamReader.ReadToEnd();
+            streamReader.Close();
+
+            return mailTemplate;
+        }
+
     }
 }
