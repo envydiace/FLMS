@@ -15,5 +15,10 @@ namespace FLMS_BackEnd.DTO
         public string? Email { get; set; }
         public string? SocialCont { get; set; }
         public virtual ICollection<PlayerClubDTO> PlayerClubs { get; set; }
+        public int Goal { get; set; }
+        public int Assistant { get; set; }
+        public int RedCard { get; set; }
+        public int YellowCard { get; set; }
+        
     }
 }

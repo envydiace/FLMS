@@ -122,5 +122,11 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-04" };
         }
+
+        public async Task<List<ClubByUserDTO>> GetListClubByUser(int userId)
+        {
+            var listClubs = await clubRepository.FindByCondition(c => c.UserId == userId).ToListAsync();
+            return mapper.Map<List<ClubByUserDTO>> (listClubs);
+        }
     }
 }
