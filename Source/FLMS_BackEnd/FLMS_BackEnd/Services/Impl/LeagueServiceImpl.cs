@@ -193,5 +193,11 @@ namespace FLMS_BackEnd.Services.Impl
                 MessageCode = "ER-LE-05"
             };
         }
+
+        public async Task<List<LeagueByUserDTO>> GetListLeagueByUser(int userId)
+        {
+            var listLeague = await leagueRepository.FindByCondition(l=>l.UserId == userId).ToListAsync();
+            return mapper.Map<List<LeagueByUserDTO>>(listLeague);
+        }
     }
 }

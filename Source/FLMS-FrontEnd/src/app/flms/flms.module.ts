@@ -17,6 +17,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateClubComponent } from './club/create-club/create-club.component';
 import { RouterModule } from '@angular/router';
+import { ViewProfileComponent } from './profile/view-profile/view-profile.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { RouterModule } from '@angular/router';
     MatExpansionModule,
     MatDividerModule,
     MatButtonModule,
+    MatIconModule,
     MatCardModule,
     FormsModule,
     FlmsRoutingModule,

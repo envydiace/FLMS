@@ -13,10 +13,11 @@ namespace FLMS_BackEnd.Controllers
     public class RequestController : BaseApiController
     {
         private readonly ParticipateRequestService participateRequestService;
-
-        public RequestController(ParticipateRequestService participateRequestService)
+        private readonly IMailService mailService;
+        public RequestController(ParticipateRequestService participateRequestService, IMailService mailService)
         {
             this.participateRequestService = participateRequestService;
+            this.mailService = mailService;
         }
 
         [HttpPost("[action]")]
@@ -26,7 +27,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.SendJoinRequest(request, UserID, Constants.RequestType.Invite);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.Message,
+                    mailService.GetEmailTemplate("Invitation", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok("Mail has successfully been sent");
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
@@ -40,7 +55,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.SendJoinRequest(request, UserID, Constants.RequestType.Register);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.Message,
+                    mailService.GetEmailTemplate("Registration", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok("Mail has successfully been sent");
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
