@@ -54,7 +54,7 @@
 
             <mat-form-field class="form-element">
                 <input type="password" matInput placeholder="Password" formControlName="password">
-                <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+                <mat-hint>Choose a password of at least six characters and one uppercase letter</mat-hint>
                 <mat-error *ngIf="!form.controls['password'].valid && form.controls['password'].touched">
                 {{ getErrorPassword() }}
             </mat-error>
@@ -101,10 +101,10 @@
             </mat-form-field>
 
             <div class="form-element">
-                <button mat-raised-button color="primary" type="submit" class="button">Submit
-                    Form</button>
+                <button mat-raised-button [disabled]="loading" type="submit" class="button btn-primary">Signup</button>
+                <a routerLink="../login" class="btn btn-link">Login</a>
             </div>
-
+            
         </form>
     </div>
 </div>

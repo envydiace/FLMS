@@ -80,8 +80,8 @@ export class RegisterComponent implements OnInit {
     return this.form.get('email').hasError('required') ? 'Field Email is required': '';
   }
   getErrorPassword() {
-    return this.form.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
-      this.form.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
+    return this.form.get('password').hasError('required') ? 'Field is required (at least six characters and one uppercase letter)' :
+      this.form.get('password').hasError('requirements') ? 'Password needs to be at least six characters and one uppercase letter' : '';
   }
   getErrorName() {
     return this.form.get('fullName').hasError('required') ? 'Field Name is required': '';

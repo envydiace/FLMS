@@ -15,11 +15,12 @@ import { map, tap } from 'rxjs/operators';
 export class ClubPlayerComponent implements OnInit {
   @Input() id: string;
   @Input() clubName: string;
+  @Input() playerName: string;
   listPlayer: ClubListPlayer[] = [];
 
   constructor(
     public dialog: MatDialog,
-    private clubService : ClubService
+    private clubService: ClubService
   ) { }
 
   ngOnInit(): void {
@@ -37,8 +38,15 @@ export class ClubPlayerComponent implements OnInit {
     });
   }
 
-  initDataSource(){
-    this.clubService.getPlayerListFilter('a', this.id).pipe(
+  initDataSource() {
+    this.clubService.getPlayerListFilter('', this.id).pipe(
+      map((listPlayer: ClubListPlayerResponse) => this.listPlayer = listPlayer.players)
+    ).subscribe();
+  }
+
+  getPlayerByName(player: string){
+    if (player == null) player = '';
+    this.clubService.getPlayerListFilter(player, this.id).pipe(
       map((listPlayer: ClubListPlayerResponse) => this.listPlayer = listPlayer.players)
     ).subscribe();
   }
