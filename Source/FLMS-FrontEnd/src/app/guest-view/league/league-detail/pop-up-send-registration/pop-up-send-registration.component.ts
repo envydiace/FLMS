@@ -1,12 +1,14 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { first, map } from 'rxjs/operators';
 import { ClubService } from 'src/app/guest-view/club/club.service';
+import { ClubListbyUser } from 'src/app/models/club-detail.model';
 
 import { ClubList } from 'src/app/models/club-list.model';
+import { token } from 'src/app/models/token.model';
 import { LeagueService } from '../../league.service';
 
 
@@ -18,10 +20,13 @@ import { LeagueService } from '../../league.service';
   styleUrls: ['./pop-up-send-registration.component.scss']
 })
 export class PopUpSendRegistrationComponent implements OnInit {
+  private headers: HttpHeaders;
+  token: token;
   clubName: string = null;
   managerName: string = null;
-  clubList: ClubList = null;
+  clubListByUser: ClubListbyUser[] = [];
   pageEvent: PageEvent;
+
 
   constructor(
     private clubService: ClubService,
@@ -34,6 +39,8 @@ export class PopUpSendRegistrationComponent implements OnInit {
       leagueId: number;
     }
   ) {
+    this.token = JSON.parse(localStorage.getItem('user'));
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
 
   }
 
@@ -42,8 +49,8 @@ export class PopUpSendRegistrationComponent implements OnInit {
   }
 
   initDataSource() {
-    this.clubService.findAll(1, 20).pipe(
-      map((clubList: ClubList) => this.clubList = clubList)
+    this.clubService.findbyUserId().pipe(
+      map((clubListByUser: ClubListbyUser[]) => this.clubListByUser = clubListByUser)
     ).subscribe();
   }
 

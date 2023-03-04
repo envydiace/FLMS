@@ -6,6 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { ClubList } from './../../models/club-list.model';
 import { Player } from 'src/app/models/player.model';
 import { ClubDetailResponse } from './../../models/club-detail-response.model'
+import { ClubListbyUser } from 'src/app/models/club-detail.model';
 
 export interface token {
   accessToken: string,
@@ -35,6 +36,14 @@ export class ClubService {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, { params }).pipe(
       map((clubList: ClubList) => clubList),
+      catchError(err => throwError(err))
+    )
+  }
+
+  findbyUserId(): Observable<ClubListbyUser[]> {
+   
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubByUser`, {headers: this.headers} ).pipe(
+      map((ClubListbyUser: ClubListbyUser[]) => ClubListbyUser),
       catchError(err => throwError(err))
     )
   }

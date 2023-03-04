@@ -14,3 +14,17 @@ export class ClubList implements ClubList {
         this.clubs = clubs;
     }
 }
+
+
+export interface ClubListbyUser {
+    clubsByUser: ClubListbyUser[];
+}
+
+export class ClubListbyUser implements ClubListbyUser {
+    constructor(
+        clubsByUser: ClubListbyUser[]
+
+    ) {
+        this.clubsByUser = clubsByUser;
+    }
+}
