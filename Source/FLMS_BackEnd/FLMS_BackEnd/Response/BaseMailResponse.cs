@@ -10,6 +10,6 @@ namespace FLMS_BackEnd.Response
 
         public string? MessageMailCode { get; set; } = null;
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? MailMessage { get { return MessageCode != null ? Constants.SystemMessage.GetValueOrDefault(MessageCode) : null; } }
+        public string? MailMessage { get { return MessageMailCode != null ? Constants.SystemMessage.GetValueOrDefault(MessageMailCode) : null; } }
     }
 }
