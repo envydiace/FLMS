@@ -81,6 +81,15 @@ export class ClubService {
     )
   }
 
+  // sendInvitation(leagueId: number, clubId: number){
+  //   let body = {
+  //     leagueId,
+  //     clubId
+  //   }
+  //   return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body,{headers: this.headers}  )
+  // }
+
+
 }
 
 
