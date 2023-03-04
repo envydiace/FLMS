@@ -4,9 +4,14 @@ import { CreateClubComponent } from './club/create-club/create-club.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/manager/create-club',
+    pathMatch: 'full'
+  },
+  {
     path: 'create-club',
     component: CreateClubComponent
-  }
+  },
 ];
 
 

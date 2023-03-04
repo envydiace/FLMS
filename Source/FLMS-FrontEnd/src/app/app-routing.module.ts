@@ -10,8 +10,10 @@ const routes: Routes = [
     loadChildren: () => import('./guest-view/guest-view.module').then(m => m.GuestViewModule)
   },
   {
+    //lazy-load
     path: 'manager',
-    component: FlmsComponent
+    component: FlmsComponent,
+    loadChildren: () => import('./flms/flms.module').then(m => m.FlmsModule)
   }
 ];
 
