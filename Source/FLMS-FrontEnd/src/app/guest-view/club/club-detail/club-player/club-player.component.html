@@ -4,6 +4,30 @@
 </div>
 <div class="container">
     <div class="row">
+      
+            <div *ngFor="let player of listPlayer" class="col-sm-6">
+                <div class="player-container">
+                    <mat-card class="player-list-card">
+                        <mat-card-header>
+                            <div mat-card-avatar class="profile-image"></div>
+                            <mat-card-title style="line-height: 85px;">{{player.name}}</mat-card-title>
+                            <mat-card-subtitle></mat-card-subtitle>
+
+                            <div style="text-align: right; 
+                             position:absolute; right:10px; top: 40px;">
+                                2 - Goal <br />
+                                0 - yel <br />
+                                0 - red
+                            </div>
+                        </mat-card-header>
+                        <mat-card-actions>
+                            <!-- <button mat-button>Update </button>
+                        <button mat-button>Delete</button> -->
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+    
         <div class="col-sm-6">
             <div class="player-container">
                 <mat-card class="player-list-card">
@@ -12,12 +36,12 @@
                         <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
                         <mat-card-subtitle></mat-card-subtitle>
 
-                            <div style="text-align: right; 
+                        <div style="text-align: right; 
                              position:absolute; right:10px; top: 40px;">
-                               2 - Goal <br/>
-                               0 - yel <br/>
-                               0 - red
-                            </div>
+                            2 - Goal <br />
+                            0 - yel <br />
+                            0 - red
+                        </div>
                     </mat-card-header>
                     <mat-card-actions>
                         <!-- <button mat-button>Update </button>
@@ -34,96 +58,12 @@
                         <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
                         <mat-card-subtitle></mat-card-subtitle>
 
-                            <div style="text-align: right; 
+                        <div style="text-align: right; 
                              position:absolute; right:10px; top: 40px;">
-                               2 - Goal <br/>
-                               0 - yel <br/>
-                               0 - red
-                            </div>
-                    </mat-card-header>
-                    <mat-card-actions>
-                        <!-- <button mat-button>Update </button>
-                        <button mat-button>Delete</button> -->
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div> <div class="col-sm-6">
-            <div class="player-container">
-                <mat-card class="player-list-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="profile-image"></div>
-                        <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-
-                            <div style="text-align: right; 
-                             position:absolute; right:10px; top: 40px;">
-                               2 - Goal <br/>
-                               0 - yel <br/>
-                               0 - red
-                            </div>
-                    </mat-card-header>
-                    <mat-card-actions>
-                        <!-- <button mat-button>Update </button>
-                        <button mat-button>Delete</button> -->
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div> <div class="col-sm-6">
-            <div class="player-container">
-                <mat-card class="player-list-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="profile-image"></div>
-                        <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-
-                            <div style="text-align: right; 
-                             position:absolute; right:10px; top: 40px;">
-                               2 - Goal <br/>
-                               0 - yel <br/>
-                               0 - red
-                            </div>
-                    </mat-card-header>
-                    <mat-card-actions>
-                        <!-- <button mat-button>Update </button>
-                        <button mat-button>Delete</button> -->
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div> <div class="col-sm-6">
-            <div class="player-container">
-                <mat-card class="player-list-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="profile-image"></div>
-                        <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-
-                            <div style="text-align: right; 
-                             position:absolute; right:10px; top: 40px;">
-                               2 - Goal <br/>
-                               0 - yel <br/>
-                               0 - red
-                            </div>
-                    </mat-card-header>
-                    <mat-card-actions>
-                        <!-- <button mat-button>Update </button>
-                        <button mat-button>Delete</button> -->
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div> <div class="col-sm-6">
-            <div class="player-container">
-                <mat-card class="player-list-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="profile-image"></div>
-                        <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-
-                            <div style="text-align: right; 
-                             position:absolute; right:10px; top: 40px;">
-                               2 - Goal <br/>
-                               0 - yel <br/>
-                               0 - red
-                            </div>
+                            2 - Goal <br />
+                            0 - yel <br />
+                            0 - red
+                        </div>
                     </mat-card-header>
                     <mat-card-actions>
                         <!-- <button mat-button>Update </button>
@@ -132,6 +72,72 @@
                 </mat-card>
             </div>
         </div>
-        
+        <div class="col-sm-6">
+            <div class="player-container">
+                <mat-card class="player-list-card">
+                    <mat-card-header>
+                        <div mat-card-avatar class="profile-image"></div>
+                        <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+
+                        <div style="text-align: right; 
+                             position:absolute; right:10px; top: 40px;">
+                            2 - Goal <br />
+                            0 - yel <br />
+                            0 - red
+                        </div>
+                    </mat-card-header>
+                    <mat-card-actions>
+                        <!-- <button mat-button>Update </button>
+                        <button mat-button>Delete</button> -->
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="player-container">
+                <mat-card class="player-list-card">
+                    <mat-card-header>
+                        <div mat-card-avatar class="profile-image"></div>
+                        <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+
+                        <div style="text-align: right; 
+                             position:absolute; right:10px; top: 40px;">
+                            2 - Goal <br />
+                            0 - yel <br />
+                            0 - red
+                        </div>
+                    </mat-card-header>
+                    <mat-card-actions>
+                        <!-- <button mat-button>Update </button>
+                        <button mat-button>Delete</button> -->
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="player-container">
+                <mat-card class="player-list-card">
+                    <mat-card-header>
+                        <div mat-card-avatar class="profile-image"></div>
+                        <mat-card-title style="line-height: 85px;">Rashford</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+
+                        <div style="text-align: right; 
+                             position:absolute; right:10px; top: 40px;">
+                            2 - Goal <br />
+                            0 - yel <br />
+                            0 - red
+                        </div>
+                    </mat-card-header>
+                    <mat-card-actions>
+                        <!-- <button mat-button>Update </button>
+                        <button mat-button>Delete</button> -->
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+
     </div>
 </div>

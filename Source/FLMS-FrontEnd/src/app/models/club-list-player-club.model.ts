@@ -1,11 +1,11 @@
-export interface playerInClub {
+export interface ClubListPlayerClub {
     playerId: number;
     clubId: number;
     number: number;
 }
 
 
-export class playerInClub implements playerInClub {
+export class ClubListPlayerClub implements ClubListPlayerClub {
 
     constructor(
         playerId: number,

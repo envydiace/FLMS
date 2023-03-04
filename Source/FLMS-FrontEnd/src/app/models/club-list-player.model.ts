@@ -1,7 +1,6 @@
-import { playerInClub } from "./club-list-player-club.model";
+import { ClubListPlayerClub } from './club-list-player-club.model';
 
-
-export interface playerInClubList {
+export interface ClubListPlayer {
     playerId: number;
     name: string;
     nickName: string;
@@ -12,10 +11,10 @@ export interface playerInClubList {
     phoneNumber: string;
     email: string;
     socialCont: string;
-    playerClubs: playerInClub[];
+    playerClubs: ClubListPlayerClub[];
 }
 
-export class playerInClubList implements playerInClubList {
+export class ClubListPlayer implements ClubListPlayer {
     constructor(
         playerId: number,
         name: string,
@@ -27,7 +26,7 @@ export class playerInClubList implements playerInClubList {
         phoneNumber: string,
         email: string,
         socialCont: string,
-        playerClubs: playerInClub[]
+        playerClubs: ClubListPlayerClub[]
     ) {
         this.playerId = playerId;
         this.name = name;

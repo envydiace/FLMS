@@ -15,6 +15,7 @@ export class ClubDetailComponent implements OnInit {
   linkFb: string = 'https://www.facebook.com/profile.php?id=100009422590770';
   clubId: number;
   clubdetail: ClubDetail = null;
+  
 
   constructor(
     private clubService: ClubService,
@@ -42,6 +43,7 @@ export class ClubDetailComponent implements OnInit {
     this.clubService.getdetailinfo(this.clubId).pipe(
       map((res: ClubDetailResponse) => this.clubdetail = res.clubInfo)
     ).subscribe();
+
   }
 
 }

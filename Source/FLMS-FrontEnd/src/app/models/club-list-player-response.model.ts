@@ -1,16 +1,16 @@
-import { playerInClubList } from "./club-list-player.model";
+import { ClubListPlayer } from "./club-list-player.model";
 
-export interface ListPLayerResponse{
+export interface ClubListPlayerResponse{
     messageCode:string;
     message:string;
-    players:playerInClubList[];
+    players:ClubListPlayer[];
 }
 
-export class ListPLayerResponse implements ListPLayerResponse{
+export class ClubListPlayerResponse implements ClubListPlayerResponse{
     constructor(
         messageCode: string,
         message: string,
-        players: playerInClubList[],
+        players: ClubListPlayer[]
     ){
         this.messageCode = messageCode;
         this.message = message;
