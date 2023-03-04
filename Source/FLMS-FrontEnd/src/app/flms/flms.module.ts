@@ -9,10 +9,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { ViewProfileComponent } from './profile/view-profile/view-profile.component';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
-  declarations: [CreateClubComponent],
+  declarations: [CreateClubComponent, ViewProfileComponent],
   imports: [
     CommonModule,
     FlmsRoutingModule,
@@ -21,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatGridListModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatIconModule,
     MatCardModule,
     FormsModule,
     ReactiveFormsModule
