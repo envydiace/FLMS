@@ -30,4 +30,8 @@ export class RequestService {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Request/RequestListFilter`, { params , headers: this.headers });
   }
+
+  public updateRequestStatus(requestId: number, action: string) {
+    return this.http.put(`${environment.apiUrl}/api/Request/${action}/${requestId}`, null, { headers: this.headers });
+  }
 }
