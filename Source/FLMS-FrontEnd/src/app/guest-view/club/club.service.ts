@@ -7,6 +7,7 @@ import { ClubList } from './../../models/club-list.model';
 import { Player } from 'src/app/models/player.model';
 import { ClubDetailResponse } from './../../models/club-detail-response.model'
 import { token } from 'src/app/models/token.model';
+import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 
 @Injectable({
@@ -31,6 +32,14 @@ export class ClubService {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, { params }).pipe(
       map((clubList: ClubList) => clubList),
+      catchError(err => throwError(err))
+    )
+  }
+
+  findbyUserId(): Observable<ClubListbyUser[]> {
+   
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubByUser`, {headers: this.headers} ).pipe(
+      map((ClubListbyUser: ClubListbyUser[]) => ClubListbyUser),
       catchError(err => throwError(err))
     )
   }
@@ -76,13 +85,13 @@ export class ClubService {
     )
   }
 
-  // sendInvitation(leagueId: number, clubId: number){
-  //   let body = {
-  //     leagueId,
-  //     clubId
-  //   }
-  //   return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body,{headers: this.headers}  )
-  // }
+  sendInvitation(leagueId: number, clubId: number){
+    let body = {
+      leagueId,
+      clubId
+    }
+    return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body,{headers: this.headers}  )
+  }
 
 
 }

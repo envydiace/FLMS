@@ -66,3 +66,22 @@ export class AddClub implements AddClub{
         this.kit = kit;
     }
 }
+
+
+export interface ClubListbyUser{
+    clubId: number,
+    userId: number,
+    clubName: string
+}
+
+export class ClubListbyUser implements ClubListbyUser{
+    constructor(
+        clubId: number,
+        userId: number,
+        clubName: string
+    ){
+        this.clubId = clubId,
+        this.userId = userId,
+        this.clubName = clubName
+    }
+}
