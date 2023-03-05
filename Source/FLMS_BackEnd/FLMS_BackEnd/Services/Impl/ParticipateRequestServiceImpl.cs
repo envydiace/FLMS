@@ -23,6 +23,9 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type)
         {
+            string leagueManagerFullName = "";
+            string clubManagerFullName = "";
+            string email = "";
             string defaultFailMessageCode = "ER-RE-06";
             string defaultSuccessMessageCode = "MS-RE-03";
             switch (type)
@@ -54,18 +57,9 @@ namespace FLMS_BackEnd.Services.Impl
                     defaultFailMessageCode = "ER-RE-04";
                     if(league != null && c != null)
                     {
-                        return new JoinResponse
-                        {
-                            Success = true,
-                            mailData = new MailDTO
-                            {
-                                LeagueManagerName = league.User.FullName,
-                                ClubManagerName = c.User.FullName,
-                                Email = c.User.Email,
-                            },
-                            MessageCode = defaultSuccessMessageCode,
-                            MessageMailCode = "MS-MAIL-01"
-                        };
+                        leagueManagerFullName = league.User.FullName;
+                        clubManagerFullName = c.User.FullName;
+                        email = c.User.Email;
                     }
                     break;
                 case Constants.RequestType.Register:
@@ -95,18 +89,9 @@ namespace FLMS_BackEnd.Services.Impl
                     defaultFailMessageCode = "ER-RE-05";
                     if (club != null && l != null)
                     {
-                        return new JoinResponse
-                        {
-                            Success = true,
-                            mailData = new MailDTO
-                            {
-                                LeagueManagerName = l.User.FullName,
-                                ClubManagerName = club.User.FullName,
-                                Email = l.User.Email
-                            },
-                            MessageCode = defaultSuccessMessageCode,
-                            MessageMailCode = "MS-MAIL-02"
-                        };
+                        leagueManagerFullName = l.User.FullName;
+                        clubManagerFullName = club.User.FullName;
+                        email = club.User.Email;
                     }
                     break;
                 default:
@@ -159,12 +144,41 @@ namespace FLMS_BackEnd.Services.Impl
             var result = await participateRequestRepository.CreateAsync(participateRequest);
             if (result)
             {
-                //TODO: handle Send mail
-                return new JoinResponse
+                switch (type)
                 {
-                    Success = true,
-                    MessageCode = defaultSuccessMessageCode
-                };
+                    case Constants.RequestType.Invite:
+                        return new JoinResponse
+                        {
+                            Success = true,
+                            mailData = new MailDTO
+                            {
+                                LeagueManagerName = leagueManagerFullName,
+                                ClubManagerName = clubManagerFullName,
+                                Email = email,
+                            },
+                            MessageCode = defaultSuccessMessageCode,
+                            MessageMailCode = "MS-MAIL-01"
+                        };
+                    case Constants.RequestType.Register:
+                        return new JoinResponse
+                        {
+                            Success = true,
+                            mailData = new MailDTO
+                            {
+                                LeagueManagerName = leagueManagerFullName,
+                                ClubManagerName = clubManagerFullName,
+                                Email = email,
+                            },
+                            MessageCode = defaultSuccessMessageCode,
+                            MessageMailCode = "MS-MAIL-02"
+                        };
+                    default:
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = defaultFailMessageCode
+                        };
+                }
             }
             else
             {
