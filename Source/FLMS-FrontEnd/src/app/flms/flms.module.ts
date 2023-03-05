@@ -9,21 +9,24 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateClubComponent } from './club/create-club/create-club.component';
 import { RouterModule } from '@angular/router';
 import { ViewProfileComponent } from './profile/view-profile/view-profile.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { RequestListComponent } from './request-list/request-list.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
     FlmsComponent,
-    CreateClubComponent
+    CreateClubComponent,
+    ViewProfileComponent,
+    RequestListComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +35,9 @@ import {MatIconModule} from '@angular/material/icon';
     MatGridListModule,
     MatFormFieldModule,
     MatIconModule,
+    MatToolbarModule,
+    MatTableModule,
+    MatPaginatorModule,
     MatSidenavModule,
     MatExpansionModule,
     MatDividerModule,

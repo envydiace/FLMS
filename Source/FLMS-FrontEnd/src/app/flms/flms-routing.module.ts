@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CreateClubComponent } from './club/create-club/create-club.component';
 import { ViewProfileComponent } from './profile/view-profile/view-profile.component';
+import { RequestListComponent } from './request-list/request-list.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'create-club',
     component: CreateClubComponent
+  },
+  {
+    path: 'request-list',
+    component: RequestListComponent
   },
   {
     path: 'view-profile',
