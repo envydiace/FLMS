@@ -1,3 +1,4 @@
+
 export interface LeagueDetail {
     leagueId: number;
     userId: number;
@@ -11,7 +12,9 @@ export interface LeagueDetail {
     location: string;
     fanpage: string;
     createAt: Date;
+    description: string;
     leagueType: string;
+    noRound: number;
     logo: string;
     totalPrize: number;
 }
@@ -30,7 +33,9 @@ export class LeagueDetail implements LeagueDetail {
         location: string,
         fanpage: string,
         createAt: Date,
+        description: string,
         leagueType: string,
+        noRound: number,
         logo: string,
         totalPrize: number
     ) {
@@ -46,7 +51,9 @@ export class LeagueDetail implements LeagueDetail {
         this.location = location;
         this.fanpage = fanpage;
         this.createAt = createAt;
+        this.description = description;
         this.leagueType = leagueType;
+        this.noRound = noRound;
         this.logo = logo;
         this.totalPrize = totalPrize;
     }
@@ -56,8 +63,8 @@ export interface LeagueListbyUser {
     leagueId: number,
     userId: number,
     leagueName: string,
-   
-    
+
+
 }
 
 export class LeagueListbyUser implements LeagueListbyUser {
@@ -65,14 +72,14 @@ export class LeagueListbyUser implements LeagueListbyUser {
         leagueId: number,
         userId: number,
         leagueName: string,
-        
-       
+
+
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
         this.leagueName = leagueName;
-       
-     
-       
+
+
+
     }
 }
