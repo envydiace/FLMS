@@ -7,12 +7,7 @@ import { User } from '../models/user';
 import { UserProfileResponse } from '../models/user-profile-response.model';
 import { environment } from 'src/environments/environment';
 import { UserProfile } from '../models/user-profile.model';
-
-export interface token {
-  accessToken: string,
-  refreshToken: string,
-  role: string
-}
+import { token } from '../models/token.model';
 
 @Injectable({
   providedIn: 'root'

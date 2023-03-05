@@ -13,7 +13,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class LeagueDetailComponent implements OnInit {
   leagueDetail: LeagueDetail= null;
-  leagueId: number =1;
+  leagueId: number = 1;
 
   constructor(
     private LeagueService: LeagueService,

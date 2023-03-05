@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
             next: () => {
                 // get return url from query parameters or default to home page
                 // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                window.location.href= environment.localUrl;
+                window.location.href= environment.localUrl + '/manager';
             },
             error: error => {
                 this.loading = false;
