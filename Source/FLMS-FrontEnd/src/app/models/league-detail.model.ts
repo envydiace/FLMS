@@ -51,3 +51,28 @@ export class LeagueDetail implements LeagueDetail {
         this.totalPrize = totalPrize;
     }
 }
+
+export interface LeagueListbyUser {
+    leagueId: number,
+    userId: number,
+    leagueName: string,
+   
+    
+}
+
+export class LeagueListbyUser implements LeagueListbyUser {
+    constructor(
+        leagueId: number,
+        userId: number,
+        leagueName: string,
+        
+       
+    ) {
+        this.leagueId = leagueId;
+        this.userId = userId;
+        this.leagueName = leagueName;
+       
+     
+       
+    }
+}

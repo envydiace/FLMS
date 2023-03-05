@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { LeagueDetail } from './../../models/league-detail.model';
+import { LeagueDetail, LeagueListbyUser } from './../../models/league-detail.model';
 import { LeagueDetailResponse } from './../../models/league-detail-response.model';
 import { MatchScheduleResponse } from './../../models/match-schedule-response.model';
 import { ClubList } from 'src/app/models/club-list.model';
@@ -50,6 +50,14 @@ export class LeagueService {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetLeagueSchedule`, { params }).pipe(
       map((res: MatchScheduleResponse) => res),
+      catchError(err => throwError(err))
+    )
+  }
+
+  findbyUserId(): Observable<LeagueListbyUser[]> {
+   
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueByUser`, {headers: this.headers} ).pipe(
+      map((LeagueListbyUser: LeagueListbyUser[]) => LeagueListbyUser),
       catchError(err => throwError(err))
     )
   }
