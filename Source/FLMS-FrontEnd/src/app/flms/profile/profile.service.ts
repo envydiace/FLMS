@@ -26,7 +26,8 @@ export class ProfileService {
   }
 
   getuserprofile(): Observable<UserProfileResponse> {
-    return this.http.get<any>(`${environment.apiUrl}/api/GetUserProfile`).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/api/GetUserProfile`,
+     {headers: this.headers} ).pipe(
       map((res: UserProfileResponse) => res)
     )
   }
