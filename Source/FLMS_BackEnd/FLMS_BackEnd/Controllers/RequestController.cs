@@ -31,12 +31,12 @@ namespace FLMS_BackEnd.Controllers
                     new List<string> {
                        response.mailData.Email
                     },
-                    response.Message,
+                    response.MailMessage,
                     mailService.GetEmailTemplate("Invitation", response.mailData));
                 bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
                 if (sendResult)
                 {
-                    return Ok("Mail has successfully been sent");
+                    return Ok(response);
                 }
                 else
                 {
@@ -59,12 +59,12 @@ namespace FLMS_BackEnd.Controllers
                     new List<string> {
                        response.mailData.Email
                     },
-                    response.Message,
+                    response.MailMessage,
                     mailService.GetEmailTemplate("Registration", response.mailData));
                 bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
                 if (sendResult)
                 {
-                    return Ok("Mail has successfully been sent");
+                    return Ok(response);
                 }
                 else
                 {

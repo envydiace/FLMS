@@ -1,6 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ClubService } from './../../club.service';
 import { PopUpAddPlayerComponent } from '../pop-up-add-player/pop-up-add-player.component';
+import { ClubListPlayer } from './../../../../models/club-list-player.model';
+import { ClubListPlayerResponse } from './../../../../models/club-list-player-response.model';
+import { Club } from 'src/app/models/match-schedule.model';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-club-player',
@@ -10,12 +15,16 @@ import { PopUpAddPlayerComponent } from '../pop-up-add-player/pop-up-add-player.
 export class ClubPlayerComponent implements OnInit {
   @Input() id: string;
   @Input() clubName: string;
+  @Input() playerName: string;
+  listPlayer: ClubListPlayer[] = [];
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private clubService: ClubService
   ) { }
 
   ngOnInit(): void {
+    this.initDataSource();
   }
 
   openDialogAddPlayer(): void {
@@ -29,4 +38,16 @@ export class ClubPlayerComponent implements OnInit {
     });
   }
 
+  initDataSource() {
+    this.clubService.getPlayerListFilter('', this.id).pipe(
+      map((listPlayer: ClubListPlayerResponse) => this.listPlayer = listPlayer.players)
+    ).subscribe();
+  }
+
+  getPlayerByName(player: string){
+    if (player == null) player = '';
+    this.clubService.getPlayerListFilter(player, this.id).pipe(
+      map((listPlayer: ClubListPlayerResponse) => this.listPlayer = listPlayer.players)
+    ).subscribe();
+  }
 }
