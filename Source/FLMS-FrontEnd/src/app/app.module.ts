@@ -13,6 +13,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FlmsModule } from './flms/flms.module';
+import { GuestViewModule } from './guest-view/guest-view.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +37,7 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatExpansionModule,
     FlmsModule,
+    GuestViewModule,
     AppRoutingModule,
     HttpClientModule
   ],

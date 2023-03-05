@@ -20,6 +20,7 @@ import { RequestListComponent } from './request-list/request-list.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatFormFieldModule,
     MatIconModule,
     MatToolbarModule,
+    MatSortModule,
     MatTableModule,
     MatPaginatorModule,
     MatSidenavModule,

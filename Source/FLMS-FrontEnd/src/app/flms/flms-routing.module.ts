@@ -6,7 +6,7 @@ import { RequestListComponent } from './request-list/request-list.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'manager',
     redirectTo: '/manager/create-club',
     pathMatch: 'full'
   },
