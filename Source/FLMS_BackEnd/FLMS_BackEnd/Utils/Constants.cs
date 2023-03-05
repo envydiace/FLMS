@@ -116,7 +116,13 @@ namespace FLMS_BackEnd.Utils
             {"ER-FE-03","Update league fee failed!" },
 
             {"MS-MAIL-01","You got a new invitation!!!" },
-            {"MS-MAIL-02","You got a new registration" }
+            {"MS-MAIL-02","You got a new registration!!!" },
+            {"MS-MAIL-03","Your invitation has been accepted!!!" },
+            {"MS-MAIL-04","Your registration has been accepted!!!" },
+            {"MS-MAIL-05","Your invitation has been rejected :(" },
+            {"MS-MAIL-06","Your registration has been rejected :(" },
+            {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
+            {"MS-MAIL-08","ClubManager has canceled their registration request" },
 
         };
 

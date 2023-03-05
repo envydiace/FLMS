@@ -99,7 +99,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.ResponseJoinRequest(requestId, Constants.RequestResponse.Accept, UserID);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.MailMessage,
+                    mailService.GetEmailTemplate("AcceptRequest", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
@@ -113,7 +127,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.ResponseJoinRequest(requestId, Constants.RequestResponse.Reject, UserID);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.MailMessage,
+                    mailService.GetEmailTemplate("RejectRequest", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
@@ -127,7 +155,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.ResponseJoinRequest(requestId, Constants.RequestResponse.Cancel, UserID);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.MailMessage,
+                    mailService.GetEmailTemplate("CancelRequest", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
@@ -141,7 +183,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.ResponseJoinRequest(requestId, Constants.RequestResponse.Accept, UserID);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.MailMessage,
+                    mailService.GetEmailTemplate("AcceptRequest", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
@@ -155,7 +211,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.ResponseJoinRequest(requestId, Constants.RequestResponse.Reject, UserID);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.MailMessage,
+                    mailService.GetEmailTemplate("RejectRequest", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
@@ -169,7 +239,21 @@ namespace FLMS_BackEnd.Controllers
             var response = await participateRequestService.ResponseJoinRequest(requestId, Constants.RequestResponse.Cancel, UserID);
             if (response.Success)
             {
-                return Ok(response);
+                MailRequest mailRequest = new MailRequest(
+                    new List<string> {
+                       response.mailData.Email
+                    },
+                    response.MailMessage,
+                    mailService.GetEmailTemplate("CancelRequest", response.mailData));
+                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                if (sendResult)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Mail sent failed");
+                }
             }
             else
             {
