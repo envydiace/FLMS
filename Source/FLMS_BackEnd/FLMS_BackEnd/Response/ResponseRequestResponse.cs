@@ -1,7 +1,9 @@
-﻿namespace FLMS_BackEnd.Response
+﻿using FLMS_BackEnd.DTO;
+
+namespace FLMS_BackEnd.Response
 {
-    public class ResponseRequestResponse: BaseResponse
+    public class ResponseRequestResponse: BaseMailResponse
     {
-        public string? mailMessage { get; set; }
+        public MailDTO mailData { get; set; }
     }
 }
