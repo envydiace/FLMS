@@ -1,0 +1,35 @@
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserProfileResponse } from './../../models/user-profile-response.model';
+import { token } from './../../models/token.model';
+import { map, catchError } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ProfileService {
+  private headers: HttpHeaders;
+  token: token;
+  userId: number;
+
+  constructor(
+    private http: HttpClient
+  ) {
+    this.token = JSON.parse(localStorage.getItem('user')!);
+    if (this.token != null) this.headers = new HttpHeaders().set('Authorization',
+      `Bearer ${this.token.accessToken}`);
+
+
+  }
+
+  getuserprofile(): Observable<UserProfileResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/GetUserProfile`).pipe(
+      map((res: UserProfileResponse) => res)
+    )
+  }
+
+
+}
