@@ -6,6 +6,7 @@ using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -20,6 +21,61 @@ namespace FLMS_BackEnd.Services.Impl
             this.userRepository = userRepository;
             this.tokenService = tokenService;
             this.tokenRepository = tokenRepository;
+        }
+
+        public async Task<ChangePasswordResponse> ChangePass(ChangePasswordRequest changePasswordRequest, int UserId)
+        {
+            if (changePasswordRequest == null)
+            {
+                return new ChangePasswordResponse { Success = false, MessageCode = "ER-US-01" };
+            }
+            var user = await userRepository.FindByCondition(user => user.UserId == UserId).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                var salt = Convert.FromBase64String(user.PasswordSalt);
+                var oldPasswordHash = PasswordHelper.HashUsingPbkdf2(changePasswordRequest.OldPassword, salt);
+                if (!user.Password.Equals(oldPasswordHash))
+                {
+                    return new ChangePasswordResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-US-16"
+                    };
+                }
+                if (changePasswordRequest.NewPassword.Length < 6)
+                {
+                    return new ChangePasswordResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-US-05"
+                    };
+                }
+
+                if (!changePasswordRequest.NewPassword.Equals(changePasswordRequest.RePassword))
+                {
+                    return new ChangePasswordResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-US-15"
+                    };
+                }
+                var newPasswordHash = PasswordHelper.HashUsingPbkdf2(changePasswordRequest.NewPassword, salt);
+                user.Password = newPasswordHash;
+                var result = await userRepository.UpdateAsync(user);
+                if(result != null)
+                {
+                    return new ChangePasswordResponse
+                    {
+                        Success = true,
+                        MessageCode = "MS-US-04"
+                    };
+                }
+            }
+            return new ChangePasswordResponse
+            {
+                Success = false,
+                MessageCode = "ER-US-07"
+            };
         }
 
         public async Task<SignupResponse> CheckSignUp(SignupRequest signupRequest)

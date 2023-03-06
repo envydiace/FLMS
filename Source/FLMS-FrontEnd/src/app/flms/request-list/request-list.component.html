@@ -1,0 +1,67 @@
+<p>
+    <mat-toolbar class="card">
+        <span>Request List</span>
+    </mat-toolbar>
+</p>
+<div class="request-list-container">
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="clubName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Club </th>
+                <td mat-cell *matCellDef="let element"> {{element.clubName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="leagueName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> League </th>
+                <td mat-cell *matCellDef="let element"> {{element.leagueName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="requestDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.requestDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="requestType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.requestType}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="requestStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let element"> {{element.requestStatus}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element">
+                    <div *ngIf="element.requestStatus == 'Pending' && userRole == 'CLUB_MANAGER'">
+                        <button *ngIf="element.requestType == 'Invite'" mat-raised-button color="primary"
+                            style="margin-right: 10px;"
+                            (click)="sendRequestAction(element.requestId, 'AcceptInvitation')">Accept</button>
+                        <button *ngIf="element.requestType == 'Invite'" mat-raised-button color="warn"
+                            style="margin-right: 10px;"
+                            (click)="sendRequestAction(element.requestId, 'RejectInvitation')">Reject</button>
+                        <button *ngIf="element.requestType == 'Register'" mat-raised-button color="accent"
+                            (click)="sendRequestAction(element.requestId, 'CancelRegistration')">Cancel</button>
+                    </div>
+                    <div *ngIf="element.requestStatus == 'Pending' && userRole == 'LEAGUE_MANAGER'">
+                        <button *ngIf="element.requestType == 'Register'" mat-raised-button color="primary"
+                            style="margin-right: 10px;"
+                            (click)="sendRequestAction(element.requestId, 'AcceptRegistration')">Accept</button>
+                        <button *ngIf="element.requestType == 'Register'" mat-raised-button color="warn"
+                            style="margin-right: 10px;"
+                            (click)="sendRequestAction(element.requestId, 'RejectRegistration')">Reject</button>
+                        <button *ngIf="element.requestType == 'Invite'" mat-raised-button color="accent"
+                            (click)="sendRequestAction(element.requestId, 'CancelInvitation')">Cancel</button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

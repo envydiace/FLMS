@@ -1,0 +1,21 @@
+<div *ngIf="leagueListByUser">
+    <div class="container">
+        <div class="row">
+            <div *ngFor="let league of leagueListByUser" class="col-sm-3">
+                <div class="list-container">
+                    <mat-card class="league-list-card">
+
+                        <mat-card-title>{{league.leagueName}}</mat-card-title>
+
+                        <img mat-card-avatar class="league-header-image"
+                            src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                            alt="League logo">
+                        <mat-card-actions>
+                            <button mat-button (click)="sendInvitation(league.leagueId)">Join</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

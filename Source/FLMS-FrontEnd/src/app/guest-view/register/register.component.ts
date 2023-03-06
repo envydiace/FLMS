@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
+import { RegisterService } from '../../guest-view/register/register.service';
+import { LoginComponent } from '../login/login.component';
 
 interface Role {
   value: string;
@@ -18,29 +20,37 @@ export class RegisterComponent implements OnInit {
   form: FormGroup;
   loading = false;
   submitted = false;
-
+  roles: string[] = ['Club Manager', 'League Manager']
   selectedValue: string;
-    
-  roles: Role[] = [
-    {value: 'manager', viewValue: 'Manager'},
-    {value: 'player', viewValue: 'Player'},
-    {value: 'guest', viewValue: 'Guest'}
 
-  ]
-  
   constructor(
-  private formBuilder: FormBuilder,
-  private route: ActivatedRoute,
-  private router: Router,
-  private authService: AuthService
-  ) { }
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private RegisterServer: RegisterService
+  ) {
+    this.form = new FormGroup({
+      email: new FormControl(),
+      password: new FormControl(),
+      confirmPassword: new FormControl(),
+      fullName: new FormControl(),
+      phone: new FormControl(),
+      address: new FormControl(),
+      role: new FormControl()
+    })
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+      fullName: ['', Validators.required],
+      phone: ['', Validators.required],
+      address: ['', Validators.required],
+      role: ['', Validators.required]
     });
-}
+  }
 
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
@@ -50,23 +60,40 @@ export class RegisterComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.form.invalid) {
-        return;
+      return;
     }
 
     this.loading = true;
-    this.authService.login(this.f.email.value, this.f.password.value)
-        .pipe(first())
-        .subscribe({
-            next: () => {
-                // get return url from query parameters or default to home page
-                const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                this.router.navigateByUrl(returnUrl);
-            },
-            error: error => {
-                this.loading = false;
-            }
-        });
-      }
-}
+    this.RegisterServer.register(this.form.value)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/login'])
+        },
+        error: error => {
+          this.loading = false;
+        }
+      });
+  }
 
+  getErrorEmail() {
+    return this.form.get('email').hasError('required') ? 'Field Email is required': '';
+  }
+  getErrorPassword() {
+    return this.form.get('password').hasError('required') ? 'Field is required (at least six characters and one uppercase letter)' :
+      this.form.get('password').hasError('requirements') ? 'Password needs to be at least six characters and one uppercase letter' : '';
+  }
+  getErrorName() {
+    return this.form.get('fullName').hasError('required') ? 'Field Name is required': '';
+  }
+  getErrorPhone() {
+    return this.form.get('phone').hasError('required') ? 'Field Phone is required': '';
+  }
+  getErrorAddress() {
+    return this.form.get('address').hasError('required') ? 'Field Address is required': '';
+  }
+  getErrorRole() {
+    return this.form.get('role').hasError('required') ? 'Role is required': '';
+  }
+}
 

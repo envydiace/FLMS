@@ -1,14 +1,20 @@
-export class ClubDetail {
-    private id: number;
-    private clubName: string;
-    private managerName: string;
-    private phone: number;
-    private facebook: string;
-    private email: string;
-    private wins: number;
-    private loses: number;
-    private draws: number;
 
+
+export interface ClubDetail {
+    id: number;
+    clubName: string;
+    managerName: string;
+    phone: number;
+    facebook: string;
+    email: string;
+    win: number;
+    lose: number;
+    draw: number;
+}
+
+
+
+export class ClubDetail implements ClubDetail {
     constructor(
         id: number,
         clubName: string,
@@ -16,9 +22,9 @@ export class ClubDetail {
         phone: number,
         facebook: string,
         email: string,
-        wins: number,
-        loses: number,
-        draws: number
+        win: number,
+        lose: number,
+        draw: number
     ) {
         this.id = id;
         this.clubName = clubName;
@@ -26,8 +32,56 @@ export class ClubDetail {
         this.phone = phone;
         this.facebook = facebook;
         this.email = email;
-        this.wins = wins;
-        this.loses = loses;
-        this.draws = draws;
+        this.win = win;
+        this.lose = lose;
+        this.draw = draw;
+    }
+}
+
+
+export interface AddClub {
+
+    clubName: string,
+    email: string,
+    phoneNumber: number,
+    socialCont: number,
+    logo: string,
+    kit: string
+}
+
+export class AddClub implements AddClub{
+    constructor(
+        clubName: string,
+        email: string,
+        phoneNumber: number,
+        socialCont: number,
+        logo: string,
+        kit: string
+    ){
+        this.clubName = clubName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.socialCont = socialCont;
+        this.logo = logo;
+        this.kit = kit;
+    }
+}
+
+
+export interface ClubListbyUser{
+    clubId: number,
+    userId: number,
+    clubName: string
+}
+
+export class ClubListbyUser implements ClubListbyUser{
+    constructor(
+        clubId: number,
+        userId: number,
+        clubName: string
+    ){
+        this.clubId = clubId,
+        this.userId = userId,
+        this.clubName = clubName
     }
 }
