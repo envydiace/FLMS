@@ -2,10 +2,11 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequestService } from './request.service';
-import { map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 import { RequestListResponse } from 'src/app/models/request-list-response.model';
 import { Request } from 'src/app/models/request.model';
 import { MatSort } from '@angular/material/sort';
+import { token } from 'src/app/models/token.model';
 
 @Component({
   selector: 'app-request-list',
@@ -20,18 +21,21 @@ export class RequestListComponent implements OnInit, AfterViewInit {
   status: string = '';
   requestListResponse: RequestListResponse;
   dataSource = new MatTableDataSource<Request>();
-
+  token: token;
+  userRole: string = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private requestService: RequestService
-  ) { 
+  ) {
+    this.token = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
     this.initDataSource();
     this.dataSource.sort = this.sort;
+    this.userRole = this.token.role;
   }
 
   ngAfterViewInit() {
@@ -43,5 +47,18 @@ export class RequestListComponent implements OnInit, AfterViewInit {
     this.requestService.getRequestList(this.from, this.to, this.type, this.status).pipe(
       map((requestListResponse: RequestListResponse) => this.dataSource.data = requestListResponse.requests)
     ).subscribe();
+  }
+
+  sendRequestAction(requestId: number, action: string) {
+    this.requestService.updateRequestStatus(requestId, action)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.initDataSource();
+        },
+        error: error => {
+
+        }
+      });
   }
 }
