@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { LeagueDetail } from 'src/app/models/league-detail.model';
 import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
 import { LeagueList } from 'src/app/models/league-list.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-league-list',
@@ -15,7 +16,8 @@ export class LeagueListComponent implements OnInit {
 
  leagueList: LeagueDetail[] =[] ;
   constructor(
-    private leagueService: LeagueService
+    private leagueService: LeagueService,
+    private router: Router
   ) { }
 
 
@@ -28,7 +30,9 @@ export class LeagueListComponent implements OnInit {
     ).subscribe();
   }
 
-
+  navigateToLeagueDetail(id: number) {
+    this.router.navigate(['/league-info'], { queryParams: {leagueId : id}, skipLocationChange: true});
+  }
 }
 
 
