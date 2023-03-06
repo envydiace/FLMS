@@ -43,7 +43,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 import { PopUpSendRegistrationComponent } from './league/league-detail/pop-up-send-registration/pop-up-send-registration.component';
 import { PopUpSendInvitationComponent } from './club/club-detail/pop-up-send-invitation/pop-up-send-invitation.component';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -81,6 +81,7 @@ import { PopUpSendInvitationComponent } from './club/club-detail/pop-up-send-inv
     ReactiveFormsModule,
     MatFormFieldModule,
     MatTableModule,
+    MatSnackBarModule,
     MatChipsModule,
     MatCardModule,
     CdkTableModule,

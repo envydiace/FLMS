@@ -15,7 +15,8 @@
                         <input type="tel" matInput>
                         <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
-                    <div style="line-height: 85px; margin-left: 25px;"><button mat-raised-button color="warn">Search</button></div>
+                    <div style="line-height: 85px; margin-left: 25px;"><button mat-raised-button
+                            color="warn">Search</button></div>
                 </div>
             </form>
         </div>
@@ -25,7 +26,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xs-6 justify-content-center">
-            
+
             <mat-form-field appearance="fill">
                 <mat-label>From</mat-label>
                 <input matInput [matDatepicker]="from">
@@ -52,17 +53,19 @@
     <div class="row">
         <div *ngFor="let leagues of leagueList" class="col-sm-3">
             <div class="list-container">
-                <mat-card class="league-list-card">
-                    <mat-card-subtitle>{{leagues.startDate}} - {{leagues.endDate}}</mat-card-subtitle>
-                    <mat-card-title>{{leagues.leagueName}}</mat-card-title>
-                    <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
-                    <img mat-card-avatar class="league-header-image"
-                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
-                        alt="Photo of a Shiba Inu">
-                    <mat-card-actions>
-                        <button mat-button>Join</button>
-                    </mat-card-actions>
-                </mat-card>
+                <a (click)="navigateToLeagueDetail(leagues.leagueId)" style="cursor: pointer;">
+                    <mat-card class="league-list-card">
+                        <mat-card-subtitle>{{leagues.startDate}} - {{leagues.endDate}}</mat-card-subtitle>
+                        <mat-card-title>{{leagues.leagueName}}</mat-card-title>
+                        <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
+                        <img mat-card-avatar class="league-header-image"
+                            src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                            alt="Photo of a Shiba Inu">
+                        <mat-card-actions>
+                            <button mat-button>Join</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </a>
             </div>
         </div>
     </div>
