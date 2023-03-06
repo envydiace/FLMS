@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
+import { UserProfileResponse } from '../models/user-profile-response.model';
+import { environment } from 'src/environments/environment';
+import { UserProfile } from '../models/user-profile.model';
+import { token } from '../models/token.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private headers: HttpHeaders;
+  token: token;
 
   public isAuthorized = false;
   // store the URL so we can redirect after logging in
@@ -21,6 +27,8 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
+    this.token = JSON.parse(localStorage.getItem('user'));
+    if(this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
     this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user') || '{}'));
     this.user = this.userSubject.asObservable();
   }
@@ -30,7 +38,7 @@ export class AuthService {
   }
 
   login(email, password): Observable<boolean> {
-    return this.http.post<User>(`http://localhost:5000/api/Login`, { email, password })
+    return this.http.post<User>(`${environment.apiUrl}/api/Login`, { email, password })
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
@@ -40,13 +48,19 @@ export class AuthService {
   }
 
   logout() {
-    // remove user from local storage and set current user to null
-    localStorage.removeItem('user');
-    this.userSubject.next(null as any);
-    this.router.navigate(['/account/login']);
+    return this.http.post<any>(`${environment.apiUrl}/api/Logout`, null, { headers: this.headers }).subscribe(
+      (response) => {
+        localStorage.removeItem('user');
+        this.userSubject.next(null as any);
+        window.location.href= environment.localUrl;
+        return response;
+      }
+    );
   }
 
-  // register(user: User) {
-  //   return this.http.post(`${environment.apiUrl}/users/register`, user);
-  // }
+  getCurrentUser(): Observable<UserProfileResponse> {
+    return this.http.get<UserProfileResponse>(`${environment.apiUrl}/api/GetUserProfile`, { headers: this.headers }).pipe(
+      map((res: UserProfileResponse) => res)
+    );
+  }
 }

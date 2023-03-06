@@ -1,0 +1,2 @@
+select ClubId, u.UserId, ClubName, u.FullName from Club c join [User] u on u.UserId=c.UserId;
+select LeagueId, u.UserId, FullName, LeagueName, LeagueType, NoParticipate from League l join [User] u on u.UserId=l.UserId;

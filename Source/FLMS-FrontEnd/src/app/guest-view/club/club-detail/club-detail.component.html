@@ -2,75 +2,84 @@
     <div class="club-detail-cover">
 
     </div>
-    <div class="club-detail-info row justify-content-center">
-        <div class="col-8">
-            <mat-card class="club-detail-card">
-                <mat-card-header>
-                    <div mat-card-avatar class="club-detail-logo"></div>
-                    <div class="club-detail-title">
-                        <mat-card-subtitle>TEAM</mat-card-subtitle>
-                        <mat-card-title>MANCHESTER UNITED</mat-card-title>
-                        <mat-chip-list>
-                            <mat-chip style="background-color: #7bae37;" selected>Wins 7</mat-chip>
-                            <mat-chip style="background-color: #f4bd1a;" selected>Draws 10</mat-chip>
-                            <mat-chip color="warn" selected>Looses 10</mat-chip>
-                        </mat-chip-list>
-                    </div>
-                </mat-card-header>
-                <br>
-                <section class="club-detail-container">
-                    <div class="left-detail" style="text-align: center;">
-                        <p class="club-content">Manager: Club Manager</p>
-                        <p class="club-content">Phone: 0999888123</p>
-                    </div>
-                    <div class="right-detail" style="text-align: center;">
-                        <p class="club-content">Facebook: <a href="{{linkFb}}" target="_blank">MANCHESTER UNITED</a>
-                        </p>
-                        <p class="club-content">Email: anhndhe@gmail.com</p>
-                    </div>
-                </section>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-xs-6 justify-content-center">
-                            <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                    mat-raised-button style="width: 120px;" color="primary">Edit</button>
+    <div *ngIf = "clubdetail">
+        <div class="club-detail-info row justify-content-center">
+            <div class="col-8">
+                <mat-card class="club-detail-card">
+                    <mat-card-header>
+                        <div mat-card-avatar class="club-detail-logo"></div>
+                        <div class="club-detail-title">
+                            <mat-card-subtitle>TEAM</mat-card-subtitle>
+                            <mat-card-title>{{clubdetail.clubName}}</mat-card-title>
+                            <mat-chip-list>
+                                <mat-chip style="background-color: #7bae37;" selected>Wins {{clubdetail.win}}</mat-chip>
+                                <mat-chip style="background-color: #f4bd1a;" selected>Draws {{clubdetail.draw}}</mat-chip>
+                                <mat-chip color="warn" selected>Looses {{clubdetail.lose}}</mat-chip>
+                            </mat-chip-list>
+                        </div>
+                    </mat-card-header>
+                    <br>
+                    <section class="club-detail-container">
+                        <div class="left-detail" style="text-align: center;">
+                            <p class="club-content">Manager: {{clubdetail.managerName}}</p>
+                            <p class="club-content">Phone: {{clubdetail.phoneNumber}}</p>
+                        </div>
+                        <div class="right-detail" style="text-align: center;">
+                            <p class="club-content">Social Cont: <a href="{{linkFb}}" target="_blank">{{clubdetail.socialCont}}</a>
+                            </p>
+                            <p class="club-content">Email: {{clubdetail.email}}</p>
+                        </div>
+                    </section>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-xs-4 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                        mat-raised-button style="width: 120px;" color="primary">Edit</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                        mat-raised-button style="width: 120px;" color="warn">Delete</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                        mat-raised-button style="width: 120px;" color="accent" (click)="openSendInvitation()">
+                                        Invite</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 justify-content-center">
-                            <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                    mat-raised-button style="width: 120px;" color="warn">Delete</button>
-                            </div>
-                        </div>
                     </div>
-                </div>
-                <br>
-                <div class="row">
-                    <mat-card-content class="club-detail-content">
-                        <mat-tab-group>
-                            <mat-tab label="Schedule">
-                                <ng-template matTabContent>
-                                    <app-club-schedule></app-club-schedule>
-                                </ng-template>
-                            </mat-tab>
-                            <mat-tab label="Player">
-                                <ng-template matTabContent>
-                                    <app-club-player></app-club-player>
-                                </ng-template>
-                            </mat-tab>
-                            <!-- <mat-tab label="League History">
-                                <ng-template matTabContent>
-                                    <app-league-history></app-league-history>
-                                </ng-template>
-                            </mat-tab> -->
-                            <mat-tab label="Match History">
-                                <ng-template matTabContent>
-                                    <app-match-history></app-match-history>
-                                </ng-template>
-                            </mat-tab>
-                        </mat-tab-group>
-                    </mat-card-content>
-                </div>
-            </mat-card>
+                    <br>
+                    <div class="row">
+                        <mat-card-content class="club-detail-content">
+                            <mat-tab-group>
+                                <mat-tab label="Schedule">
+                                    <ng-template matTabContent>
+                                        <app-club-schedule></app-club-schedule>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Player">
+                                    <ng-template matTabContent>
+                                        <app-club-player [id]="clubdetail.clubId" [clubName]="clubdetail.clubName"></app-club-player>
+                                    </ng-template>
+                                </mat-tab>
+                                <!-- <mat-tab label="League History">
+                                    <ng-template matTabContent>
+                                        <app-league-history></app-league-history>
+                                    </ng-template>
+                                </mat-tab> -->
+                                <mat-tab label="Match History">
+                                    <ng-template matTabContent>
+                                        <app-match-history></app-match-history>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </mat-card-content>
+                    </div>
+                </mat-card>
+            </div>
         </div>
     </div>
+
 </div>

@@ -14,7 +14,6 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly LeagueRepository leagueRepository;
         private readonly ClubRepository clubRepository;
         private readonly UserRepository userRepository;
-
         public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository, ClubRepository clubRepository)
         {
             this.participateRequestRepository = participateRequestRepository;
@@ -24,14 +23,19 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type)
         {
+            string leagueManagerFullName = "";
+            string clubManagerFullName = "";
+            string email = "";
             string defaultFailMessageCode = "ER-RE-06";
             string defaultSuccessMessageCode = "MS-RE-03";
+            string messageMailCode = "";
             switch (type)
             {
                 case Constants.RequestType.Invite:
                     var league = await leagueRepository.FindByCondition(l =>
                     l.UserId == UserId &&
                     l.LeagueId == request.LeagueId)
+                        .Include(l => l.User)
                     .FirstOrDefaultAsync();
                     if (league == null)
                     {
@@ -41,7 +45,7 @@ namespace FLMS_BackEnd.Services.Impl
                             MessageCode = "ER-LE-06"
                         };
                     }
-                    var c = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).FirstOrDefaultAsync();
+                    var c = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).Include(c => c.User).FirstOrDefaultAsync();
                     if (c == null)
                     {
                         return new JoinResponse
@@ -52,11 +56,19 @@ namespace FLMS_BackEnd.Services.Impl
                     }
                     defaultSuccessMessageCode = "MS-RE-01";
                     defaultFailMessageCode = "ER-RE-04";
+                    if (league != null && c != null)
+                    {
+                        leagueManagerFullName = league.User.FullName;
+                        clubManagerFullName = c.User.FullName;
+                        email = c.User.Email;
+                        messageMailCode = "MS-MAIL-01";
+                    }
                     break;
                 case Constants.RequestType.Register:
                     var club = await clubRepository.FindByCondition(c =>
                     c.UserId == UserId &&
                     c.ClubId == request.ClubId)
+                        .Include(c => c.User)
                     .FirstOrDefaultAsync();
                     if (club == null)
                     {
@@ -66,7 +78,7 @@ namespace FLMS_BackEnd.Services.Impl
                             MessageCode = "ER-CL-08"
                         };
                     }
-                    var l = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+                    var l = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).Include(l => l.User).FirstOrDefaultAsync();
                     if (l == null)
                     {
                         return new JoinResponse
@@ -77,6 +89,13 @@ namespace FLMS_BackEnd.Services.Impl
                     }
                     defaultSuccessMessageCode = "MS-RE-02";
                     defaultFailMessageCode = "ER-RE-05";
+                    if (club != null && l != null)
+                    {
+                        leagueManagerFullName = l.User.FullName;
+                        clubManagerFullName = club.User.FullName;
+                        email = l.User.Email;
+                        messageMailCode = "MS-MAIL-02";
+                    }
                     break;
                 default:
                     return new JoinResponse
@@ -128,12 +147,41 @@ namespace FLMS_BackEnd.Services.Impl
             var result = await participateRequestRepository.CreateAsync(participateRequest);
             if (result)
             {
-                //TODO: handle Send mail
-                return new JoinResponse
+                switch (type)
                 {
-                    Success = true,
-                    MessageCode = defaultSuccessMessageCode
-                };
+                    case Constants.RequestType.Invite:
+                        return new JoinResponse
+                        {
+                            Success = true,
+                            mailData = new MailDTO
+                            {
+                                LeagueManagerName = leagueManagerFullName,
+                                ClubManagerName = clubManagerFullName,
+                                Email = email,
+                            },
+                            MessageCode = defaultSuccessMessageCode,
+                            MessageMailCode = messageMailCode
+                        };
+                    case Constants.RequestType.Register:
+                        return new JoinResponse
+                        {
+                            Success = true,
+                            mailData = new MailDTO
+                            {
+                                LeagueManagerName = leagueManagerFullName,
+                                ClubManagerName = clubManagerFullName,
+                                Email = email,
+                            },
+                            MessageCode = defaultSuccessMessageCode,
+                            MessageMailCode = messageMailCode
+                        };
+                    default:
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = defaultFailMessageCode
+                        };
+                }
             }
             else
             {
@@ -264,7 +312,7 @@ namespace FLMS_BackEnd.Services.Impl
                     }
                     request.RequestStatus = Constants.RequestStatus.Accepted.ToString();
                     messageCode = "MS-RE-04";
-                    request.League.Participations.Add(new Participation { ClubId = request.ClubId });
+                    request.League.Participations.Add(new Participation { ClubId = request.ClubId, Confirmed = false });
                     break;
                 case Constants.RequestResponse.Reject:
                     if ((request.RequestType.Equals(Constants.RequestType.Invite.ToString()) && role.Equals(roleLeagueManager)) ||
@@ -303,12 +351,13 @@ namespace FLMS_BackEnd.Services.Impl
             var result = await participateRequestRepository.UpdateAsync(request);
             if (result != null)
             {
-                string mailMessage = await this.HandleSendMail(request.ClubId, request.LeagueId, response, request.RequestType);
+                MailDTO mailData = await this.HandleSendMail(request.ClubId, request.LeagueId, response, request.RequestType);
                 return new ResponseRequestResponse
                 {
                     Success = true,
-                    mailMessage = mailMessage,
-                    MessageCode = messageCode
+                    mailData = mailData,
+                    MessageCode = messageCode,
+                    MessageMailCode = mailData.MailMessageCode
                 };
             }
             else
@@ -321,65 +370,83 @@ namespace FLMS_BackEnd.Services.Impl
             }
         }
 
-        public async Task<string> HandleSendMail(int clubId, int leagueId, Constants.RequestResponse response, string requestType)
+        public async Task<MailDTO> HandleSendMail(int clubId, int leagueId, Constants.RequestResponse response, string requestType)
         {
-            try
+            var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).Include(c => c.User).FirstOrDefaultAsync();
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId).Include(l => l.User).FirstOrDefaultAsync();
+            if (club == null || league == null)
             {
-                var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).Include(c => c.User).FirstOrDefaultAsync();
-                var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId).Include(l => l.User).FirstOrDefaultAsync();
-                if (club == null || league == null)
-                {
-                    throw new Exception("Send Mail Fail");
-                }
-                switch (response)
-                {
-                    case Constants.RequestResponse.Accept:
-                        if (requestType.Equals(Constants.RequestType.Invite.ToString()))
-                        {
-                            return $"Send Accept Invitation Mail from club {club.ClubName} to {league.User.Email} ";
-                        }else if (requestType.Equals(Constants.RequestType.Register.ToString()))
-                        {
-                            return $"Send Accept Registration Mail from league {league.LeagueName} to {club.User.Email} ";
-                        }
-                        else
-                        {
-                            throw new Exception("Send Mail Fail");
-                        }
-                    case Constants.RequestResponse.Reject:
-                        if (requestType.Equals(Constants.RequestType.Invite.ToString()))
-                        {
-                            return $"Send Reject Invitation Mail from club {club.ClubName} to {league.User.Email} ";
-                        }
-                        else if (requestType.Equals(Constants.RequestType.Register.ToString()))
-                        {
-                            return $"Send Reject Registration Mail from league {league.LeagueName} to {club.User.Email} ";
-                        }
-                        else
-                        {
-                            throw new Exception("Send Mail Fail");
-                        }
-                    case Constants.RequestResponse.Cancel:
-                        if (requestType.Equals(Constants.RequestType.Invite.ToString()))
-                        {
-                            return $"Send Cancel Invitation Mail from league {league.LeagueName} to {club.User.Email} ";
-                        }
-                        else if (requestType.Equals(Constants.RequestType.Register.ToString()))
-                        {
-                            return $"Send Cancel Registration Mail from club {club.ClubName} to {league.User.Email} ";
-                        }
-                        else
-                        {
-                            throw new Exception("Send Mail Fail");
-                        }
-                    default:
+                throw new Exception("Send Mail Fail");
+            }
+            MailDTO mailForLeagueManager = new MailDTO
+            {
+                ClubName = club.ClubName,
+                LeagueName = league.LeagueName,
+                ClubManagerName = club.User.FullName,
+                LeagueManagerName = league.User.FullName,
+                Email = league.User.Email,
+                ReceiverRole = league.User.Role
+            };
+            MailDTO mailForClubManager = new MailDTO
+            {
+                LeagueName = league.LeagueName,
+                ClubName = club.ClubName,
+                ClubManagerName = club.User.FullName,
+                LeagueManagerName = league.User.FullName,
+                Email = club.User.Email,
+                ReceiverRole = club.User.Role
+            };
+            switch (response)
+            {
+                case Constants.RequestResponse.Accept:
+                    if (requestType.Equals(Constants.RequestType.Invite.ToString()))
+                    {
+                        mailForLeagueManager.MailMessageCode = "MS-MAIL-03";
+                        return mailForLeagueManager;
+                    }
+                    else if (requestType.Equals(Constants.RequestType.Register.ToString()))
+                    {
+                        mailForClubManager.MailMessageCode = "MS-MAIL-04";
+                        return mailForClubManager;
+                    }
+                    else
+                    {
                         throw new Exception("Send Mail Fail");
-                }
+                    }
+                case Constants.RequestResponse.Reject:
+                    if (requestType.Equals(Constants.RequestType.Invite.ToString()))
+                    {
+                        mailForLeagueManager.MailMessageCode = "MS-MAIL-05";
+                        return mailForLeagueManager;
+                    }
+                    else if (requestType.Equals(Constants.RequestType.Register.ToString()))
+                    {
+                        mailForClubManager.MailMessageCode = "MS-MAIL-06";
+                        return mailForClubManager;
+                    }
+                    else
+                    {
+                        throw new Exception("Send Mail Fail");
+                    }
+                case Constants.RequestResponse.Cancel:
+                    if (requestType.Equals(Constants.RequestType.Invite.ToString()))
+                    {
+                        mailForClubManager.MailMessageCode = "MS-MAIL-07";
+                        return mailForClubManager;
+                    }
+                    else if (requestType.Equals(Constants.RequestType.Register.ToString()))
+                    {
+                        mailForLeagueManager.MailMessageCode = "MS-MAIL-08";
+                        return mailForLeagueManager;
+                    }
+                    else
+                    {
+                        throw new Exception("Send Mail Fail");
+                    }
+                default:
+                    throw new Exception("Send Mail Fail");
             }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-
         }
     }
 }
+

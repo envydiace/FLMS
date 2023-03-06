@@ -59,5 +59,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<IActionResult> GetListLeagueByUser()
+        {
+            try
+            {
+                var response = await leagueService.GetListLeagueByUser(UserID);
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
+            }
+        }
     }
 }

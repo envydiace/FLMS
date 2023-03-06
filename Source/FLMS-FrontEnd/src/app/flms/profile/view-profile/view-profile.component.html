@@ -1,0 +1,85 @@
+<mat-card class="example-card">
+    <mat-card-header>
+
+        <mat-card-title>Account </mat-card-title>
+        <br />
+        <mat-card-subtitle> </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="row">
+            <div class="col-xl-3">
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profile Picture</div>
+                    <div class="card-body text-center">
+                        <img class="img-account-profile rounded-circle mb-2"
+                            src="./../../../../assets/image/Rashford.png" alt="">
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div> <button
+                            class="btn btn-primary" type="button">Upload new image</button>
+                    </div>
+                </div>
+
+                <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
+            </div>
+            <div class="col-xl-9">
+
+                <div class="card mb-4">
+                    <div class="card-header">Account Details</div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <!-- <label class="small mb-1" for="inputUsername">Username </label>  -->
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>User name</mat-label>
+                                    <input matInput value="{{userProfile.fullName}}">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Telephone</mat-label>
+                                        <span matPrefix>+84 &nbsp;</span>
+                                        <input type="tel" matInput 
+                                        value="{{userProfile.phone}}"
+                                        placeholder="0912345678">
+                                        <mat-icon matSuffix>mode_edit</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Address 2</mat-label>
+                                        <input matInput 
+                                        value="{{userProfile.address}}"
+                                        >
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Email</mat-label>
+                                    <input type="email" matInput 
+                                    value="{{userProfile.email}}"
+                                      placeholder="Ex. pat@example.com">
+                                </mat-form-field>
+                            </div>
+
+                            <button class="btn btn-primary" type="button">Save changes</button>
+
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+
+        <button class="btn btn-primary right" type="button">Change Pass</button>
+
+    </mat-card-actions>
+
+</mat-card>
