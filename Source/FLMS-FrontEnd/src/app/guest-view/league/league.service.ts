@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { LeagueDetail, LeagueListbyUser } from './../../models/league-detail.model';
+import { LeagueList } from './../../models/league-list.model';
 import { LeagueDetailResponse } from './../../models/league-detail-response.model';
 import { MatchScheduleResponse } from './../../models/match-schedule-response.model';
 import { ClubList } from 'src/app/models/club-list.model';
@@ -23,7 +24,7 @@ export class LeagueService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       // Authorization: 'my-auth-token'
-     
+
     }),
   };
 
@@ -31,9 +32,9 @@ export class LeagueService {
     private http: HttpClient,
     private router: Router,
 
-  ) { 
+  ) {
     this.token = JSON.parse(localStorage.getItem('user'));
-    this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
+    if(this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
 
   }
 
@@ -43,10 +44,14 @@ export class LeagueService {
     return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueInfo/${leagueId}`);
   }
 
-  getmatch(leagueId: number): Observable<MatchScheduleResponse>{
+  public getLeagueList(): Observable<LeagueList> {
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`);
+  }
+
+  getmatch(leagueId: number): Observable<MatchScheduleResponse> {
     let params = new HttpParams();
 
-    params = params.append("leagueId", String(leagueId) )
+    params = params.append("leagueId", String(leagueId))
 
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetLeagueSchedule`, { params }).pipe(
       map((res: MatchScheduleResponse) => res),
@@ -55,8 +60,8 @@ export class LeagueService {
   }
 
   findbyUserId(): Observable<LeagueListbyUser[]> {
-   
-    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueByUser`, {headers: this.headers} ).pipe(
+
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueByUser`, { headers: this.headers }).pipe(
       map((LeagueListbyUser: LeagueListbyUser[]) => LeagueListbyUser),
       catchError(err => throwError(err))
     )
@@ -67,8 +72,9 @@ export class LeagueService {
       leagueId,
       clubId
     }
-    return this.http.post(`${environment.apiUrl}/api/Request/SendRegistration`, body,{headers: this.headers}  )
+    return this.http.post(`${environment.apiUrl}/api/Request/SendRegistration`, body, { headers: this.headers })
   }
+
 
 
 }
