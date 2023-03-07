@@ -19,13 +19,13 @@ namespace FLMS_BackEnd.Controllers
             this.userService = userService;
             this.tokenService = tokenService;
         }
-        [HttpPost("[action]")]
+        [HttpPut("[action]")]
         [Authorize]
         public async Task<ActionResult<ChangePasswordResponse>> ChangePassword(ChangePasswordRequest changePasswordRequest)
         {
             try
             {
-                ChangePasswordResponse response = await userService.ChangePass(changePasswordRequest,UserID);
+                ChangePasswordResponse response = await userService.ChangePass(changePasswordRequest, UserID);
                 if (response.Success)
                 {
                     return Ok(response);
@@ -38,6 +38,27 @@ namespace FLMS_BackEnd.Controllers
             catch (Exception)
             {
                 return BadRequest(new ChangePasswordResponse { MessageCode = "ER-CO-01" });
+            }
+        }
+        [HttpPut("[action]")]
+        [Authorize]
+        public async Task<ActionResult<EditProfileResponse>> EditProfile(EditProfileRequest request)
+        {
+            try
+            {
+                var response = await userService.EditProfile(request, UserID);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest(new EditProfileResponse { MessageCode = "ER-CO-01" });
             }
         }
         [HttpPost("[action]")]
