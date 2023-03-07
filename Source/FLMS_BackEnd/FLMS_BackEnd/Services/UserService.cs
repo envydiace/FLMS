@@ -11,5 +11,6 @@ namespace FLMS_BackEnd.Services
         Task<LogoutResponse> LogoutAsync(int userId);
         Task<UserProfileResponse> GetUserProfile(int userId);
         Task<ChangePasswordResponse> ChangePass(ChangePasswordRequest changePasswordRequest, int UserId);
+        Task<EditProfileResponse> EditProfile(EditProfileRequest request, int userId);
     }
 }
