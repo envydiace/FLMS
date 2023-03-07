@@ -85,3 +85,5 @@ export class ClubListbyUser implements ClubListbyUser{
         this.clubName = clubName
     }
 }
+
+
