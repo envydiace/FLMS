@@ -121,10 +121,8 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-SQ-02"
                 };
             }
-            bool isHome = position.Squad.IsHome;
-            var clubClone = isHome ? position.Squad.Match.Home.ClubClone : position.Squad.Match.Away.ClubClone;
 
-            if (clubClone == null || clubClone.Club == null || clubClone.Club.UserId != userId)
+            if (!this.CheckManagePermission(position,userId))
             {
                 return new AddPositionResponse
                 {
@@ -169,6 +167,17 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
         }
+        private bool CheckManagePermission(SquadPosition position, int userId)
+        {
+            bool isHome = position.Squad.IsHome;
+            var clubClone = isHome ? position.Squad.Match.Home.ClubClone : position.Squad.Match.Away.ClubClone;
+
+            if (clubClone == null || clubClone.Club == null || clubClone.Club.UserId != userId)
+            {
+                return false;
+            }
+            return true;
+        }
         public async Task<RemovePositionResponse> RemoveSquadPosition(int squadPositionId, int userId)
         {
             var position = await squadPositionRepository.FindByCondition(p =>
@@ -192,10 +201,8 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-SQ-02"
                 };
             }
-            bool isHome = position.Squad.IsHome;
-            var clubClone = isHome ? position.Squad.Match.Home.ClubClone : position.Squad.Match.Away.ClubClone;
 
-            if (clubClone == null || clubClone.Club == null || clubClone.Club.UserId != userId)
+            if (!this.CheckManagePermission(position, userId))
             {
                 return new RemovePositionResponse
                 {
