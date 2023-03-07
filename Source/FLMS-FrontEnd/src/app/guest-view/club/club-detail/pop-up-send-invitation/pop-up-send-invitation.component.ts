@@ -70,7 +70,7 @@ export class PopUpSendInvitationComponent implements OnInit {
 
   openSnackBar() {
     this._snackBar.open('Success!!', 'CLOSE', {
-      duration: 500,
+      duration: 3500,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
     });
