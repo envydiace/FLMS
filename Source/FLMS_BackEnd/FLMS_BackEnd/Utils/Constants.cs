@@ -126,6 +126,8 @@ namespace FLMS_BackEnd.Utils
             {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
             {"MS-MAIL-08","ClubManager has canceled their registration request" },
 
+            {"ER-SQ-01","Squad not found" },
+
         };
 
         public static int DEFAULT_PAGE = 1;
