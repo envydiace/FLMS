@@ -75,7 +75,8 @@ namespace FLMS_BackEnd.Services.Impl
                             {
                                 Home = participates.FirstOrDefault(x => x.ParticipateId == participate.LeftId),
                                 Away = participates.FirstOrDefault(x => x.ParticipateId == participate.RightId),
-                                MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2)
+                                MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2),
+                                Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad, request.MaxNoPlayer)
                             };
                             matchList.Add(match);
                         }
@@ -114,7 +115,8 @@ namespace FLMS_BackEnd.Services.Impl
                                     {
                                         Home = home,
                                         Away = away,
-                                        MatchDate = league.StartDate.AddDays(day * 2)
+                                        MatchDate = league.StartDate.AddDays(day * 2),
+                                        Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad,request.MaxNoPlayer)
                                     });
                                 }
                             }
