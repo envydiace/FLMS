@@ -95,7 +95,16 @@ namespace FLMS_BackEnd.DTO
                     node => (node.ClubClone != null && node.ClubClone.Club != null) ? node.ClubClone.Club.Logo : null)
                 );
 
-            CreateMap<Match, MatchDTO>();
+            CreateMap<Match, MatchDTO>()
+                .ForMember(dto => dto.MatchDate,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString(Constants.DATE_FORMAT)))
+                .ForMember(dto => dto.MatchTime,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString("HH:mm")))
+                .ForMember(dto => dto.LeagueName,
+                map => map.MapFrom(
+                    match => match.League.LeagueName));
 
             //Squad
             CreateMap<SquadPosition, SquadPositionDTO>()

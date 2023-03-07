@@ -15,6 +15,19 @@ namespace FLMS_BackEnd.Controllers
         {
             this.matchService = matchService;
         }
+        [HttpGet("[action]/{matchId}")]
+        public async Task<ActionResult<LeagueScheduleResponse>> GetMatchInfo(int matchId)
+        {
+            var response = await matchService.GetMatchInfo(matchId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
         [HttpGet("[action]")]
         public async Task<ActionResult<LeagueScheduleResponse>> GetLeagueSchedule([FromQuery]LeagueScheduleRequest request)
         {

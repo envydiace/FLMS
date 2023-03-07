@@ -30,6 +30,7 @@ namespace FLMS_BackEnd.Services.Impl
                         m.Away.ClubClone.Club.ClubName.StartsWith(request.SearchClubName))
                 )
             )
+            .Include(m => m.League)
             .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
             .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
             .OrderBy(m => m.MatchDate)
@@ -40,5 +41,28 @@ namespace FLMS_BackEnd.Services.Impl
                 listMatch = mapper.Map<List<MatchDTO>>(matches)
             };
         }
+
+        public async Task<MatchInfoResponse> GetMatchInfo(int matchId)
+        {
+            var match = await matchRepository.FindByCondition(m => m.MatchId == matchId)
+                        .Include(m => m.League)
+                        .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+                        .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+                        .FirstOrDefaultAsync();
+            if (match == null)
+            {
+                return new MatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-01"
+                };
+            }
+            return new MatchInfoResponse
+            {
+                Success = true,
+                Match = mapper.Map<MatchDTO>(match)
+            };
+        }
     }
 }
+
