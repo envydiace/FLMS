@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using Microsoft.AspNetCore.Http;
@@ -54,6 +55,14 @@ namespace FLMS_BackEnd.Controllers
             {
                 return BadRequest(response);
             }
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<PlayerSquadPositionDTO>>> GetUnsquadPlayers(int squadId)
+        {
+            var response = await squadService.GetUnsquadPlayer(squadId);
+            return Ok(response);
+
         }
     }
 }

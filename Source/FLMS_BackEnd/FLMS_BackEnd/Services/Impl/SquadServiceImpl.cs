@@ -1,4 +1,5 @@
 ﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
@@ -10,11 +11,13 @@ namespace FLMS_BackEnd.Services.Impl
     {
         private readonly SquadRepository squadRepository;
         private readonly SquadPositionRepository squadPositionRepository;
+        private readonly PlayerRepository playerRepository;
 
-        public SquadServiceImpl(SquadRepository squadRepository, SquadPositionRepository squadPositionRepository)
+        public SquadServiceImpl(SquadRepository squadRepository, SquadPositionRepository squadPositionRepository, PlayerRepository playerRepository)
         {
             this.squadRepository = squadRepository;
             this.squadPositionRepository = squadPositionRepository;
+            this.playerRepository = playerRepository;
         }
 
         public async Task<MatchSquadResponse> GetMatchSquad(int matchId)
@@ -72,26 +75,29 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
-        public Task<List<PlayerSquadPositionDTO>> GetUnsquadPlayer(int squadId)
+        public async Task<List<PlayerSquadPositionDTO>> GetUnsquadPlayer(int squadId)
         {
             var result = new List<PlayerSquadPositionDTO>();
-            //var checkHome = 
-            //var squad = await squadRepository.FindByCondition(s => s.SquadId == squadId)
-            //                    .Include(s => s.Match).ThenInclude(m => m.)
-            //                    .FirstOrDefaultAsync();
-            //if(squad != null)
-            //{
-            //    var node = squad.IsHome ? squad.Match.Home : squad.Match.Away;
-            //    var clubClone = node.ClubClone;
-            //    if (clubClone != null && clubClone.Club!=null && clubClone.Club.PlayerClubs!=null)
-            //    {
-            //        var club = clubClone.Club.PlayerClubs;
-                    
-            //    }
-            //};
-            
-
-
+            var checkSquad = await squadRepository.FindByCondition(s => s.SquadId == squadId)
+                            .Include(s => s.Match)
+                                .ThenInclude(m => m.Home)
+                                    .ThenInclude(h => h.ClubClone)
+                            .Include(s => s.Match)
+                                .ThenInclude(m => m.Away)
+                                    .ThenInclude(a => a.ClubClone)
+                            .FirstOrDefaultAsync();
+            if (checkSquad != null)
+            {
+                List<Player> players = await playerRepository.FindByCondition(p =>
+                            p.SquadPositions.FirstOrDefault(sp => sp.SquadId == squadId) == null &&
+                            p.PlayerClubs.FirstOrDefault(pc =>
+                                (checkSquad.IsHome ? checkSquad.Match.Home : checkSquad.Match.Away).ClubClone != null ?
+                                pc.ClubId == (checkSquad.IsHome ? checkSquad.Match.Home : checkSquad.Match.Away).ClubClone.ClubId :
+                                false
+                            ) != null
+                            ).ToListAsync();
+                result = mapper.Map<List<PlayerSquadPositionDTO>>(players);
+            }
             return result;
         }
     }
