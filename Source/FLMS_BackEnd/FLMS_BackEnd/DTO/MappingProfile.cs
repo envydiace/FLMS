@@ -38,6 +38,8 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<UpdatePlayerRequest, Player>();
 
+            CreateMap<Player, PlayerSquadPositionDTO>();
+
             //League
             CreateMap<CreateLeagueRequest, League>()
                 .ForMember(league => league.CreateAt,
