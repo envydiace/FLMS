@@ -126,8 +126,17 @@ namespace FLMS_BackEnd.Utils
             {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
             {"MS-MAIL-08","ClubManager has canceled their registration request" },
 
+            {"MS-SQ-01","Add player to position success" },
+            {"MS-SQ-02","Remove player from position success" },
             {"ER-SQ-01","Squad not found" },
-
+            {"ER-SQ-02","Position not found" },
+            {"ER-SQ-03","Position already have player" },
+            {"ER-SQ-04","Can not add this player to position" },
+            {"ER-SQ-05","Add player to position failed" },
+            {"ER-SQ-06","Position doesn't have player to remove" },
+            {"ER-SQ-07","Remove player from position failed" },
+            {"ER-SQ-08","User doesn't have permission to add player to position" },
+            {"ER-SQ-09","User doesn't have permission to remove player from position" },
         };
 
         public static int DEFAULT_PAGE = 1;

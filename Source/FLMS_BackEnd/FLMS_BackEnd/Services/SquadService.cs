@@ -10,5 +10,7 @@ namespace FLMS_BackEnd.Services
         public Task<SquadResponse> GetSquadById(int squadId);
         public Task<SquadResponse> GetSquadInMatch(SquadInMatchRequest request);
         public Task<List<PlayerSquadPositionDTO>> GetUnsquadPlayer(int squadId);
+        public Task<AddPositionResponse> AddSquadPosition(AddPositionRequest request, int userId);
+        public Task<RemovePositionResponse> RemoveSquadPosition(int squadPositionId, int userId);
     }
 }
