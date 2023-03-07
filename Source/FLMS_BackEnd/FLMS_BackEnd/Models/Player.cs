@@ -10,6 +10,7 @@ namespace FLMS_BackEnd.Models
             MatchEventMains = new HashSet<MatchEvent>();
             MatchEventSupports = new HashSet<MatchEvent>();
             PlayerClubs = new HashSet<PlayerClub>();
+            SquadPositions = new HashSet<SquadPosition>();
         }
 
         public int PlayerId { get; set; }
@@ -27,5 +28,6 @@ namespace FLMS_BackEnd.Models
         public virtual ICollection<MatchEvent> MatchEventMains { get; set; }
         public virtual ICollection<MatchEvent> MatchEventSupports { get; set; }
         public virtual ICollection<PlayerClub> PlayerClubs { get; set; }
+        public virtual ICollection<SquadPosition> SquadPositions { get; set; }
     }
 }

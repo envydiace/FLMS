@@ -95,6 +95,23 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<Match, MatchDTO>();
 
+            //Squad
+            CreateMap<SquadPosition, SquadPositionDTO>()
+                .ForMember(dto => dto.PlayerName,
+                map => map.MapFrom(
+                    squadPosition => squadPosition.Player != null ? squadPosition.Player.Name : null))
+                .ForMember(dto => dto.PlayerAvatar,
+                map => map.MapFrom(
+                    squadPosition => squadPosition.Player != null ? squadPosition.Player.Avatar : null));
+
+            CreateMap<Squad, SquadDTO>()
+                .ForMember(dto => dto.StartingSquad,
+                map => map.MapFrom(
+                    squad => squad.SquadPositions.Where(p => !p.PositionKey.Equals("P0"))))
+                .ForMember(dto => dto.Substitution,
+                map => map.MapFrom(
+                    squad => squad.SquadPositions.Where(p => p.PositionKey.Equals("P0"))));
+
             //Request
             CreateMap<JoinRequest, ParticipateRequest>()
                 .ForMember(request => request.RequestDate,
