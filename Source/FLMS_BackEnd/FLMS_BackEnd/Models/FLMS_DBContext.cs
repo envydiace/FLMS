@@ -30,6 +30,8 @@ namespace FLMS_BackEnd.Models
         public virtual DbSet<Player> Players { get; set; } = null!;
         public virtual DbSet<PlayerClub> PlayerClubs { get; set; } = null!;
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+        public virtual DbSet<Squad> Squads { get; set; } = null!;
+        public virtual DbSet<SquadPosition> SquadPositions { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -246,7 +248,7 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("Participation");
 
-                entity.Property(e => e.Evidence).HasColumnName("Evidence");
+                entity.Property(e => e.Evidence).HasColumnName("evidence");
 
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.Participations)
@@ -321,6 +323,35 @@ namespace FLMS_BackEnd.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__RefreshTo__UserI__5070F446");
+            });
+
+            modelBuilder.Entity<Squad>(entity =>
+            {
+                entity.ToTable("Squad");
+
+                entity.HasOne(d => d.Match)
+                    .WithMany(p => p.Squads)
+                    .HasForeignKey(d => d.MatchId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Squad_Match");
+            });
+
+            modelBuilder.Entity<SquadPosition>(entity =>
+            {
+                entity.ToTable("SquadPosition");
+
+                entity.Property(e => e.PositionKey).HasMaxLength(10);
+
+                entity.HasOne(d => d.Player)
+                    .WithMany(p => p.SquadPositions)
+                    .HasForeignKey(d => d.PlayerId)
+                    .HasConstraintName("FK_SquadPosition_Player");
+
+                entity.HasOne(d => d.Squad)
+                    .WithMany(p => p.SquadPositions)
+                    .HasForeignKey(d => d.SquadId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SquadPosition_Squad");
             });
 
             modelBuilder.Entity<User>(entity =>

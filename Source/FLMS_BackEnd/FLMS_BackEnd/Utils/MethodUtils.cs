@@ -30,7 +30,7 @@ namespace FLMS_BackEnd.Utils
             {
                 return null;
             }
-           
+
         }
 
         public static int CountNumberOfRound(string type, int NumberOfParticipate)
@@ -164,6 +164,41 @@ namespace FLMS_BackEnd.Utils
                 }
             }
 
+            return result;
+        }
+        public static List<Squad> GenerateMatchSquad(int NoPlayerInSquad, int MaxPlayerInTeam)
+        {
+            List<Squad> result = new List<Squad>();
+            if (MaxPlayerInTeam < NoPlayerInSquad)
+            {
+                return null;
+            }
+            List<SquadPosition> homeSquads = new List<SquadPosition>();
+            List<SquadPosition> awaySquads = new List<SquadPosition>();
+            for (int i = 0; i < NoPlayerInSquad; i++)
+            {
+                homeSquads.Add(new SquadPosition { PositionKey = "P" + (i + 1) });
+                awaySquads.Add(new SquadPosition { PositionKey = "P" + (i + 1) });
+            }
+            for (int i = 0; i < MaxPlayerInTeam - NoPlayerInSquad; i++)
+            {
+                homeSquads.Add(new SquadPosition { PositionKey = "P0" });
+                awaySquads.Add(new SquadPosition { PositionKey = "P0" });
+            }
+            Squad home = new Squad
+            {
+                IsHome = true,
+                NoPlayerSquad = NoPlayerInSquad,
+                SquadPositions = homeSquads
+            };
+            result.Add(home);
+            Squad away = new Squad
+            {
+                IsHome = false,
+                NoPlayerSquad = NoPlayerInSquad,
+                SquadPositions = awaySquads
+            };
+            result.Add(away);
             return result;
         }
     }
