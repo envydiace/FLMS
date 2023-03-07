@@ -34,7 +34,7 @@ export class LeagueService {
 
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
-    if(this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
+    if (this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
 
   }
 
@@ -75,6 +75,13 @@ export class LeagueService {
     return this.http.post(`${environment.apiUrl}/api/Request/SendRegistration`, body, { headers: this.headers })
   }
 
-
-
+  findLeagueByName(
+    leagueName: string
+  ): Observable<LeagueList> {
+    let params = new HttpParams();
+    params = params.append('searchLeagueName', leagueName);
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params }).pipe
+      (map((res: LeagueList) => res)
+      , catchError(err => throwError(err)))
+  }
 }
