@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.EMMA;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
@@ -94,6 +95,16 @@ namespace FLMS_BackEnd.DTO
                 );
 
             CreateMap<Match, MatchDTO>();
+            CreateMap<Match, MatchClubDTO>()
+                .ForMember(dto => dto.MatchDate,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString("yyyy/MM/dd")))
+                .ForMember(dto => dto.MatchTime,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString("HH:mm")))
+                .ForMember(dto => dto.LeagueName,
+                map => map.MapFrom(
+                    match => match.League.LeagueName));
 
             //Squad
             CreateMap<SquadPosition, SquadPositionDTO>()
