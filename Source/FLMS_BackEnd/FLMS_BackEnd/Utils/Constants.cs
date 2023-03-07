@@ -8,6 +8,8 @@ namespace FLMS_BackEnd.Utils
         {
             CLUB_MANAGER, LEAGUE_MANAGER, ADMIN
         }
+
+        public const string DATE_FORMAT = "yyyy-MM-dd";
         public static class Role
         {
             public const string CLUB_MANAGER = "CLUB_MANAGER";
@@ -137,6 +139,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-SQ-07","Remove player from position failed" },
             {"ER-SQ-08","User doesn't have permission to add player to position" },
             {"ER-SQ-09","User doesn't have permission to remove player from position" },
+
+            {"ER-MA-01","Match not found" }
         };
 
         public static int DEFAULT_PAGE = 1;
