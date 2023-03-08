@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.EMMA;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
@@ -27,7 +28,11 @@ namespace FLMS_BackEnd.DTO
             CreateMap<Club, ClubByUserDTO>();
 
             //User
-            CreateMap<User, UserProfileDTO>();
+            CreateMap<User, UserProfileDTO>()
+                .ForMember(dto => dto.Role,
+                map => map.MapFrom(
+                    user => user.Role.Replace('_',' ')
+                    ));
 
             //Player
             CreateMap<Player, PlayerDTO>();
@@ -37,6 +42,8 @@ namespace FLMS_BackEnd.DTO
             CreateMap<CreatePlayerRequest, Player>();
 
             CreateMap<UpdatePlayerRequest, Player>();
+
+            CreateMap<Player, PlayerSquadPositionDTO>();
 
             //League
             CreateMap<CreateLeagueRequest, League>()
@@ -92,8 +99,26 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     node => (node.ClubClone != null && node.ClubClone.Club != null) ? node.ClubClone.Club.Logo : null)
                 );
-
-            CreateMap<Match, MatchDTO>();
+            CreateMap<Match, MatchClubDTO>()
+                .ForMember(dto => dto.MatchDate,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString(Constants.DATE_FORMAT)))
+                .ForMember(dto => dto.MatchTime,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString("HH:mm")))
+                .ForMember(dto => dto.LeagueName,
+                map => map.MapFrom(
+                    match => match.League.LeagueName));
+            CreateMap<Match, MatchDTO>()
+                .ForMember(dto => dto.MatchDate,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString(Constants.DATE_FORMAT)))
+                .ForMember(dto => dto.MatchTime,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString("HH:mm")))
+                .ForMember(dto => dto.LeagueName,
+                map => map.MapFrom(
+                    match => match.League.LeagueName));
 
             //Squad
             CreateMap<SquadPosition, SquadPositionDTO>()

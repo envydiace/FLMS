@@ -8,6 +8,8 @@ namespace FLMS_BackEnd.Utils
         {
             CLUB_MANAGER, LEAGUE_MANAGER, ADMIN
         }
+
+        public const string DATE_FORMAT = "yyyy-MM-dd";
         public static class Role
         {
             public const string CLUB_MANAGER = "CLUB_MANAGER";
@@ -40,6 +42,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-US-02","Sign up success" },
             {"MS-US-03","Logout Success" },
             {"MS-US-04","Change password success" },
+            {"MS-US-05","Edit profile success" },
             {"ER-US-01","Request fail" },
             {"ER-US-02","E-mail is being used" },
             {"ER-US-03","Re-entered password need to be the same with password" },
@@ -55,7 +58,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-US-13","Missing login details" },
             {"ER-US-14","Missing refresh token details" },
             {"ER-US-15","Re-entered password and new password don't match" },
-            {"ER-US-16","Incorrrect old password. Please check again." },
+            {"ER-US-16","Incorrrect old password. Please check again" },
+            {"ER-US-17","Edit profile fail" },
 
             {"ER-CL-01","Cannot remove the club because there's still (a) players in the club" },
             {"ER-CL-02","Club doesn't existed" },
@@ -124,6 +128,19 @@ namespace FLMS_BackEnd.Utils
             {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
             {"MS-MAIL-08","ClubManager has canceled their registration request" },
 
+            {"MS-SQ-01","Add player to position success" },
+            {"MS-SQ-02","Remove player from position success" },
+            {"ER-SQ-01","Squad not found" },
+            {"ER-SQ-02","Position not found" },
+            {"ER-SQ-03","Position already have player" },
+            {"ER-SQ-04","Can not add this player to position" },
+            {"ER-SQ-05","Add player to position failed" },
+            {"ER-SQ-06","Position doesn't have player to remove" },
+            {"ER-SQ-07","Remove player from position failed" },
+            {"ER-SQ-08","User doesn't have permission to add player to position" },
+            {"ER-SQ-09","User doesn't have permission to remove player from position" },
+
+            {"ER-MA-01","Match not found" }
         };
 
         public static int DEFAULT_PAGE = 1;

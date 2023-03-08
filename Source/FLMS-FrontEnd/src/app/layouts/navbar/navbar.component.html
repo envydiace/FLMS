@@ -36,9 +36,12 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
-                        <mat-icon>account_circle</mat-icon>
-                        <span>View Profile</span>
+                    <button mat-menu-item >
+                        <a  [routerLink]="['/manager/view-profile']">
+                            <mat-icon>account_circle</mat-icon>
+                            <span>View Profile</span>
+
+                        </a>
                     </button>
                     <button mat-menu-item (click)="logout()">
                         <mat-icon>logout</mat-icon>
