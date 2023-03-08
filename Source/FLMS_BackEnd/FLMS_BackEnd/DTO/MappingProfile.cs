@@ -28,7 +28,11 @@ namespace FLMS_BackEnd.DTO
             CreateMap<Club, ClubByUserDTO>();
 
             //User
-            CreateMap<User, UserProfileDTO>();
+            CreateMap<User, UserProfileDTO>()
+                .ForMember(dto => dto.Role,
+                map => map.MapFrom(
+                    user => user.Role.Replace('_',' ')
+                    ));
 
             //Player
             CreateMap<Player, PlayerDTO>();
