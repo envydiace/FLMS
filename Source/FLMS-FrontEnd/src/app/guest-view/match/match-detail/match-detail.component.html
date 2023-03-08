@@ -1,0 +1,73 @@
+<div class="match-detail-container">
+    <div class="match-detail-cover">
+    </div>
+
+    <div *ngIf="matchDetail">
+        <div class="match-detail-info row justify-content-center">
+            <div class="col-8">
+                <mat-card class="match-detail-card">
+                    <mat-card class="goals-container">
+                        <mat-card-header class="team-1">
+                            <div mat-card-avatar class="match-detail-logo"></div>
+                            <div class="match-detail-title">
+                                {{matchDetail.home.name}}
+                            </div>
+                        </mat-card-header>
+                        <div class="goal-content">
+                            <div class="goals-data">
+                                <span>1</span>
+                                <span>:</span>
+                                <span>0</span>
+                            </div>
+                            <p *ngIf="matchDetail.isFinish" style="justify-content: center;">Finished</p>
+                            <p *ngIf="matchDetail.isFinish == false" style="justify-content: center;">On-going</p>
+                        </div>
+                        <mat-card-header class="team-2">
+                            <div mat-card-avatar class="match-detail-logo"></div>
+                            <div class="match-detail-title">
+                                {{matchDetail.away.name}}
+                            </div>
+                        </mat-card-header>
+                    </mat-card>
+                    <br>
+                    <section class="match-detail-container">
+                        <div class="left-detail" style="text-align: center;">
+                            <p class="match-detail-content"> League: {{matchDetail.leagueName}} </p>
+                            <p class="match-detail-content"> Round: {{matchDetail.round}} </p>
+                        </div>
+                        <div class="right-detail" style="text-align: center;">
+                            <p class="match-detail-content">Match date: {{matchDetail.matchTime}}
+                                {{matchDetail.matchDate}} </p>
+                            <p class="match-detail-content">Stadium: {{matchDetail.stadium}} </p>
+                        </div>
+                    </section>
+                    <div>
+                    </div>
+
+
+                    <div class="row">
+                        <mat-card-content class="match-detail-content">
+                            <mat-tab-group>
+                                <mat-tab label="Stats">
+                                    <ng-template matTabContent>
+
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Event">
+                                    <ng-template matTabContent>
+
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Line up">
+                                    <ng-template matTabContent>
+
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </mat-card-content>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
