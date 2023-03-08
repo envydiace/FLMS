@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.EMMA;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
@@ -94,7 +95,16 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     node => (node.ClubClone != null && node.ClubClone.Club != null) ? node.ClubClone.Club.Logo : null)
                 );
-
+            CreateMap<Match, MatchClubDTO>()
+                .ForMember(dto => dto.MatchDate,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString(Constants.DATE_FORMAT)))
+                .ForMember(dto => dto.MatchTime,
+                map => map.MapFrom(
+                    match => match.MatchDate.ToString("HH:mm")))
+                .ForMember(dto => dto.LeagueName,
+                map => map.MapFrom(
+                    match => match.League.LeagueName));
             CreateMap<Match, MatchDTO>()
                 .ForMember(dto => dto.MatchDate,
                 map => map.MapFrom(

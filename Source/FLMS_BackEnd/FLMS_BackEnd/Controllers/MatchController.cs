@@ -41,5 +41,18 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]/{clubId}")]
+        public async Task<ActionResult<ClubScheduleResponse>> GetClubSchedule(int clubId)
+        {
+            var response = await matchService.GetClubSchedule(clubId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
