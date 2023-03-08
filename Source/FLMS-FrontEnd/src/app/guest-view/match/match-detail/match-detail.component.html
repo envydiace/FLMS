@@ -15,9 +15,9 @@
                         </mat-card-header>
                         <div class="goal-content">
                             <div class="goals-data">
-                                <span>1</span>
+                                <span>{{matchDetail.home.score}}</span>
                                 <span>:</span>
-                                <span>0</span>
+                                <span>{{matchDetail.away.score}}</span>
                             </div>
                             <p *ngIf="matchDetail.isFinish" style="justify-content: center;">Finished</p>
                             <p *ngIf="matchDetail.isFinish == false" style="justify-content: center;">On-going</p>
