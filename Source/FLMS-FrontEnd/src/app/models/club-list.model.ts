@@ -28,3 +28,4 @@ export class ClubListbyUser implements ClubListbyUser {
         this.clubsByUser = clubsByUser;
     }
 }
+

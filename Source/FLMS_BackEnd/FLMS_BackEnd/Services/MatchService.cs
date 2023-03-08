@@ -6,5 +6,6 @@ namespace FLMS_BackEnd.Services
     {
         Task<LeagueScheduleResponse> GetLeagueSchedule(LeagueScheduleRequest request);
         Task<ClubScheduleResponse> GetClubSchedule(int ClubId);
+        Task<MatchInfoResponse> GetMatchInfo(int matchId);
     }
 }

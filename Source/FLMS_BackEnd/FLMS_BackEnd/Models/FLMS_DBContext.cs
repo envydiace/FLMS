@@ -171,24 +171,24 @@ namespace FLMS_BackEnd.Models
             {
                 entity.ToTable("MatchEvent");
 
-                entity.Property(e => e.EventType).HasMaxLength(255);
+                entity.Property(e => e.EventType).HasMaxLength(50);
 
                 entity.HasOne(d => d.Main)
                     .WithMany(p => p.MatchEventMains)
                     .HasForeignKey(d => d.MainId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MatchEven__MainI__46E78A0C");
+                    .HasConstraintName("FK_MatchEvent_Player");
 
                 entity.HasOne(d => d.Match)
                     .WithMany(p => p.MatchEvents)
                     .HasForeignKey(d => d.MatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MatchEven__Match__4CA06362");
+                    .HasConstraintName("FK_MatchEvent_Match");
 
-                entity.HasOne(d => d.Support)
-                    .WithMany(p => p.MatchEventSupports)
-                    .HasForeignKey(d => d.SupportId)
-                    .HasConstraintName("FK__MatchEven__Suppo__48CFD27E");
+                entity.HasOne(d => d.Sub)
+                    .WithMany(p => p.MatchEventSubs)
+                    .HasForeignKey(d => d.SubId)
+                    .HasConstraintName("FK_MatchEvent_Player1");
             });
 
             modelBuilder.Entity<MatchStat>(entity =>

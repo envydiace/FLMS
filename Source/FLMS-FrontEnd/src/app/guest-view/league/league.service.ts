@@ -10,7 +10,7 @@ import { MatchScheduleResponse } from './../../models/match-schedule-response.mo
 import { ClubList } from 'src/app/models/club-list.model';
 import { token } from 'src/app/models/token.model';
 import { Router } from '@angular/router';
-
+import { ClubListByLeagueResponse } from './../../models/club-list-by-league-response.model'
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +73,23 @@ export class LeagueService {
       clubId
     }
     return this.http.post(`${environment.apiUrl}/api/Request/SendRegistration`, body, { headers: this.headers })
+  }
+
+
+  findClubByLeague(
+    leagueId: string,
+    clubName: string
+    ): Observable<ClubListByLeagueResponse> {
+   
+    let params = new HttpParams();
+
+    params = params.append('LeagueId', (leagueId));
+    params = params.append('SearchName', clubName);
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Participation/GetClubByLeague/`, {params} ).pipe(
+      map((res: ClubListByLeagueResponse) => res),
+      catchError(err => throwError(err))
+    )
   }
 
 
