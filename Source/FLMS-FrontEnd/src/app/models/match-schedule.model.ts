@@ -45,3 +45,42 @@ export class MatchSchedule implements MatchSchedule {
 
     }
 }
+
+export interface ClubMatchSchedule {
+    matchId: number,
+    leagueId: number,
+    leagueName: string,
+    against: string,
+    matchDate: Date,
+    matchTime: Date,
+    isFinish: boolean,
+    ha: string,
+    round: string,
+    stadium: string
+}
+
+export class ClubMatchSchedule implements ClubMatchSchedule {
+    constructor(
+        matchId: number,
+        leagueId: number,
+        leagueName: string,
+        against: string,
+        matchDate: Date,
+        matchTime: Date,
+        isFinish: boolean,
+        ha: string,
+        round: string,
+        stadium: string
+    ) {
+        this.matchId = matchId,
+            this.leagueId = leagueId,
+            this.leagueName = leagueName,
+            this.against = against,
+            this.matchDate = matchDate,
+            this.matchTime = matchTime,
+            this.isFinish = isFinish,
+            this.ha = ha,
+            this.round = round,
+            this.stadium = stadium
+    }
+}
