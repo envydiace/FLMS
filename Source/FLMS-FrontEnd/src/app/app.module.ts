@@ -17,7 +17,9 @@ import { GuestViewModule } from './guest-view/guest-view.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
-
+import { AngularFireModule } from '@angular/fire';
+import { environment } from "../environments/environment";
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { MatCardModule } from '@angular/material/card';
     FlmsModule,
     GuestViewModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [MainComponent]
