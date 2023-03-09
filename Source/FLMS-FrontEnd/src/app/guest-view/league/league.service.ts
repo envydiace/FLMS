@@ -12,7 +12,7 @@ import { token } from 'src/app/models/token.model';
 import { Router } from '@angular/router';
 import { ClubListByLeagueResponse } from './../../models/club-list-by-league-response.model'
 import { LeagueFeeResponse} from './../../models/fee-response.model'
-
+import { MatchEvent} from './../../models/match-event-detail.model'
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +112,13 @@ getLeagueFee(leagueId:number): Observable<LeagueFeeResponse>{
 
   return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetLeagueFees`, { params }).pipe(
     map((res: LeagueFeeResponse) => res),
+    catchError(err => throwError(err))
+  )
+}
+
+getMatchEvent(matchId:number): Observable<MatchEvent[]>{
+  return this.http.get<any>(`${environment.apiUrl}/api/Event/GetMatchEvent/${matchId}`, ).pipe(
+    map((res: MatchEvent[]) => res),
     catchError(err => throwError(err))
   )
 }

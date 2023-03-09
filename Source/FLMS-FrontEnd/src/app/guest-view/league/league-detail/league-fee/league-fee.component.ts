@@ -4,6 +4,7 @@ import { FeeDetail } from 'src/app/models/fee-detail.model';
 import { LeagueFeeResponse } from 'src/app/models/fee-response.model';
 import { LeagueService } from '../../league.service';
 import { map, tap } from 'rxjs/operators';
+import { MatchEvent } from 'src/app/models/match-event-detail.model';
 
 @Component({
   selector: 'app-league-fee',
@@ -17,6 +18,8 @@ export class LeagueFeeComponent implements OnInit {
   actual: FeeDetail[] = [];
   planCostTotal: number = 0;
   actualCostTotal: number = 0;
+  matchId: number = 47;
+  matchEvent: MatchEvent[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +32,9 @@ export class LeagueFeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.LeagueService.getMatchEvent(this.matchId).pipe(
+      map((res: MatchEvent[]) => this.matchEvent = res)
+    ).subscribe();
   }
 
   initDataSource() {
@@ -40,6 +46,8 @@ export class LeagueFeeComponent implements OnInit {
     ).subscribe(res => {
       this.getTotal();
     });
+
+    
   }
 
   getTotal() {

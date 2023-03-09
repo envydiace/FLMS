@@ -55,6 +55,7 @@ export class PopUpAddPlayerComponent implements OnInit {
 
   bindDataIntoPlayer() {
     this.player = {
+      playerId: null,
       name: this.getControl('playerName').value,
       nickName: this.getControl('nickname').value,
       dob: this.getControl('dob').value,

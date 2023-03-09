@@ -3,19 +3,15 @@
         <span>League's Fee</span>
     </mat-toolbar>
 </p>
-<br/>
+<br />
 <div class="league-detail-info row justify-content-center">
     <div class="col-sm-6">
-        
         <p>
             <mat-toolbar class="card">
                 <span>Cost Plan</span>
             </mat-toolbar>
         </p>
-
-        <table mat-table class="mat-elevation-z8" style="margin-bottom: 20px;"
-        [dataSource]="plan"
-        >
+        <table mat-table class="mat-elevation-z8" style="margin-bottom: 20px;" [dataSource]="plan">
             <ng-container matColumnDef="expenseName">
                 <th mat-header-cell *matHeaderCellDef> Fee Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.expenseName}} </td>
@@ -25,21 +21,20 @@
             <ng-container matColumnDef="cost">
                 <th mat-header-cell *matHeaderCellDef> Cost(VND) </th>
                 <td mat-cell *matCellDef="let element">{{element.cost}} VND</td>
-                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{planCostTotal}} VND</td>
+                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{planCostTotal}} VND
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="expenseKey">
                 <th mat-header-cell *matHeaderCellDef> Type </th>
                 <td mat-cell *matCellDef="let element">{{element.expenseKey}} </td>
-                <td mat-footer-cell *matFooterCellDef>  </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
         </table>
-
-
     </div>
     <div class="col-sm-6">
         <p>
@@ -47,10 +42,7 @@
                 <span>Actual Cost</span>
             </mat-toolbar>
         </p>
-
-        <table mat-table class="mat-elevation-z8"
-        [dataSource]="actual"
-        >
+        <table mat-table class="mat-elevation-z8" [dataSource]="actual">
             <ng-container matColumnDef="expenseName">
                 <th mat-header-cell *matHeaderCellDef> Fee Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.expenseName}} </td>
@@ -60,21 +52,117 @@
             <ng-container matColumnDef="cost">
                 <th mat-header-cell *matHeaderCellDef> Cost(VND) </th>
                 <td mat-cell *matCellDef="let element"> {{element.cost}}</td>
-                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{actualCostTotal}} VND</td>
+                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{actualCostTotal}}
+                    VND</td>
             </ng-container>
 
             <ng-container matColumnDef="expenseKey">
                 <th mat-header-cell *matHeaderCellDef> Type </th>
                 <td mat-cell *matCellDef="let element"> {{element.expenseKey}}</td>
-                <td mat-footer-cell *matFooterCellDef>  </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
-           
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
         </table>
-        <br/>
-      
+        <br />
     </div>
+</div>
+
+
+
+
+
+<mat-toolbar class="card">
+    <span>MU</span>
+</mat-toolbar>
+<div *ngFor="let matchEvent of matchEvent">
+    <div class="match-detail-info">
+        <div class="match-event row justify-content-center">
+            <mat-card *ngIf="matchEvent.isHome" class="event-content">
+                <mat-card-header style="text-align: right; float: right;">
+                    <mat-card-title>{{matchEvent.main.name}}</mat-card-title>
+                    <mat-card-subtitle *ngIf="matchEvent.sub != null" style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+                </mat-card-header>
+            </mat-card>
+            <div *ngIf="matchEvent.isHome == false" class="event-content"></div>
+            <div class="event-time">
+                <span>{{matchEvent.eventTime}}'</span>
+            </div>
+            <div *ngIf="matchEvent.isHome == false" class="event-content">
+                <mat-card>
+                    <mat-card-header style="text-align: left;">
+                        <mat-card-title>{{matchEvent.main.name}}</mat-card-title>
+                        <mat-card-subtitle *ngIf="matchEvent.sub != null" style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+
+        </div>
+        <div class="vl"></div>
+    </div>
+</div>
+
+<div class="match-detail-info">
+    <div class="match-event row justify-content-center">
+        <mat-card class="event-content">
+            <div mat-card-avatar class=""></div>
+            <mat-card-header style="text-align: right; float: right;">
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+        <div class="event-time">
+            <span>10'</span>
+        </div>
+        <mat-card class="event-content">
+            <mat-card-header style="text-align: left;">
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+    </div>
+    <div class="vl"></div>
+</div>
+
+<div class="match-detail-info">
+    <div class="match-event row justify-content-center">
+        <mat-card class="event-content">
+            <mat-card-header style="text-align: right; float: right;">
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+        <div class="event-time">
+            <span>10'</span>
+        </div>
+        <mat-card class="event-content">
+            <mat-card-header style="text-align: left;">
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+    </div>
+    <div class="vl"></div>
+</div>
+
+<div class="match-detail-info">
+    <div class="match-event row justify-content-center">
+        <mat-card class="event-content">
+            <mat-card-header style="text-align: right; float: right;">
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+        <div class="event-time">
+            <span>10'</span>
+        </div>
+        <mat-card class="event-content">
+            <mat-card-header style="text-align: left;">
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+    </div>
+    <div class="vl"></div>
 </div>
