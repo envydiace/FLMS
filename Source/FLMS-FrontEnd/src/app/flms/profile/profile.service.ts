@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { UserProfileResponse } from './../../models/user-profile-response.model';
 import { token } from './../../models/token.model';
 import { map, catchError } from 'rxjs/operators';
+import { UserProfile } from 'src/app/models/user-profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,9 @@ export class ProfileService {
       map((res: UserProfileResponse) => res)
     )
   }
+editProfile(user: UserProfile){
+  return this.http.put(`${environment.apiUrl}/api/EditProfile`, user, { headers: this.headers });
+}
 
 
 }

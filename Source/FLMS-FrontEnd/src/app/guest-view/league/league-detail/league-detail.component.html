@@ -16,14 +16,14 @@
                     <br>
                     <section class="league-detail-container">
                         <div class="left-detail" style="text-align: center;">
-                            <p class="league-detail-content">Start date: {{leagueDetail.startDate}}</p>
+                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}</p>
                             <p class="league-detail-content">Number of teams: {{leagueDetail.noParticipate}}</p>
                             <p class="league-detail-content">Tournament type: {{leagueDetail.leagueType}}</p>
                             <p class="league-detail-content">League manager: {{leagueDetail.managerName}}</p>
                             <p class="league-detail-content">Fanpage: {{leagueDetail.fanpage}}</p>
                         </div>
                         <div class="right-detail" style="text-align: center;">
-                            <p class="league-detail-content">End date: {{leagueDetail.endDate}}</p>
+                            <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>
                             <p class="league-detail-content">Number of groups: </p>
                             <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
                             </p>

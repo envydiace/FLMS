@@ -45,6 +45,7 @@ import { PopUpSendRegistrationComponent } from './league/league-detail/pop-up-se
 import { PopUpSendInvitationComponent } from './club/club-detail/pop-up-send-invitation/pop-up-send-invitation.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     LeagueSettingsComponent,
     PopUpAddPlayerComponent,
     PopUpSendRegistrationComponent,
-    PopUpSendInvitationComponent
+    PopUpSendInvitationComponent,
+    MatchDetailComponent
   ],
   imports: [
     CommonModule,
