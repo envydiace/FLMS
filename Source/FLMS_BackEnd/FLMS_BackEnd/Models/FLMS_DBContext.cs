@@ -18,7 +18,6 @@ namespace FLMS_BackEnd.Models
 
         public virtual DbSet<Club> Clubs { get; set; } = null!;
         public virtual DbSet<ClubClone> ClubClones { get; set; } = null!;
-        public virtual DbSet<ClubLeague> ClubLeagues { get; set; } = null!;
         public virtual DbSet<League> Leagues { get; set; } = null!;
         public virtual DbSet<LeagueFee> LeagueFees { get; set; } = null!;
         public virtual DbSet<Match> Matches { get; set; } = null!;
@@ -84,18 +83,6 @@ namespace FLMS_BackEnd.Models
                     .HasForeignKey(d => d.LeagueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClubClone_League");
-            });
-
-            modelBuilder.Entity<ClubLeague>(entity =>
-            {
-                entity.ToTable("ClubLeague");
-
-                entity.Property(e => e.ClubName).HasMaxLength(1);
-
-                entity.HasOne(d => d.Club)
-                    .WithMany(p => p.ClubLeagues)
-                    .HasForeignKey(d => d.ClubId)
-                    .HasConstraintName("FK__ClubLeagu__ClubI__412EB0B6");
             });
 
             modelBuilder.Entity<League>(entity =>
