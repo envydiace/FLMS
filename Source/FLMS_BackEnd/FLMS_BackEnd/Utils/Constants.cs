@@ -140,7 +140,11 @@ namespace FLMS_BackEnd.Utils
             {"ER-SQ-08","User doesn't have permission to add player to position" },
             {"ER-SQ-09","User doesn't have permission to remove player from position" },
 
-            {"ER-MA-01","Match not found" }
+            {"ER-MA-01","Match not found" },
+            {"ER-MA-02","This match has been finished" },
+            {"ER-MA-03","This match is not belonged to this user" },
+            {"ER-MA-04","Update match statistic failed" },
+            {"ER-MA-05","Update match statistic successfully" }
         };
 
         public static int DEFAULT_PAGE = 1;
