@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FlmsComponent } from './flms/flms.component';
+import { NotFoundComponent } from './guest-view/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,11 @@ const routes: Routes = [
     path: 'manager',
     component: FlmsComponent,
     loadChildren: () => import('./flms/flms.module').then(m => m.FlmsModule)
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: NotFoundComponent
   }
 ];
 

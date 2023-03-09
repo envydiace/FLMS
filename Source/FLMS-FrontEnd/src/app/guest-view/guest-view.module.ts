@@ -46,6 +46,7 @@ import { PopUpSendInvitationComponent } from './club/club-detail/pop-up-send-inv
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
     PopUpSendRegistrationComponent,
     PopUpSendInvitationComponent,
     MatchDetailComponent
+    NotFoundComponent
   ],
   imports: [
     CommonModule,
