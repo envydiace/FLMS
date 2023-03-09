@@ -171,6 +171,7 @@ namespace FLMS_BackEnd.DTO
 
             //MatchStatistic
             CreateMap<MatchStat, StatisticDTO>();
+            CreateMap<StatInfoDTO, MatchStat>();
         }
     }
 }
