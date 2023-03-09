@@ -10,13 +10,14 @@ table.mat-table {
 
 //Match-event
 
-.match-detail-info {
+.match-event-info {
     position: relative;
     height: 117px;
     .match-event {
 
         .event-content {
             width: 300px;
+            display: flex;
         }
 
         .event-time {
@@ -32,5 +33,10 @@ table.mat-table {
         height: 40px;
         position: absolute;
         left: 50%;
+    }
+    .header-image{
+        width: 30px;
+        height: 30px;
+        margin-top: 7px;
     }
 }

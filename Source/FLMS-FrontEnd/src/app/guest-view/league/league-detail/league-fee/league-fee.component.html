@@ -76,93 +76,51 @@
 <mat-toolbar class="card">
     <span>MU</span>
 </mat-toolbar>
-<div *ngFor="let matchEvent of matchEvent">
-    <div class="match-detail-info">
-        <div class="match-event row justify-content-center">
-            <mat-card *ngIf="matchEvent.isHome" class="event-content">
-                <mat-card-header style="text-align: right; float: right;">
-                    <mat-card-title>{{matchEvent.main.name}}</mat-card-title>
-                    <mat-card-subtitle *ngIf="matchEvent.sub != null" style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
-                </mat-card-header>
-            </mat-card>
-            <div *ngIf="matchEvent.isHome == false" class="event-content"></div>
-            <div class="event-time">
-                <span>{{matchEvent.eventTime}}'</span>
-            </div>
-            <div *ngIf="matchEvent.isHome == false" class="event-content">
-                <mat-card>
-                    <mat-card-header style="text-align: left;">
+
+<div style="background-color: #f8f8f8;">
+    <div *ngFor="let matchEvent of matchEvent">
+        <div class="match-event-info">
+            <div class="match-event row justify-content-center">
+                <mat-card *ngIf="matchEvent.isHome" class="event-content" style="justify-content: flex-end;">
+                    <mat-card-header>
                         <mat-card-title>{{matchEvent.main.name}}</mat-card-title>
-                        <mat-card-subtitle *ngIf="matchEvent.sub != null" style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
+                        <mat-card-subtitle *ngIf="matchEvent.sub != null" style="margin-bottom: 0;">
+                            {{matchEvent.sub.name}}</mat-card-subtitle>
                     </mat-card-header>
+                    <img *ngIf="matchEvent.eventType == 'Goal'" class="header-image"
+                        src="../../../../../assets/image/football-goal-icon.png">
+                    <img *ngIf="matchEvent.eventType == 'OwnGoal'" class="header-image"
+                        src="../../../../../assets/image/football-ownGoal-icon.png">
+                    <img *ngIf="matchEvent.eventType == 'YellowCard'" class="header-image"
+                        src="../../../../../assets/image/football-yellowCard-icon.svg.png">
+                    <img *ngIf="matchEvent.eventType == 'RedCard'" class="header-image"
+                        src="../../../../../assets/image/football-redCard-icon.png">
                 </mat-card>
+                <div *ngIf="matchEvent.isHome == false" class="event-content"></div>
+                <div class="event-time">
+                    <span>{{matchEvent.eventTime}}'</span>
+                </div>
+                <div *ngIf="matchEvent.isHome" class="event-content"></div>
+                <div *ngIf="matchEvent.isHome == false" class="event-content">
+                    <mat-card class="event-content">
+                        <img *ngIf="matchEvent.eventType == 'Goal'" class="header-image"
+                            src="../../../../../assets/image/football-goal-icon.png">
+                        <img *ngIf="matchEvent.eventType == 'OwnGoal'" class="header-image"
+                            src="../../../../../assets/image/football-ownGoal-icon.png">
+                        <img *ngIf="matchEvent.eventType == 'YellowCard'" class="header-image"
+                            src="../../../../../assets/image/football-yellowCard-icon.svg.png">
+                        <img *ngIf="matchEvent.eventType == 'RedCard'" class="header-image"
+                            src="../../../../../assets/image/football-redCard-icon.png">
+                        <mat-card-header style="text-align: left;">
+                            <mat-card-title>{{matchEvent.main.name}}</mat-card-title>
+                            <mat-card-subtitle *ngIf="matchEvent.sub != null" style="margin-bottom: 0;">
+                                {{matchEvent.sub.name}}</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+
             </div>
-
+            <div class="vl"></div>
         </div>
-        <div class="vl"></div>
     </div>
-</div>
-
-<div class="match-detail-info">
-    <div class="match-event row justify-content-center">
-        <mat-card class="event-content">
-            <div mat-card-avatar class=""></div>
-            <mat-card-header style="text-align: right; float: right;">
-                <mat-card-title>Shiba Inu</mat-card-title>
-                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-        <div class="event-time">
-            <span>10'</span>
-        </div>
-        <mat-card class="event-content">
-            <mat-card-header style="text-align: left;">
-                <mat-card-title>Shiba Inu</mat-card-title>
-                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-    </div>
-    <div class="vl"></div>
-</div>
-
-<div class="match-detail-info">
-    <div class="match-event row justify-content-center">
-        <mat-card class="event-content">
-            <mat-card-header style="text-align: right; float: right;">
-                <mat-card-title>Shiba Inu</mat-card-title>
-                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-        <div class="event-time">
-            <span>10'</span>
-        </div>
-        <mat-card class="event-content">
-            <mat-card-header style="text-align: left;">
-                <mat-card-title>Shiba Inu</mat-card-title>
-                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-    </div>
-    <div class="vl"></div>
-</div>
-
-<div class="match-detail-info">
-    <div class="match-event row justify-content-center">
-        <mat-card class="event-content">
-            <mat-card-header style="text-align: right; float: right;">
-                <mat-card-title>Shiba Inu</mat-card-title>
-                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-        <div class="event-time">
-            <span>10'</span>
-        </div>
-        <mat-card class="event-content">
-            <mat-card-header style="text-align: left;">
-                <mat-card-title>Shiba Inu</mat-card-title>
-                <mat-card-subtitle style="margin-bottom: 0;">Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-    </div>
-    <div class="vl"></div>
 </div>
