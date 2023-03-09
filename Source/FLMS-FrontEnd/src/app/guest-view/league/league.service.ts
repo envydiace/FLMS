@@ -78,6 +78,17 @@ export class LeagueService {
   }
 
 
+  findLeagueByName(
+    leagueName: string
+  ): Observable<LeagueList> {
+    let params = new HttpParams();
+    params = params.append('searchLeagueName', leagueName);
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params }).pipe
+      (map((res: LeagueList) => res)
+        , catchError(err => throwError(err)))
+  }
+
+
   findClubByLeague(
     leagueId: string,
     clubName: string
