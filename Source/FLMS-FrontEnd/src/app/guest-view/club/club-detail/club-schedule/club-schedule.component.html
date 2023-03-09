@@ -1,26 +1,31 @@
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<mat-table [dataSource]="listMatch" class="mat-elevation-z8">
   <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+  <ng-container matColumnDef="matchDate">
+    <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.matchDate}} </mat-cell>
   </ng-container>
 
   <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  <ng-container matColumnDef="matchTime">
+    <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.matchTime}} </mat-cell>
   </ng-container>
 
   <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
-    <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+  <ng-container matColumnDef="against">
+    <mat-header-cell *matHeaderCellDef> Against </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.against}} </mat-cell>
   </ng-container>
 
   <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+  <ng-container matColumnDef="stadium">
+    <mat-header-cell *matHeaderCellDef> Stadium </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.stadium}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ha">
+    <mat-header-cell *matHeaderCellDef> H/A </mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.ha}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

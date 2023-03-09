@@ -11,6 +11,8 @@ import { ClubList } from 'src/app/models/club-list.model';
 import { token } from 'src/app/models/token.model';
 import { Router } from '@angular/router';
 import { ClubListByLeagueResponse } from './../../models/club-list-by-league-response.model'
+import { LeagueFeeResponse} from './../../models/fee-response.model'
+
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +78,17 @@ export class LeagueService {
   }
 
 
+  findLeagueByName(
+    leagueName: string
+  ): Observable<LeagueList> {
+    let params = new HttpParams();
+    params = params.append('searchLeagueName', leagueName);
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params }).pipe
+      (map((res: LeagueList) => res)
+        , catchError(err => throwError(err)))
+  }
+
+
   findClubByLeague(
     leagueId: string,
     clubName: string
@@ -92,6 +105,15 @@ export class LeagueService {
     )
   }
 
+getLeagueFee(leagueId:number): Observable<LeagueFeeResponse>{
+  let params = new HttpParams();
 
+  params = params.append("leagueId", String(leagueId))
+
+  return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetLeagueFees`, { params }).pipe(
+    map((res: LeagueFeeResponse) => res),
+    catchError(err => throwError(err))
+  )
+}
 
 }

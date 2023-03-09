@@ -8,6 +8,7 @@ import { UserProfileResponse } from '../models/user-profile-response.model';
 import { environment } from 'src/environments/environment';
 import { UserProfile } from '../models/user-profile.model';
 import { token } from '../models/token.model';
+import jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,6 @@ export class AuthService {
   private headers: HttpHeaders;
   token: token;
 
-  public isAuthorized = false;
   // store the URL so we can redirect after logging in
   public redirectUrl: string;
 
@@ -40,9 +40,7 @@ export class AuthService {
   login(email, password): Observable<boolean> {
     return this.http.post<User>(`${environment.apiUrl}/api/Login`, { email, password })
       .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
-        this.userSubject.next(user);
         return true;
       }));
   }
@@ -62,5 +60,21 @@ export class AuthService {
     return this.http.get<UserProfileResponse>(`${environment.apiUrl}/api/GetUserProfile`, { headers: this.headers }).pipe(
       map((res: UserProfileResponse) => res)
     );
+  }
+
+  getUserRole() {
+    this.token = JSON.parse(localStorage.getItem('user'));
+    const decodedToken = jwt_decode(this.token.accessToken);
+    const role = (decodedToken as {role: string}).role;
+    return role;
+  }
+
+  public getAccessToken(): string {
+    return localStorage.getItem('user');
+  }
+
+  public isLoggedIn(): boolean {
+    const token = this.getAccessToken();
+    return token !== null;
   }
 }

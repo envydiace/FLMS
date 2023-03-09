@@ -164,6 +164,14 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     pa => pa.Club.ClubName
                     ));
+
+            //MatchEvent
+            CreateMap<MatchEvent, MatchEventDTO>();
+            CreateMap<Player, MatchEventPlayerDTO>();
+
+            //MatchStatistic
+            CreateMap<MatchStat, StatisticDTO>();
+            CreateMap<StatInfoDTO, MatchStat>();
         }
     }
 }

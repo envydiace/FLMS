@@ -8,7 +8,6 @@ namespace FLMS_BackEnd.Models
         public Club()
         {
             ClubClones = new HashSet<ClubClone>();
-            ClubLeagues = new HashSet<ClubLeague>();
             ParticipateRequests = new HashSet<ParticipateRequest>();
             Participations = new HashSet<Participation>();
             PlayerClubs = new HashSet<PlayerClub>();
@@ -26,7 +25,6 @@ namespace FLMS_BackEnd.Models
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ClubClone> ClubClones { get; set; }
-        public virtual ICollection<ClubLeague> ClubLeagues { get; set; }
         public virtual ICollection<ParticipateRequest> ParticipateRequests { get; set; }
         public virtual ICollection<Participation> Participations { get; set; }
         public virtual ICollection<PlayerClub> PlayerClubs { get; set; }
