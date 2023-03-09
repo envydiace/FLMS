@@ -33,6 +33,10 @@ namespace FLMS_BackEnd.Utils
         {
             Accept, Reject, Cancel
         }
+        public enum MatchEventType
+        {
+            Goal, OwnGoal, YellowCard, RedCard
+        }
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {

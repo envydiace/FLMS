@@ -98,6 +98,15 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return result;
         }
+        public async Task<List<PlayerSquadPositionDTO>> GetMatchPlayers(int matchId)
+        {
+            var players = await squadPositionRepository.FindByCondition(sp => sp.Squad.MatchId == matchId && sp.PlayerId != null)
+                            .Include(sp => sp.Squad)
+                            .Include(sp => sp.Player)
+                                .Select(sp => sp.Player)
+                                    .ToListAsync();
+            return mapper.Map<List<PlayerSquadPositionDTO>>(players);
+        }
         public async Task<AddPositionResponse> AddSquadPosition(AddPositionRequest request, int userId)
         {
             var position = await squadPositionRepository.FindByCondition(p =>
@@ -122,7 +131,7 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
 
-            if (!this.CheckManagePermission(position,userId))
+            if (!this.CheckManagePermission(position, userId))
             {
                 return new AddPositionResponse
                 {
