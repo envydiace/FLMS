@@ -168,6 +168,9 @@ namespace FLMS_BackEnd.DTO
             //MatchEvent
             CreateMap<MatchEvent, MatchEventDTO>();
             CreateMap<Player, MatchEventPlayerDTO>();
+
+            //MatchStatistic
+            CreateMap<MatchStat, StatisticDTO>();
         }
     }
 }
