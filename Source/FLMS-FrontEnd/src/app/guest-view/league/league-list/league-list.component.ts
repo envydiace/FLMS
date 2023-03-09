@@ -13,8 +13,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./league-list.component.scss']
 })
 export class LeagueListComponent implements OnInit {
+  leagueName: string = null;
+  leagueList: LeagueDetail[] = [];
 
- leagueList: LeagueDetail[] =[] ;
   constructor(
     private leagueService: LeagueService,
     private router: Router
@@ -25,13 +26,18 @@ export class LeagueListComponent implements OnInit {
     this.initDataSource();
   }
 
-  initDataSource(){
-    this.leagueService.getLeagueList().pipe( map((leagueList: LeagueList) => this.leagueList = leagueList.leagues)
+  initDataSource() {
+    this.leagueService.getLeagueList().pipe(map((leagueList: LeagueList) => this.leagueList = leagueList.leagues)
     ).subscribe();
   }
 
+  findLeagueByName(leagueName: string) {
+    if(leagueName == null) leagueName = '';
+    this.leagueService.findLeagueByName(leagueName).pipe(map((leagueList: LeagueList) => this.leagueList = leagueList.leagues)).subscribe();
+  }
+
   navigateToLeagueDetail(id: number) {
-    this.router.navigate(['/league-info'], { queryParams: {leagueId : id}, skipLocationChange: true});
+    this.router.navigate(['/league-info'], { queryParams: { leagueId: id }, skipLocationChange: true });
   }
 }
 

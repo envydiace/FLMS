@@ -10,6 +10,8 @@ namespace FLMS_BackEnd.Models
         public int? SubId { get; set; }
         public int MatchId { get; set; }
         public string EventType { get; set; } = null!;
+        public int EventTime { get; set; }
+        public bool IsHome { get; set; }
 
         public virtual Player Main { get; set; } = null!;
         public virtual Match Match { get; set; } = null!;

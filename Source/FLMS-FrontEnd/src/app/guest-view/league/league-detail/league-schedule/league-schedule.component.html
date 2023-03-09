@@ -22,9 +22,9 @@
 
                     <mat-form-field class="example-full-width" style="max-width: 240px; margin-left: 20px;">
                         <mat-label>Club</mat-label>
-                        <input matInput >
+                        <input matInput>
                         <mat-icon matSuffix>search</mat-icon>
-                      </mat-form-field>
+                    </mat-form-field>
 
                 </div>
 
@@ -32,7 +32,7 @@
             <div class="row justify-content-right">
                 <div class=" justify-content-right" style="display: inline block; ">
                     <button mat-raised-button color="primary">Export</button>
-                   
+
                     <button mat-raised-button>Add</button>
                 </div>
             </div>
@@ -43,8 +43,8 @@
 </div>
 <div>
     <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
-          <!-- Name Column -->
-          <ng-container matColumnDef="time">
+        <!-- Name Column -->
+        <ng-container matColumnDef="time">
             <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.matchDate}}</mat-cell>
         </ng-container>
@@ -53,9 +53,6 @@
             <mat-header-cell *matHeaderCellDef> Home </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.home.name}} </mat-cell>
         </ng-container>
-
-      
-
         <!-- clubB Column -->
         <ng-container matColumnDef="away">
             <mat-header-cell *matHeaderCellDef> Away </mat-header-cell>
@@ -63,11 +60,10 @@
                 {{element.away.name}}
             </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="vs">
-            <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
             <mat-cell *matCellDef="let element">
-            - vs -
+                - vs -
             </mat-cell>
         </ng-container>
         <!-- Symbol Column -->
@@ -75,13 +71,12 @@
             <mat-header-cell *matHeaderCellDef> Round </mat-header-cell>
             <mat-cell *matCellDef="let element"> A </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
             <mat-cell *matCellDef="let element"> </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-row *matRowDef="let element; columns: displayedColumns;" (click)="navigateToMatchDetail(element.matchId)"></mat-row>
     </mat-table>
 </div>

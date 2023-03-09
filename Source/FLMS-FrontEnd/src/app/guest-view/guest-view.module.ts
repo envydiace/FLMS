@@ -44,6 +44,8 @@ import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/po
 import { PopUpSendRegistrationComponent } from './league/league-detail/pop-up-send-registration/pop-up-send-registration.component';
 import { PopUpSendInvitationComponent } from './club/club-detail/pop-up-send-invitation/pop-up-send-invitation.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
@@ -72,6 +74,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     PopUpAddPlayerComponent,
     PopUpSendRegistrationComponent,
     PopUpSendInvitationComponent,
+    MatchDetailComponent
     NotFoundComponent
   ],
   imports: [
@@ -79,6 +82,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     GuestViewRoutingModule,
     MatButtonModule,
     MatIconModule,
+    MatToolbarModule,
     MatListModule,
     ReactiveFormsModule,
     MatFormFieldModule,

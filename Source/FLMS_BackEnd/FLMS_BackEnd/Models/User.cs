@@ -22,6 +22,7 @@ namespace FLMS_BackEnd.Models
         public bool Active { get; set; }
         public DateTime CreateAt { get; set; }
         public string Role { get; set; } = null!;
+        public string? Avatar { get; set; }
 
         public virtual ICollection<Club> Clubs { get; set; }
         public virtual ICollection<League> Leagues { get; set; }
