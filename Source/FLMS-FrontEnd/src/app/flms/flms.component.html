@@ -1,9 +1,9 @@
 <mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer class="example-sidenav navbar-dark" mode="side" opened="true">
-      <mat-accordion>
-        <!-- #docregion basic-panel -->
+  <mat-drawer #drawer class="example-sidenav navbar-dark" mode="side" opened="true">
+    <mat-accordion>
+
+      <div *ngIf="userRole == 'CLUB_MANAGER'">
         <mat-expansion-panel class="sidenav-item" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-          <!-- #enddocregion hide-toggle -->
           <mat-expansion-panel-header>
             <mat-panel-title>
               <a class="panel-title" href="#">Club Manager</a>
@@ -20,7 +20,9 @@
           </div>
         </mat-expansion-panel>
         <mat-divider></mat-divider>
-        <!-- #enddocregion basic-panel -->
+      </div>
+
+      <div *ngIf="userRole == 'LEAGUE_MANAGER'">
         <mat-expansion-panel class="sidenav-item" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -35,33 +37,34 @@
           </div>
         </mat-expansion-panel>
         <mat-divider></mat-divider>
-  
-        <div class="sidenav-button">
-          <a mat-button routerLink="/manager/request-list" class="sidenav-item">
-            <p>Request List</p>
-          </a>
-        </div>
-        <mat-divider></mat-divider>
-  
-        <div class="sidenav-button">
-          <a mat-button routerLink="/manager/view-profile" class="sidenav-item">
-            <p>My Profile</p>
-          </a>
-        </div>
-        <mat-divider></mat-divider>
-      </mat-accordion>
-    </mat-drawer>
+      </div>
 
-    <div>
-      <router-outlet></router-outlet>
-    </div>
-    
-  
-    <div class="sidenav-toggle">
-      <button mat-flat-button color="primary" (click)="drawer.toggle()">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">view_headline</mat-icon>
-      </button>
-    </div>
-  
-  
-  </mat-drawer-container>
+      <div class="sidenav-button">
+        <a mat-button routerLink="/manager/request-list" class="sidenav-item">
+          <p>Request List</p>
+        </a>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div class="sidenav-button">
+        <a mat-button routerLink="/manager/view-profile" class="sidenav-item">
+          <p>My Profile</p>
+        </a>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-accordion>
+  </mat-drawer>
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+
+
+  <div class="sidenav-toggle">
+    <button mat-flat-button color="primary" (click)="drawer.toggle()">
+      <mat-icon aria-hidden="false" aria-label="Example home icon">view_headline</mat-icon>
+    </button>
+  </div>
+
+
+</mat-drawer-container>
