@@ -6,6 +6,7 @@ using FLMS_BackEnd.Repositories.Impl;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Services.Impl;
 using FLMS_BackEnd.Utils;
+using Hangfire;
 using MailKit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -18,8 +19,11 @@ using IMailService = FLMS_BackEnd.Services.IMailService;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
+//Mailkit
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IMailService, MailServiceImpl>();
+
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Project API", Version = "v1" });
@@ -48,7 +52,14 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+//Hangfire for cronjob
+builder.Services.AddHangfire(opt =>
+    {
+        opt.UseSqlServerStorage(builder.Configuration.GetConnectionString("dbUrl"));
+    });
+builder.Services.AddHangfireServer();
 
+//Config Kestral Server
 builder.Services.Configure<KestrelServerOptions>(options =>
 {
     options.AllowSynchronousIO = true;
@@ -76,6 +87,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         });
 
 //Map service
+
 builder.Services.AddScoped<UserService, UserServiceImpl>();
 builder.Services.AddScoped<TokenService, TokenServiceImpl>();
 builder.Services.AddScoped<ClubService, ClubServiceImpl>();
@@ -101,6 +113,7 @@ builder.Services.AddScoped<FeeRepository, FeeRepositoryImpl>();
 builder.Services.AddScoped<ParticipationRepository, ParticipationRepositoryImpl>();
 builder.Services.AddScoped<SquadRepository, SquadRepositoryImpl>();
 builder.Services.AddScoped<SquadPositionRepository, SquadPositionRepositoryImpl>();
+builder.Services.AddScoped<IHangfireService, HangfireServiceImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 
@@ -123,5 +136,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     options.RoutePrefix = string.Empty;
 });
+
+app.UseHangfireDashboard();
 
 app.Run();
