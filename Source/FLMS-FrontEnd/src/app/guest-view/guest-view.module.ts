@@ -74,7 +74,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     PopUpAddPlayerComponent,
     PopUpSendRegistrationComponent,
     PopUpSendInvitationComponent,
-    MatchDetailComponent
+    MatchDetailComponent,
     NotFoundComponent
   ],
   imports: [
