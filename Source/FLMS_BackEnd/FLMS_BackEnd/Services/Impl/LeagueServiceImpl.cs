@@ -47,7 +47,22 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             league = mapper.Map<League>(request);
+
+            List<LeagueFee> leagueFees = new List<LeagueFee>();
+            leagueFees.Add(new LeagueFee
+            {
+                ExpenseName = Constants.Fee.SponsoredName,
+                ExpenseKey = Constants.Fee.SponsoredKey,
+                Cost = request.Sponsored,
+                IsActual = false,
+                FeeType = Constants.FeeType.Sponsored.ToString()
+            });
+            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Prizes));
+            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Fees));
+            league.LeagueFees = leagueFees;
+
             league.UserId = userId;
+
             List<ParticipateNode> participates;
             ICollection<ClubClone> clubClones;
             List<Match> matchList;
@@ -116,7 +131,7 @@ namespace FLMS_BackEnd.Services.Impl
                                         Home = home,
                                         Away = away,
                                         MatchDate = league.StartDate.AddDays(day * 2),
-                                        Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad,request.MaxNoPlayer)
+                                        Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad, request.MaxNoPlayer)
                                     });
                                 }
                             }
@@ -156,9 +171,9 @@ namespace FLMS_BackEnd.Services.Impl
             (request.searchLeagueName == null
                 || request.searchLeagueName == ""
                 || league.LeagueName.StartsWith(request.searchLeagueName))
-            && 
+            &&
             (request.from == null
-                || request.from.GetValueOrDefault().CompareTo(league.StartDate)<=0)
+                || request.from.GetValueOrDefault().CompareTo(league.StartDate) <= 0)
             &&
             (request.to == null
                 || request.to.GetValueOrDefault().CompareTo(league.StartDate) >= 0)
@@ -198,7 +213,7 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<List<LeagueByUserDTO>> GetListLeagueByUser(int userId)
         {
-            var listLeague = await leagueRepository.FindByCondition(l=>l.UserId == userId).ToListAsync();
+            var listLeague = await leagueRepository.FindByCondition(l => l.UserId == userId).ToListAsync();
             return mapper.Map<List<LeagueByUserDTO>>(listLeague);
         }
     }

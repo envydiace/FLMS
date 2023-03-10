@@ -13,6 +13,8 @@
         public string LeagueType { get; set; } = null!;
         public int? NoRound { get; set; }
         public string? Description { get; set; }
-        public virtual ICollection<LeagueFeeRequest> LeagueFees { get; set; }
+        public decimal Sponsored { get; set; }
+        public virtual ICollection<LeaguePrizeRequest> Prizes { get; set; } = new List<LeaguePrizeRequest>();
+        public virtual ICollection<LeagueFeeRequest> Fees { get; set; }= new List<LeagueFeeRequest>();
     }
 }
