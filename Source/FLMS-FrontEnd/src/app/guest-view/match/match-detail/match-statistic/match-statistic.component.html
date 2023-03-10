@@ -1,20 +1,21 @@
 <div>
-    <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
-        <!-- Name Column -->
+
+    <!-- <mat-table [dataSource]="matchStats" class="mat-elevation-z8">
+         Name Column 
         <ng-container matColumnDef="time">
             <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.matchDate}}</mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.home.shot}}</mat-cell>
         </ng-container>
-        <!-- clubA Column -->
+         clubA Column 
         <ng-container matColumnDef="home">
             <mat-header-cell *matHeaderCellDef> Home </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.home.name}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.home.shotOnTarget}} </mat-cell>
         </ng-container>
-        <!-- clubB Column -->
+         clubB Column 
         <ng-container matColumnDef="away">
             <mat-header-cell *matHeaderCellDef> Away </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                {{element.away.name}}
+                {{element.home.foul}}
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="vs">
@@ -23,7 +24,7 @@
                 - vs -
             </mat-cell>
         </ng-container>
-        <!-- Symbol Column -->
+         Symbol Column 
         <ng-container matColumnDef="group">
             <mat-header-cell *matHeaderCellDef> Round </mat-header-cell>
             <mat-cell *matCellDef="let element"> A </mat-cell>
@@ -31,10 +32,8 @@
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
             <mat-cell *matCellDef="let element"> </mat-cell>
-        </ng-container>
+        </ng-container> 
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
-            (click)="navigateToMatchDetail(element.matchId)"></mat-row>
-    </mat-table>
+    
+    </mat-table>-->
 </div>
