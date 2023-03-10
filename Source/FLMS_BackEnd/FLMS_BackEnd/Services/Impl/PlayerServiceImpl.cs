@@ -168,10 +168,10 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
-        public async Task<ListPlayerSearchResponse> GetListPlayerByClubIdWithSearch(ListPlayerFilterRequest request)
+        public async Task<ListPlayerSearchResponse> GetListPlayerByClubIdWithSearch(ListPlayerByClubRequest request)
         {
             var players = await playerClubRepository.FindByCondition(playerClub => (request.searchPlayerName == null || request.searchPlayerName == ""
-            || playerClub.Player.Name.Contains(request.searchPlayerName))
+            || playerClub.Player.Name.ToLower().Contains(request.searchPlayerName.ToLower()))
             && (playerClub.ClubId == request.clubId))
                 .Include(p => p.Player).ToListAsync();
             int total = players.Count;

@@ -60,7 +60,7 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpGet("[action]")]
-        public async Task<ActionResult<ListPlayerSearchResponse>> GetListPlayerByClubId([FromQuery] ListPlayerFilterRequest request)
+        public async Task<ActionResult<ListPlayerSearchResponse>> GetListPlayerByClubId([FromQuery] ListPlayerByClubRequest request)
         {
             var response = await playerService.GetListPlayerByClubIdWithSearch(request);
             if (response.Success)
