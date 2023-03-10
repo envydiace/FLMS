@@ -1,4 +1,5 @@
 export interface Player {
+    playerId: number,
     name: string,
     nickName: string,
     dob: Date,
@@ -14,6 +15,7 @@ export interface Player {
 
 export class Player implements Player {
     constructor(
+        playerId: number,
         name: string,
         nickName: string,
         dob: Date,
@@ -26,6 +28,7 @@ export class Player implements Player {
         clubId: number,
         number: number
     ) {
+        this.playerId = playerId;
         this.name = name;
         this.nickName = nickName;
         this.dob = dob;
