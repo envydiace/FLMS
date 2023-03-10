@@ -59,6 +59,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<ListPlayerSearchResponse>> GetListPlayerByClubId([FromQuery] ListPlayerFilterRequest request)
+        {
+            var response = await playerService.GetListPlayerByClubIdWithSearch(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
 
         [HttpDelete("[action]/{id}")]
         [Authorize(Roles = "CLUB_MANAGER")]
