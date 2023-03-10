@@ -60,6 +60,23 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(fee => fee.IsActual,
                 map => map.MapFrom(
                     request => false
+                    ))
+                .ForMember(fee => fee.FeeType,
+                map => map.MapFrom(
+                    request => Constants.FeeType.Fee.ToString()
+                    ))
+                .ForMember(fee => fee.ExpenseKey,
+                map => map.MapFrom(
+                    request => Constants.Fee.FeeKey
+                    ));
+            CreateMap<LeaguePrizeRequest, LeagueFee>()
+                .ForMember(fee => fee.IsActual,
+                map => map.MapFrom(
+                    request => false
+                    ))
+                .ForMember(fee => fee.FeeType,
+                map => map.MapFrom(
+                    request => Constants.FeeType.Prize.ToString()
                     ));
 
             CreateMap<ParticipateNodeDTO, ParticipateNode>();
