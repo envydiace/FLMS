@@ -122,6 +122,8 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.ExpenseName).HasMaxLength(50);
 
+                entity.Property(e => e.FeeType).HasMaxLength(50);
+
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.LeagueFees)
                     .HasForeignKey(d => d.LeagueId)
