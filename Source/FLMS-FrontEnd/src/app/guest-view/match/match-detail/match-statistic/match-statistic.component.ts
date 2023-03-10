@@ -37,16 +37,30 @@ export class MatchStatisticComponent implements OnInit {
       this.away = res.away
     })).subscribe(() => {
       this.bindDataIntoHome(this.home);
+      this.bindDataIntoAway(this.away);
     });
-  }
-
-  getMatchStatsById(matchId: number) {
-    this.MatchService.getMatchStatsById(this.matchId).pipe(map((res: MatchStatisticsResponse) => this.matchStats = res)).subscribe();
   }
 
   bindDataIntoHome (home: ClubStats) {
     ELEMENT_DATA[0].home = home.shot;
+    ELEMENT_DATA[1].home = home.shotOnTarget;
+    ELEMENT_DATA[2].home = home.conner;
+    ELEMENT_DATA[3].home = home.foul;
+    ELEMENT_DATA[4].home = home.offside;
+    ELEMENT_DATA[5].home = home.yellowCard;
+    ELEMENT_DATA[6].home = home.redCard;
   }
+
+  bindDataIntoAway (away: ClubStats) {
+    ELEMENT_DATA[0].away = away.shot;
+    ELEMENT_DATA[1].away = away.shotOnTarget;
+    ELEMENT_DATA[2].away = away.conner;
+    ELEMENT_DATA[3].away = away.foul;
+    ELEMENT_DATA[4].away = away.offside;
+    ELEMENT_DATA[5].away = away.yellowCard;
+    ELEMENT_DATA[6].away = away.redCard;
+  }
+
 
 }
 
@@ -57,12 +71,11 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {home: 0, type: 'Hydrogen', away: 0},
-  {home: 0, type: 'Helium', away: 0},
-  {home: 0, type: 'Lithium', away: 0},
-  {home: 0, type: 'Beryllium', away: 0},
-  {home: 0, type: 'Boron', away: 0},
-  {home: 0, type: 'Carbon', away: 0},
-  {home: 0, type: 'Nitrogen', away: 0},
-  {home: 0, type: 'Oxygen', away: 0}
+  {home: 0, type: 'Shots', away: 0},
+  {home: 0, type: 'Shots On Target', away: 0},
+  {home: 0, type: 'Conner', away: 0},
+  {home: 0, type: 'Foul', away: 0},
+  {home: 0, type: 'Offside', away: 0},
+  {home: 0, type: 'Yellow Card', away: 0},
+  {home: 0, type: 'Red Card', away: 0}
 ];
