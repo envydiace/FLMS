@@ -168,6 +168,21 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
+        public async Task<ListPlayerSearchResponse> GetListPlayerByClubIdWithSearch(ListPlayerByClubRequest request)
+        {
+            var players = await playerClubRepository.FindByCondition(playerClub => (request.searchPlayerName == null || request.searchPlayerName == ""
+            || playerClub.Player.Name.ToLower().Contains(request.searchPlayerName.ToLower()))
+            && (playerClub.ClubId == request.clubId))
+                .Include(p => p.Player).ToListAsync();
+            int total = players.Count;
+            var result = mapper.Map<List<PlayerSearchDTO>>(players.ToList());
+            return new ListPlayerSearchResponse
+            {
+                Success = true,
+                Players = result
+            };
+        }
+
         public async Task<DeletePlayerClubResponse> DeletePlayerClub(DeletePlayerClubRequest request, int UserId)
         {
             var playerClub = await playerClubRepository.FindByCondition(pClub

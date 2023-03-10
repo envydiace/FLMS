@@ -33,6 +33,16 @@ namespace FLMS_BackEnd.Utils
         {
             Accept, Reject, Cancel
         }
+        public enum FeeType
+        {
+            Sponsored, Prize, Fee
+        }
+        public static class Fee
+        {
+            public const string SponsoredKey = "F0";
+            public const string SponsoredName = "Sponsored";
+            public const string FeeKey = "Ff";
+        }
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {

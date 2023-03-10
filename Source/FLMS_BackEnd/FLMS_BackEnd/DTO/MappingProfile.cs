@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.EMMA;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
+using System.Numerics;
 
 namespace FLMS_BackEnd.DTO
 {
@@ -45,6 +46,16 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<Player, PlayerSquadPositionDTO>();
 
+            CreateMap<PlayerClub, PlayerSearchDTO>()
+                .ForMember(dto => dto.Avatar,
+                map => map.MapFrom(
+                    pclub => pclub.Player.Avatar
+                    ))
+                .ForMember(dto => dto.Name,
+                map => map.MapFrom(
+                    pclub => pclub.Player.Name
+                    ));
+
             //League
             CreateMap<CreateLeagueRequest, League>()
                 .ForMember(league => league.CreateAt,
@@ -60,6 +71,23 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(fee => fee.IsActual,
                 map => map.MapFrom(
                     request => false
+                    ))
+                .ForMember(fee => fee.FeeType,
+                map => map.MapFrom(
+                    request => Constants.FeeType.Fee.ToString()
+                    ))
+                .ForMember(fee => fee.ExpenseKey,
+                map => map.MapFrom(
+                    request => Constants.Fee.FeeKey
+                    ));
+            CreateMap<LeaguePrizeRequest, LeagueFee>()
+                .ForMember(fee => fee.IsActual,
+                map => map.MapFrom(
+                    request => false
+                    ))
+                .ForMember(fee => fee.FeeType,
+                map => map.MapFrom(
+                    request => Constants.FeeType.Prize.ToString()
                     ));
 
             CreateMap<ParticipateNodeDTO, ParticipateNode>();
