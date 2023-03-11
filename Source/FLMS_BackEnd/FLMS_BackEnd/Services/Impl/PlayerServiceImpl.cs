@@ -51,6 +51,10 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new CreateResponse { Success = false, MessageCode = "ER-CL-02" };
             }
+            if(c.UserId != UserId)
+            {
+                return new CreateResponse { Success = false, MessageCode = "ER-CL-08" };
+            }
             var p = await GetPlayerByNickname(request.NickName);
             if (p.Success)
             {
