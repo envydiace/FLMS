@@ -67,7 +67,8 @@
                             <div class="mb-3">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>Email</mat-label>
-                                    <input type="email" formControlName="email" matInput placeholder="Ex. pat@example.com">
+                                    <input type="email" formControlName="email" matInput
+                                        placeholder="Ex. pat@example.com">
                                 </mat-form-field>
                             </div>
                             <div class="mb-3">
@@ -82,15 +83,13 @@
                         </form>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </mat-card-content>
 
     <mat-card-actions>
 
-        <button class="btn btn-primary right" type="button">Change Pass</button>
+        <a routerLink="../../change-password" class="btn btn-primary right" type="button">Change Pass</a>
 
     </mat-card-actions>
 
