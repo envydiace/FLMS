@@ -32,9 +32,7 @@ export class LeagueFeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
-    this.LeagueService.getMatchEvent(this.matchId).pipe(
-      map((res: MatchEvent[]) => this.matchEvent = res)
-    ).subscribe();
+  
   }
 
   initDataSource() {
