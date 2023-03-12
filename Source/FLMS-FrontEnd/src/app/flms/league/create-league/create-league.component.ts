@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-league.component.scss']
 })
 export class CreateLeagueComponent implements OnInit {
-
+  loading = false;
+  
   constructor() { }
 
   ngOnInit(): void {

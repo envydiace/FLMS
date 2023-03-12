@@ -1,26 +1,41 @@
-<p>
-    <mat-toolbar class="card">
-        <span>Create League</span>
-    </mat-toolbar>
-</p>
+<form class="form">
+    <p>
+        <mat-toolbar class="card">
+            <span>Create League</span>
+            <div class="create-league-action">
+                <button mat-raised-button [disabled]="loading" type="submit" color="warn">Create</button>
+            </div>
+        </mat-toolbar>
+    </p>
+    <div class="create-league-containner row justify-content-md-center">
 
-<div class="create-league-containner row justify-content-md-center">
-    <div class="col-8 league-info">
-        <div class="league-info-content">
+        <div class="col-8 league-info">
+            <div class="league-info-content">
+                <mat-form-field appearance="fill">
+                    <mat-label>League Name</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-hint>Hint</mat-hint> -->
+                </mat-form-field>
 
+                <mat-form-field appearance="fill">
+                    <mat-label>League Name</mat-label>
+                    <input matInput placeholder="Placeholder">
+                    <!-- <mat-hint>Hint</mat-hint> -->
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-4 league-card">
+            <div class="league-card-content">
+                <mat-card class="create-league-card">
+
+                    <img mat-card-avatar class="league-header-image"
+                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"><br>
+                    <input type="file" style="margin: 10px 0;">
+
+                    <mat-card-title>Premier League</mat-card-title>
+                    <mat-card-subtitle>Ta Vu Minh Chau</mat-card-subtitle>
+                </mat-card>
+            </div>
         </div>
     </div>
-    <div class="col-4 league-card">
-        <div class="league-card-content">
-            <mat-card class="create-league-card">
-
-                <img mat-card-avatar class="league-header-image"
-                    src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png">
-                <input type="file" (change)="showPreview($event)">
-
-                <mat-card-title>Premier League</mat-card-title>
-                <mat-card-subtitle>Ta Vu Minh Chau</mat-card-subtitle>
-            </mat-card>
-        </div>
-    </div>
-</div>
+</form>

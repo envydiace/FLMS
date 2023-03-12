@@ -22,6 +22,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { CreateLeagueComponent } from './league/create-league/create-league.component';
+import { MatSelectModule } from '@angular/material/select';
+import { LeagueListComponent } from './league/league-list/league-list.component';
+import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { CreateLeagueComponent } from './league/create-league/create-league.comp
     CreateClubComponent,
     ViewProfileComponent,
     RequestListComponent,
-    CreateLeagueComponent
+    CreateLeagueComponent,
+    LeagueListComponent,
+    LeagueDetailComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +46,7 @@ import { CreateLeagueComponent } from './league/create-league/create-league.comp
     MatToolbarModule,
     MatSortModule,
     MatTableModule,
+    MatSelectModule,
     MatPaginatorModule,
     MatSidenavModule,
     MatExpansionModule,
