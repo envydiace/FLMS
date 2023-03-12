@@ -54,12 +54,12 @@
     }
 
     
-    .goals-container{
+    .score-container{
         display:flex;
     }
 
     .team-1{
-        flex: 0.7;
+        flex: 1;
         align-items: center;
         justify-content: center;
         position: relative;
@@ -67,7 +67,7 @@
     }
 
     .team-2{
-        flex: 0.7;
+        flex: 1;
         align-items: center;
         justify-content: center;
         position: relative;
@@ -83,19 +83,19 @@
         display: grid;
     }
 
-    .goal-content{
+    .score-content{
         justify-content: center;
         width: 100px;
     }
 
-    .goals-data{
+    .goal-data{
         font-size: 3em;
-        justify-content: center;
+        text-align: center;
         line-height: 120px;
     }
 
     .match-status{
-        justify-content: center;
+        text-align: center;
         line-height: 1.5em;
     }
 
