@@ -112,6 +112,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-RE-11","User don't have permission to reject this request" },
             {"ER-RE-12","User don't have permission to cancel this request" },
             {"ER-RE-13","Response Fail" },
+            {"ER-RE-14","This league has enough teams participating" },
             {"MS-RE-01","Send Invitation Success" },
             {"MS-RE-02","Send Registration Success" },
             {"MS-RE-03","Send Request Success" },
