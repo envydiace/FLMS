@@ -1,0 +1,40 @@
+.create-league-containner {
+    width: 100%;
+    margin: 0;
+
+    .league-info {
+        height: 500px;
+
+        .league-info-content {
+            background-color: #FFFFFF;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .league-card {
+        height: 500px;
+
+        .league-card-content {
+            background-color: #FFFFFF;
+            width: 100%;
+            height: 100%;
+        }
+
+        .create-league-card {
+            height: 100%;
+            text-align: center;
+
+            .league-header-image {
+                height: 200px;
+                width: 200px;
+            }
+
+            mat-card-title, mat-card-subtitle {
+                margin: 10px 0;
+            }
+        }
+
+        
+    }
+}

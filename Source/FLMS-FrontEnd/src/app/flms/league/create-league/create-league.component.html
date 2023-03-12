@@ -1,0 +1,26 @@
+<p>
+    <mat-toolbar class="card">
+        <span>Create League</span>
+    </mat-toolbar>
+</p>
+
+<div class="create-league-containner row justify-content-md-center">
+    <div class="col-8 league-info">
+        <div class="league-info-content">
+
+        </div>
+    </div>
+    <div class="col-4 league-card">
+        <div class="league-card-content">
+            <mat-card class="create-league-card">
+
+                <img mat-card-avatar class="league-header-image"
+                    src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png">
+                <input type="file" (change)="showPreview($event)">
+
+                <mat-card-title>Premier League</mat-card-title>
+                <mat-card-subtitle>Ta Vu Minh Chau</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </div>
+</div>

@@ -21,13 +21,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { CreateLeagueComponent } from './league/create-league/create-league.component';
 
 @NgModule({
   declarations: [
     FlmsComponent,
     CreateClubComponent,
     ViewProfileComponent,
-    RequestListComponent
+    RequestListComponent,
+    CreateLeagueComponent
   ],
   imports: [
     CommonModule,
