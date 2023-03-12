@@ -7,8 +7,6 @@ import { token } from './../../models/token.model';
 import { Router } from '@angular/router';
 import { MatchDetailResponse } from '../../models/match-detail-response.model';
 import { MatchDetail } from '../../models/match-detail.model';
-import {MatchStats} from '../../models/match-statistics-model'
-import {MatchStatisticsResponse} from './../../models/match-statistic-response-model'
 
 
 @Injectable({
@@ -27,13 +25,5 @@ export class MatchService {
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetMatchInfo/${matchId}`)
       .pipe(map((res: MatchDetailResponse) => res),
         catchError(err => throwError(err)))
-  }
-
-  getMatchStatsById(
-    matchId: number
-  ): Observable<MatchStatisticsResponse> {
-    return this.http.get<any>(`${environment.apiUrl}/api/MatchStatistic/GetMatchStat/${matchId}`)
-    .pipe(map((res: MatchStatisticsResponse) => res),
-    catchError(err => throwError(err)))
   }
 }

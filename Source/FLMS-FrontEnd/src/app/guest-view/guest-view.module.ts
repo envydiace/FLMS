@@ -43,10 +43,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 import { PopUpSendRegistrationComponent } from './league/league-detail/pop-up-send-registration/pop-up-send-registration.component';
 import { PopUpSendInvitationComponent } from './club/club-detail/pop-up-send-invitation/pop-up-send-invitation.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
-import { MatchStatisticComponent } from './match/match-detail/match-statistic/match-statistic.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
@@ -76,7 +75,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
     PopUpSendRegistrationComponent,
     PopUpSendInvitationComponent,
     MatchDetailComponent,
-    MatchStatisticComponent,
     NotFoundComponent
   ],
   imports: [
