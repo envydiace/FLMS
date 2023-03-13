@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { FlmsRoutingModule } from './flms-routing.module';
 import { FlmsComponent } from './flms.component';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +26,20 @@ import { LeagueListComponent } from './league/league-list/league-list.component'
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { PopUpUpdateFeeComponent } from './league/pop-up-update-fee/pop-up-update-fee.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';	
+import { MatChipsModule } from '@angular/material/chips';	
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';	
+import { MatNativeDateModule } from '@angular/material/core';	
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatListModule } from '@angular/material/list';
+import { CdkTableModule } from '@angular/cdk/table';
+import { ClubDetailComponent } from './club/club-detail/club-detail.component';
+import { ClubListComponent } from './club/club-list/club-list.component';
+import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-schedule.component';
+import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
+import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +50,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     CreateLeagueComponent,
     LeagueListComponent,
     LeagueDetailComponent,
-    PopUpUpdateFeeComponent
+    PopUpUpdateFeeComponent,
+    ClubDetailComponent,
+    ClubListComponent,
+    ClubScheduleComponent,
+    ClubPlayerComponent,
+    PopUpAddPlayerComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +78,16 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     FormsModule,
     FlmsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTabsModule,
+    MatListModule,
+    CdkTableModule,
+    MatSelectModule
   ]
 })
 export class FlmsModule { }
