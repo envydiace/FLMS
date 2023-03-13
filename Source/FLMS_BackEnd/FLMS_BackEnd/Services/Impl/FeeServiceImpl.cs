@@ -97,9 +97,9 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-FE-02"
                 };
             }
-            var total = Math.Round(((from e in result where e.FeeType.Equals("Prize") select e.Cost).Sum() +
+            var total = Math.Round((((from e in result where e.FeeType.Equals("Prize") select e.Cost).Sum() +
                 (from e in result where e.FeeType.Equals("Fee") select e.Cost).Sum() -
-                (from e in result where e.FeeType.Equals("Sponsored") select e.Cost).Sum()) / league.NoParticipate,0)*100;
+                (from e in result where e.FeeType.Equals("Sponsored") select e.Cost).Sum()) / league.NoParticipate)/100,0) *100 ;
             return new LeagueFeeClubResponse
             {
                 Success = true,
