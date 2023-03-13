@@ -3,6 +3,7 @@ using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
+using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ocsp;
 
@@ -11,10 +12,12 @@ namespace FLMS_BackEnd.Services.Impl
     public class MatchServiceImpl : BaseService, MatchService
     {
         private readonly MatchRepository matchRepository;
+        private readonly MatchEventRepository matchEventRepository;
 
-        public MatchServiceImpl(MatchRepository matchRepository)
+        public MatchServiceImpl(MatchRepository matchRepository, MatchEventRepository matchEventRepository)
         {
             this.matchRepository = matchRepository;
+            this.matchEventRepository = matchEventRepository;
         }
 
 
@@ -28,7 +31,7 @@ namespace FLMS_BackEnd.Services.Impl
             .OrderBy(m => m.MatchDate)
             .ToListAsync();
             var listmatches = mapper.Map<List<MatchClubDTO>>(matches);
-            foreach(MatchClubDTO matchClub in listmatches)
+            foreach (MatchClubDTO matchClub in listmatches)
             {
                 var match = await matchRepository.FindByCondition(m => m.MatchId == matchClub.MatchId)
                                 .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
@@ -37,9 +40,9 @@ namespace FLMS_BackEnd.Services.Impl
                 if (matchClub.HomeId == ClubId)
                 {
                     matchClub.HA = "Home";
-                    if(match != null && match.Away != null && match.Away.ClubClone != null)
+                    if (match != null && match.Away != null && match.Away.ClubClone != null)
                     {
-                        if(match.Away.ClubClone.Club !=null)
+                        if (match.Away.ClubClone.Club != null)
                         {
                             matchClub.Against = match.Away.ClubClone.Club.ClubName.Trim();
                         }
@@ -115,10 +118,14 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-01"
                 };
             }
+            var listGoals = await matchEventRepository.FindByCondition(e => e.MatchId == matchId && (e.EventType.Equals("Goal") || e.EventType.Equals("OwnGoal"))).ToListAsync();
+            var result = mapper.Map<MatchDTO>(match);
+            result.Home.Score = listGoals.Where(e => e.IsHome).Count();
+            result.Away.Score = listGoals.Where(e => !e.IsHome).Count();
             return new MatchInfoResponse
             {
                 Success = true,
-                Match = mapper.Map<MatchDTO>(match)
+                Match = result
             };
         }
     }
