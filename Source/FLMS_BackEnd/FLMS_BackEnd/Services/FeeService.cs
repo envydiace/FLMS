@@ -7,6 +7,7 @@ namespace FLMS_BackEnd.Services
     {
         Task<LeagueFeeResponse> GetListLeagueFee(int LeagueId);
         Task<FeeDetailResponse> GetLeagueFeeDetail(int LeagueFeeId);
-        Task<FeeDetailResponse> UpdateFeeDetail(FeeDetailRequest feeDetailRequest, int UserID);
+        Task<FeeDetailResponse> UpdateFeeDetail(FeeDetailRequest feeDetailRequest, int UserId);
+        Task<LeagueFeeClubResponse> GetListLeagueFeeEachClub(int leagueId, int clubId);
     }
 }
