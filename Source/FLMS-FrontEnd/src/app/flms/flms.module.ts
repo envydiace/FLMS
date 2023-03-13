@@ -25,6 +25,8 @@ import { CreateLeagueComponent } from './league/create-league/create-league.comp
 import { MatSelectModule } from '@angular/material/select';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
+import { PopUpUpdateFeeComponent } from './league/pop-up-update-fee/pop-up-update-fee.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { LeagueDetailComponent } from './league/league-detail/league-detail.comp
     RequestListComponent,
     CreateLeagueComponent,
     LeagueListComponent,
-    LeagueDetailComponent
+    LeagueDetailComponent,
+    PopUpUpdateFeeComponent
   ],
   imports: [
     CommonModule,
@@ -48,6 +51,7 @@ import { LeagueDetailComponent } from './league/league-detail/league-detail.comp
     MatTableModule,
     MatSelectModule,
     MatPaginatorModule,
+    MatDialogModule,
     MatSidenavModule,
     MatExpansionModule,
     MatDividerModule,
