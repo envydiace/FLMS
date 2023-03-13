@@ -95,13 +95,10 @@ export class ClubService {
   }
 
   getClubMatch(clubId: number): Observable<ClubMatchScheduleResponse> {
-   
-
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetClubSchedule/${clubId}`).pipe(
       map((res: ClubMatchScheduleResponse) => res),
       catchError(err => throwError(err))
     )
-
   }
 
 
