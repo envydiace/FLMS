@@ -48,6 +48,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 import { MatchStatisticComponent } from './match/match-detail/match-statistic/match-statistic.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { MatchEventComponent } from './match/match-detail/match-event/match-event.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     PopUpSendInvitationComponent,
     MatchDetailComponent,
     MatchStatisticComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MatchEventComponent
   ],
   imports: [
     CommonModule,

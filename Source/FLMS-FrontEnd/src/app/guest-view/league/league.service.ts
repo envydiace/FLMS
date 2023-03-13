@@ -11,8 +11,8 @@ import { ClubList } from 'src/app/models/club-list.model';
 import { token } from 'src/app/models/token.model';
 import { Router } from '@angular/router';
 import { ClubListByLeagueResponse } from './../../models/club-list-by-league-response.model'
-import { LeagueFeeResponse} from './../../models/fee-response.model'
-import { MatchEvent} from './../../models/match-event-detail.model'
+import { LeagueFeeResponse } from './../../models/fee-response.model'
+import { MatchEvent } from './../../models/match-event-detail.model'
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,7 @@ export class LeagueService {
 
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
-    if(this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
+    if (this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
 
   }
 
@@ -92,35 +92,31 @@ export class LeagueService {
   findClubByLeague(
     leagueId: string,
     clubName: string
-    ): Observable<ClubListByLeagueResponse> {
-   
+  ): Observable<ClubListByLeagueResponse> {
+
     let params = new HttpParams();
 
     params = params.append('LeagueId', (leagueId));
     params = params.append('SearchName', clubName);
 
-    return this.http.get<any>(`${environment.apiUrl}/api/Participation/GetClubByLeague/`, {params} ).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/api/Participation/GetClubByLeague/`, { params }).pipe(
       map((res: ClubListByLeagueResponse) => res),
       catchError(err => throwError(err))
     )
   }
 
-getLeagueFee(leagueId:number): Observable<LeagueFeeResponse>{
-  let params = new HttpParams();
+  getLeagueFee(leagueId: number): Observable<LeagueFeeResponse> {
+    let params = new HttpParams();
 
-  params = params.append("leagueId", String(leagueId))
+    params = params.append("leagueId", String(leagueId))
 
-  return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetLeagueFees`, { params }).pipe(
-    map((res: LeagueFeeResponse) => res),
-    catchError(err => throwError(err))
-  )
-}
+    return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetLeagueFees`, { params }).pipe(
+      map((res: LeagueFeeResponse) => res),
+      catchError(err => throwError(err))
+    )
+  }
 
-getMatchEvent(matchId:number): Observable<MatchEvent[]>{
-  return this.http.get<any>(`${environment.apiUrl}/api/Event/GetMatchEvent/${matchId}`, ).pipe(
-    map((res: MatchEvent[]) => res),
-    catchError(err => throwError(err))
-  )
-}
+
+
 
 }
