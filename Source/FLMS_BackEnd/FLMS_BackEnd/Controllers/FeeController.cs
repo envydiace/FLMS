@@ -58,5 +58,18 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]/{leagueId}/{clubId}")]
+        public async Task<ActionResult<LeagueFeeClubResponse>> GetLeagueClubFees(int leagueId, int clubId)
+        {
+            var response = await feeService.GetListLeagueFeeEachClub(leagueId,clubId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
