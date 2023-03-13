@@ -6,6 +6,7 @@ import { createLeagueInfo } from '../../../models/create-league-info.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LeagueService } from 'src/app/guest-view/league/league.service';
 import { first } from 'rxjs/operators';
+import { PopUpUpdatePrizeComponent } from '../pop-up-update-prize/pop-up-update-prize.component';
 
 @Component({
   selector: 'app-create-league',
@@ -16,9 +17,10 @@ export class CreateLeagueComponent implements OnInit {
   loading = false;
   createLeagueForm: FormGroup;
   leagueInfo: createLeagueInfo;
+  feeCostTotal: number = 0;
+  prizeCostTotal: number = 0;
 
   listPrize: leaguePrize[] = [
-    { expenseKey: 'F0', expenseName: 'Sponsored', cost: 0 },
     { expenseKey: 'F1', expenseName: 'Gold Medal', cost: 0 },
     { expenseKey: 'F2', expenseName: 'Silver Medal', cost: 0 },
     { expenseKey: 'F3', expenseName: 'Bronze Medal', cost: 0 },
@@ -44,12 +46,27 @@ export class CreateLeagueComponent implements OnInit {
   openDialogUpdateFee(): void {
     const dialogRef = this.dialog.open(PopUpUpdateFeeComponent, {
       width: '1000px',
+      data: { listFee: this.listFee },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != null || result != undefined) this.listFee = result;
+      this.getTotal();
+      console.log('The dialog was closed');
+    });
+  }
+
+  openDialogUpdatePrize(): void {
+    const dialogRef = this.dialog.open(PopUpUpdatePrizeComponent, {
+      width: '1000px',
       data: { leaguePrize: this.listPrize },
       disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.listPrize = result;
+      if(result != null || result != undefined) this.listPrize = result;
+      this.getTotal();
       console.log('The dialog was closed');
     });
   }
@@ -116,5 +133,19 @@ export class CreateLeagueComponent implements OnInit {
           this.loading = false;
         }
       });
+  }
+
+  getTotal() {
+    if(this.listFee != null) {
+      this.feeCostTotal = 0;
+      this.listFee.forEach(element => {
+        this.feeCostTotal += element.cost;
+      });
+    }
+    
+    this.prizeCostTotal = 0;
+    this.listPrize.forEach(element => {
+      this.prizeCostTotal += element.cost;
+    });
   }
 }

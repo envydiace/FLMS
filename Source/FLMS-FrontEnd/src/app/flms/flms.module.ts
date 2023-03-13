@@ -21,11 +21,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { CreateLeagueComponent } from './league/create-league/create-league.component';
-import { MatSelectModule } from '@angular/material/select';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { PopUpUpdateFeeComponent } from './league/pop-up-update-fee/pop-up-update-fee.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';	
 import { MatChipsModule } from '@angular/material/chips';	
 import { MatSelectModule } from '@angular/material/select';
@@ -40,6 +38,7 @@ import { ClubListComponent } from './club/club-list/club-list.component';
 import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-schedule.component';
 import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
+import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-update-prize.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +54,8 @@ import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/po
     ClubListComponent,
     ClubScheduleComponent,
     ClubPlayerComponent,
-    PopUpAddPlayerComponent
+    PopUpAddPlayerComponent,
+    PopUpUpdatePrizeComponent
   ],
   imports: [
     CommonModule,

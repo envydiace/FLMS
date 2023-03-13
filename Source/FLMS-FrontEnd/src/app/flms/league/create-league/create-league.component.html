@@ -17,7 +17,7 @@
                     <div>
                         <mat-form-field appearance="fill" class="create-league-input">
                             <mat-label>Enter League Name</mat-label>
-                            <input matInput>
+                            <input matInput formControlName="leagueName">
                         </mat-form-field>
                     </div>
 
@@ -27,7 +27,7 @@
                             <div>
                                 <mat-form-field appearance="fill">
                                     <mat-label>Ex. 12</mat-label>
-                                    <input matInput type="number" min="10">
+                                    <input matInput type="number" min="10" formControlName="noParticipate">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                             <div>
                                 <mat-form-field appearance="fill">
                                     <mat-label>Ex. 30</mat-label>
-                                    <input matInput type="number" min="10">
+                                    <input matInput type="number" min="10" formControlName="maxNoPlayer">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             <div>
                                 <mat-form-field appearance="fill">
                                     <mat-label>Ex. 11</mat-label>
-                                    <input matInput type="number" min="10">
+                                    <input matInput type="number" min="10" formControlName="noPlayerSquad">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                     <div>
                         <mat-form-field appearance="fill" class="create-league-input">
                             <mat-label>Enter Location</mat-label>
-                            <input matInput>
+                            <input matInput formControlName="location">
                         </mat-form-field>
                     </div>
 
@@ -106,26 +106,34 @@
                     <mat-card-content>
                         <div>
                             <img src="../../../../assets/image/gold-medal.png" style="height: 40px;">
-                            {{listPrize[1].cost}} VND
+                            {{listPrize[0].cost}} VND
                         </div>
                         <div>
                             <img src="../../../../assets/image/silver-medal.png" style="height: 40px;">
-                            {{listPrize[2].cost}} VND
+                            {{listPrize[1].cost}} VND
                         </div>
                         <div>
                             <img src="../../../../assets/image/bronze-medal.png" style="height: 40px;">
-                            {{listPrize[3].cost}} VND
+                            {{listPrize[2].cost}} VND
+                        </div>
+                        <div *ngFor="let prize of listPrize; let i = index">
+                            <div *ngIf="i > 2">
+                                {{listPrize[i].expenseName}}: {{listPrize[i].cost}} VND
+                            </div>
                         </div>
                         <div>
-                            Total Prize: 25.000.000 VND
+                            Total Prize: {{prizeCostTotal}} VND
                         </div>
                         <div>
-                            Total Fee: 25.000.000 VND
+                            Total Fee: {{feeCostTotal}} VND
+                        </div>
+                        <div>
+                            Registration Fee: 20000000 VND
                         </div>
                     </mat-card-content>
                     <div class="row justify-content-center" style="margin: 0;">
-                        <button mat-raised-button color="primary" (click)="openDialogUpdateFee()">Update Prize</button>
-                        <button mat-raised-button color="warn">Update Fee</button>
+                        <button mat-raised-button color="primary" (click)="openDialogUpdatePrize()">Update Prize</button>
+                        <button mat-raised-button color="warn" (click)="openDialogUpdateFee()">Update Fee</button>
                     </div>
 
                 </mat-card>
