@@ -63,14 +63,14 @@
             </div>
             <div class="right-content">
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Nickname" formControlName="nickname">
+                    <input matInput placeholder="Nick Name" formControlName="nickname">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
                         Required
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
-                    <mat-label>Form</mat-label>
+                    <mat-label>Date Of Birth </mat-label>
                     <input matInput [matDatepicker]="from" formControlName="dob">
                     <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
                     <mat-datepicker #from></mat-datepicker>
@@ -83,7 +83,7 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Nickname" formControlName="phoneNumber">
+                    <input matInput placeholder="Phone Number" formControlName="phoneNumber">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
                         Required
