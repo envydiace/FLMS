@@ -1,39 +1,176 @@
-<form class="form">
+<form [formGroup]="createLeagueForm">
     <p>
         <mat-toolbar class="card">
             <span>Create League</span>
             <div class="create-league-action">
-                <button mat-raised-button [disabled]="loading" type="submit" color="warn">Create</button>
+                <button mat-raised-button type="submit" (click)="onSubmit()" type="submit" color="warn">Create</button>
             </div>
         </mat-toolbar>
     </p>
-    <div class="create-league-containner row justify-content-md-center">
+    <div class="create-league-containner row">
+        <div class="col-xl-9">
+            <div class="card mb-4">
+                <div class="card-header">Your League Infomation</div>
+                <div class="card-body ">
+                    <label class="create-league-label">Your League Name: </label>
+                    <div>
+                        <mat-form-field appearance="fill" class="create-league-input">
+                            <mat-label>Enter League Name</mat-label>
+                            <input matInput formControlName="leagueName">
+                        </mat-form-field>
+                    </div>
 
-        <div class="col-8 league-info">
-            <div class="league-info-content">
-                <mat-form-field appearance="fill">
-                    <mat-label>League Name</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-hint>Hint</mat-hint> -->
-                </mat-form-field>
+                    <div class="row" style="margin: 0;">
+                        <div class="league-input-number">
+                            <label class="create-league-label">Start date: </label>
+                            <div>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input matInput [matDatepicker]="startDate" formControlName="startDate">
+                                    <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #startDate></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>League Name</mat-label>
-                    <input matInput placeholder="Placeholder">
-                    <!-- <mat-hint>Hint</mat-hint> -->
-                </mat-form-field>
+                        <div class="league-input-number">
+                            <label class="create-league-label">End date:</label>
+                            <div>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input matInput [matDatepicker]="endDate" formControlName="endDate">
+                                    <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #endDate></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="league-input-number">
+                            <label class="create-league-label">Sponsored:</label>
+                            <div>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Ex. 100000</mat-label>
+                                    <input matInput type="number" min="10" formControlName="sponsored">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin: 0;">
+                        <div class="league-input-number">
+                            <label class="create-league-label">Number of participating teams: </label>
+                            <div>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Ex. 12</mat-label>
+                                    <input matInput type="number" min="10" formControlName="noParticipate">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="league-input-number">
+                            <label class="create-league-label">Maximum number of players in team: </label>
+                            <div>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Ex. 30</mat-label>
+                                    <input matInput type="number" min="10" formControlName="maxNoPlayer">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="league-input-number">
+                            <label class="create-league-label">Number of player in squad: </label>
+                            <div>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Ex. 11</mat-label>
+                                    <input matInput type="number" min="10" formControlName="noPlayerSquad">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="create-league-label">Location: </label>
+                    <div>
+                        <mat-form-field appearance="fill" class="create-league-input">
+                            <mat-label>Enter Location</mat-label>
+                            <input matInput formControlName="location">
+                        </mat-form-field>
+                    </div>
+
+                    <label class="create-league-label">Fanpage: </label>
+                    <div>
+                        <mat-form-field appearance="fill" class="create-league-input">
+                            <mat-label>Enter Fanpage</mat-label>
+                            <input matInput formControlName="fanpage">
+                        </mat-form-field>
+                    </div>
+
+                    <label class="create-league-label">Description:</label>
+                    <div>
+                        <mat-form-field appearance="fill" class="create-league-input">
+                            <mat-label>Enter Description</mat-label>
+                            <textarea matInput rows="10" formControlName="description"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <label class="create-league-label">Competition format:</label>
+                    <div>
+                        <mat-form-field appearance="fill" class="create-league-input">
+                            <mat-label>Select Format</mat-label>
+                            <mat-select formControlName="leagueType">
+                                <mat-option value="LEAGUE">LEAGUE</mat-option>
+                                <mat-option value="KO">KO</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-4 league-card">
-            <div class="league-card-content">
+
+        <div class="col-xl-3">
+            <div class="card mb-4 mb-xl-0 league-card">
+                <div class="card-header">Your League</div>
                 <mat-card class="create-league-card">
 
                     <img mat-card-avatar class="league-header-image"
                         src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"><br>
-                    <input type="file" style="margin: 10px 0;">
+                    <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
 
                     <mat-card-title>Premier League</mat-card-title>
                     <mat-card-subtitle>Ta Vu Minh Chau</mat-card-subtitle>
+                    <mat-card-content>
+                        <div>
+                            <img src="../../../../assets/image/gold-medal.png" style="height: 40px;">
+                            {{listPrize[0].cost}} VND
+                        </div>
+                        <div>
+                            <img src="../../../../assets/image/silver-medal.png" style="height: 40px;">
+                            {{listPrize[1].cost}} VND
+                        </div>
+                        <div>
+                            <img src="../../../../assets/image/bronze-medal.png" style="height: 40px;">
+                            {{listPrize[2].cost}} VND
+                        </div>
+                        <div *ngFor="let prize of listPrize; let i = index">
+                            <div *ngIf="i > 2">
+                                {{listPrize[i].expenseName}}: {{listPrize[i].cost}} VND
+                            </div>
+                        </div>
+                        <div>
+                            Total Prize: {{prizeCostTotal}} VND
+                        </div>
+                        <div>
+                            Total Fee: {{feeCostTotal}} VND
+                        </div>
+                        <div>
+                            <!-- Registration Fee: 20000000 VND -->
+                        </div>
+                    </mat-card-content>
+                    <div class="row justify-content-center" style="margin: 0;">
+                        <button mat-raised-button color="primary" (click)="openDialogUpdatePrize()">Update
+                            Prize</button>
+                        <button mat-raised-button color="warn" (click)="openDialogUpdateFee()">Update Fee</button>
+                    </div>
+
                 </mat-card>
             </div>
         </div>

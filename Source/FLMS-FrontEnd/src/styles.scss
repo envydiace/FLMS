@@ -37,3 +37,18 @@ $FLMS-FrontEnd-theme: mat-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.blue-snackbar {
+  background: #0071ce;
+  color: #fff;
+}
+
+.red-snackbar {
+  background: #D82540;
+  color: #fff;
+}
+
+.green-snackbar {
+  background: #4DDA44;
+  color: #fff;
+}
