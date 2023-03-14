@@ -20,18 +20,19 @@
                         <div mat-card-avatar class="profile-image"></div>
                         <mat-card-title style="line-height: 85px;">{{club.clubName}}</mat-card-title>
 
+                        <div *ngIf="club.confirmed != true">
+                            <div style="text-align: right; 
+                            position:absolute; right:10px; top: 40px; display: inline;">
+                           <div class="button-container">
 
-                        <div style="text-align: right; 
-                             position:absolute; right:10px; top: 40px; display: inline;">
-                            <div class="button-container">
-                                <button mat-raised-button style="width: 120px;" color="primary"
-                                (click) = "openLeagueClubFee(club.clubId)" >
-                                    Confirm
-                                </button>
-                            </div>
-
-
+                               <button mat-raised-button style="width: 120px;" color="primary"
+                                   (click)="openLeagueClubFee(club.clubId)">
+                                   Confirm
+                               </button>
+                           </div>
+                       </div>
                         </div>
+                    
                     </mat-card-header>
 
                 </mat-card>
