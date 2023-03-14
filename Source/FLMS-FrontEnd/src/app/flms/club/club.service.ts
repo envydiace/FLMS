@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AddClub } from '../../models/club-detail.model';
 import { token } from '../../models/token.model';
-
+import { Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { ClubList } from './../../models/club-list.model';
+import { Player } from 'src/app/models/player.model';
+import { ClubDetailResponse } from './../../models/club-detail-response.model';
+import { ClubListbyUser } from 'src/app/models/club-detail.model';
+import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
+import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 
 
 @Injectable({
@@ -24,9 +31,85 @@ export class ClubService {
   }
 
   addClub(club: AddClub) {
-    return this.http.post(`${environment.apiUrl}/api/Club/CreateClub`, club,{headers: this.headers} )
+    return this.http.post(`${environment.apiUrl}/api/Club/CreateClub`, club, { headers: this.headers })
   }
 
 
+  findAll(page: number, size: number): Observable<ClubList> {
+    let params = new HttpParams();
+
+    params = params.append('page', String(page));
+    params = params.append('pageSize', String(size));
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, { params }).pipe(
+      map((clubList: ClubList) => clubList),
+      catchError(err => throwError(err))
+    )
+  }
+
+  findbyUserId(): Observable<ClubListbyUser[]> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubByUser`, { headers: this.headers }).pipe(
+      map((ClubListbyUser: ClubListbyUser[]) => ClubListbyUser),
+      catchError(err => throwError(err))
+    )
+  }
+
+  public getListClubFilter(
+    clubName: string,
+    managerName: string,
+    page: number,
+    size: number
+  ): Observable<any> {
+    let params = new HttpParams();
+
+    params = params.append('searchClubName', clubName);
+    params = params.append('searchManagerName', managerName);
+    params = params.append('page', String(page));
+    params = params.append('pageSize', String(size));
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, { params });
+  }
+
+  getdetailinfo(id: number): Observable<ClubDetailResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClub/${id}`).pipe(
+      map((res: ClubDetailResponse) => res),
+      catchError(err => throwError(err))
+    )
+  }
+
+  public addPlayer(player: Player) {
+    return this.http.post(`${environment.apiUrl}/api/Player/CreatePlayer`, player, { headers: this.headers });
+  }
+
+  getPlayerListFilter(
+    playerName: string,
+    clubId: string
+  ): Observable<ClubListPlayerResponse> {
+    let params = new HttpParams();
+
+    params = params.append('searchPlayerName', playerName);
+    params = params.append('clubId', clubId);
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Player/GetListPlayerFilter`, { params }).pipe(
+      map((res: ClubListPlayerResponse) => res),
+      catchError(err => throwError(err))
+    )
+  }
+
+  sendInvitation(leagueId: number, clubId: number) {
+    let body = {
+      leagueId,
+      clubId
+    }
+    return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body, { headers: this.headers })
+  }
+
+  getClubMatch(clubId: number): Observable<ClubMatchScheduleResponse> {
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Match/GetClubSchedule/${clubId}`).pipe(
+      map((res: ClubMatchScheduleResponse) => res),
+      catchError(err => throwError(err))
+    )
+  }
 
 }

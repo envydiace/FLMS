@@ -11,15 +11,17 @@ namespace FLMS_BackEnd.Services.Impl
     public class ParticipateRequestServiceImpl : BaseService, ParticipateRequestService
     {
         private readonly ParticipateRequestRepository participateRequestRepository;
+        private readonly ParticipationRepository participationRepository;
         private readonly LeagueRepository leagueRepository;
         private readonly ClubRepository clubRepository;
         private readonly UserRepository userRepository;
-        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository, ClubRepository clubRepository)
+        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository, ClubRepository clubRepository, ParticipationRepository participationRepository)
         {
             this.participateRequestRepository = participateRequestRepository;
             this.leagueRepository = leagueRepository;
             this.userRepository = userRepository;
             this.clubRepository = clubRepository;
+            this.participationRepository = participationRepository;
         }
         public async Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type)
         {
@@ -308,6 +310,15 @@ namespace FLMS_BackEnd.Services.Impl
                         {
                             Success = false,
                             MessageCode = "ER-RE-10"
+                        };
+                    }
+                    var participations = await participationRepository.FindByCondition(p => p.LeagueId == request.LeagueId).ToListAsync();
+                    if(request.League.NoParticipate == participations.Count)
+                    {
+                        return new ResponseRequestResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-RE-14"
                         };
                     }
                     request.RequestStatus = Constants.RequestStatus.Accepted.ToString();

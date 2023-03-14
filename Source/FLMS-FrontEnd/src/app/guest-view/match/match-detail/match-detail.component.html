@@ -6,21 +6,21 @@
         <div class="match-detail-info row justify-content-center">
             <div class="col-8">
                 <mat-card class="match-detail-card">
-                    <mat-card class="goals-container">
+                    <mat-card class="score-container">
                         <mat-card-header class="team-1">
                             <div mat-card-avatar class="match-detail-logo"></div>
                             <div class="match-detail-title">
                                 {{matchDetail.home.name}}
                             </div>
                         </mat-card-header>
-                        <div class="goal-content">
-                            <div class="goals-data">
+                        <div class="score-content">
+                            <div class="goal-data">
                                 <span>{{matchDetail.home.score}}</span>
                                 <span>:</span>
                                 <span>{{matchDetail.away.score}}</span>
                             </div>
-                            <p *ngIf="matchDetail.isFinish" style="justify-content: center;">Finished</p>
-                            <p *ngIf="matchDetail.isFinish == false" style="justify-content: center;">On-going</p>
+                            <p *ngIf="matchDetail.isFinish" style="text-align: center;">Finished</p>
+                            <p *ngIf="matchDetail.isFinish == false" style="text-align: center;">On-going</p>
                         </div>
                         <mat-card-header class="team-2">
                             <div mat-card-avatar class="match-detail-logo"></div>
@@ -43,19 +43,17 @@
                     </section>
                     <div>
                     </div>
-
-
                     <div class="row">
                         <mat-card-content class="match-detail-content">
                             <mat-tab-group>
                                 <mat-tab label="Stats">
                                     <ng-template matTabContent>
-
+                                        <app-match-statistic></app-match-statistic>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Event">
                                     <ng-template matTabContent>
-
+                                        <app-match-event></app-match-event>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Line up">

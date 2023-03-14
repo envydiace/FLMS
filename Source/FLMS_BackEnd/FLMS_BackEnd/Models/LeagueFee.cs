@@ -11,6 +11,7 @@ namespace FLMS_BackEnd.Models
         public string ExpenseName { get; set; } = null!;
         public decimal Cost { get; set; }
         public bool IsActual { get; set; }
+        public string FeeType { get; set; } = null!;
 
         public virtual League League { get; set; } = null!;
     }
