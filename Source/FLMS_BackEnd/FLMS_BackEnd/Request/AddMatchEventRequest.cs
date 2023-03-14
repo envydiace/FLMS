@@ -7,6 +7,6 @@
         public int MatchId { get; set; }
         public string EventType { get; set; } = null!;
         public int EventTime { get; set; }
-        public bool IsHome { get; set; }
+        public int ClubId { get; set; }
     }
 }

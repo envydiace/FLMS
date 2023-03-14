@@ -2,12 +2,15 @@
 using FLMS_BackEnd.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FLMS_BackEnd.Request;
+using FLMS_BackEnd.Response;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FLMS_BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventController : ControllerBase
+    public class EventController : BaseApiController
     {
         private readonly MatchEventService matchEventService;
 
@@ -19,6 +22,20 @@ namespace FLMS_BackEnd.Controllers
         public async Task<List<MatchEventDTO>> GetMatchEvent(int matchId)
         {
             return await matchEventService.GetMatchEvent(matchId);
+        }
+        [HttpPost("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<AddMatchEventResponse>> AddMatchEvent(AddMatchEventRequest request)
+        {
+            var response = await matchEventService.AddEvent(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
         }
     }
 }
