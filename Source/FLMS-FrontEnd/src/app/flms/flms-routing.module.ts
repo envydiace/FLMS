@@ -6,7 +6,10 @@ import { RequestListComponent } from './request-list/request-list.component';
 import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { AuthGuard } from './../auth/auth.guard';
 import { RoleGuard } from './../auth/role.guard';
+import { CreateLeagueComponent } from './league/create-league/create-league.component';
 import { ClubListComponent } from './club/club-list/club-list.component';
+import { LeagueListComponent } from './league/league-list/league-list.component';
+import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 
 const routes: Routes = [
   {
@@ -19,6 +22,24 @@ const routes: Routes = [
     component: CreateClubComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRole: 'CLUB_MANAGER' }
+  },
+  {
+    path: 'create-league',
+    component: CreateLeagueComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
+  },
+    {
+    path: 'my-league',
+    component: LeagueListComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
+  },
+  {
+    path: 'my-league-info',
+    component: LeagueDetailComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
   },
   {
     path: 'request-list',

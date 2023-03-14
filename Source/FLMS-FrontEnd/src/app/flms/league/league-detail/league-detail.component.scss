@@ -1,0 +1,60 @@
+.league-detail-container {
+
+    .league-detail-cover {
+        background-color: #F5F5FA;
+        width: 100%;
+        height: 100px;
+        background-image: url('./../../../../assets/image/ClubWP.jpg');
+        background-position: bottom;
+    }
+
+    .league-detail-info {
+       
+        width: 100%;
+        height: 100px;
+
+        .league-detail-card {
+            max-width: 100%;
+
+            .league-detail-title {
+                padding-top: 40px;
+            }
+        }
+
+        .league-detail-logo {
+            background-image: url('./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png');
+            background-size: cover;
+            height: 130px;
+            width: 130px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .league-detail-content {
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    .league-detail-container {
+        display: flex;
+    }
+
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
+    .box-border {
+        border-right: 1px solid black;
+    }
+
+    .league-detail-content {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+}

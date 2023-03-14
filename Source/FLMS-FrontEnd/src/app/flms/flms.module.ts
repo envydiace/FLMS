@@ -20,11 +20,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CreateLeagueComponent } from './league/create-league/create-league.component';
+import { MatSelectModule } from '@angular/material/select';
+import { LeagueListComponent } from './league/league-list/league-list.component';
+import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';	
 import { MatChipsModule } from '@angular/material/chips';	
-import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatDatepickerModule } from '@angular/material/datepicker';	
+import {MatMenuModule} from '@angular/material/menu';
+
 import { MatNativeDateModule } from '@angular/material/core';	
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
@@ -34,6 +39,12 @@ import { ClubListComponent } from './club/club-list/club-list.component';
 import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-schedule.component';
 import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
+import { LeagueScheduleComponent } from './league/league-detail/league-schedule/league-schedule.component';
+import {JoinedClubsComponent} from './league/league-detail/joined-clubs/joined-clubs.component'
+import {LeagueStatisticComponent} from './league/league-detail/league-statistic/league-statistic.component'
+import { LeagueFeeComponent} from './league/league-detail/league-fee/league-fee.component'
+import {LeagueSettingsComponent} from './league/league-detail/league-settings/league-settings.component'
+import {ConfirmFeeComponent} from './league/league-detail/confirm-fee/confirm-fee.component'
 
 @NgModule({
   declarations: [
@@ -41,6 +52,15 @@ import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/po
     CreateClubComponent,
     ViewProfileComponent,
     RequestListComponent,
+    CreateLeagueComponent,
+    LeagueListComponent,
+    JoinedClubsComponent,
+    LeagueStatisticComponent,
+    ConfirmFeeComponent,
+    LeagueFeeComponent,
+    LeagueSettingsComponent,
+    LeagueScheduleComponent,
+    LeagueDetailComponent,
     ClubDetailComponent,
     ClubListComponent,
     ClubScheduleComponent,
@@ -55,8 +75,10 @@ import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/po
     MatFormFieldModule,
     MatIconModule,
     MatToolbarModule,
+    MatMenuModule,
     MatSortModule,
     MatTableModule,
+    MatSelectModule,
     MatPaginatorModule,
     MatSidenavModule,
     MatExpansionModule,
