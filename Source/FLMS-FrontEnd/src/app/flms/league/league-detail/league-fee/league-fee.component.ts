@@ -12,7 +12,7 @@ import { MatchEvent } from '../../../../models/match-event-detail.model';
   styleUrls: ['./league-fee.component.scss']
 })
 export class LeagueFeeComponent implements OnInit {
-  displayedColumns: string[] = ['expenseName', 'cost', 'expenseKey']
+  displayedColumns: string[] = ['expenseName', 'cost', 'expenseKey','editB']
   leagueId: number;
   plan: FeeDetail[] = [];
   actual: FeeDetail[] = [];
@@ -58,4 +58,7 @@ export class LeagueFeeComponent implements OnInit {
       this.actualCostTotal += element.cost;
     });
   }
+
+
+  
 }

@@ -44,7 +44,8 @@ import {JoinedClubsComponent} from './league/league-detail/joined-clubs/joined-c
 import {LeagueStatisticComponent} from './league/league-detail/league-statistic/league-statistic.component'
 import { LeagueFeeComponent} from './league/league-detail/league-fee/league-fee.component'
 import {LeagueSettingsComponent} from './league/league-detail/league-settings/league-settings.component'
-import {ConfirmFeeComponent} from './league/league-detail/confirm-fee/confirm-fee.component'
+import {ConfirmFeeComponent} from './league/league-detail/confirm-fee/confirm-fee.component';
+import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component'
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {ConfirmFeeComponent} from './league/league-detail/confirm-fee/confirm-fe
     ClubListComponent,
     ClubScheduleComponent,
     ClubPlayerComponent,
-    PopUpAddPlayerComponent
+    PopUpAddPlayerComponent,
+    PopUpLeagueFeeDetailComponent
   ],
   imports: [
     CommonModule,
