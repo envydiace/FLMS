@@ -118,7 +118,12 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-01"
                 };
             }
-            var listGoals = await matchEventRepository.FindByCondition(e => e.MatchId == matchId && (e.EventType.Equals("Goal") || e.EventType.Equals("OwnGoal"))).ToListAsync();
+            var listGoals = await matchEventRepository.FindByCondition(e => 
+                e.MatchId == matchId && 
+                    (e.EventType.Equals(Constants.MatchEventType.Goal.ToString()) ||
+                    e.EventType.Equals(Constants.MatchEventType.OwnGoal.ToString()))
+                    )
+            .ToListAsync();
             var result = mapper.Map<MatchDTO>(match);
             result.Home.Score = listGoals.Where(e => e.IsHome).Count();
             result.Away.Score = listGoals.Where(e => !e.IsHome).Count();

@@ -33,6 +33,10 @@ namespace FLMS_BackEnd.Utils
         {
             Accept, Reject, Cancel
         }
+        public enum MatchEventType
+        {
+            Goal, OwnGoal, YellowCard, RedCard
+        }
         public enum FeeType
         {
             Sponsored, Prize, Fee
@@ -155,7 +159,19 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-02","This match has been finished" },
             {"ER-MA-03","This match is not belonged to this user" },
             {"ER-MA-04","Update match statistic failed" },
-            {"ER-MA-05","Update match statistic successfully" }
+            {"ER-MA-05","Update match statistic successfully" },
+            {"ER-MA-06","Match participation doesn't complete" },
+            {"ER-MA-07","Club doesn't join the match" },
+
+            {"MS-EV-01","Add match event success" },
+            {"MS-EV-02","Delete match event success" },
+            {"ER-EV-01","Main and sub can not the same player" },
+            {"ER-EV-02","Invalid event type" },
+            {"ER-EV-03","Main player invalid" },
+            {"ER-EV-04","Add match event fail" },
+            {"ER-EV-05","Sub player invalid" },
+            {"ER-EV-06","Event doesn't exist" },
+            {"ER-EV-07","Delete match event fail" },
         };
 
         public static int DEFAULT_PAGE = 1;

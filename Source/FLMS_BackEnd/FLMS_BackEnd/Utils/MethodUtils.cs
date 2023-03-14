@@ -32,6 +32,18 @@ namespace FLMS_BackEnd.Utils
             }
 
         }
+        public static Constants.MatchEventType? GetMatchEventTypeByName(string name)
+        {
+            try
+            {
+                return (Constants.MatchEventType)Enum.Parse(typeof(Constants.MatchEventType), name);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
 
         public static int CountNumberOfRound(string type, int NumberOfParticipate)
         {
