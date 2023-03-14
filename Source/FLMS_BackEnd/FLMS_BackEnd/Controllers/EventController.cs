@@ -37,5 +37,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpDelete("[action]/{id}")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<AddMatchEventResponse>> DeleteMatchEvent(int id)
+        {
+            var response = await matchEventService.DeleteEvent(id, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

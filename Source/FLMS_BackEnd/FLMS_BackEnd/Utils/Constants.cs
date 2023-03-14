@@ -164,11 +164,14 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-07","Club doesn't join the match" },
 
             {"MS-EV-01","Add match event success" },
+            {"MS-EV-02","Delete match event success" },
             {"ER-EV-01","Main and sub can not the same player" },
             {"ER-EV-02","Invalid event type" },
             {"ER-EV-03","Main player invalid" },
             {"ER-EV-04","Add match event fail" },
             {"ER-EV-05","Sub player invalid" },
+            {"ER-EV-06","Event doesn't exist" },
+            {"ER-EV-07","Delete match event fail" },
         };
 
         public static int DEFAULT_PAGE = 1;

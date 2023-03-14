@@ -160,5 +160,44 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
         }
+
+        public async Task<DeleteMatchEventResponse> DeleteEvent(int eventId, int userId)
+        {
+            var matchEvent = await matchEventRepository.FindByCondition(e => e.MatchEventId == eventId)
+                                    .Include(e => e.Match).ThenInclude(m => m.League)
+                                    .FirstOrDefaultAsync();
+            if (matchEvent == null)
+            {
+                return new DeleteMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-EV-06"
+                };
+            }
+            if(matchEvent.Match.League.UserId != userId)
+            {
+                return new DeleteMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            var result = await matchEventRepository.DeleteAsync(matchEvent);
+            if (result != null)
+            {
+                return new DeleteMatchEventResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-EV-02"
+                };
+            }else
+            {
+                return new DeleteMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-07"
+                };
+            }
+        }
     }
 }
