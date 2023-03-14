@@ -32,7 +32,7 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpGet("[action]/{LeagueFeeId}")]
-        public async Task<ActionResult<LeagueFeeResponse>> GetFeeDetail(int LeagueFeeId)
+        public async Task<ActionResult<FeeDetailResponse>> GetFeeDetail(int LeagueFeeId)
         {
             var response = await feeService.GetLeagueFeeDetail(LeagueFeeId);
             if (response.Success)
