@@ -8,6 +8,8 @@ import { AuthGuard } from './../auth/auth.guard';
 import { RoleGuard } from './../auth/role.guard';
 import { CreateLeagueComponent } from './league/create-league/create-league.component';
 import { ClubListComponent } from './club/club-list/club-list.component';
+import { LeagueListComponent } from './league/league-list/league-list.component';
+import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,18 @@ const routes: Routes = [
   {
     path: 'create-league',
     component: CreateLeagueComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
+  },
+    {
+    path: 'my-league',
+    component: LeagueListComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
+  },
+  {
+    path: 'my-league-info',
+    component: LeagueDetailComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRole: 'LEAGUE_MANAGER' }
   },

@@ -1,1 +1,53 @@
-<p>league-list works!</p>
+<p>
+    <mat-toolbar class="card">
+        <span>League List</span>
+    </mat-toolbar>
+</p>
+
+<section class="landing-banner">
+    <div class="container" style="    margin-top: 45px;">
+        <div class="col-sm-12 col-xs-12 text-center nav-search">
+            <!-- <form action="" method="">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="key" placeholder="League's Name">
+                    <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+                </div>
+            </form> -->
+
+            <form class="league-list-form">
+                <div class="input-group">
+                    <mat-form-field class="league-list-full-width">
+                        <mat-label>Search by League's name</mat-label>
+                        <input matInput type="text" 
+                      
+                        placeholder="Enter league name" >
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<div class="container">
+    <div class="row">
+        <div *ngFor="let leagues of leagueListByUser" class="col-sm-3">
+            <div class="list-container">
+                <a (click)="navigateToLeagueDetail(leagues.leagueId)" style="cursor: pointer;">
+                    <mat-card class="league-list-card">
+                       
+                        <mat-card-title>{{leagues.leagueName}}</mat-card-title>
+                        <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
+                        <img mat-card-avatar class="league-header-image"
+                            src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                            alt="Photo of a Shiba Inu">
+
+                    </mat-card>
+                </a>
+            </div>
+        </div>
+    </div>
+    <mat-paginator class="league-paginator" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+</div>

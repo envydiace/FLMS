@@ -22,12 +22,14 @@ import { environment } from "../environments/environment";
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+
 @NgModule({
   declarations: [
     MainComponent,
     NavbarComponent,
     FooterComponent,
-    VerticalMenuComponent
+    VerticalMenuComponent,
+    
   ],
   imports: [
     BrowserModule,

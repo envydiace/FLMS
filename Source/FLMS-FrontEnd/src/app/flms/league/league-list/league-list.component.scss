@@ -1,0 +1,74 @@
+.list-container {
+  text-align: center;
+  width: 100%;
+  margin: 25px 0;
+  margin-top: 50px;
+  padding: 6px 15px 0;
+
+  .list-id {
+    display: block;
+    padding: 6px 15px;
+    margin-top: 10px;
+  }
+
+  .list-img {
+    margin-top: -35px;
+    position: relative;
+  }
+
+  .list-heading {
+    margin: 10px 0;
+  }
+}
+
+.league-list-card {
+  max-width: 400px;
+}
+
+.league-header-image {
+  height: 200px;
+  width: 200px;
+}
+
+.league-paginator {
+  text-align: center;
+}
+
+.landing-banner {
+  background-color: #b2b2b2;
+  background-image: url(./../../../../assets/image/CoverFB.jpg);
+  // background-blend-mode: multiply;
+  background-size: 50%;
+  background-position: bottom;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  padding: 60px 0;
+  min-height: 300px;
+  margin-bottom: 10px;
+}
+
+.landing-banner {
+  height: 45px;
+  font-size: 18px;
+}
+
+// article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+//   display: block;
+// }
+
+.league-list-form {
+  min-width: 150px;
+  // max-width: 500px;
+  // width: 100%;
+}
+
+.league-list-full-width {
+  width: 100%;
+  padding-top: 8px;
+}
+
+.nav-search {
+  background-color: #fff;
+  border-radius: 30px;
+}

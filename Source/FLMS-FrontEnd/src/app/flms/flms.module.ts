@@ -20,16 +20,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CreateLeagueComponent } from './league/create-league/create-league.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { PopUpUpdateFeeComponent } from './league/pop-up-update-fee/pop-up-update-fee.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';	
-import { MatChipsModule } from '@angular/material/chips';	
-import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatDatepickerModule } from '@angular/material/datepicker';	
-import { MatNativeDateModule } from '@angular/material/core';	
+import { MatMenuModule } from '@angular/material/menu';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -39,6 +39,13 @@ import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-sch
 import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-update-prize.component';
+import { LeagueScheduleComponent } from './league/league-detail/league-schedule/league-schedule.component';
+import { JoinedClubsComponent } from './league/league-detail/joined-clubs/joined-clubs.component'
+import { LeagueStatisticComponent } from './league/league-detail/league-statistic/league-statistic.component'
+import { LeagueFeeComponent } from './league/league-detail/league-fee/league-fee.component'
+import { LeagueSettingsComponent } from './league/league-detail/league-settings/league-settings.component'
+import { ConfirmFeeComponent } from './league/league-detail/confirm-fee/confirm-fee.component'
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -50,6 +57,12 @@ import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-u
     LeagueListComponent,
     LeagueDetailComponent,
     PopUpUpdateFeeComponent,
+    JoinedClubsComponent,
+    LeagueStatisticComponent,
+    ConfirmFeeComponent,
+    LeagueFeeComponent,
+    LeagueSettingsComponent,
+    LeagueScheduleComponent,
     ClubDetailComponent,
     ClubListComponent,
     ClubScheduleComponent,
@@ -65,6 +78,7 @@ import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-u
     MatFormFieldModule,
     MatIconModule,
     MatToolbarModule,
+    MatMenuModule,
     MatSortModule,
     MatTableModule,
     MatSelectModule,
@@ -86,8 +100,7 @@ import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-u
     MatNativeDateModule,
     MatTabsModule,
     MatListModule,
-    CdkTableModule,
-    MatSelectModule
+    CdkTableModule
   ]
 })
 export class FlmsModule { }
