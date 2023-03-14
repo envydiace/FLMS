@@ -107,7 +107,7 @@ namespace FLMS_BackEnd.Services.Impl
                 Total = total,
                 NoParticipate = league.NoParticipate,
                 ClubName = club.ClubName,
-                Logo = league.Logo,
+                Logo = club.Logo,
                 LeagueName = league.LeagueName
             };
         }
