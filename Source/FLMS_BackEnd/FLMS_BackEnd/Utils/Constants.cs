@@ -47,6 +47,12 @@ namespace FLMS_BackEnd.Utils
             public const string SponsoredName = "Sponsored";
             public const string FeeKey = "Ff";
         }
+        public static class LeagueStatistic
+        {
+            public const string WinKey = "W";
+            public const string DrawKey = "D";
+            public const string LossKey = "L";
+        }
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {

@@ -216,5 +216,31 @@ namespace FLMS_BackEnd.Services.Impl
             var listLeague = await leagueRepository.FindByCondition(l => l.UserId == userId).ToListAsync();
             return mapper.Map<List<LeagueByUserDTO>>(listLeague);
         }
+
+        public async Task<LeagueStatisticResponse> GetLeagueStatistic(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                                    .Include(l => l.ClubClones)
+                                    .ThenInclude(cl => cl.Club).FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueStatisticResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            var standings = mapper.Map<List<LeagueStandingDTO>>(league.ClubClones)
+                            .OrderByDescending(s => s.Point)
+                            .ThenByDescending(s => s.GD)
+                            .ThenBy(s => s.ClubName)
+                            .ToList();
+            standings.ForEach(s => s.Standing = (standings.IndexOf(s) + 1));
+            return new LeagueStatisticResponse
+            {
+                Success = true,
+                LeagueStanding = standings
+            };
+        }
     }
 }

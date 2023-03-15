@@ -156,15 +156,14 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
 
-            //if (match.League.UserId!= userId)
-            //{
-            //    return new FinishMatchResponse
-            //    {
-            //        Success = false,
-            //        MessageCode = "ER-LE-06"
-            //    };
-            //}
-
+            if (match.League.UserId != userId)
+            {
+                return new FinishMatchResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
             if (match.IsFinish)
             {
                 return new FinishMatchResponse

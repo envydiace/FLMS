@@ -3,6 +3,7 @@ using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FLMS_BackEnd.Controllers
 {
@@ -55,9 +56,10 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpPut("[action]/{id}")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
         public async Task<ActionResult<FinishMatchResponse>> FinishMatch(int id)
         {
-            var response = await matchService.FinishMatch(id, 0);
+            var response = await matchService.FinishMatch(id, UserID);
             if (response.Success)
             {
                 return Ok(response);

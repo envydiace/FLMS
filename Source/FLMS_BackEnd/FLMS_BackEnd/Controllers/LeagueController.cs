@@ -73,5 +73,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
             }
         }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueStatisticResponse>> GetLeagueStatistic(int id)
+        {
+
+            var response = await leagueService.GetLeagueStatistic(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
