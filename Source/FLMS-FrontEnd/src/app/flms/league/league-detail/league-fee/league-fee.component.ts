@@ -5,6 +5,8 @@ import { LeagueFeeResponse } from '../../../../models/fee-response.model';
 import { LeagueService } from '../../league.service';
 import { map, tap } from 'rxjs/operators';
 import { MatchEvent } from '../../../../models/match-event-detail.model';
+import { PopUpLeagueFeeDetailComponent } from '../pop-up-league-fee-detail/pop-up-league-fee-detail.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-league-fee',
@@ -12,18 +14,19 @@ import { MatchEvent } from '../../../../models/match-event-detail.model';
   styleUrls: ['./league-fee.component.scss']
 })
 export class LeagueFeeComponent implements OnInit {
-  displayedColumns: string[] = ['expenseName', 'cost', 'expenseKey']
+  displayedColumns: string[] = ['expenseName', 'cost', 'expenseKey','editB']
   leagueId: number;
   plan: FeeDetail[] = [];
   actual: FeeDetail[] = [];
   planCostTotal: number = 0;
   actualCostTotal: number = 0;
-  matchId: number = 47;
-  matchEvent: MatchEvent[] = [];
+  leagueFeeId:number;
 
   constructor(
     private route: ActivatedRoute,
-    private LeagueService: LeagueService
+    private LeagueService: LeagueService,
+    public dialog: MatDialog
+
   ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
@@ -32,9 +35,7 @@ export class LeagueFeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
-    this.LeagueService.getMatchEvent(this.matchId).pipe(
-      map((res: MatchEvent[]) => this.matchEvent = res)
-    ).subscribe();
+
   }
 
   initDataSource() {
@@ -42,6 +43,7 @@ export class LeagueFeeComponent implements OnInit {
       map((res: LeagueFeeResponse) => {
         this.plan = res.plan,
           this.actual = res.actual
+         
       })
     ).subscribe(res => {
       this.getTotal();
@@ -58,4 +60,16 @@ export class LeagueFeeComponent implements OnInit {
       this.actualCostTotal += element.cost;
     });
   }
+
+openEditFee(leagueFeeId: number): void{
+    const dialogRef = this.dialog.open(PopUpLeagueFeeDetailComponent, {
+      width: '50%',
+      data: { leagueFeeId: leagueFeeId}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+  
 }

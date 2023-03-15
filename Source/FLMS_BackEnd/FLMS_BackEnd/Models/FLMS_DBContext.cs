@@ -62,7 +62,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.Clubs)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Club__UserId__3E52440B");
+                    .HasConstraintName("FK__Club__UserId__412EB0B6");
             });
 
             modelBuilder.Entity<ClubClone>(entity =>
@@ -72,6 +72,8 @@ namespace FLMS_BackEnd.Models
                 entity.Property(e => e.ClubCloneKey)
                     .HasMaxLength(10)
                     .IsFixedLength();
+
+                entity.Property(e => e.Rank).HasMaxLength(50);
 
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.ClubClones)
@@ -239,6 +241,8 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.Evidence).HasColumnName("evidence");
 
+                entity.Property(e => e.JoinDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.Participations)
                     .HasForeignKey(d => d.ClubId)
@@ -295,7 +299,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEA5CEDB901");
+                    .HasName("PK__RefreshT__658FEEEABC61AE4D");
 
                 entity.ToTable("RefreshToken");
 
@@ -311,7 +315,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.RefreshTokens)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__RefreshTo__UserI__5070F446");
+                    .HasConstraintName("FK__RefreshTo__UserI__5441852A");
             });
 
             modelBuilder.Entity<Squad>(entity =>

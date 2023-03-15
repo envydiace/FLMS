@@ -24,16 +24,16 @@ namespace FLMS_BackEnd.Services.Impl
             MatchStatisticResponse response = new MatchStatisticResponse();
             var home = matchStats.FirstOrDefault(m => m.IsHome);
             var away = matchStats.FirstOrDefault(m => !m.IsHome);
-            response.Home = home != null ? mapper.Map<StatisticDTO>(home) : new StatisticDTO { MatchId = matchId , IsHome = true };
-            response.Away = away != null ? mapper.Map<StatisticDTO>(away) : new StatisticDTO { MatchId = matchId , IsHome = false };
+            response.Home = home != null ? mapper.Map<StatisticDTO>(home) : new StatisticDTO { MatchId = matchId, IsHome = true };
+            response.Away = away != null ? mapper.Map<StatisticDTO>(away) : new StatisticDTO { MatchId = matchId, IsHome = false };
             response.Success = true;
             return response;
         }
 
         public async Task<UpdateMatchStatResponse> UpdateMatchStatistic(UpdateMatchStatRequest request, int UserId)
         {
-            var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId).Include(m=>m.League).FirstOrDefaultAsync();
-            if(match == null)
+            var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId).Include(m => m.League).FirstOrDefaultAsync();
+            if (match == null)
             {
                 return new UpdateMatchStatResponse
                 {
@@ -58,13 +58,13 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
 
-            List<MatchStat> matchStats = await matchStatisticRepository.FindByCondition(m=>m.MatchId == request.MatchId).ToListAsync();
+            List<MatchStat> matchStats = await matchStatisticRepository.FindByCondition(m => m.MatchId == request.MatchId).ToListAsync();
             var home = matchStats.FirstOrDefault(m => m.IsHome);
-            if(home == null)
+            MatchStat statHome = mapper.Map<MatchStat>(request.Home);
+            statHome.MatchId = request.MatchId;
+            statHome.IsHome = true;
+            if (home == null)
             {
-                MatchStat statHome = mapper.Map<MatchStat>(request.Home);
-                statHome.MatchId = request.MatchId;
-                statHome.IsHome = true;
                 bool result = await matchStatisticRepository.CreateAsync(statHome);
                 if (!result)
                 {
@@ -77,12 +77,10 @@ namespace FLMS_BackEnd.Services.Impl
             }
             else
             {
-                MatchStat statHome = mapper.Map<MatchStat>(request.Home);
-                statHome.MatchId = request.MatchId;
-                statHome.IsHome = true;
+                statHome.Score = home.Score;
                 statHome.MatchStatId = home.MatchStatId;
                 MatchStat result = await matchStatisticRepository.UpdateAsync(statHome);
-                if(result == null)
+                if (result == null)
                 {
                     return new UpdateMatchStatResponse
                     {
@@ -92,11 +90,11 @@ namespace FLMS_BackEnd.Services.Impl
                 }
             }
             var away = matchStats.FirstOrDefault(m => !m.IsHome);
-            if(away == null)
+            MatchStat statAway = mapper.Map<MatchStat>(request.Away);
+            statAway.MatchId = request.MatchId;
+            statAway.IsHome = false;
+            if (away == null)
             {
-                MatchStat statAway = mapper.Map<MatchStat>(request.Away);
-                statAway.MatchId = request.MatchId;
-                statAway.IsHome = false;
                 bool result = await matchStatisticRepository.CreateAsync(statAway);
                 if (!result)
                 {
@@ -109,9 +107,7 @@ namespace FLMS_BackEnd.Services.Impl
             }
             else
             {
-                MatchStat statAway = mapper.Map<MatchStat>(request.Away);
-                statAway.MatchId = request.MatchId;
-                statAway.IsHome = false;
+                statAway.Score = away.Score;
                 statAway.MatchStatId = away.MatchStatId;
                 MatchStat result = await matchStatisticRepository.UpdateAsync(statAway);
                 if (result == null)

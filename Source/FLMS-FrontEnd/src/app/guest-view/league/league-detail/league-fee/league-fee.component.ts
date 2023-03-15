@@ -18,8 +18,7 @@ export class LeagueFeeComponent implements OnInit {
   actual: FeeDetail[] = [];
   planCostTotal: number = 0;
   actualCostTotal: number = 0;
-  matchId: number = 47;
-  matchEvent: MatchEvent[] = [];
+  
 
   constructor(
     private route: ActivatedRoute,
