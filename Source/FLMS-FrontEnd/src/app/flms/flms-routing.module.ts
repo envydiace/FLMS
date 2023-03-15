@@ -10,6 +10,7 @@ import { CreateLeagueComponent } from './league/create-league/create-league.comp
 import { ClubListComponent } from './club/club-list/club-list.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,11 @@ const routes: Routes = [
   {
     path: 'my-clubs',
     component: ClubListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'match-info',
+    component: MatchDetailComponent,
     canActivate: [AuthGuard]
   }
 ];

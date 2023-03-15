@@ -49,8 +49,3 @@ export class ClubStats implements ClubStats {
         this.redCard = redCard
     }
 }
-    export interface UpdateStats{
-        matchId: number;
-        home: ClubStats;
-        away: ClubStats;
-    }

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Input } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatchService } from './../../match.service';
 import { ClubStats, MatchStats } from '../../../../models/match-statistics-model';
 import { MatchStatisticsResponse } from '../../../../models/match-statistic-response-model';
+import { PopUpEditMatchStatsComponent } from '../../pop-up-edit-match-stats/pop-up-edit-match-stats.component';
 @Component({
   selector: 'app-match-statistic',
   templateUrl: './match-statistic.component.html',
@@ -21,6 +23,7 @@ export class MatchStatisticComponent implements OnInit {
   constructor(
     private MatchService: MatchService,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) {
     this.route.queryParams.subscribe(params => {
       this.matchId = params['matchId'];
@@ -61,6 +64,18 @@ export class MatchStatisticComponent implements OnInit {
     ELEMENT_DATA[6].away = away.redCard;
   }
 
+  openDialogUpdateStats(): void {
+    const dialogRef = this.dialog.open(PopUpEditMatchStatsComponent, {
+      width: '100%',
+      data: { matchId: this.matchId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+
 
 }
 
@@ -79,3 +94,5 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {home: 0, type: 'Yellow Card', away: 0},
   {home: 0, type: 'Red Card', away: 0}
 ];
+
+

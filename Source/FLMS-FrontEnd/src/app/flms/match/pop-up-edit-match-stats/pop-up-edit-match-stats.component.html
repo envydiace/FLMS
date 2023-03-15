@@ -1,96 +1,42 @@
-<mat-card class="example-card">
-    <mat-card-header>
+<div>
+    <h1 mat-dialog-title style="font-weight: 600;">Edit Match Stats</h1>
+    <form [formGroup]="form">
+        <div mat-dialog-content>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
 
-        <mat-card-title>Account </mat-card-title>
-        <br />
-        <mat-card-subtitle> </mat-card-subtitle>
-    </mat-card-header>
+                <ng-container matColumnDef="home">
+                    <th mat-header-cell *matHeaderCellDef> Home </th>
+                    <td mat-cell *matCellDef="let element">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Enter here</mat-label>
+                                <input matInput type="number" formControlName="{{element.homeControlName}}">
+                            </mat-form-field>
+                    </td>
+                </ng-container>
 
-    <mat-card-content>
-        <div class="row">
-            <div class="col-xl-3">
-                <div class="card mb-4 mb-xl-0">
-                    <div class="card-header">Profile Picture</div>
-                    <div class="card-body text-center">
-                        <img class="img-account-profile rounded-circle mb-2"
-                            src="./../../../../assets/image/Rashford.png" alt="">
-                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div> <button
-                            class="btn btn-primary" type="button">Upload new image</button>
-                    </div>
-                </div>
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                </ng-container>
 
-                <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
-            </div>
-            <div class="col-xl-9">
+                <ng-container matColumnDef="away">
+                    <th mat-header-cell *matHeaderCellDef> Away </th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- <input matInput formControlName="{{element.awayControlName}}" value="{{element.away}}"> -->
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter here</mat-label>
+                            <input matInput type="number" formControlName="{{element.awayControlName}}">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
 
-                <div class="card mb-4">
-                    <div class="card-header">Account Details</div>
-                    <div class="card-body">
-                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                            <div class="mb-3">
-                                <!-- <label class="small mb-1" for="inputUsername">Username </label>  -->
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Fullname</mat-label>
-                                    <input matInput formControlName="fullName">
-                                    <mat-error
-                                        *ngIf="!form.controls['fullName'].valid && form.controls['fullName'].touched">
-                                        {{ getErrorName() }}
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="row gx-3 mb-3">
-                                <div class="col-md-6">
-
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Telephone</mat-label>
-                                        <span matPrefix>+84 &nbsp;</span>
-                                        <input type="tel" matInput formControlName="phone" placeholder="0912345678">
-                                        <mat-icon matSuffix>mode_edit</mat-icon>
-                                        <mat-error
-                                            *ngIf="!form.controls['phone'].valid && form.controls['phone'].touched">
-                                            {{ getErrorPhone() }}
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-md-6">
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Address 2</mat-label>
-                                        <input matInput formControlName="address">
-                                        <mat-error
-                                            *ngIf="!form.controls['address'].valid && form.controls['address'].touched">
-                                            {{ getErrorAddress() }}
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Email</mat-label>
-                                    <input type="email" formControlName="email" matInput
-                                        placeholder="Ex. pat@example.com">
-                                </mat-form-field>
-                            </div>
-                            <div class="mb-3">
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Role</mat-label>
-                                    <input matInput disabled value="">
-                                </mat-form-field>
-                            </div>
-
-                            <button class="btn btn-primary" type="submit">Save changes</button>
-
-                        </form>
-                    </div>
-                </div>
-            </div>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
         </div>
-    </mat-card-content>
-
-    <mat-card-actions>
-
-        <a routerLink="../../change-password" class="btn btn-primary right" type="button">Change Pass</a>
-
-    </mat-card-actions>
-
-</mat-card>
+        <div mat-dialog-actions>
+            <button mat-button (click)="onNoClick()">Cancel</button>
+            <button mat-button type="submit" (click)="onSubmit()" cdkFocusInitial>Add</button>
+        </div>
+    </form>
+</div>
