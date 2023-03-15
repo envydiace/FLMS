@@ -32,7 +32,7 @@ namespace FLMS_BackEnd.DTO
             CreateMap<User, UserProfileDTO>()
                 .ForMember(dto => dto.Role,
                 map => map.MapFrom(
-                    user => user.Role.Replace('_',' ')
+                    user => user.Role.Replace('_', ' ')
                     ));
 
             //Player
@@ -110,6 +110,11 @@ namespace FLMS_BackEnd.DTO
             CreateMap<LeagueFee, LeagueFeeClubDTO>();
 
             CreateMap<League, LeagueByUserDTO>();
+
+            CreateMap<ClubClone, LeagueStandingDTO>()
+                .ForMember(standing => standing.ClubName,
+                map => map.MapFrom(
+                    clubClone => clubClone.Club != null ? clubClone.Club.ClubName : clubClone.ClubCloneKey.Trim()));
 
             //Match
             CreateMap<ParticipateNode, ClubMatchDTO>()

@@ -216,5 +216,70 @@ namespace FLMS_BackEnd.Services.Impl
             var listLeague = await leagueRepository.FindByCondition(l => l.UserId == userId).ToListAsync();
             return mapper.Map<List<LeagueByUserDTO>>(listLeague);
         }
+
+        public async Task<LeagueStatisticResponse> GetLeagueStatistic(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.Club)
+                                    .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Main)
+                                    .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Sub)
+                                    .FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueStatisticResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            var standings = mapper.Map<List<LeagueStandingDTO>>(league.ClubClones)
+                            .OrderByDescending(s => s.Point)
+                            .ThenByDescending(s => s.GD)
+                            .ThenBy(s => s.ClubName)
+                            .ToList();
+            standings.ForEach(s => s.Standing = (standings.IndexOf(s) + 1));
+
+            var listevent = new List<MatchEvent>();
+            var matchs = league.Matches.Where(m => m.IsFinish).ToList();
+            matchs.ForEach(m => listevent.AddRange(m.MatchEvents.Where(e =>
+                                e.EventType.Equals(Constants.MatchEventType.Goal.ToString())).ToList())
+                           );
+
+            var topScore = listevent.GroupBy(
+                e => e.MainId
+                )
+                .Select(e => new TopRecordPlayerDTO
+                {
+                    PlayerId = e.Key,
+                    PlayerName = e.Select(x => x.Main.Name).FirstOrDefault(),
+                    Avatar = e.Select(x => x.Main.Avatar).FirstOrDefault(),
+                    Record = e.Count()
+                })
+                .OrderByDescending(x=>x.Record)
+                .ThenBy(x => x.PlayerName)
+                    .ToList();
+
+            var topAssist = listevent.Where(e => e.SubId != null).GroupBy(
+                e => e.SubId
+                )
+                .Select(e => new TopRecordPlayerDTO
+                {
+                    PlayerId = e.Key != null ? e.Key.Value : 0,
+                    PlayerName = e.Select(x => x.Sub != null ? x.Sub.Name : " ").FirstOrDefault(),
+                    Avatar = e.Select(x => x.Sub != null ? x.Sub.Avatar : null).FirstOrDefault(),
+                    Record = e.Count()
+                })
+                .OrderByDescending(x => x.Record)
+                .ThenBy(x => x.PlayerName)
+                    .ToList();
+
+            return new LeagueStatisticResponse
+            {
+                Success = true,
+                LeagueStanding = standings,
+                TopScore = topScore,
+                TopAssist = topAssist
+            };
+        }
     }
 }

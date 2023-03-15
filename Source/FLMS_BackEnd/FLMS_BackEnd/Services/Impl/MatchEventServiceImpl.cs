@@ -31,6 +31,7 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<AddMatchEventResponse> AddEvent(AddMatchEventRequest request, int userId)
         {
+            request.EventType = request.EventType.Trim();
             var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId)
                     .Include(m => m.Home).ThenInclude(p => p.ClubClone)
                     .Include(m => m.Away).ThenInclude(p => p.ClubClone)

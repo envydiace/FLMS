@@ -47,6 +47,12 @@ namespace FLMS_BackEnd.Utils
             public const string SponsoredName = "Sponsored";
             public const string FeeKey = "Ff";
         }
+        public static class LeagueStatistic
+        {
+            public const string WinKey = "W";
+            public const string DrawKey = "D";
+            public const string LossKey = "L";
+        }
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
@@ -155,6 +161,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-SQ-08","User doesn't have permission to add player to position" },
             {"ER-SQ-09","User doesn't have permission to remove player from position" },
 
+            {"MS-MA-01","Finish match success" },
             {"ER-MA-01","Match not found" },
             {"ER-MA-02","This match has been finished" },
             {"ER-MA-03","This match is not belonged to this user" },
@@ -162,6 +169,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-05","Update match statistic successfully" },
             {"ER-MA-06","Match participation doesn't complete" },
             {"ER-MA-07","Club doesn't join the match" },
+            {"ER-MA-08","Finish match fail" },
 
             {"MS-EV-01","Add match event success" },
             {"MS-EV-02","Delete match event success" },
