@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { ClubListByLeagueResponse } from './../../models/club-list-by-league-response.model'
 import { LeagueFeeResponse } from './../../models/fee-response.model'
 import { MatchEvent } from './../../models/match-event-detail.model'
+import { leagueFee } from 'src/app/models/league-prize.model';
+import { createLeagueInfo } from 'src/app/models/create-league-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -116,7 +118,15 @@ export class LeagueService {
     )
   }
 
+  getMatchEvent(matchId: number): Observable<MatchEvent[]> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Event/GetMatchEvent/${matchId}`,).pipe(
+      map((res: MatchEvent[]) => res),
+      catchError(err => throwError(err))
+    )
+  }
 
-
+  createLeague(league: createLeagueInfo) {
+    return this.http.post(`${environment.apiUrl}/api/League/CreateLeague`, league, { headers: this.headers });
+  }
 
 }

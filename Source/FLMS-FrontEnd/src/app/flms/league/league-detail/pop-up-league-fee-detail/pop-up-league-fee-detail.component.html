@@ -1,1 +1,56 @@
 <p>pop-up-league-fee-detail works!</p>
+<mat-card-content>
+    <div class="col-xl-12">
+
+        <div class="card mb-4">
+            <div class="card-header">Edit Fee</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="expenseName">
+                            <mat-error
+                            *ngIf="!form.controls['expenseName'].valid && form.controls['expenseName'].touched">
+                            {{ getErrorexpenseName() }}
+                        </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row gx-3 mb-3">
+                        <div class="col-md-10">
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Cost</mat-label>
+                              
+                                <input type="tel" matInput formControlName="cost" >
+                                <span matSuffix> &nbsp; VND</span>
+
+                                <mat-error
+                                *ngIf="!form.controls['cost'].valid && form.controls['cost'].touched">
+                                {{ getErrorCost() }}
+                            </mat-error>
+                            </mat-form-field>
+                        </div>
+                      
+                    </div>
+                    <div class="mb-3">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Type</mat-label>
+                            <select matNativeControl required>
+                              <option value="price">Price</option>
+                              <option value="fee">Fee</option>
+                            
+                            </select>
+                          </mat-form-field>
+                    </div>
+                    
+
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                    <button class="btn btn-warn" style="justify-content: right;" >Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</mat-card-content>

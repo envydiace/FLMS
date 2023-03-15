@@ -20,6 +20,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from "../environments/environment";
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
+    MatSnackBarModule,
     MatExpansionModule,
     FlmsModule,
     GuestViewModule,

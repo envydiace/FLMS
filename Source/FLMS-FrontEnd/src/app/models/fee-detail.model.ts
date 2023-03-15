@@ -1,4 +1,5 @@
 export interface FeeDetail{
+    leagueFeeId: number,
     leagueId: number,
     expenseKey: string,
     expenseName: string,
@@ -10,6 +11,7 @@ export interface FeeDetail{
 
 export class FeeDetail implements FeeDetail{
     constructor(
+        leagueFeeId: number,
         leagueId: number,
         expenseKey: string,
         expenseName: string,
@@ -17,6 +19,7 @@ export class FeeDetail implements FeeDetail{
         isActual: boolean, 
         feeType:string,
     ){
+        this.leagueFeeId = leagueFeeId;
         this.leagueId = leagueId;
         this.expenseKey = expenseKey;
         this.expenseName = expenseName;
