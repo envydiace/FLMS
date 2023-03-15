@@ -100,6 +100,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-04","League Type is not valid" },
             {"ER-LE-05","League doesn't exist" },
             {"ER-LE-06","League doesn't belong to user" },
+            {"ER-LE-07","This league has been finished" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
@@ -134,7 +135,9 @@ namespace FLMS_BackEnd.Utils
             {"ER-PA-02","Confirm fail" },
             {"ER-PA-03","There's no more slot in the league" },
             {"ER-PA-04","This participation has been confirmed" },
+            {"ER-PA-05","Remove club failed" },
             {"MS-PA-01","Confirm success" },
+            {"MS-PA-02","Remove club success" },
 
             {"ER-FE-01","No fees have been announced for this league" },
             {"ER-FE-02","League fee not found!" },
@@ -148,6 +151,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-MAIL-06","Your registration has been rejected :(" },
             {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
             {"MS-MAIL-08","ClubManager has canceled their registration request" },
+            {"MS-MAIL-09","LeagueManager has removed your club from their league" },
 
             {"MS-SQ-01","Add player to position success" },
             {"MS-SQ-02","Remove player from position success" },
@@ -180,6 +184,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-EV-05","Sub player invalid" },
             {"ER-EV-06","Event doesn't exist" },
             {"ER-EV-07","Delete match event fail" },
+
+            {"ER-CC-01","This club clone is not existed" },
         };
 
         public static int DEFAULT_PAGE = 1;
