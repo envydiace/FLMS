@@ -7,5 +7,6 @@ namespace FLMS_BackEnd.Services
     {
         public Task<ConfirmRegistFeeResponse> ConfirmResgistFee(ConfirmRegistFeeRequest request, int userId);
         public Task<ParticipationByLeagueResponse> GetParticipationByLeague(ParticipationByLeagueRequest request);
+        public Task<RemoveClubResponse> RemoveJoinedTeam(RemoveClubRequest request, int UserId);
     }
 }

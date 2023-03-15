@@ -213,5 +213,27 @@ namespace FLMS_BackEnd.Utils
             result.Add(away);
             return result;
         }
+
+        public static string? GetLeagueKoRound(int deep)
+        {
+            string result = "";
+            if (deep < 1) return null;
+            switch (deep)
+            {
+                case 1:
+                    result = "Final";
+                    break;
+                case 2:
+                    result = "Semi Final";
+                    break;
+                case 3:
+                    result = "Quater Final";
+                    break;
+                default:
+                    result = "1/" + (Math.Pow(2, deep - 1));
+                    break;
+            }
+            return result;
+        }
     }
 }

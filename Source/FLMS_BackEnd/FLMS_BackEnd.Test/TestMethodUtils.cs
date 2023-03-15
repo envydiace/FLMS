@@ -78,6 +78,23 @@ namespace FLMS_BackEnd.Test
             yield return new object[] { 10, 3 };
             yield return new object[] { 7, 16 };
         }
+        [TestCaseSource(nameof(SourceProviderTestGetLeagueKoRound))]
+        public void TestGetLeagueKoRound(int deep, string expect)
+        {
+            string actual = MethodUtils.GetLeagueKoRound(deep);
+            Assert.AreEqual(expect, actual);
+        }
+        public static IEnumerable<object[]> SourceProviderTestGetLeagueKoRound()
+        {
+            yield return new object[] { 1, "Final" };
+            yield return new object[] { 2, "Semi Final" };
+            yield return new object[] { 3, "Quater Final" };
+            yield return new object[] { 4, "1/8" };
+            yield return new object[] { 5, "1/16" };
+            yield return new object[] { 6, "1/32" };
+            yield return new object[] { 0, null };
+            yield return new object[] { -1, null };
+        }
     }
 
 }

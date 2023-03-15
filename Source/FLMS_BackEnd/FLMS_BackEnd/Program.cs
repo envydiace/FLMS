@@ -105,6 +105,7 @@ builder.Services.AddScoped<SquadRepository, SquadRepositoryImpl>();
 builder.Services.AddScoped<SquadPositionRepository, SquadPositionRepositoryImpl>();
 builder.Services.AddScoped<MatchEventRepository, MatchEventRepositoryImpl>();
 builder.Services.AddScoped<MatchStatisticRepository, MatchStatisticRepositoryImpl>();
+builder.Services.AddScoped<ClubCloneRepository, ClubCloneRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
 
