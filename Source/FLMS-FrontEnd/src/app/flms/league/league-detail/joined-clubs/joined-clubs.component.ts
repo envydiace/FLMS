@@ -51,7 +51,7 @@ export class JoinedClubsComponent implements OnInit {
   }
   openLeagueClubFee(clubId: number): void{
     const dialogRef = this.dialog.open(ConfirmFeeComponent, {
-      width: '45%',
+      width: '35%',
       data: { clubId: clubId, leagueId: this.leagueId}
     });
 

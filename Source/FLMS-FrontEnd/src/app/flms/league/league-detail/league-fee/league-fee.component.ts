@@ -7,6 +7,7 @@ import { map, tap } from 'rxjs/operators';
 import { MatchEvent } from '../../../../models/match-event-detail.model';
 import { PopUpLeagueFeeDetailComponent } from '../pop-up-league-fee-detail/pop-up-league-fee-detail.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CommonService } from 'src/app/common/common/common.service';
 
 @Component({
   selector: 'app-league-fee',
@@ -25,7 +26,8 @@ export class LeagueFeeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private LeagueService: LeagueService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public commonService: CommonService
 
   ) {
     this.route.queryParams.subscribe(params => {
@@ -53,6 +55,8 @@ export class LeagueFeeComponent implements OnInit {
   }
 
   getTotal() {
+    this.planCostTotal = 0;
+    this.actualCostTotal = 0;
     this.plan.forEach(element => {
       this.planCostTotal += element.cost;
     });
@@ -68,6 +72,8 @@ openEditFee(leagueFeeId: number): void{
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      this.getTotal();
       console.log('The dialog was closed');
     });
   }
