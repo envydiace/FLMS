@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -94,6 +95,19 @@ namespace FLMS_BackEnd.Controllers
             try
             {
                 var response = await clubService.GetListClubByUser(UserID);
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
+            }
+        }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<List<ClubHistoryDTO>>> GetClubLeagueHistory(int id)
+        {
+            try
+            {
+                var response = await clubService.GetClubLeagueHistory(id);
                 return Ok(response);
             }
             catch (Exception)

@@ -28,6 +28,18 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<Club, ClubByUserDTO>();
 
+            CreateMap<ClubClone, ClubHistoryDTO>()
+                .ForMember(history => history.LeagueName,
+                map => map.MapFrom(
+                    clubClone => clubClone.League.LeagueName))
+                .ForMember(history => history.JoinedDate,
+                map => map.MapFrom(
+                    clubClone => clubClone.League.Participations.Where(p =>
+                                p.ClubId == clubClone.ClubId && 
+                                p.LeagueId == clubClone.LeagueId)
+                        .Select(p => p.JoinDate)
+                            .FirstOrDefault()))
+                ;
             //User
             CreateMap<User, UserProfileDTO>()
                 .ForMember(dto => dto.Role,

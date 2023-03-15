@@ -19,6 +19,7 @@ namespace FLMS_BackEnd.Models
         public int Loss { get; set; }
         public int GoalsFor { get; set; }
         public int GoalsAgainst { get; set; }
+        public string? Rank { get; set; }
 
         public virtual Club? Club { get; set; }
         public virtual League League { get; set; } = null!;

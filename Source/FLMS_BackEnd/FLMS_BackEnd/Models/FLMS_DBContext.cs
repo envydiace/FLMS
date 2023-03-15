@@ -73,6 +73,8 @@ namespace FLMS_BackEnd.Models
                     .HasMaxLength(10)
                     .IsFixedLength();
 
+                entity.Property(e => e.Rank).HasMaxLength(50);
+
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.ClubClones)
                     .HasForeignKey(d => d.ClubId)
@@ -239,6 +241,8 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.Evidence).HasColumnName("evidence");
 
+                entity.Property(e => e.JoinDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.Participations)
                     .HasForeignKey(d => d.ClubId)
@@ -295,7 +299,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEAE8D035E1");
+                    .HasName("PK__RefreshT__658FEEEABC61AE4D");
 
                 entity.ToTable("RefreshToken");
 
