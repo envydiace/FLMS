@@ -18,6 +18,8 @@ namespace FLMS_BackEnd.Models
         public int AwayId { get; set; }
         public DateTime MatchDate { get; set; }
         public bool IsFinish { get; set; }
+        public string? Round { get; set; }
+        public string? Stadium { get; set; }
 
         public virtual ParticipateNode Away { get; set; } = null!;
         public virtual ParticipateNode Home { get; set; } = null!;

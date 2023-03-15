@@ -42,21 +42,23 @@ namespace FLMS_BackEnd.Services.Impl
             }
             participation.Confirmed = true;
             participation.Evidence = request.Evidence;
-            if (participation.League.LeagueType.Equals(Constants.LeagueType.LEAGUE.ToString()))
+            switch (MethodUtils.GetLeagueTypeByName(participation.League.LeagueType))
             {
-                var clubClone = participation.League.ClubClones.Where(c => c.ClubId == null).FirstOrDefault();
-                if (clubClone != null)
-                {
-                    clubClone.ClubId = request.ClubId;
-                }
-                else
-                {
-                    return new ConfirmRegistFeeResponse
+                case Constants.LeagueType.LEAGUE:
+                    var clubClone = participation.League.ClubClones.Where(c => c.ClubId == null).FirstOrDefault();
+                    if (clubClone != null)
                     {
-                        Success = false,
-                        MessageCode = "ER-PA-03"
-                    };
-                }
+                        clubClone.ClubId = request.ClubId;
+                    }
+                    else
+                    {
+                        return new ConfirmRegistFeeResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-PA-03"
+                        };
+                    }
+                    break;
             }
 
             var result = await participationRepository.UpdateAsync(participation);

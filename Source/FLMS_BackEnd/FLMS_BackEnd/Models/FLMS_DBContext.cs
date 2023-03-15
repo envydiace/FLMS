@@ -139,6 +139,10 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.MatchDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Round).HasMaxLength(100);
+
+                entity.Property(e => e.Stadium).HasMaxLength(100);
+
                 entity.HasOne(d => d.Away)
                     .WithMany(p => p.MatchAways)
                     .HasForeignKey(d => d.AwayId)
