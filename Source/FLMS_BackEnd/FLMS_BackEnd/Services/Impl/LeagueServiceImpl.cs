@@ -254,16 +254,32 @@ namespace FLMS_BackEnd.Services.Impl
                     PlayerName = e.Select(x => x.Main.Name).FirstOrDefault(),
                     Avatar = e.Select(x => x.Main.Avatar).FirstOrDefault(),
                     Record = e.Count()
-                }).ToList();
+                })
+                .OrderByDescending(x=>x.Record)
+                .ThenBy(x => x.PlayerName)
+                    .ToList();
+
+            var topAssist = listevent.Where(e => e.SubId != null).GroupBy(
+                e => e.SubId
+                )
+                .Select(e => new TopRecordPlayerDTO
+                {
+                    PlayerId = e.Key != null ? e.Key.Value : 0,
+                    PlayerName = e.Select(x => x.Sub != null ? x.Sub.Name : " ").FirstOrDefault(),
+                    Avatar = e.Select(x => x.Sub != null ? x.Sub.Avatar : null).FirstOrDefault(),
+                    Record = e.Count()
+                })
+                .OrderByDescending(x => x.Record)
+                .ThenBy(x => x.PlayerName)
+                    .ToList();
 
             return new LeagueStatisticResponse
             {
                 Success = true,
                 LeagueStanding = standings,
-                TopScore = topScore
+                TopScore = topScore,
+                TopAssist = topAssist
             };
-
-
         }
     }
 }
