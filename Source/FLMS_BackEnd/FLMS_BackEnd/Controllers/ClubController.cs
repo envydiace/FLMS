@@ -90,7 +90,7 @@ namespace FLMS_BackEnd.Controllers
         }
         [HttpGet("[action]")]
         [Authorize(Roles = "CLUB_MANAGER")]
-        public async Task<IActionResult> GetListClubByUser()
+        public async Task<ActionResult<List<ClubByUserDTO>>> GetListClubByUser()
         {
             try
             {
