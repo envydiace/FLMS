@@ -47,6 +47,9 @@ import { LeagueSettingsComponent } from './league/league-detail/league-settings/
 import { ConfirmFeeComponent } from './league/league-detail/confirm-fee/confirm-fee.component'
 import { MatSelectModule } from '@angular/material/select';
 
+
+import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component'
+
 @NgModule({
   declarations: [
     FlmsComponent,
@@ -68,7 +71,9 @@ import { MatSelectModule } from '@angular/material/select';
     ClubScheduleComponent,
     ClubPlayerComponent,
     PopUpAddPlayerComponent,
-    PopUpUpdatePrizeComponent
+    PopUpLeagueFeeDetailComponent,
+
+    PopUpUpdatePrizeComponent,
   ],
   imports: [
     CommonModule,

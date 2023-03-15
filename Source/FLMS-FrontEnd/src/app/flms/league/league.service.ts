@@ -10,9 +10,9 @@ import { Observable, throwError } from 'rxjs';
 import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
 import { ClubListByLeagueResponse } from 'src/app/models/club-list-by-league-response.model';
 import { MatchEvent } from 'src/app/models/match-event-detail.model';
-import { LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
+import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
 import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
-import { LeagueClubFee } from 'src/app/models/fee-detail.model';
+import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
 
 
 
@@ -108,6 +108,18 @@ export class LeagueService {
 
   confirmRegistFee(fee:LeagueClubFee ){
     return this.http.put(`${environment.apiUrl}/api/Participation/ConfirmRegistFee`, fee, { headers: this.headers })
+
+  }
+
+  getFeeDetail(leagueFeeId: number): Observable<FeeDetailResponse> {
+    
+    return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetFeeDetail/${leagueFeeId}` ).pipe(
+      map((res: FeeDetailResponse) => res),
+      catchError(err => throwError(err))
+    )
+  }
+  editLeagueFee(feeInfo: FeeDetail){
+    return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
 
   }
 }
