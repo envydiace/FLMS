@@ -1,4 +1,6 @@
-﻿using FLMS_BackEnd.DTO;
+﻿using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
@@ -13,55 +15,73 @@ namespace FLMS_BackEnd.Services.Impl
     {
         private readonly MatchRepository matchRepository;
         private readonly MatchEventRepository matchEventRepository;
+        private readonly ParticipateNodeRepository participateNodeRepository;
 
-        public MatchServiceImpl(MatchRepository matchRepository, MatchEventRepository matchEventRepository)
+        public MatchServiceImpl(MatchRepository matchRepository, MatchEventRepository matchEventRepository, ParticipateNodeRepository participateNodeRepository)
         {
             this.matchRepository = matchRepository;
             this.matchEventRepository = matchEventRepository;
+            this.participateNodeRepository = participateNodeRepository;
         }
         public async Task<ClubScheduleResponse> GetClubSchedule(int ClubId)
         {
-            List<Match> matches = await matchRepository.FindByCondition
-            (m => (m.HomeId == ClubId) || (m.AwayId == ClubId))
-            .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
-            .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
-            .Include(m => m.League)
-            .OrderBy(m => m.MatchDate)
-            .ToListAsync();
-            var listmatches = mapper.Map<List<MatchClubDTO>>(matches);
+            var nodes = await participateNodeRepository.FindByCondition(p => p.ClubClone.ClubId == ClubId).ToListAsync();
+            if (nodes == null)
+            {
+                nodes = new List<ParticipateNode>();
+            }
+            List<Match> lmatches = new List<Match>();
+            foreach (var node in nodes)
+            {
+                var matches = await matchRepository.FindByCondition
+                    (m => (m.HomeId == node.ParticipateNodeId) || (m.AwayId == node.ParticipateNodeId))
+                    .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+                    .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+                    .Include(m => m.League)
+                    .ToListAsync();
+                if(matches != null)
+                {
+                    lmatches.AddRange(matches);
+                }
+            }
+
+            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m=>m.MatchId));
             foreach (MatchClubDTO matchClub in listmatches)
             {
                 var match = await matchRepository.FindByCondition(m => m.MatchId == matchClub.MatchId)
                                 .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
                                 .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
                                 .FirstOrDefaultAsync();
-                if (matchClub.HomeId == ClubId)
+                foreach (var node in nodes)
                 {
-                    matchClub.HA = "Home";
-                    if (match != null && match.Away != null && match.Away.ClubClone != null)
+                    if (matchClub.HomeId == node.ParticipateNodeId)
                     {
-                        if (match.Away.ClubClone.Club != null)
+                        matchClub.HA = "Home";
+                        if (match != null && match.Away != null && match.Away.ClubClone != null)
                         {
-                            matchClub.Against = match.Away.ClubClone.Club.ClubName.Trim();
-                        }
-                        else
-                        {
-                            matchClub.Against = match.Away.ClubClone.ClubCloneKey.Trim();
+                            if (match.Away.ClubClone.Club != null)
+                            {
+                                matchClub.Against = match.Away.ClubClone.Club.ClubName.Trim();
+                            }
+                            else
+                            {
+                                matchClub.Against = match.Away.ClubClone.ClubCloneKey.Trim();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    matchClub.HA = "Away";
-                    if (match != null && match.Home != null && match.Home.ClubClone != null)
+                    else
                     {
-                        if (match.Home.ClubClone.Club != null)
+                        matchClub.HA = "Away";
+                        if (match != null && match.Home != null && match.Home.ClubClone != null)
                         {
-                            matchClub.Against = match.Home.ClubClone.Club.ClubName;
-                        }
-                        else
-                        {
-                            matchClub.Against = match.Home.ClubClone.ClubCloneKey;
+                            if (match.Home.ClubClone.Club != null)
+                            {
+                                matchClub.Against = match.Home.ClubClone.Club.ClubName.Trim();
+                            }
+                            else
+                            {
+                                matchClub.Against = match.Home.ClubClone.ClubCloneKey.Trim();
+                            }
                         }
                     }
                 }
