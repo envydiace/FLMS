@@ -45,9 +45,11 @@ import { LeagueStatisticComponent } from './league/league-detail/league-statisti
 import { LeagueFeeComponent } from './league/league-detail/league-fee/league-fee.component'
 import { LeagueSettingsComponent } from './league/league-detail/league-settings/league-settings.component'
 import { ConfirmFeeComponent } from './league/league-detail/confirm-fee/confirm-fee.component'
+import { MatchEventComponent } from './match/match-detail/match-event/match-event.component';
+import { MatchStatisticComponent } from './match/match-detail/match-statistic/match-statistic.component';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 import { MatSelectModule } from '@angular/material/select';
-
-
+import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/pop-up-edit-match-stats.component'
 import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component'
 
 @NgModule({
@@ -72,8 +74,11 @@ import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-lea
     ClubPlayerComponent,
     PopUpAddPlayerComponent,
     PopUpLeagueFeeDetailComponent,
-
+    PopUpEditMatchStatsComponent,
     PopUpUpdatePrizeComponent,
+    MatchEventComponent,
+    MatchDetailComponent,
+    MatchStatisticComponent
   ],
   imports: [
     CommonModule,
