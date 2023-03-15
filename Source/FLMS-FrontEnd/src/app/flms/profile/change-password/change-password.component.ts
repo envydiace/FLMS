@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { map } from 'rxjs/operators';
 import { token } from 'src/app/models/token.model';
+import { CommonService } from 'src/app/common/common/common.service';
 
 
 export interface Tile {
@@ -32,7 +33,8 @@ export class ChangePasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private commonService: CommonService
   ) {
   }
 
@@ -62,13 +64,15 @@ export class ChangePasswordComponent implements OnInit {
         .subscribe({
           next: () => {
             this.router.navigate(['/manager/view-profile'])
+            this.commonService.sendMessage('Change Password Success!', 'success')
           },
           error: error => {
             this.loading = false;
+            this.commonService.sendMessage('Change Password Failed, please check again!', 'fail')
           }
         });
     } else {
-      alert('Password verification must match with the new password !');
+      this.commonService.sendMessage('Password verification must match with new password!', 'fail')
     }
 
   }
