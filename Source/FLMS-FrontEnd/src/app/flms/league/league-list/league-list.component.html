@@ -40,8 +40,8 @@
                         <mat-card-title>{{leagues.leagueName}}</mat-card-title>
                         <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
                         <img mat-card-avatar class="league-header-image"
-                            src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
-                            alt="Photo of a Shiba Inu">
+                            [src]="leagues.logo != null ? leagues.logo : defaultLogo"
+                            alt="Club's Pic">
 
                     </mat-card>
                 </a>
