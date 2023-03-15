@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -61,7 +62,7 @@ namespace FLMS_BackEnd.Controllers
         }
         [HttpGet("[action]")]
         [Authorize(Roles = "LEAGUE_MANAGER")]
-        public async Task<IActionResult> GetListLeagueByUser()
+        public async Task<ActionResult<List<LeagueByUserDTO>>> GetListLeagueByUser()
         {
             try
             {
