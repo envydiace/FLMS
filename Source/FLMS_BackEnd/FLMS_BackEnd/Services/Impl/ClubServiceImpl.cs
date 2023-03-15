@@ -38,10 +38,10 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<CreateResponse> CreateClub(CreateClubRequest request, int UserId)
         {
-            var c = await clubRepository.FindByCondition(c => 
+            var c = await clubRepository.FindByCondition(c =>
                     c.ClubName.ToLower().Trim().Equals(request.ClubName.ToLower().Trim()))
                 .FirstOrDefaultAsync();
-            if(c != null)
+            if (c != null)
             {
                 return new CreateResponse { Success = false, MessageCode = "ER-CL-07" };
             }
@@ -84,11 +84,11 @@ namespace FLMS_BackEnd.Services.Impl
             Club result = await clubRepository.UpdateAsync(club);
             if (result != null)
             {
-                return new UpdateClubResponse 
-                { 
-                    Success = true, 
+                return new UpdateClubResponse
+                {
+                    Success = true,
                     MessageCode = "MS-CL-03",
-                    ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo 
+                    ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo
                 };
             }
             return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-06" };
@@ -126,7 +126,20 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<List<ClubByUserDTO>> GetListClubByUser(int userId)
         {
             var listClubs = await clubRepository.FindByCondition(c => c.UserId == userId).ToListAsync();
-            return mapper.Map<List<ClubByUserDTO>> (listClubs);
+            return mapper.Map<List<ClubByUserDTO>>(listClubs);
+        }
+
+        public async Task<List<ClubHistoryDTO>> GetClubLeagueHistory(int clubId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == clubId)
+                                    .Include(c => c.ClubClones).ThenInclude(cl => cl.League).ThenInclude(l => l.Participations)
+                                        .FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new List<ClubHistoryDTO>();
+            }
+            var result = mapper.Map<List<ClubHistoryDTO>>(club.ClubClones.ToList());
+            return result;
         }
     }
 }

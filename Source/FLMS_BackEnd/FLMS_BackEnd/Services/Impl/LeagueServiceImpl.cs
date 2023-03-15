@@ -255,7 +255,7 @@ namespace FLMS_BackEnd.Services.Impl
                     Avatar = e.Select(x => x.Main.Avatar).FirstOrDefault(),
                     Record = e.Count()
                 })
-                .OrderByDescending(x=>x.Record)
+                .OrderByDescending(x => x.Record)
                 .ThenBy(x => x.PlayerName)
                     .ToList();
 
