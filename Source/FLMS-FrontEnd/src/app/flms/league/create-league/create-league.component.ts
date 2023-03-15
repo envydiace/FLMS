@@ -23,6 +23,7 @@ export class CreateLeagueComponent implements OnInit {
   feeCostTotal: number = 0;
   prizeCostTotal: number = 0;
   selectedImage: any = null;
+  imgSrc: string = './../../../../assets/image/default-logo.png';
 
   listPrize: leaguePrize[] = [
     { expenseKey: 'F1', expenseName: 'Gold Medal', cost: 0 },
@@ -80,11 +81,11 @@ export class CreateLeagueComponent implements OnInit {
   createForm() {
     this.createLeagueForm = this.formBuilder.group({
       'leagueName': [null, [Validators.required]],
-      'noParticipate': [null, [Validators.required]],
+      'noParticipate': [null, [Validators.required, Validators.min(2), Validators.max(20)]],
       'startDate': [null, [Validators.required]],
       'endDate': [null, [Validators.required]],
-      'maxNoPlayer': [null, [Validators.required]],
-      'noPlayerSquad': [null, [Validators.required]],
+      'maxNoPlayer': [null, [Validators.required, Validators.min(7), Validators.max(30)]],
+      'noPlayerSquad': [null, [Validators.required, Validators.min(5), Validators.max(11)]],
       'location': [null, [Validators.required]],
       'fanpage': [null, [Validators.required]],
       'leagueType': [null, [Validators.required]],
@@ -174,7 +175,16 @@ export class CreateLeagueComponent implements OnInit {
   }
 
   showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
+    // this.selectedImage = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+    } else {
+      this.imgSrc = './../../../../assets/image/default-logo.png';
+      this.selectedImage = null;
+    }
   }
 
 

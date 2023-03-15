@@ -15,6 +15,7 @@ export class LeagueListComponent implements OnInit {
   private headers: HttpHeaders;
   token: token;
   leagueListByUser: LeagueListbyUser[] = [];
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
 
   constructor(
     private leagueService: LeagueService,

@@ -50,7 +50,7 @@
                             <div>
                                 <mat-form-field appearance="fill">
                                     <mat-label>Ex. 100000</mat-label>
-                                    <input matInput type="number" min="10" formControlName="sponsored">
+                                    <input matInput type="number" formControlName="sponsored">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -62,7 +62,10 @@
                             <div>
                                 <mat-form-field appearance="fill">
                                     <mat-label>Ex. 12</mat-label>
-                                    <input matInput type="number" min="10" formControlName="noParticipate">
+                                    <input matInput type="number" formControlName="noParticipate">
+                                    <mat-error *ngIf="!createLeagueForm.controls['noParticipate'].valid">
+                                        Must be between 2 and 20 players.
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -72,7 +75,10 @@
                             <div>
                                 <mat-form-field appearance="fill">
                                     <mat-label>Ex. 30</mat-label>
-                                    <input matInput type="number" min="10" formControlName="maxNoPlayer">
+                                    <input matInput type="number" formControlName="maxNoPlayer">
+                                    <mat-error *ngIf="!createLeagueForm.controls['noParticipate'].valid">
+                                        Must be between 7 and 30 players.
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -82,7 +88,10 @@
                             <div>
                                 <mat-form-field appearance="fill">
                                     <mat-label>Ex. 11</mat-label>
-                                    <input matInput type="number" min="10" formControlName="noPlayerSquad">
+                                    <input matInput type="number" formControlName="noPlayerSquad">
+                                    <mat-error *ngIf="!createLeagueForm.controls['noParticipate'].valid">
+                                        Must be between 5 and 11 players.
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -131,8 +140,7 @@
                 <div class="card-header">Your League</div>
                 <mat-card class="create-league-card">
 
-                    <img mat-card-avatar class="league-header-image"
-                        src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"><br>
+                    <img mat-card-avatar class="league-header-image" [src]="imgSrc"><br>
                     <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
 
                     <mat-card-title>Premier League</mat-card-title>
