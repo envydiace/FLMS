@@ -220,8 +220,10 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<LeagueStatisticResponse> GetLeagueStatistic(int leagueId)
         {
             var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
-                                    .Include(l => l.ClubClones)
-                                    .ThenInclude(cl => cl.Club).FirstOrDefaultAsync();
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.Club)
+                                    .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Main)
+                                    .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Sub)
+                                    .FirstOrDefaultAsync();
             if (league == null)
             {
                 return new LeagueStatisticResponse
@@ -236,11 +238,32 @@ namespace FLMS_BackEnd.Services.Impl
                             .ThenBy(s => s.ClubName)
                             .ToList();
             standings.ForEach(s => s.Standing = (standings.IndexOf(s) + 1));
+
+            var listevent = new List<MatchEvent>();
+            var matchs = league.Matches.Where(m => m.IsFinish).ToList();
+            matchs.ForEach(m => listevent.AddRange(m.MatchEvents.Where(e =>
+                                e.EventType.Equals(Constants.MatchEventType.Goal.ToString())).ToList())
+                           );
+
+            var topScore = listevent.GroupBy(
+                e => e.MainId
+                )
+                .Select(e => new TopRecordPlayerDTO
+                {
+                    PlayerId = e.Key,
+                    PlayerName = e.Select(x => x.Main.Name).FirstOrDefault(),
+                    Avatar = e.Select(x => x.Main.Avatar).FirstOrDefault(),
+                    Record = e.Count()
+                }).ToList();
+
             return new LeagueStatisticResponse
             {
                 Success = true,
-                LeagueStanding = standings
+                LeagueStanding = standings,
+                TopScore = topScore
             };
+
+
         }
     }
 }
