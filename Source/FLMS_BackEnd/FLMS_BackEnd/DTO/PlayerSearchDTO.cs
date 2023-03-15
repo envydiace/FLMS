@@ -11,6 +11,5 @@
         public int Assistant { get; set; }
         public int RedCard { get; set; }
         public int YellowCard { get; set; }
-        public string? Avatar { get; set; }
     }
 }
