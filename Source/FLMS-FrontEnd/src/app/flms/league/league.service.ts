@@ -132,7 +132,7 @@ export class LeagueService {
 
   }
 
-  finishMatchConfirm(matchId: number) {
-    return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers });
+  finishMatchConfirm(matchId: number):Observable<any> {
+    return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers ,observe:'response'});
   }
 }
