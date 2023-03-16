@@ -1,18 +1,21 @@
 export interface Club {
     clubId: number,
     name: string,
-    logo: string
+    logo: string,
+    score: number
 }
 
 export class Club implements Club {
     constructor(
         clubId: number,
         name: string,
-        logo: string
+        logo: string,
+        score: number
     ) {
         this.clubId = clubId;
         this.name = name;
         this.logo = logo;
+        this.score = score;
     }
 }
 

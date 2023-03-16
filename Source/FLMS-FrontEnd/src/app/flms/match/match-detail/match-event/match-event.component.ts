@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { MatchEvent } from './../../../../models/match-event-detail.model';
 import { MatchService} from '../../match.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { PopUpAddEventComponent } from './../pop-up-add-event/pop-up-add-event.component';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class MatchEventComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private MatchService: MatchService,
+    public dialog: MatDialog,
   ) {
     this.route.queryParams.subscribe(params => {
       this.matchId = params['matchId'];
@@ -32,6 +34,17 @@ export class MatchEventComponent implements OnInit {
 
   }
 
+  openAddEvent(): void{
+    const dialogRef = this.dialog.open(PopUpAddEventComponent, {
+      width: '85%',
+      data: { }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+     
+      console.log('The dialog was closed');
+    });
+  }
  
 
 }
