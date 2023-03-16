@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
           },
           error: error => {
             this.loading = false;
-            this.commonService.sendMessage('Something wrong!', 'fail');
+            this.commonService.sendMessage(error.error.message, 'fail');
 
           }
         });
