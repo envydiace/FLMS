@@ -13,7 +13,7 @@ import { MatchEvent } from 'src/app/models/match-event-detail.model';
 import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
 import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
-
+import { MailDataResponse } from './../../models/mail-data-response.model';
 
 
 @Injectable({
@@ -120,6 +120,15 @@ export class LeagueService {
   }
   editLeagueFee(feeInfo: FeeDetail){
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
+
+  }
+
+  removeJoinedClub(leagueId: number,clubId: number): Observable<any> {
+    let params = new HttpParams();
+
+    params = params.append("leagueId", String(leagueId));
+    params = params.append("clubId", String(clubId));
+    return this.http.delete(`${environment.apiUrl}/api/Participation/RemoveJoinedClub`, {params, headers: this.headers });
 
   }
 }
