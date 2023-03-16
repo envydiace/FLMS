@@ -129,6 +129,8 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     clubClone => clubClone.Club != null ? clubClone.Club.ClubName : clubClone.ClubCloneKey.Trim()));
 
+            CreateMap<League,JoinedLeagueDTO>();
+
             //Match
             CreateMap<ParticipateNode, ClubMatchDTO>()
                 .ForMember(dto => dto.ClubId,
