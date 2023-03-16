@@ -200,5 +200,14 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
         }
+
+        public async Task<AddMatchEventResponse> AddMultipleEvent(List<AddMatchEventRequest> requests, int userId)
+        {
+            foreach(var request in requests)
+            {
+                await this.AddEvent(request, userId);
+            }
+            return new AddMatchEventResponse { Success = true, MessageCode = "MS-EV-01" };
+        }
     }
 }
