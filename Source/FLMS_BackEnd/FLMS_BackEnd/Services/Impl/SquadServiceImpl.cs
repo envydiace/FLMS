@@ -3,6 +3,7 @@ using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
+using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace FLMS_BackEnd.Services.Impl
@@ -105,6 +106,67 @@ namespace FLMS_BackEnd.Services.Impl
                             .Include(sp => sp.Player)
                                 .Select(sp => sp.Player)
                                     .ToListAsync();
+            return mapper.Map<List<PlayerSquadPositionDTO>>(players);
+        }
+        public async Task<List<PlayerSquadPositionDTO>> GetPlayerForEvent(PlayerForEventRequest request)
+        {
+            var squad = await squadRepository.FindByCondition(s =>
+                            s.MatchId == request.MatchId &&
+                            s.Match.Home.ClubClone != null &&
+                            s.Match.Away.ClubClone != null && 
+                            (
+                                (s.Match.Home.ClubClone != null && s.Match.Home.ClubClone.ClubId == request.ClubId) ||
+                                (s.Match.Away.ClubClone != null && s.Match.Away.ClubClone.ClubId == request.ClubId)
+                            )
+                        )
+                        .Include(s => s.Match).ThenInclude(m => m.Home).ThenInclude(h => h.ClubClone)
+                        .Include(s => s.Match).ThenInclude(m => m.Away).ThenInclude(h => h.ClubClone)
+                        .FirstOrDefaultAsync();
+            if (squad == null)
+            {
+                return new List<PlayerSquadPositionDTO>();
+            }
+            bool isHome = false;
+            if (squad.Match.Home.ClubClone.ClubId == request.ClubId)
+            {
+                isHome = true;
+            }
+            else if (squad.Match.Away.ClubClone.ClubId == request.ClubId)
+            {
+                isHome = false;
+            }
+            else
+            {
+                return new List<PlayerSquadPositionDTO>();
+            }
+            var players = new List<Player?>();
+            switch (MethodUtils.GetMatchEventTypeByName(request.EventType))
+            {
+                case Constants.MatchEventType.Goal:
+                case Constants.MatchEventType.YellowCard:
+                case Constants.MatchEventType.RedCard:
+                    players = await squadPositionRepository.FindByCondition(sp =>
+                        sp.Squad.MatchId == request.MatchId &&
+                        sp.Squad.IsHome == isHome &&
+                        sp.PlayerId != null)
+                            .Include(sp => sp.Squad)
+                            .Include(sp => sp.Player)
+                                .Select(sp => sp.Player)
+                                    .ToListAsync();
+                    break;
+                case Constants.MatchEventType.OwnGoal:
+                    players = await squadPositionRepository.FindByCondition(sp =>
+                        sp.Squad.MatchId == request.MatchId &&
+                        sp.Squad.IsHome == !isHome &&
+                        sp.PlayerId != null)
+                            .Include(sp => sp.Squad)
+                            .Include(sp => sp.Player)
+                                .Select(sp => sp.Player)
+                                    .ToListAsync();
+                    break;
+                default:
+                    return new List<PlayerSquadPositionDTO>();
+            }
             return mapper.Map<List<PlayerSquadPositionDTO>>(players);
         }
         public async Task<AddPositionResponse> AddSquadPosition(AddPositionRequest request, int userId)
