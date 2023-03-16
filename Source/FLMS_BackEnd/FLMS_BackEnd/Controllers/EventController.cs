@@ -51,5 +51,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpPost("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<AddMatchEventResponse>> AddMultipleMatchEvent(List<AddMatchEventRequest> requests)
+        {
+            var response = await matchEventService.AddMultipleEvent(requests, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
