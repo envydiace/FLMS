@@ -185,7 +185,6 @@ export class PopUpEditMatchStatsComponent implements OnInit {
       });
   }
 
-
 }
 
 export interface PeriodicElement {
