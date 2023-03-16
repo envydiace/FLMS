@@ -9,5 +9,6 @@ namespace FLMS_BackEnd.Services
         public Task<List<MatchEventDTO>> GetMatchEvent(int matchId);
         public Task<AddMatchEventResponse> AddEvent(AddMatchEventRequest request, int userId);
         public Task<DeleteMatchEventResponse> DeleteEvent(int eventId, int userId);
+        public Task<AddMatchEventResponse> AddMultipleEvent(List<AddMatchEventRequest> requests, int userId);
     }
 }
