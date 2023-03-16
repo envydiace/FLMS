@@ -265,5 +265,15 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
         }
+        public async Task<List<JoinedLeagueDTO>> GetListJoinedLeague(int userId)
+        {
+            var leagues = await participationRepository.FindByCondition(p =>
+                    p.Club.UserId == userId &&
+                    p.Confirmed)
+                .Include(p => p.League)
+                .Select(p => p.League)
+                .ToListAsync();
+            return mapper.Map<List<JoinedLeagueDTO>>(leagues != null ? leagues : new List<League>());
+        }
     }
 }
