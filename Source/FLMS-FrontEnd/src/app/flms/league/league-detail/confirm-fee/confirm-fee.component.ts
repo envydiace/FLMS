@@ -100,6 +100,7 @@ export class ConfirmFeeComponent implements OnInit {
               },
               error: error => {
                 this.loading = false;
+                this.commonService.sendMessage('Confirm fail!, please re-check and upload club evidence again.', 'fail');
               }
             });
 

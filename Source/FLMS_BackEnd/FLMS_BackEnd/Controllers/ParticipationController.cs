@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using MailKit;
@@ -77,5 +78,27 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]/{id}")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<List<UnpositionClubDTO>>> GetUnpositionClub(int id)
+        {
+            var result = await participationService.ListUnpositionClub(id, UserID);
+            return Ok(result);
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<AddClubPositionResponse>> AddParticipationToPosition(int clubId, int clubCloneId)
+        {
+            var response = await participationService.AddClubPosition(clubCloneId, clubId, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
+

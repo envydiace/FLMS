@@ -39,13 +39,13 @@ namespace FLMS_BackEnd.Services.Impl
                     .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
                     .Include(m => m.League)
                     .ToListAsync();
-                if(matches != null)
+                if (matches != null)
                 {
                     lmatches.AddRange(matches);
                 }
             }
 
-            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m=>m.MatchId));
+            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m => m.MatchId));
             foreach (MatchClubDTO matchClub in listmatches)
             {
                 var match = await matchRepository.FindByCondition(m => m.MatchId == matchClub.MatchId)
@@ -112,12 +112,27 @@ namespace FLMS_BackEnd.Services.Impl
             .Include(m => m.League)
             .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
             .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+            .Include(m => m.MatchStats)
             .OrderBy(m => m.MatchDate)
             .ToListAsync();
+
+            var listMatch = mapper.Map<List<MatchDTO>>(matches);
+            listMatch.ForEach(m =>
+            {
+                var match = matches.Where(x => x.MatchId == m.MatchId).FirstOrDefault();
+                if (match!=null && match.IsFinish)
+                {
+                    var homeStats = match.MatchStats.FirstOrDefault(ms => ms.IsHome);
+                    m.Home.Score = homeStats != null ? homeStats.Score : 0;
+                    var awayStats = match.MatchStats.FirstOrDefault(ms => !ms.IsHome);
+                    m.Away.Score = awayStats != null ? awayStats.Score : 0;
+                }
+            });
+            
             return new LeagueScheduleResponse
             {
                 Success = true,
-                listMatch = mapper.Map<List<MatchDTO>>(matches)
+                listMatch = listMatch
             };
         }
 
