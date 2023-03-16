@@ -99,6 +99,13 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<List<JoinedLeagueDTO>>> GetListJoinedLeague()
+        {
+            var response = await participationService.GetListJoinedLeague(UserID);
+            return response;
+        }
     }
 }
 
