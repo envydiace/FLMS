@@ -69,7 +69,7 @@
             <mat-header-cell *matHeaderCellDef> </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <div *ngIf="element.isFinish == true">
-                    {{element.home.score}} - vs - {{element.away.score}}
+                    {{element.home.score}} - {{element.away.score}}
                 </div>
 
                 <div *ngIf="element.isFinish != true">
@@ -91,8 +91,9 @@
             <mat-cell *matCellDef="let element">
                 <div *ngIf="element.isFinish != true">
                     <button mat-raised-button color="warn" style="margin-left: 10px;">Finish</button>
+                    <button mat-raised-button color="primary">Edit</button>
                 </div>
-                <button mat-raised-button color="primary">Edit</button>
+                
             </mat-cell>
         </ng-container>
 
