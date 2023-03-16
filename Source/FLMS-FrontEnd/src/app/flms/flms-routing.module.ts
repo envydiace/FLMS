@@ -63,7 +63,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'match-info',
+    path: 'match-detail',
     component: MatchDetailComponent,
     canActivate: [AuthGuard]
   }

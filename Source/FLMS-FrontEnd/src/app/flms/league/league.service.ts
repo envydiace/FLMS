@@ -106,29 +106,29 @@ export class LeagueService {
     )
   }
 
-  confirmRegistFee(fee:LeagueClubFee ){
+  confirmRegistFee(fee: LeagueClubFee) {
     return this.http.put(`${environment.apiUrl}/api/Participation/ConfirmRegistFee`, fee, { headers: this.headers })
 
   }
 
   getFeeDetail(leagueFeeId: number): Observable<FeeDetailResponse> {
-    
-    return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetFeeDetail/${leagueFeeId}` ).pipe(
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetFeeDetail/${leagueFeeId}`).pipe(
       map((res: FeeDetailResponse) => res),
       catchError(err => throwError(err))
     )
   }
-  editLeagueFee(feeInfo: FeeDetail){
+  editLeagueFee(feeInfo: FeeDetail) {
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
 
   }
 
-  removeJoinedClub(leagueId: number,clubId: number): Observable<any> {
+  removeJoinedClub(leagueId: number, clubId: number): Observable<any> {
     let params = new HttpParams();
 
     params = params.append("leagueId", String(leagueId));
     params = params.append("clubId", String(clubId));
-    return this.http.delete(`${environment.apiUrl}/api/Participation/RemoveJoinedClub`, {params, headers: this.headers });
+    return this.http.delete(`${environment.apiUrl}/api/Participation/RemoveJoinedClub`, { params, headers: this.headers });
 
   }
 }

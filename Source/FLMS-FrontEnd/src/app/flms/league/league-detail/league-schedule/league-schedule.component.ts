@@ -36,6 +36,6 @@ export class LeagueScheduleComponent implements OnInit {
   }
 
   navigateToMatchDetail(id: number) {
-    this.router.navigate(['/manager/match-info'], { queryParams: {matchId : id}, skipLocationChange: true});
+    this.router.navigate(['/manager/match-detail'], { queryParams: {matchId : id}, skipLocationChange: true});
   }
 }
