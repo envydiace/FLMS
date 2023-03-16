@@ -10,7 +10,8 @@ import { MatchDetail } from '../../models/match-detail.model';
 import { MatchStats } from '../../models/match-statistics-model'
 import { MatchStatisticsResponse } from './../../models/match-statistic-response-model'
 import { MatchEvent } from './../../models/match-event-detail.model';
-
+import { Player } from 'src/app/models/player.model';
+import { PlayerForEvent } from './../../models/player-for-event.model'
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +55,17 @@ export class MatchService {
 
   updateMatchStats(body: MatchStatisticsResponse) {
     return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body,{ headers: this.headers })
+  }
+
+  getPlayerForEvent(MatchId: number, EventType: string, ClubId: number): Observable<PlayerForEvent>{
+    let params = new HttpParams();
+
+    params = params.append("MatchId", String(MatchId))
+    params = params.append("EventType", String(EventType))
+    params = params.append("ClubId", String(ClubId))
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Squad/GetPlayerForEvent`, { params, headers: this.headers })
+    .pipe(map((res: PlayerForEvent) => res),
+      catchError(err => throwError(err)))
   }
 }

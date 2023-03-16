@@ -51,6 +51,7 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { MatSelectModule } from '@angular/material/select';
 import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/pop-up-edit-match-stats.component'
 import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component'
+import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-lea
     PopUpAddPlayerComponent,
     PopUpLeagueFeeDetailComponent,
     PopUpEditMatchStatsComponent,
+    PopUpAddEventComponent,
     PopUpUpdatePrizeComponent,
     MatchEventComponent,
     MatchDetailComponent,
