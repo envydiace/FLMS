@@ -5,7 +5,7 @@ export interface MailDataResponse {
     message: string,
     messageMailCode: string,
     mailMessage: string,
-    mailData: MailData
+   
 }
 
 export class MailDataResponse implements MailDataResponse{
@@ -14,13 +14,13 @@ constructor(
     message: string,
     messageMailCode: string,
     mailMessage: string,
-    mailData: MailData
+   
 ){
     this.messageCode = messageCode,
     this.message = message,
     this.messageMailCode = messageMailCode,
-    this.mailMessage = mailMessage,
-    this.mailData =mailData
+    this.mailMessage = mailMessage
+   
 }
 
 }
