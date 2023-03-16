@@ -33,15 +33,16 @@ namespace FLMS_BackEnd.Controllers
                     },
                     response.MailMessage,
                     mailService.GetEmailTemplate("Invitation", response.mailData));
-                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
-                if (sendResult)
-                {
+                //bool sendResult = await 
+                    mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                //if (sendResult)
+                //{
                     return Ok(response);
-                }
-                else
-                {
-                    return BadRequest("Mail sent failed");
-                }
+                //}
+                //else
+                //{
+                //    return BadRequest("Mail sent failed");
+                //}
             }
             else
             {
@@ -105,15 +106,16 @@ namespace FLMS_BackEnd.Controllers
                     },
                     response.MailMessage,
                     mailService.GetEmailTemplate("AcceptRequest", response.mailData));
-                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
-                if (sendResult)
-                {
+                //bool sendResult = await 
+                    mailService.SendEmailAsync(mailRequest, new CancellationToken());
+                //if (sendResult)
+                //{
                     return Ok(response);
-                }
-                else
-                {
-                    return BadRequest("Mail sent failed");
-                }
+                //}
+                //else
+                //{
+                //    return BadRequest("Mail sent failed");
+                //}
             }
             else
             {

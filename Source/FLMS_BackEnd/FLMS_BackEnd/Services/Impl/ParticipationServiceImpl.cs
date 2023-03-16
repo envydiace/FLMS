@@ -15,12 +15,21 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly ParticipationRepository participationRepository;
         private readonly ClubCloneRepository clubCloneRepository;
         private readonly ParticipateNodeRepository participateNodeRepository;
+        private readonly LeagueRepository leagueRepository;
+        private readonly SquadPositionRepository squadPositionRepository;
 
-        public ParticipationServiceImpl(ParticipationRepository participationRepository, ClubCloneRepository clubCloneRepository, ParticipateNodeRepository participateNodeRepository)
+        public ParticipationServiceImpl(
+            ParticipationRepository participationRepository,
+            ClubCloneRepository clubCloneRepository,
+            ParticipateNodeRepository participateNodeRepository,
+            LeagueRepository leagueRepository,
+            SquadPositionRepository squadPositionRepository)
         {
             this.participationRepository = participationRepository;
             this.clubCloneRepository = clubCloneRepository;
             this.participateNodeRepository = participateNodeRepository;
+            this.leagueRepository = leagueRepository;
+            this.squadPositionRepository = squadPositionRepository;
         }
 
         public async Task<ConfirmRegistFeeResponse> ConfirmResgistFee(ConfirmRegistFeeRequest request, int userId)
@@ -100,23 +109,23 @@ namespace FLMS_BackEnd.Services.Impl
                 Clubs = mapper.Map<List<ParticipationClubDTO>>(participations)
             };
         }
-
         public async Task<RemoveClubResponse> RemoveJoinedTeam(RemoveClubRequest request, int UserId)
         {
             var participation = await participationRepository.FindByCondition(p =>
                 p.LeagueId == request.leagueId && p.ClubId == request.clubId)
-                .Include(p=>p.League).ThenInclude(l => l.User)
-                .Include(p=>p.Club).ThenInclude(c => c.User)
+                .Include(p => p.League).ThenInclude(l => l.User)
+                .Include(p => p.Club).ThenInclude(c => c.User)
                 .FirstOrDefaultAsync();
 
             if (participation == null)
             {
-                return new RemoveClubResponse { 
+                return new RemoveClubResponse
+                {
                     Success = false,
                     MessageCode = "ER-PA-01"
                 };
             }
-            if(participation.League.UserId != UserId)
+            if (participation.League.UserId != UserId)
             {
                 return new RemoveClubResponse
                 {
@@ -124,7 +133,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
-            if(participation.League.IsFinished)
+            if (participation.League.IsFinished)
             {
                 return new RemoveClubResponse
                 {
@@ -132,7 +141,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-07"
                 };
             }
-            if(participation.Confirmed)
+            if (participation.Confirmed)
             {
                 return new RemoveClubResponse
                 {
@@ -147,14 +156,14 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     Success = true,
                     MessageCode = "MS-PA-02",
-                    MessageMailCode= "MS-MAIL-09",
+                    MessageMailCode = "MS-MAIL-09",
                     mailData = new MailDTO
                     {
                         LeagueManagerName = result.League.User.FullName,
                         ClubManagerName = result.Club.User.FullName,
                         Email = result.Club.User.Email,
                         LeagueName = result.League.LeagueName,
-                        ClubName =result.Club.ClubName,
+                        ClubName = result.Club.ClubName,
                         ReceiverRole = result.Club.User.Role
                     },
                 };
@@ -164,6 +173,97 @@ namespace FLMS_BackEnd.Services.Impl
                 Success = false,
                 MessageCode = "ER-PA-05"
             };
+        }
+        public async Task<List<UnpositionClubDTO>> ListUnpositionClub(int leagueId, int userId)
+        {
+            List<UnpositionClubDTO> result = new List<UnpositionClubDTO>();
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                        .Include(l => l.ClubClones)
+                        .Include(l => l.Participations).ThenInclude(p => p.Club)
+                        .FirstOrDefaultAsync();
+            if (league != null && league.UserId == userId)
+            {
+                var clubs = league.Participations.Where(p =>
+                        p.Confirmed &&
+                        !league.ClubClones.Any(cl => cl.ClubId == p.ClubId))
+                    .Select(p => p.Club)
+                    .ToList();
+                if (clubs != null && clubs.Count > 0)
+                {
+                    result = mapper.Map<List<UnpositionClubDTO>>(clubs);
+                }
+            }
+            return result;
+        }
+
+        public async Task<AddClubPositionResponse> AddClubPosition(int clubCloneId, int clubId, int userId)
+        {
+            var clubClone = await clubCloneRepository.FindByCondition(cl => cl.ClubCloneId == clubCloneId)
+                            .Include(cl => cl.League).ThenInclude(l => l.Matches)
+                            .FirstOrDefaultAsync();
+            if (clubClone == null)
+            {
+                return new AddClubPositionResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-06"
+                };
+            }
+            if (clubClone.League.UserId != userId)
+            {
+                return new AddClubPositionResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            var checkSquadPosition = await squadPositionRepository.FindByCondition(sp =>
+                        sp.Squad.Match.LeagueId == clubClone.LeagueId &&
+                        sp.PlayerId != null
+                        ).AnyAsync();
+            if (checkSquadPosition)
+            {
+                return new AddClubPositionResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-10"
+                };
+            }
+            if (clubClone.ClubId != null || clubClone.ClubId == 0)
+            {
+                return new AddClubPositionResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-07"
+                };
+            }
+            var unpositionClubs = await this.ListUnpositionClub(clubClone.LeagueId, userId);
+            if (!unpositionClubs.Any(c => c.ClubId == clubId))
+            {
+                return new AddClubPositionResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-09"
+                };
+            }
+            clubClone.ClubId = clubId;
+            var result = await clubCloneRepository.UpdateAsync(clubClone);
+            if (result != null)
+            {
+                return new AddClubPositionResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-PA-03"
+                };
+            }
+            else
+            {
+                return new AddClubPositionResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-08"
+                };
+            }
         }
     }
 }
