@@ -7,7 +7,7 @@ import { ClubStats, MatchStats } from './../../../models/match-statistics-model'
 import { MatchStatisticsResponse } from './../../../models/match-statistic-response-model';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { CommonService } from 'src/app/common/common/common.service';
+import { CommonService } from './../../../common/common/common.service';
 
 @Component({
   selector: 'app-pop-up-edit-match-stats',
@@ -100,13 +100,13 @@ export class PopUpEditMatchStatsComponent implements OnInit {
     this.away = {
       matchId: null,
       isHome: false,
-      shot: this.getControl('shothome').value,
-      shotOnTarget: this.getControl('shotOnTargethome').value,
-      conner: this.getControl('connerhome').value,
-      foul: this.getControl('foulhome').value,
-      offside: this.getControl('offsidehome').value,
-      redCard: this.getControl('redhome').value,
-      yellowCard: this.getControl('yellowhome').value,
+      shot: this.getControl('shotaway').value,
+      shotOnTarget: this.getControl('shotOnTargetaway').value,
+      conner: this.getControl('conneraway').value,
+      foul: this.getControl('foulaway').value,
+      offside: this.getControl('offsideaway').value,
+      redCard: this.getControl('redaway').value,
+      yellowCard: this.getControl('yellowaway').value,
     }
   }
 
@@ -176,14 +176,15 @@ export class PopUpEditMatchStatsComponent implements OnInit {
       .subscribe({
         next: () => {
           this.dialogRef.close();
-          this.commonService.sendMessage('Update Successfully!','success');
+          this.commonService.sendMessage('Update Successfully!', 'success');
         },
         error: error => {
           this.loading = false;
-          this.commonService.sendMessage('Update Failed, please check your input!','fail');
+          this.commonService.sendMessage('Update Failed, please check your input!', 'fail');
         }
       });
   }
+
 
 }
 
