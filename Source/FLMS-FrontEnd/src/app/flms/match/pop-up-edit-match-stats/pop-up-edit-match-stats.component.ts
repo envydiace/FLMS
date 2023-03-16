@@ -53,20 +53,20 @@ export class PopUpEditMatchStatsComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      shothome: ['', [Validators.required,Validators.min(0)]],
-      shotaway: ['', [Validators.required,Validators.min(0)]],
-      shotOnTargethome: ['', [Validators.required,Validators.min(0)]],
-      shotOnTargetaway: ['', [Validators.required,Validators.min(0)]],
-      connerhome: ['', [Validators.required,Validators.min(0)]],
-      conneraway: ['', [Validators.required,Validators.min(0)]],
-      foulhome: ['', [Validators.required,Validators.min(0)]],
-      foulaway: ['', [Validators.required,Validators.min(0)]],
-      offsidehome: ['', [Validators.required,Validators.min(0)]],
-      offsideaway: ['', [Validators.required,Validators.min(0)]],
-      redhome: ['', [Validators.required,Validators.min(0)]],
-      redaway: ['', [Validators.required,Validators.min(0)]],
-      yellowhome: ['', [Validators.required,Validators.min(0)]],
-      yellowaway: ['', [Validators.required,Validators.min(0)]]
+      shothome: ['', [Validators.required, Validators.min(0)]],
+      shotaway: ['', [Validators.required, Validators.min(0)]],
+      shotOnTargethome: ['', [Validators.required, Validators.min(0)]],
+      shotOnTargetaway: ['', [Validators.required, Validators.min(0)]],
+      connerhome: ['', [Validators.required, Validators.min(0)]],
+      conneraway: ['', [Validators.required, Validators.min(0)]],
+      foulhome: ['', [Validators.required, Validators.min(0)]],
+      foulaway: ['', [Validators.required, Validators.min(0)]],
+      offsidehome: ['', [Validators.required, Validators.min(0)]],
+      offsideaway: ['', [Validators.required, Validators.min(0)]],
+      redhome: ['', [Validators.required, Validators.min(0)]],
+      redaway: ['', [Validators.required, Validators.min(0)]],
+      yellowhome: ['', [Validators.required, Validators.min(0)]],
+      yellowaway: ['', [Validators.required, Validators.min(0)]]
     });
     this.initDataSource();
   }
