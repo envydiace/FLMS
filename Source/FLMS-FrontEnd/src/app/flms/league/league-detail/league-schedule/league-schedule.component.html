@@ -91,7 +91,7 @@
             <mat-cell *matCellDef="let element">
                 <div *ngIf="element.isFinish != true">
                     <button mat-raised-button color="warn" style="margin-left: 10px;">Finish</button>
-                    <button mat-raised-button color="primary">Edit</button>
+                    <button mat-raised-button color="primary" (click)="openEditMatchInfo(element.matchId)">Edit</button>
                 </div>
                 
             </mat-cell>
