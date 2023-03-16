@@ -19,20 +19,30 @@
                     <mat-card-header>
                         <div mat-card-avatar class="profile-image"></div>
                         <mat-card-title style="line-height: 85px;">{{club.clubName}}</mat-card-title>
+                        <div>
 
-                        <div *ngIf="club.confirmed != true">
                             <div style="text-align: right; 
-                            position:absolute; right:10px; top: 40px; display: inline;">
-                           <div class="button-container">
-
-                               <button mat-raised-button style="width: 120px;" color="primary"
-                                   (click)="openLeagueClubFee(club.clubId)">
-                                   Confirm
-                               </button>
-                           </div>
-                       </div>
+                                position:absolute; right:10px; top: 40px; display: inline;">
+                                <div class="button-container">
+                                    <div *ngIf="club.confirmed != true">
+                                        <button mat-icon-button color="primary"
+                                            (click)="openLeagueClubFee(club.clubId)">
+                                            <mat-icon>check_circle_outline</mat-icon>
+                                        </button>
+                                    </div>
+                                    <div *ngIf="club.confirmed == true">
+                                        <button mat-icon-button color="primary">
+                                            <mat-icon></mat-icon>
+                                        </button>
+                                    </div>
+                                    <button mat-icon-button color="warn">
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    
+
+
                     </mat-card-header>
 
                 </mat-card>

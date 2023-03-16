@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./league-schedule.component.scss']
 })
 export class LeagueScheduleComponent implements OnInit {
-  displayedColumns: string[] = ['time', 'home','vs', 'away', 'group', 'action'];
+  displayedColumns: string[] = ['time','date', 'home','vs', 'away', 'group','stadium', 'action'];
   leagueId: number ;
   listMatch: MatchSchedule[] = [];
 

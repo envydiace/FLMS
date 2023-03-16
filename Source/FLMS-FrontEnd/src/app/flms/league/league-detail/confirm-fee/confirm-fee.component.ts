@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { finalize, first, map } from 'rxjs/operators';
+import { CommonService } from 'src/app/common/common/common.service';
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
 import { LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
 import { LeagueService } from '../../league.service';
@@ -36,6 +37,7 @@ export class ConfirmFeeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private LeagueService: LeagueService,
     private router: Router,
+    public commonService: CommonService,
     public dialogRef: MatDialogRef<ConfirmFeeComponent>,
     @Inject(AngularFireStorage) private storage: AngularFireStorage,
     @Inject(MAT_DIALOG_DATA)
@@ -93,7 +95,8 @@ export class ConfirmFeeComponent implements OnInit {
           this.LeagueService.confirmRegistFee(fee)
             .pipe(first()).subscribe({
               next: () => {
-                this.router.navigate(['/manager/my-league'])
+                this.dialogRef.close();
+                this.commonService.sendMessage('Confirm success!', 'success');
               },
               error: error => {
                 this.loading = false;
