@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.EMMA;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
+using System.Globalization;
 using System.Numerics;
 
 namespace FLMS_BackEnd.DTO
@@ -167,6 +168,11 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.LeagueName,
                 map => map.MapFrom(
                     match => match.League.LeagueName));
+
+            CreateMap<UpdateMatchInfoRequest, Match>()
+                .ForMember(match => match.MatchDate,
+                map=>map.MapFrom(
+                    request => DateTime.ParseExact(request.matchDate + " " + request.matchTime, "yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)));
 
             //Squad
             CreateMap<SquadPosition, SquadPositionDTO>()

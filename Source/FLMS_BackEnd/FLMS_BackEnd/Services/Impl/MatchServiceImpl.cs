@@ -8,6 +8,7 @@ using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Globalization;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -291,6 +292,90 @@ namespace FLMS_BackEnd.Services.Impl
                     };
                 }
             }
+        }
+
+        public async Task<UpdateMatchInfoResponse> UpdateMatchInfo(UpdateMatchInfoRequest request, int UserId)
+        {
+            var dateTime = new DateTime();
+            var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId)
+                .Include(m=>m.League).ThenInclude(l => l.User)
+                .FirstOrDefaultAsync();
+            if(match == null)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-01"
+                };
+            }
+            if(match.League.User.UserId != UserId)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-03"
+                };
+            }
+            if (match.IsFinish)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-02"
+                };
+            }
+            try
+            {
+                dateTime = DateTime.ParseExact(request.matchDate + " " + request.matchTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Unable to parse datetime string: " + e.Message);
+            }
+            if (dateTime < match.League.StartDate || dateTime > match.League.EndDate)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-09"
+                };
+            }
+            var matchHomes = await matchRepository.FindByCondition(m => 
+            m.HomeId == match.HomeId && m.MatchId != match.MatchId)
+                .ToListAsync();
+            var matchAways = await matchRepository.FindByCondition(m => 
+            m.AwayId == match.AwayId && m.MatchId != match.MatchId)
+                .ToListAsync();
+            foreach(var matchH in matchHomes)
+            {
+                if(Math.Abs(matchH.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                {
+                    return new UpdateMatchInfoResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-MA-10"
+                    };
+                }
+            }
+            foreach(var matchA in matchAways)
+            {
+                if(Math.Abs(matchA.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                {
+                    return new UpdateMatchInfoResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-MA-10"
+                    };
+                }
+            }
+            match.MatchDate = dateTime;
+            Match matchUpdate = mapper.Map<Match>(match);
+            Match result = await matchRepository.UpdateAsync(match);
+            if (result != null)
+            {
+                return new UpdateMatchInfoResponse { Success = true, MessageCode="MS-MA-02" };
+            }
+            return new UpdateMatchInfoResponse { Success = false, MessageCode = "ER-MA-11"};
         }
     }
 }

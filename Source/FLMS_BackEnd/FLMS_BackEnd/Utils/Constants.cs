@@ -172,6 +172,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-SQ-09","User doesn't have permission to remove player from position" },
 
             {"MS-MA-01","Finish match success" },
+            {"MS-MA-02","Update match success" },
             {"ER-MA-01","Match not found" },
             {"ER-MA-02","This match has been finished" },
             {"ER-MA-03","This match is not belonged to this user" },
@@ -180,6 +181,9 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-06","Match participation doesn't complete" },
             {"ER-MA-07","Club doesn't join the match" },
             {"ER-MA-08","Finish match fail" },
+            {"ER-MA-09","The match date and time you entered must be between the start date and end date of the league" },
+            {"ER-MA-10","Please select a date that is at least one day away from any existing matches." },
+            {"ER-MA-11","Update match failed" },
 
             {"MS-EV-01","Add match event success" },
             {"MS-EV-02","Delete match event success" },
