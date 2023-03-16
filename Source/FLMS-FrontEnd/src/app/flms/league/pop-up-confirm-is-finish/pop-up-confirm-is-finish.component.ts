@@ -45,7 +45,7 @@ export class ConfirmIsFinishComponent implements OnInit {
         },
         error: error => {
           this.loading = false;
-          this.commonService.sendMessage('Something wrong happened!','fail')
+          this.commonService.sendMessage(error.error.message,'fail')
         }
       });
   }
