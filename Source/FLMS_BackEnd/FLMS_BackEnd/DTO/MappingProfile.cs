@@ -172,7 +172,7 @@ namespace FLMS_BackEnd.DTO
             CreateMap<UpdateMatchInfoRequest, Match>()
                 .ForMember(match => match.MatchDate,
                 map=>map.MapFrom(
-                    request => DateTime.ParseExact(request.matchDate + " " + request.matchTime, "yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)));
+                    request => DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime, "yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)));
 
             //Squad
             CreateMap<SquadPosition, SquadPositionDTO>()

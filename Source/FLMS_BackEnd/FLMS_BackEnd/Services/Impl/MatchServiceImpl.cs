@@ -326,7 +326,8 @@ namespace FLMS_BackEnd.Services.Impl
             }
             try
             {
-                dateTime = DateTime.ParseExact(request.matchDate + " " + request.matchTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                dateTime = DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime
+                    , "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             }
             catch (FormatException e)
             {

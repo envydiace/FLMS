@@ -3,8 +3,8 @@
     public class UpdateMatchInfoRequest
     {
         public int MatchId { get; set; }
-        public string? matchDate { get; set; }
-        public string? matchTime { get; set; }
+        public DateTime MatchDate { get; set; }
+        public string? MatchTime { get; set; }
         public string? Stadium { get; set; }
 
     }
