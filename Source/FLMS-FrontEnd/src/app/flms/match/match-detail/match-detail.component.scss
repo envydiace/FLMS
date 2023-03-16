@@ -1,0 +1,103 @@
+.match-detail-container {
+
+    .match-detail-cover {
+        background-color: #F5F5FA;
+        width: 100%;
+        height: 100px;
+        background-image: url('./../../../../assets/image/ClubWP.jpg');
+        background-position: bottom;
+    }
+    .match-detail-info {
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100px;
+
+        .match-detail-card {
+            max-width: 100%;
+        }
+
+        .match-detail-logo {
+            background-image: url('./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png');
+            background-size: cover;
+            height: 130px;
+            width: 130px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .match-detail-content {
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    .match-detail-container {
+        display: flex;
+
+    }
+
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
+    .box-border {
+        border-right: 1px solid black;
+    }
+
+    .match-detail-content {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    
+    .score-container{
+        display:flex;
+    }
+
+    .team-1{
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        // display: block ;
+    }
+
+    .team-2{
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      //display: block;
+    }
+    .match-detail-title{
+        display: block;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .mat-card-header{
+        display: grid;
+    }
+
+    .score-content{
+        justify-content: center;
+        width: 100px;
+    }
+
+    .goal-data{
+        font-size: 3em;
+        text-align: center;
+        line-height: 120px;
+    }
+
+    .match-status{
+        text-align: center;
+        line-height: 1.5em;
+    }
+
+
+}
