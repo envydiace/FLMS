@@ -331,7 +331,11 @@ namespace FLMS_BackEnd.Services.Impl
             }
             catch (FormatException e)
             {
-                Console.WriteLine("Unable to parse datetime string: " + e.Message);
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-12"
+                };
             }
             if (dateTime < match.League.StartDate || dateTime > match.League.EndDate)
             {

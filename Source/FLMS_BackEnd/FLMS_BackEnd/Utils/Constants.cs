@@ -184,6 +184,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-09","The match date and time you entered must be between the start date and end date of the league" },
             {"ER-MA-10","Please select a date that is at least one day away from any existing matches." },
             {"ER-MA-11","Update match failed" },
+            {"ER-MA-12","Please enter the date and time in the correct format (e.g. YYYY-MM-DD HH:MM:SS) and try again." },
 
             {"MS-EV-01","Add match event success" },
             {"MS-EV-02","Delete match event success" },
