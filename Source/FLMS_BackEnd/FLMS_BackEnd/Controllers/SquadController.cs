@@ -119,5 +119,18 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<ManagerSquadResponse>> GetSquadByManager(int squadId)
+        {
+            var response = await squadService.GetSquadByManager(squadId, 0);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

@@ -348,7 +348,7 @@ namespace FLMS_BackEnd.Services.Impl
             var subSquadPositions = squad.SquadPositions.Where(sp => sp.PositionKey.Equals("P0")).ToList();
             request.Subs.ForEach(s =>
             {
-                if (s!=null && s != 0)
+                if (s != null && s != 0)
                 {
                     subSquadPositions.ElementAt(subIndex++).PlayerId = s;
                 }
@@ -371,6 +371,72 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-SQ-11"
                 };
             }
+        }
+
+        public async Task<ManagerSquadResponse> GetSquadByManager(int squadId, int userId)
+        {
+            var UnsquadPlayers = new List<PlayerSquadPositionDTO>();
+            var squad = await squadRepository.FindByCondition(s => s.SquadId == squadId)
+                            .Include(s => s.Match)
+                                .ThenInclude(m => m.League)
+                            .Include(s => s.Match)
+                                .ThenInclude(m => m.Home)
+                                    .ThenInclude(h => h.ClubClone)
+                                        .ThenInclude(cl => cl != null ? cl.Club : null)
+                            .Include(s => s.Match)
+                                .ThenInclude(m => m.Away)
+                                    .ThenInclude(a => a.ClubClone)
+                                        .ThenInclude(cl => cl != null ? cl.Club : null)
+                            .Include(s => s.SquadPositions)
+                                .ThenInclude(sp => sp.Player)
+                            .FirstOrDefaultAsync();
+            if (squad == null)
+            {
+                return new ManagerSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-01"
+                };
+            }
+            if (squad.Match.Home.ClubClone == null ||
+                squad.Match.Home.ClubClone.Club==null ||
+                squad.Match.Away.ClubClone == null ||
+                squad.Match.Away.ClubClone.Club == null)
+            {
+                return new ManagerSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-06"
+                };
+            }
+            List<Player> players = await playerRepository.FindByCondition(p =>
+                            p.SquadPositions.FirstOrDefault(sp => sp.SquadId == squadId) == null &&
+                            p.PlayerClubs.FirstOrDefault(pc =>
+                                (squad.IsHome ? squad.Match.Home : squad.Match.Away).ClubClone != null ?
+                                pc.ClubId == (squad.IsHome ? squad.Match.Home : squad.Match.Away).ClubClone.ClubId :
+                                false
+                            ) != null
+                            ).ToListAsync();
+            UnsquadPlayers = mapper.Map<List<PlayerSquadPositionDTO>>(players);
+            Match match = squad.Match;
+            return new ManagerSquadResponse
+            {
+                Success = true,
+                MatchId = squad.MatchId,
+                IsHome = squad.IsHome,
+                LeagueName = match.League.LeagueName,
+                OwnClub = mapper.Map<ClubBasicInfoDTO>(squad.IsHome ? match.Home.ClubClone.Club : match.Away.ClubClone.Club),
+                Against = mapper.Map<ClubBasicInfoDTO>(squad.IsHome ? match.Away.ClubClone.Club : match.Home.ClubClone.Club),
+                MatchDate = match.MatchDate.ToString(Constants.DATE_FORMAT),
+                MatchTime = match.MatchDate.ToString(Constants.TIME_FORMAT),
+                UnSquadPositions = UnsquadPlayers,
+                SquadPositions = squad.SquadPositions!=null? mapper.Map<List<SquadPositionDTO>> (squad.SquadPositions):new List<SquadPositionDTO>(),
+                Round = match.Round,
+                Stadium = match.Stadium,
+                NoPlayerSquad = squad.NoPlayerSquad,
+                MaxNoPlayerSub = match.League.MaxNoPlayer - match.League.NoPlayerSquad,
+                SquadId = squad.SquadId
+            };
         }
     }
 }

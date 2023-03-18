@@ -40,7 +40,8 @@ namespace FLMS_BackEnd.DTO
                         .Select(p => p.JoinDate)
                             .FirstOrDefault()))
                 ;
-            CreateMap<Club, UnpositionClubDTO>();
+            CreateMap<Club, ClubBasicInfoDTO>();
+
             //User
             CreateMap<User, UserProfileDTO>()
                 .ForMember(dto => dto.Role,
