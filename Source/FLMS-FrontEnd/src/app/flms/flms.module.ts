@@ -51,7 +51,10 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { MatSelectModule } from '@angular/material/select';
 import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/pop-up-edit-match-stats.component'
 import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component';
-import { JoinedLeagueComponent } from './club/joined-league/joined-league.component'
+import { JoinedLeagueComponent } from './club/joined-league/joined-league.component';
+import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
+import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -80,7 +83,9 @@ import { JoinedLeagueComponent } from './club/joined-league/joined-league.compon
     MatchEventComponent,
     MatchDetailComponent,
     MatchStatisticComponent,
-    JoinedLeagueComponent
+    JoinedLeagueComponent,
+    ViewSquadComponent,
+    EditLineUpComponent
   ],
   imports: [
     CommonModule,
@@ -112,7 +117,8 @@ import { JoinedLeagueComponent } from './club/joined-league/joined-league.compon
     MatNativeDateModule,
     MatTabsModule,
     MatListModule,
-    CdkTableModule
+    CdkTableModule,
+    DragDropModule
   ]
 })
 export class FlmsModule { }

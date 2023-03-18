@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { LeagueListbyUser } from 'src/app/models/league-detail.model';
+import { LeagueDetail, LeagueListbyUser } from 'src/app/models/league-detail.model';
 import { token } from 'src/app/models/token.model';
 import { LeagueService } from '../../league/league.service';
 
@@ -31,8 +31,8 @@ export class JoinedLeagueComponent implements OnInit {
   }
 
   initDataSource() {
-    this.leagueService.getListLeagueByUser().pipe(
-      map((leagueListByUser: LeagueListbyUser[]) => this.leagueListByUser = leagueListByUser)
+    this.leagueService.getJoinedLeagueByUser().pipe(
+      map((leagueListByUser: LeagueDetail[]) => this.leagueListByUser = leagueListByUser)
     ).subscribe();
   }
 
