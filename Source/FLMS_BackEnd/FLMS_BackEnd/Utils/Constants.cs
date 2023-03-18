@@ -10,6 +10,7 @@ namespace FLMS_BackEnd.Utils
         }
 
         public const string DATE_FORMAT = "yyyy-MM-dd";
+        public const string TIME_FORMAT = "HH:mm";
         public static class Role
         {
             public const string CLUB_MANAGER = "CLUB_MANAGER";
@@ -53,6 +54,9 @@ namespace FLMS_BackEnd.Utils
             public const string DrawKey = "D";
             public const string LossKey = "L";
         }
+
+        public const string HOME = "Home";
+        public const string AWAY = "Away";
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
