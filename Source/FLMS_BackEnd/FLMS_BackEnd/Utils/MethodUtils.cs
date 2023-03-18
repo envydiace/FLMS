@@ -235,5 +235,26 @@ namespace FLMS_BackEnd.Utils
             }
             return result;
         }
+
+        public static int CountLeagueDateRange(string type, int numberOfParticipation)
+        {
+            if (numberOfParticipation < 2) return 0;
+            switch (MethodUtils.GetLeagueTypeByName(type))
+            {
+                case Constants.LeagueType.KO:
+                    int height = 1;
+                    while (numberOfParticipation > Math.Pow(2, height))
+                    {
+                        height++;
+                    }
+                    return height * 2 - 1;
+                case Constants.LeagueType.LEAGUE:
+                    return (numberOfParticipation % 2 == 0 ? numberOfParticipation - 1 : numberOfParticipation) * 2 - 1;
+                case Constants.LeagueType.TABLE:
+                    return 0;
+                default:
+                    return 0;
+            }
+        }
     }
 }

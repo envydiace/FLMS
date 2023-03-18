@@ -95,6 +95,28 @@ namespace FLMS_BackEnd.Test
             yield return new object[] { 0, null };
             yield return new object[] { -1, null };
         }
+
+        [TestCaseSource(nameof(SourceProviderTestCountLeagueDateRange))]
+        public void TestCountLeagueDateRange(string type, int numberOfParticipation, int expect)
+        {
+            int actual = MethodUtils.CountLeagueDateRange(type, numberOfParticipation);
+            Assert.AreEqual(expect, actual);
+        }
+        public static IEnumerable<object[]> SourceProviderTestCountLeagueDateRange()
+        {
+            yield return new object[] { "LEAGUE", 1, 0 };
+            yield return new object[] { "LEAGUE", 2, 1 };
+            yield return new object[] { "LEAGUE", 3, 5 };
+            yield return new object[] { "LEAGUE", 7, 13 };
+            yield return new object[] { "LEAGUE", 8, 13 };
+            yield return new object[] { "KO", 1, 0 };
+            yield return new object[] { "KO", 2, 1 };
+            yield return new object[] { "KO", 3, 3 };
+            yield return new object[] { "KO", 4, 3 };
+            yield return new object[] { "KO", 8, 5 };
+            yield return new object[] { "KO", 9, 7 };
+            yield return new object[] { "KO", 16, 7 };
+        }
     }
 
 }
