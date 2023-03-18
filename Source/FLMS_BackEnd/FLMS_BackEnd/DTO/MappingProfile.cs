@@ -180,6 +180,12 @@ namespace FLMS_BackEnd.DTO
                     squadPosition => squadPosition.Player != null ? squadPosition.Player.Avatar : null));
 
             CreateMap<Squad, SquadDTO>()
+                .ForMember(dto => dto.NoPlayerSquad,
+                map => map.MapFrom(
+                    squad => squad.Match.League.NoPlayerSquad ))
+                .ForMember(dto => dto.MaxNoPlayerSub,
+                map => map.MapFrom(
+                    squad => squad.Match.League.MaxNoPlayer - squad.Match.League.NoPlayerSquad))
                 .ForMember(dto => dto.StartingSquad,
                 map => map.MapFrom(
                     squad => squad.SquadPositions.Where(p => !p.PositionKey.Equals("P0"))))

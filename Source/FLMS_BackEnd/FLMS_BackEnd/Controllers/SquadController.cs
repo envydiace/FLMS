@@ -106,5 +106,18 @@ namespace FLMS_BackEnd.Controllers
             var response = await squadService.GetPlayerForEvent(request);
             return Ok(response);
         }
+        [HttpPut("[action]")]
+        public async Task<ActionResult<UpdateSquadResponse>> UpdateSquad(UpdateSquadRequest request)
+        {
+            var response = await squadService.UpdateSquad(request, 0);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
