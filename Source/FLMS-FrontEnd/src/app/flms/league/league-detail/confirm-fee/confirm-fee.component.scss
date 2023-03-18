@@ -1,0 +1,82 @@
+:host mat-form-field {
+    display: flex;
+    flex-direction: column;
+  }
+.card-body{
+    margin: auto;
+  
+    display: flex;
+    flex-direction: column;
+}
+.form-group{
+    display: flex;
+    justify-content: center;
+}
+
+
+.club-name{
+    text-align: center;
+    position: relative;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+::ng-deep {.mat-menu-panel.menu-tab { max-width: none !important; } }
+
+.th td{
+    padding-right: 60px ;
+}
+.mat-cell{
+    padding-right: 70px;
+}
+
+
+.league-detail-container {
+    .league-detail-content {
+        width: 100%;
+       
+    }
+
+    .league-detail-container {
+        display: flex;
+    }
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
+
+}
+.example-full-width {
+    width: 75%;
+  }
+
+.fee-detail-menu{
+    margin: 0 0 0 auto;
+}
+
+.img-account-profile {
+    height: 10rem;
+}
+.rounded-circle {
+    border-radius: 50% ;
+}
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+.card .card-header {
+    font-weight: 500;
+}
+.card-header:first-child {
+    border-radius: 0.35rem 0.35rem 0 0;
+}
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(33, 40, 50, 0.03);
+    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}

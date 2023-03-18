@@ -8,6 +8,9 @@ namespace FLMS_BackEnd.Utils
         {
             CLUB_MANAGER, LEAGUE_MANAGER, ADMIN
         }
+
+        public const string DATE_FORMAT = "yyyy-MM-dd";
+        public const string TIME_FORMAT = "HH:mm";
         public static class Role
         {
             public const string CLUB_MANAGER = "CLUB_MANAGER";
@@ -31,6 +34,29 @@ namespace FLMS_BackEnd.Utils
         {
             Accept, Reject, Cancel
         }
+        public enum MatchEventType
+        {
+            Goal, OwnGoal, YellowCard, RedCard
+        }
+        public enum FeeType
+        {
+            Sponsored, Prize, Fee
+        }
+        public static class Fee
+        {
+            public const string SponsoredKey = "F0";
+            public const string SponsoredName = "Sponsored";
+            public const string FeeKey = "Ff";
+        }
+        public static class LeagueStatistic
+        {
+            public const string WinKey = "W";
+            public const string DrawKey = "D";
+            public const string LossKey = "L";
+        }
+
+        public const string HOME = "Home";
+        public const string AWAY = "Away";
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
@@ -40,6 +66,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-US-02","Sign up success" },
             {"MS-US-03","Logout Success" },
             {"MS-US-04","Change password success" },
+            {"MS-US-05","Edit profile success" },
             {"ER-US-01","Request fail" },
             {"ER-US-02","E-mail is being used" },
             {"ER-US-03","Re-entered password need to be the same with password" },
@@ -55,7 +82,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-US-13","Missing login details" },
             {"ER-US-14","Missing refresh token details" },
             {"ER-US-15","Re-entered password and new password don't match" },
-            {"ER-US-16","Incorrrect old password. Please check again." },
+            {"ER-US-16","Incorrrect old password. Please check again" },
+            {"ER-US-17","Edit profile fail" },
 
             {"ER-CL-01","Cannot remove the club because there's still (a) players in the club" },
             {"ER-CL-02","Club doesn't existed" },
@@ -76,6 +104,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-04","League Type is not valid" },
             {"ER-LE-05","League doesn't exist" },
             {"ER-LE-06","League doesn't belong to user" },
+            {"ER-LE-07","This league has been finished" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
@@ -98,6 +127,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-RE-11","User don't have permission to reject this request" },
             {"ER-RE-12","User don't have permission to cancel this request" },
             {"ER-RE-13","Response Fail" },
+            {"ER-RE-14","This league has enough teams participating" },
             {"MS-RE-01","Send Invitation Success" },
             {"MS-RE-02","Send Registration Success" },
             {"MS-RE-03","Send Request Success" },
@@ -109,7 +139,15 @@ namespace FLMS_BackEnd.Utils
             {"ER-PA-02","Confirm fail" },
             {"ER-PA-03","There's no more slot in the league" },
             {"ER-PA-04","This participation has been confirmed" },
+            {"ER-PA-05","Remove club failed" },
+            {"ER-PA-06","This position doesn't exist" },
+            {"ER-PA-07","This position already have participation" },
+            {"ER-PA-08","Add participation to position fail" },
+            {"ER-PA-09","This participation not available" },
+            {"ER-PA-10","This league has been started" },
             {"MS-PA-01","Confirm success" },
+            {"MS-PA-02","Remove club success" },
+            {"MS-PA-03","Add participation to position success" },
 
             {"ER-FE-01","No fees have been announced for this league" },
             {"ER-FE-02","League fee not found!" },
@@ -123,7 +161,41 @@ namespace FLMS_BackEnd.Utils
             {"MS-MAIL-06","Your registration has been rejected :(" },
             {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
             {"MS-MAIL-08","ClubManager has canceled their registration request" },
+            {"MS-MAIL-09","LeagueManager has removed your club from their league" },
 
+            {"MS-SQ-01","Add player to position success" },
+            {"MS-SQ-02","Remove player from position success" },
+            {"ER-SQ-01","Squad not found" },
+            {"ER-SQ-02","Position not found" },
+            {"ER-SQ-03","Position already have player" },
+            {"ER-SQ-04","Can not add this player to position" },
+            {"ER-SQ-05","Add player to position failed" },
+            {"ER-SQ-06","Position doesn't have player to remove" },
+            {"ER-SQ-07","Remove player from position failed" },
+            {"ER-SQ-08","User doesn't have permission to add player to position" },
+            {"ER-SQ-09","User doesn't have permission to remove player from position" },
+
+            {"MS-MA-01","Finish match success" },
+            {"ER-MA-01","Match not found" },
+            {"ER-MA-02","This match has been finished" },
+            {"ER-MA-03","This match is not belonged to this user" },
+            {"ER-MA-04","Update match statistic failed" },
+            {"ER-MA-05","Update match statistic successfully" },
+            {"ER-MA-06","Match participation doesn't complete" },
+            {"ER-MA-07","Club doesn't join the match" },
+            {"ER-MA-08","Finish match fail" },
+
+            {"MS-EV-01","Add match event success" },
+            {"MS-EV-02","Delete match event success" },
+            {"ER-EV-01","Main and sub can not the same player" },
+            {"ER-EV-02","Invalid event type" },
+            {"ER-EV-03","Main player invalid" },
+            {"ER-EV-04","Add match event fail" },
+            {"ER-EV-05","Sub player invalid" },
+            {"ER-EV-06","Event doesn't exist" },
+            {"ER-EV-07","Delete match event fail" },
+
+            {"ER-CC-01","This club clone is not existed" },
         };
 
         public static int DEFAULT_PAGE = 1;

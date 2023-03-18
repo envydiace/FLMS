@@ -13,10 +13,14 @@ namespace FLMS_BackEnd.Services.Impl
     {
 
         private readonly ClubRepository clubRepository;
+        private readonly SquadRepository squadRepository;
+        private readonly MatchRepository matchRepository;
 
-        public ClubServiceImpl(ClubRepository clubRepository)
+        public ClubServiceImpl(ClubRepository clubRepository, SquadRepository squadRepository, MatchRepository matchRepository)
         {
             this.clubRepository = clubRepository;
+            this.squadRepository = squadRepository;
+            this.matchRepository = matchRepository;
         }
         public async Task<ClubResponse> GetClubById(int id)
         {
@@ -38,10 +42,10 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<CreateResponse> CreateClub(CreateClubRequest request, int UserId)
         {
-            var c = await clubRepository.FindByCondition(c => 
+            var c = await clubRepository.FindByCondition(c =>
                     c.ClubName.ToLower().Trim().Equals(request.ClubName.ToLower().Trim()))
                 .FirstOrDefaultAsync();
-            if(c != null)
+            if (c != null)
             {
                 return new CreateResponse { Success = false, MessageCode = "ER-CL-07" };
             }
@@ -84,11 +88,11 @@ namespace FLMS_BackEnd.Services.Impl
             Club result = await clubRepository.UpdateAsync(club);
             if (result != null)
             {
-                return new UpdateClubResponse 
-                { 
-                    Success = true, 
+                return new UpdateClubResponse
+                {
+                    Success = true,
                     MessageCode = "MS-CL-03",
-                    ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo 
+                    ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo
                 };
             }
             return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-06" };
@@ -126,7 +130,68 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<List<ClubByUserDTO>> GetListClubByUser(int userId)
         {
             var listClubs = await clubRepository.FindByCondition(c => c.UserId == userId).ToListAsync();
-            return mapper.Map<List<ClubByUserDTO>> (listClubs);
+            return mapper.Map<List<ClubByUserDTO>>(listClubs);
+        }
+
+        public async Task<List<ClubHistoryDTO>> GetClubLeagueHistory(int clubId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == clubId)
+                                    .Include(c => c.ClubClones).ThenInclude(cl => cl.League).ThenInclude(l => l.Participations)
+                                        .FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new List<ClubHistoryDTO>();
+            }
+            var result = mapper.Map<List<ClubHistoryDTO>>(club.ClubClones.ToList());
+            return result;
+        }
+
+        public async Task<List<IncomingMatchDTO>> GetIncomingMatch(int userId)
+        {
+            var result = new List<IncomingMatchDTO>();
+            var clubIds = await clubRepository.FindByCondition(c => c.UserId == userId).Select(c => c.ClubId).ToListAsync();
+            if (clubIds == null || !clubIds.Any())
+            {
+                return result;
+            }
+            var squads = await squadRepository.FindByCondition(s =>
+                            s.Match.Home.ClubClone != null &&
+                            s.Match.Away.ClubClone != null &&
+                            s.Match.Home.ClubClone.ClubId != null &&
+                            s.Match.Away.ClubClone.ClubId != null &&
+                            (
+                                (
+                                    s.IsHome &&
+                                    clubIds.Contains(s.Match.Home.ClubClone.ClubId.Value)
+                                ) ||
+                                (
+                                    !s.IsHome &&
+                                    clubIds.Contains(s.Match.Away.ClubClone.ClubId.Value)
+                                )
+                            ) &&
+                            !s.Match.IsFinish
+                            )
+                            .Include(s => s.Match).ThenInclude(m => m.Home).ThenInclude(h => h.ClubClone).ThenInclude(cl => cl.Club)
+                            .Include(s => s.Match).ThenInclude(m => m.Away).ThenInclude(h => h.ClubClone).ThenInclude(cl => cl.Club)
+                            .Include(s => s.Match).ThenInclude(m => m.League)
+                            .OrderBy(s => s.Match.MatchDate)
+                    .ToListAsync();
+            squads.ForEach(s =>
+            {
+                result.Add(new IncomingMatchDTO
+                {
+                    SquadId = s.SquadId,
+                    ClubName = s.IsHome ? s.Match.Home.ClubClone.Club.ClubName : s.Match.Away.ClubClone.Club.ClubName,
+                    Against = s.IsHome ? s.Match.Away.ClubClone.Club.ClubName : s.Match.Home.ClubClone.Club.ClubName,
+                    Ha = s.IsHome ? Constants.HOME : Constants.AWAY,
+                    LeagueName = s.Match.League.LeagueName,
+                    Round = s.Match.Round,
+                    Stadium = s.Match.Stadium,
+                    MatchDate = s.Match.MatchDate.ToString(Constants.DATE_FORMAT),
+                    MatchTime = s.Match.MatchDate.ToString(Constants.TIME_FORMAT)
+                });
+            });
+            return result;
         }
     }
 }

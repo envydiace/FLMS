@@ -1,0 +1,15 @@
+mat-row.example-element-row:hover {
+    background: whitesmoke;
+    cursor: pointer;
+}
+.mat-header-cell{
+    justify-content: center;
+}
+.mat-cell{
+    justify-content: center;
+}
+
+.time-header,
+.time-content {
+  max-width: 70px;
+}

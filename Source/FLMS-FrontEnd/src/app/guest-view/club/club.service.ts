@@ -9,6 +9,7 @@ import { ClubDetailResponse } from './../../models/club-detail-response.model'
 import { token } from 'src/app/models/token.model';
 import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
+import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ClubService {
     private http: HttpClient
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
-    if(this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
+    if (this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
   }
 
   findAll(page: number, size: number): Observable<ClubList> {
@@ -37,8 +38,8 @@ export class ClubService {
   }
 
   findbyUserId(): Observable<ClubListbyUser[]> {
-   
-    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubByUser`, {headers: this.headers} ).pipe(
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubByUser`, { headers: this.headers }).pipe(
       map((ClubListbyUser: ClubListbyUser[]) => ClubListbyUser),
       catchError(err => throwError(err))
     )
@@ -85,12 +86,19 @@ export class ClubService {
     )
   }
 
-  sendInvitation(leagueId: number, clubId: number){
+  sendInvitation(leagueId: number, clubId: number) {
     let body = {
       leagueId,
       clubId
     }
-    return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body,{headers: this.headers}  )
+    return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body, { headers: this.headers })
+  }
+
+  getClubMatch(clubId: number): Observable<ClubMatchScheduleResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Match/GetClubSchedule/${clubId}`).pipe(
+      map((res: ClubMatchScheduleResponse) => res),
+      catchError(err => throwError(err))
+    )
   }
 
 
