@@ -10,6 +10,7 @@ namespace FLMS_BackEnd.Utils
         }
 
         public const string DATE_FORMAT = "yyyy-MM-dd";
+        public const string TIME_FORMAT = "HH:mm";
         public static class Role
         {
             public const string CLUB_MANAGER = "CLUB_MANAGER";
@@ -53,6 +54,9 @@ namespace FLMS_BackEnd.Utils
             public const string DrawKey = "D";
             public const string LossKey = "L";
         }
+
+        public const string HOME = "Home";
+        public const string AWAY = "Away";
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
@@ -161,6 +165,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-SQ-01","Add player to position success" },
             {"MS-SQ-02","Remove player from position success" },
+            {"MS-SQ-03","Update squad success" },
             {"ER-SQ-01","Squad not found" },
             {"ER-SQ-02","Position not found" },
             {"ER-SQ-03","Position already have player" },
@@ -170,8 +175,11 @@ namespace FLMS_BackEnd.Utils
             {"ER-SQ-07","Remove player from position failed" },
             {"ER-SQ-08","User doesn't have permission to add player to position" },
             {"ER-SQ-09","User doesn't have permission to remove player from position" },
+            {"ER-SQ-10","Squad size does not valid" },
+            {"ER-SQ-11","Update squad fail" },
 
             {"MS-MA-01","Finish match success" },
+            {"MS-MA-02","Update match success" },
             {"ER-MA-01","Match not found" },
             {"ER-MA-02","This match has been finished" },
             {"ER-MA-03","This match is not belonged to this user" },
@@ -180,6 +188,10 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-06","Match participation doesn't complete" },
             {"ER-MA-07","Club doesn't join the match" },
             {"ER-MA-08","Finish match fail" },
+            {"ER-MA-09","The match date and time you entered must be between the start date and end date of the league" },
+            {"ER-MA-10","Please select a date that is at least one day away from any existing matches." },
+            {"ER-MA-11","Update match failed" },
+            {"ER-MA-12","Please enter the date and time in the correct format (e.g. YYYY-MM-DD HH:MM:SS) and try again." },
 
             {"MS-EV-01","Add match event success" },
             {"MS-EV-02","Delete match event success" },

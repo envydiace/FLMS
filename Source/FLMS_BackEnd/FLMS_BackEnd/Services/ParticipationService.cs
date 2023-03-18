@@ -9,7 +9,7 @@ namespace FLMS_BackEnd.Services
         public Task<ConfirmRegistFeeResponse> ConfirmResgistFee(ConfirmRegistFeeRequest request, int userId);
         public Task<ParticipationByLeagueResponse> GetParticipationByLeague(ParticipationByLeagueRequest request);
         public Task<RemoveClubResponse> RemoveJoinedTeam(RemoveClubRequest request, int UserId);
-        public Task<List<UnpositionClubDTO>> ListUnpositionClub(int leagueId, int userId);
+        public Task<List<ClubBasicInfoDTO>> ListUnpositionClub(int leagueId, int userId);
         public Task<AddClubPositionResponse> AddClubPosition(int clubCloneId, int clubId, int userId);
         Task<List<JoinedLeagueDTO>> GetListJoinedLeague(int userId);
     }

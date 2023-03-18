@@ -174,9 +174,9 @@ namespace FLMS_BackEnd.Services.Impl
                 MessageCode = "ER-PA-05"
             };
         }
-        public async Task<List<UnpositionClubDTO>> ListUnpositionClub(int leagueId, int userId)
+        public async Task<List<ClubBasicInfoDTO>> ListUnpositionClub(int leagueId, int userId)
         {
-            List<UnpositionClubDTO> result = new List<UnpositionClubDTO>();
+            List<ClubBasicInfoDTO> result = new List<ClubBasicInfoDTO>();
             var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
                         .Include(l => l.ClubClones)
                         .Include(l => l.Participations).ThenInclude(p => p.Club)
@@ -190,7 +190,7 @@ namespace FLMS_BackEnd.Services.Impl
                     .ToList();
                 if (clubs != null && clubs.Count > 0)
                 {
-                    result = mapper.Map<List<UnpositionClubDTO>>(clubs);
+                    result = mapper.Map<List<ClubBasicInfoDTO>>(clubs);
                 }
             }
             return result;
