@@ -6,10 +6,11 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ClubDetailComponent } from './club/club-detail/club-detail.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordComponent } from '../flms/profile/change-password/change-password.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,10 @@ const routes: Routes = [
   {  
     path : 'league-list',
     component: LeagueListComponent
+  },
+  {  
+    path : 'match-info',
+    component: MatchDetailComponent
   }
 ];
 

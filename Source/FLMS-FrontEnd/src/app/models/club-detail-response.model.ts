@@ -17,3 +17,4 @@ export class ClubDetailResponse implements ClubDetailResponse {
         this.clubInfo = clubInfo;
     }
 }
+

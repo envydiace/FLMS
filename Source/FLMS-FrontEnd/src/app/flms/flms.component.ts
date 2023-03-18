@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-flms',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FlmsComponent implements OnInit {
   panelOpenState = false;
-  constructor() { }
+  userRole: any;
+
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.userRole = this.authService.getUserRole();
   }
 
 }

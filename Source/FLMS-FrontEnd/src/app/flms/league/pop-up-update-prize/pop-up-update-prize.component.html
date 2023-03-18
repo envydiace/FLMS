@@ -1,0 +1,84 @@
+<p>
+    <mat-toolbar class="card">
+        <span>Update Prize</span>
+        <div style="margin: 0 0 0 auto;">
+            <button mat-raised-button type="submit" color="primary" [mat-dialog-close]="listLeaguePrize"
+                cdkFocusInitial>Save</button>
+        </div>
+    </mat-toolbar>
+</p>
+<div class="list-prize">
+    <table mat-table class="mat-elevation-z8" [dataSource]="listLeaguePrize">
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element; let i = index">{{i + 1}}</td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <ng-container matColumnDef="expenseName">
+            <th mat-header-cell *matHeaderCellDef> Prize Name </th>
+            <td mat-cell *matCellDef="let element"> 
+                <img *ngIf="element.expenseKey == 'F1'" src="../../../../assets/image/gold-medal.png" style="height: 20px;">
+                <img *ngIf="element.expenseKey == 'F2'" src="../../../../assets/image/silver-medal.png" style="height: 20px;">
+                <img *ngIf="element.expenseKey == 'F3'" src="../../../../assets/image/bronze-medal.png" style="height: 20px;">
+                {{element.expenseName}} 
+            </td>
+            <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> Plan Total </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cost">
+            <th mat-header-cell *matHeaderCellDef> Cost(VND) </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="outline">
+                    <input matInput type="number" [(ngModel)]="element.cost" (input)="getTotal()">
+                </mat-form-field>
+            </td>
+            <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{prizeCostTotal}} VND
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <!-- <button mat-raised-button color="primary" style="margin-right: 10px;">Accept</button> -->
+                <button *ngIf="element.expenseKey == 'Fx'" mat-raised-button color="warn" (click)="removeFee(i)">Delete</button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <ng-container matColumnDef="input-no">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+        </ng-container>
+
+        <ng-container matColumnDef="input-prize-name">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput [(ngModel)]="prizeName">
+                </mat-form-field>
+            </th>
+        </ng-container>
+
+        <ng-container matColumnDef="input-prize-cost">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field appearance="outline">
+                    <mat-label>Cost</mat-label>
+                    <input matInput type="number" [(ngModel)]="prizeCost">
+                </mat-form-field>
+            </th>
+        </ng-container>
+
+        <ng-container matColumnDef="input-action">
+            <th mat-header-cell *matHeaderCellDef>
+                <button mat-raised-button color="primary" (click)="addPrizeIntoList()">Add</button>
+            </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-header-row *matHeaderRowDef="['input-no', 'input-prize-name', 'input-prize-cost', 'input-action']; sticky: true"></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    </table>
+</div>

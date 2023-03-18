@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { CommonService } from 'src/app/common/common/common.service';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
 import { RegisterService } from '../../guest-view/register/register.service';
@@ -27,7 +28,8 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private RegisterServer: RegisterService
+    private RegisterService: RegisterService,
+    private commonService: CommonService
   ) {
     this.form = new FormGroup({
       email: new FormControl(),
@@ -62,38 +64,44 @@ export class RegisterComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    if (this.form.get('password').value == this.form.get('confirmPassword').value) {
+      this.loading = true;
+      this.RegisterService.register(this.form.value)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/login']);
+            this.commonService.sendMessage('Register success!', 'success');
+          },
+          error: error => {
+            this.loading = false;
+            this.commonService.sendMessage(error.error.message, 'fail');
 
-    this.loading = true;
-    this.RegisterServer.register(this.form.value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/login'])
-        },
-        error: error => {
-          this.loading = false;
-        }
-      });
+          }
+        });
+    } else {
+      this.commonService.sendMessage('Verify Password must match!', 'fail');
+    }
   }
 
   getErrorEmail() {
-    return this.form.get('email').hasError('required') ? 'Field Email is required': '';
+    return this.form.get('email').hasError('required') ? 'Field Email is required' : '';
   }
   getErrorPassword() {
-    return this.form.get('password').hasError('required') ? 'Field is required (at least six characters and one uppercase letter)' :
+    return this.form.get('password').hasError('required') ? 'Field is required (must at least six characters and one uppercase letter)' :
       this.form.get('password').hasError('requirements') ? 'Password needs to be at least six characters and one uppercase letter' : '';
   }
   getErrorName() {
-    return this.form.get('fullName').hasError('required') ? 'Field Name is required': '';
+    return this.form.get('fullName').hasError('required') ? 'Field Name is required' : '';
   }
   getErrorPhone() {
-    return this.form.get('phone').hasError('required') ? 'Field Phone is required': '';
+    return this.form.get('phone').hasError('required') ? 'Field Phone is required' : '';
   }
   getErrorAddress() {
-    return this.form.get('address').hasError('required') ? 'Field Address is required': '';
+    return this.form.get('address').hasError('required') ? 'Field Address is required' : '';
   }
   getErrorRole() {
-    return this.form.get('role').hasError('required') ? 'Role is required': '';
+    return this.form.get('role').hasError('required') ? 'Role is required' : '';
   }
 }
 

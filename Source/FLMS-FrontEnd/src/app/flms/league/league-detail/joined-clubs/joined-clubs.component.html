@@ -1,0 +1,57 @@
+<div class="col-sm-12 col-xs-12 text-center nav-search" style="display: flex;">
+    <div style="flex: 1;">
+        <mat-form-field class="player-list-full-width">
+            <mat-label>Search by Club's Name</mat-label>
+            <input matInput type="text" placeholder="Enter Club's Name">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+</div>
+<div>
+
+</div>
+<div class="container">
+    <div class="row">
+
+        <div *ngFor="let club of listClubByLeague" class="col-sm-6">
+            <div class="player-container">
+                <mat-card class="player-list-card">
+                    <mat-card-header>
+                        <div mat-card-avatar class="profile-image"></div>
+                        <mat-card-title style="line-height: 85px;">{{club.clubName}}</mat-card-title>
+                        <div>
+
+                            <div style="text-align: right; 
+                                position:absolute; right:10px; top: 40px; display: inline;">
+                                <div class="button-container">
+                                    <div *ngIf="club.confirmed != true">
+                                        <button mat-icon-button color="primary"
+                                            (click)="openLeagueClubFee(club.clubId)">
+                                            <mat-icon>check_circle_outline</mat-icon>
+                                        </button>
+                                        <button mat-icon-button color="warn" (click)="RemoveJoinedClub(club.clubId)">
+                                            <mat-icon>remove_circle_outline</mat-icon>
+                                        </button>
+                                    </div>
+                                    <!-- <div *ngIf="club.confirmed == true">
+                                        <button mat-icon-button color="primary">
+                                            <mat-icon></mat-icon>
+                                        </button>
+                                    </div> -->
+                                  
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </mat-card-header>
+
+                </mat-card>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

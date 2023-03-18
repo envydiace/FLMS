@@ -62,7 +62,7 @@ namespace FLMS_BackEnd.Services.Impl
                 var newPasswordHash = PasswordHelper.HashUsingPbkdf2(changePasswordRequest.NewPassword, salt);
                 user.Password = newPasswordHash;
                 var result = await userRepository.UpdateAsync(user);
-                if(result != null)
+                if (result != null)
                 {
                     return new ChangePasswordResponse
                     {
@@ -151,6 +151,39 @@ namespace FLMS_BackEnd.Services.Impl
                 Success = false,
                 MessageCode = "ER-US-06"
             };
+        }
+
+        public async Task<EditProfileResponse> EditProfile(EditProfileRequest request, int userId)
+        {
+            var user = await userRepository.FindByCondition(u => u.UserId == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return new EditProfileResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-07"
+                };
+            }
+            user.Address = request.Address;
+            user.FullName = request.FullName;
+            user.Phone = request.Phone;
+            var result = await userRepository.UpdateAsync(user);
+            if (result != null)
+            {
+                return new EditProfileResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-US-05"
+                };
+            }
+            else
+            {
+                return new EditProfileResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-17"
+                };
+            }
         }
 
         public async Task<UserProfileResponse> GetUserProfile(int userId)

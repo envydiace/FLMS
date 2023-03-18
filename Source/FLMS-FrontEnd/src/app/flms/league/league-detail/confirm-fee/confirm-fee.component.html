@@ -1,0 +1,98 @@
+<div>
+    <p>
+        <mat-toolbar class="card">
+            <span>Confirm Registration Fee</span>
+            <div class="fee-detail-menu">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
+                    class="menu-button">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </div>
+        </mat-toolbar>
+    </p>
+</div>
+
+
+<div class="card">
+    <mat-menu #menu="matMenu" class="menu-tab">
+        <p>
+            <mat-toolbar class="card">
+                <span>Fee list</span>
+            </mat-toolbar>
+        </p>
+
+        <div class="row justify-content-center" style="margin: 0;">
+            <div class="col-8">
+                <section class="league-detail-container">
+                    <div class="league-detail-card">
+                        <div class="left-detail" style="text-align: center;">
+                            <p class="league-detail-content">Total Participate: {{noParticipate}}</p>
+
+                        </div>
+                        <div class="right-detail" style="text-align: center;">
+                            <p class="league-detail-content">Sponsored: VND</p>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+
+
+        <table mat-table class="mat-elevation-z8" style="margin-bottom: 20px;" [dataSource]="plan">
+
+            <ng-container matColumnDef="feeType">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let element">{{element.feeType}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="expenseName">
+                <th mat-header-cell *matHeaderCellDef> Cost Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.expenseName}} </td>
+                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> Total Per Team
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cost">
+                <th mat-header-cell *matHeaderCellDef> Cost(VND) </th>
+                <td mat-cell *matCellDef="let element">{{element.cost}} VND</td>
+                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{total}} VND
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+        </table>
+    </mat-menu>
+
+    <div class="">
+        <div class="card mb-4 mb-xl-0">
+           
+
+                <div class="card-body text-center">
+                    <img class="img-account-profile rounded-circle mb-2" src="./../../../../assets/image/Rashford.png"
+                        alt="">
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Registration Fee</mat-label>
+                        <input matInput value="{{total}}" disabled>
+                    </mat-form-field>
+
+                    <div>
+                        <mat-label>Evidence: </mat-label>
+                        <input type="file" (change)="showPreview($event)">
+                    </div>
+                    <div class="col-sm-4" style="justify-content: center;">
+                        <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</div>

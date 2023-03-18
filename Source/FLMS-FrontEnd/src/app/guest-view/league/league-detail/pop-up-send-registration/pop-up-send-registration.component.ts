@@ -10,6 +10,11 @@ import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubList } from 'src/app/models/club-list.model';
 import { token } from 'src/app/models/token.model';
 import { LeagueService } from '../../league.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 
 
@@ -34,6 +39,7 @@ export class PopUpSendRegistrationComponent implements OnInit {
     private http: HttpClient,
     public dialogRef: MatDialogRef<PopUpSendRegistrationComponent>,
     private LeagueService: LeagueService,
+    private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       leagueId: number;
@@ -59,9 +65,17 @@ export class PopUpSendRegistrationComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-
+          this.openSnackBar();
         }
       });
+  }
+
+  openSnackBar() {
+    this._snackBar.open('Success!!', 'CLOSE', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
   }
 
 }

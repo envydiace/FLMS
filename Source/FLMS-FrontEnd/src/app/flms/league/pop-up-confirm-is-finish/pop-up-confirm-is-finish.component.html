@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <h4 class="modal-title" style="font-size: 20px;">Confirm finished ?</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" style="font-size: 20px">
+  Are you sure you want to finish this match ?
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="onNoClick()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()">Ok</button>
+</div>

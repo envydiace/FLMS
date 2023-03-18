@@ -3,24 +3,69 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateClubComponent } from './club/create-club/create-club.component';
 import { ViewProfileComponent } from './profile/view-profile/view-profile.component';
 import { RequestListComponent } from './request-list/request-list.component';
+import { ClubDetailComponent } from './club/club-detail/club-detail.component';
+import { AuthGuard } from './../auth/auth.guard';
+import { RoleGuard } from './../auth/role.guard';
+import { CreateLeagueComponent } from './league/create-league/create-league.component';
+import { ClubListComponent } from './club/club-list/club-list.component';
+import { LeagueListComponent } from './league/league-list/league-list.component';
+import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 
 const routes: Routes = [
   {
     path: 'manager',
-    redirectTo: '/manager/create-club',
+    redirectTo: '/manager/view-profile',
     pathMatch: 'full'
   },
   {
     path: 'create-club',
-    component: CreateClubComponent
+    component: CreateClubComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
+  },
+  {
+    path: 'create-league',
+    component: CreateLeagueComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
+  },
+    {
+    path: 'my-league',
+    component: LeagueListComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
+  },
+  {
+    path: 'my-league-info',
+    component: LeagueDetailComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'LEAGUE_MANAGER' }
   },
   {
     path: 'request-list',
-    component: RequestListComponent
+    component: RequestListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'view-profile',
-    component: ViewProfileComponent
+    component: ViewProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'club-detail',
+    component: ClubDetailComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'my-clubs',
+    component: ClubListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'match-info',
+    component: MatchDetailComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

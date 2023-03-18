@@ -1,0 +1,104 @@
+<div>
+    <div>
+        <div class="container">
+            <div class="row justify-content-left">
+                <div class="col-xs-6 justify-content-left">
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Form</mat-label>
+                        <input matInput [matDatepicker]="from">
+                        <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                        <mat-datepicker #from></mat-datepicker>
+                    </mat-form-field>
+
+
+
+                    <mat-form-field appearance="fill" style="margin-left: 20px;">
+                        <mat-label>To</mat-label>
+                        <input matInput [matDatepicker]="to">
+                        <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                        <mat-datepicker #to></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width" style="max-width: 240px; margin-left: 20px;">
+                        <mat-label>Club</mat-label>
+                        <input matInput>
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+            <div class="row justify-content-right">
+                <div class=" justify-content-right" style="display: inline block; ">
+                    <button mat-raised-button color="primary">Export</button>
+
+                    <button mat-raised-button>Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div>
+    <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="time">
+            <mat-header-cell *matHeaderCellDef class="time-header"> Time </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="time-content">{{element.matchTime}} </mat-cell>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.matchDate}}</mat-cell>
+        </ng-container>
+        <!-- clubA Column -->
+        <ng-container matColumnDef="home">
+            <mat-header-cell *matHeaderCellDef> Home </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.home.name}} </mat-cell>
+        </ng-container>
+        <!-- clubB Column -->
+        <ng-container matColumnDef="away">
+            <mat-header-cell *matHeaderCellDef> Away </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{element.away.name}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="vs" style="width: 10px; text-align: center;" >
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div *ngIf="element.isFinish == true">
+                    {{element.home.score}} - {{element.away.score}}
+                </div>
+
+                <div *ngIf="element.isFinish != true">
+                    - vs -
+                </div>
+            </mat-cell>
+        </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="group">
+            <mat-header-cell *matHeaderCellDef> Round </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.round}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="stadium">
+            <mat-header-cell *matHeaderCellDef> Stadium </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.stadium}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div *ngIf="element.isFinish != true">
+                    <button mat-raised-button color="warn" style="margin-left: 10px;" (click)="openDialogConfirmIsFinished(element.matchId)">Finish</button>
+                    <button mat-raised-button color="primary">Edit</button>
+                </div>
+                
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+            (click)="navigateToMatchDetail(element.matchId)"></mat-row>
+    </mat-table>
+</div>

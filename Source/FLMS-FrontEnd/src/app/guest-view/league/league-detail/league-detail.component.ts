@@ -5,6 +5,7 @@ import { LeagueDetail } from 'src/app/models/league-detail.model';
 import { LeagueService } from '../league.service';
 import { PopUpSendRegistrationComponent } from './pop-up-send-registration/pop-up-send-registration.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-league-detail',
@@ -13,12 +14,17 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class LeagueDetailComponent implements OnInit {
   leagueDetail: LeagueDetail= null;
-  leagueId: number = 1;
+  leagueId: number;
 
   constructor(
     private LeagueService: LeagueService,
+    private route: ActivatedRoute,
     public dialog: MatDialog
-  ) { }
+  ) { 
+    this.route.queryParams.subscribe(params => {
+      this.leagueId = params['leagueId'];
+    });
+  }
 
   ngOnInit(): void {
     this.initDataSource();

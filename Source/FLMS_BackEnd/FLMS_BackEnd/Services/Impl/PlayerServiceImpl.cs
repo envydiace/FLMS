@@ -51,6 +51,10 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new CreateResponse { Success = false, MessageCode = "ER-CL-02" };
             }
+            if(c.UserId != UserId)
+            {
+                return new CreateResponse { Success = false, MessageCode = "ER-CL-08" };
+            }
             var p = await GetPlayerByNickname(request.NickName);
             if (p.Success)
             {
@@ -165,6 +169,21 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 Success = true,
                 PlayerInfo = mapper.Map<PlayerDTO>(player)
+            };
+        }
+
+        public async Task<ListPlayerSearchResponse> GetListPlayerByClubIdWithSearch(ListPlayerByClubRequest request)
+        {
+            var players = await playerClubRepository.FindByCondition(playerClub => (request.searchPlayerName == null || request.searchPlayerName == ""
+            || playerClub.Player.Name.ToLower().Contains(request.searchPlayerName.ToLower()))
+            && (playerClub.ClubId == request.clubId))
+                .Include(p => p.Player).ToListAsync();
+            int total = players.Count;
+            var result = mapper.Map<List<PlayerSearchDTO>>(players.ToList());
+            return new ListPlayerSearchResponse
+            {
+                Success = true,
+                Players = result
             };
         }
 

@@ -47,7 +47,22 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             league = mapper.Map<League>(request);
+
+            List<LeagueFee> leagueFees = new List<LeagueFee>();
+            leagueFees.Add(new LeagueFee
+            {
+                ExpenseName = Constants.Fee.SponsoredName,
+                ExpenseKey = Constants.Fee.SponsoredKey,
+                Cost = request.Sponsored,
+                IsActual = false,
+                FeeType = Constants.FeeType.Sponsored.ToString()
+            });
+            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Prizes));
+            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Fees));
+            league.LeagueFees = leagueFees;
+
             league.UserId = userId;
+
             List<ParticipateNode> participates;
             ICollection<ClubClone> clubClones;
             List<Match> matchList;
@@ -75,7 +90,10 @@ namespace FLMS_BackEnd.Services.Impl
                             {
                                 Home = participates.FirstOrDefault(x => x.ParticipateId == participate.LeftId),
                                 Away = participates.FirstOrDefault(x => x.ParticipateId == participate.RightId),
-                                MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2)
+                                MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2),
+                                Stadium = request.Location,
+                                Round = MethodUtils.GetLeagueKoRound(participate.Deep),
+                                Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad, request.MaxNoPlayer)
                             };
                             matchList.Add(match);
                         }
@@ -114,7 +132,10 @@ namespace FLMS_BackEnd.Services.Impl
                                     {
                                         Home = home,
                                         Away = away,
-                                        MatchDate = league.StartDate.AddDays(day * 2)
+                                        MatchDate = league.StartDate.AddDays(day * 2),
+                                        Stadium = request.Location,
+                                        Round = "Round " + (day + 1),
+                                        Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad, request.MaxNoPlayer)
                                     });
                                 }
                             }
@@ -154,9 +175,9 @@ namespace FLMS_BackEnd.Services.Impl
             (request.searchLeagueName == null
                 || request.searchLeagueName == ""
                 || league.LeagueName.StartsWith(request.searchLeagueName))
-            && 
+            &&
             (request.from == null
-                || request.from.GetValueOrDefault().CompareTo(league.StartDate)<=0)
+                || request.from.GetValueOrDefault().CompareTo(league.StartDate) <= 0)
             &&
             (request.to == null
                 || request.to.GetValueOrDefault().CompareTo(league.StartDate) >= 0)
@@ -196,8 +217,73 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<List<LeagueByUserDTO>> GetListLeagueByUser(int userId)
         {
-            var listLeague = await leagueRepository.FindByCondition(l=>l.UserId == userId).ToListAsync();
+            var listLeague = await leagueRepository.FindByCondition(l => l.UserId == userId).ToListAsync();
             return mapper.Map<List<LeagueByUserDTO>>(listLeague);
+        }
+
+        public async Task<LeagueStatisticResponse> GetLeagueStatistic(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.Club)
+                                    .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Main)
+                                    .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Sub)
+                                    .FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueStatisticResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            var standings = mapper.Map<List<LeagueStandingDTO>>(league.ClubClones)
+                            .OrderByDescending(s => s.Point)
+                            .ThenByDescending(s => s.GD)
+                            .ThenBy(s => s.ClubName)
+                            .ToList();
+            standings.ForEach(s => s.Standing = (standings.IndexOf(s) + 1));
+
+            var listevent = new List<MatchEvent>();
+            var matchs = league.Matches.Where(m => m.IsFinish).ToList();
+            matchs.ForEach(m => listevent.AddRange(m.MatchEvents.Where(e =>
+                                e.EventType.Equals(Constants.MatchEventType.Goal.ToString())).ToList())
+                           );
+
+            var topScore = listevent.GroupBy(
+                e => e.MainId
+                )
+                .Select(e => new TopRecordPlayerDTO
+                {
+                    PlayerId = e.Key,
+                    PlayerName = e.Select(x => x.Main.Name).FirstOrDefault(),
+                    Avatar = e.Select(x => x.Main.Avatar).FirstOrDefault(),
+                    Record = e.Count()
+                })
+                .OrderByDescending(x => x.Record)
+                .ThenBy(x => x.PlayerName)
+                    .ToList();
+
+            var topAssist = listevent.Where(e => e.SubId != null).GroupBy(
+                e => e.SubId
+                )
+                .Select(e => new TopRecordPlayerDTO
+                {
+                    PlayerId = e.Key != null ? e.Key.Value : 0,
+                    PlayerName = e.Select(x => x.Sub != null ? x.Sub.Name : " ").FirstOrDefault(),
+                    Avatar = e.Select(x => x.Sub != null ? x.Sub.Avatar : null).FirstOrDefault(),
+                    Record = e.Count()
+                })
+                .OrderByDescending(x => x.Record)
+                .ThenBy(x => x.PlayerName)
+                    .ToList();
+
+            return new LeagueStatisticResponse
+            {
+                Success = true,
+                LeagueStanding = standings,
+                TopScore = topScore,
+                TopAssist = topAssist
+            };
         }
     }
 }

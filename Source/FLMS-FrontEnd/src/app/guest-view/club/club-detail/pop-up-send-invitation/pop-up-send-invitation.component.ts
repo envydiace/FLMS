@@ -10,7 +10,11 @@ import { LeagueListbyUser } from 'src/app/models/league-detail.model';
 import { LeagueService } from 'src/app/guest-view/league/league.service';
 import { PopUpSendRegistrationComponent } from 'src/app/guest-view/league/league-detail/pop-up-send-registration/pop-up-send-registration.component';
 import { ClubService } from '../../club.service';
-
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 
 
@@ -35,6 +39,7 @@ export class PopUpSendInvitationComponent implements OnInit {
     private http: HttpClient,
     public dialogRef: MatDialogRef<PopUpSendInvitationComponent>,
     private clubService: ClubService,
+    private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       clubId: number;
@@ -53,13 +58,21 @@ export class PopUpSendInvitationComponent implements OnInit {
       map((leagueListByUser: LeagueListbyUser[]) => this.leagueListByUser = leagueListByUser)
     ).subscribe();
   }
-  sendInvitation(leagueId: number): void{
+  sendInvitation(leagueId: number): void {
     this.clubService.sendInvitation(leagueId, this.data.clubId)
-    .pipe(first())
-    .subscribe({
-      next: () => {
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.openSnackBar();
+        }
+      });
+  }
 
-      }
+  openSnackBar() {
+    this._snackBar.open('Success!!', 'CLOSE', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
     });
   }
 
