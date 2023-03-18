@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.EMMA;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
+using System.Globalization;
 using System.Numerics;
 
 namespace FLMS_BackEnd.DTO
@@ -35,12 +36,13 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(history => history.JoinedDate,
                 map => map.MapFrom(
                     clubClone => clubClone.League.Participations.Where(p =>
-                                p.ClubId == clubClone.ClubId && 
+                                p.ClubId == clubClone.ClubId &&
                                 p.LeagueId == clubClone.LeagueId)
                         .Select(p => p.JoinDate)
                             .FirstOrDefault()))
                 ;
-            CreateMap<Club, UnpositionClubDTO>();
+            CreateMap<Club, ClubBasicInfoDTO>();
+
             //User
             CreateMap<User, UserProfileDTO>()
                 .ForMember(dto => dto.Role,
@@ -129,7 +131,7 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     clubClone => clubClone.Club != null ? clubClone.Club.ClubName : clubClone.ClubCloneKey.Trim()));
 
-            CreateMap<League,JoinedLeagueDTO>();
+            CreateMap<League, JoinedLeagueDTO>();
 
             //Match
             CreateMap<ParticipateNode, ClubMatchDTO>()
@@ -155,7 +157,7 @@ namespace FLMS_BackEnd.DTO
                     match => match.MatchDate.ToString(Constants.DATE_FORMAT)))
                 .ForMember(dto => dto.MatchTime,
                 map => map.MapFrom(
-                    match => match.MatchDate.ToString("HH:mm")))
+                    match => match.MatchDate.ToString(Constants.TIME_FORMAT)))
                 .ForMember(dto => dto.LeagueName,
                 map => map.MapFrom(
                     match => match.League.LeagueName));
@@ -165,10 +167,15 @@ namespace FLMS_BackEnd.DTO
                     match => match.MatchDate.ToString(Constants.DATE_FORMAT)))
                 .ForMember(dto => dto.MatchTime,
                 map => map.MapFrom(
-                    match => match.MatchDate.ToString("HH:mm")))
+                    match => match.MatchDate.ToString(Constants.TIME_FORMAT)))
                 .ForMember(dto => dto.LeagueName,
                 map => map.MapFrom(
                     match => match.League.LeagueName));
+
+            CreateMap<UpdateMatchInfoRequest, Match>()
+                .ForMember(match => match.MatchDate,
+                map=>map.MapFrom(
+                    request => DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime, "yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)));
 
             //Squad
             CreateMap<SquadPosition, SquadPositionDTO>()
@@ -180,6 +187,12 @@ namespace FLMS_BackEnd.DTO
                     squadPosition => squadPosition.Player != null ? squadPosition.Player.Avatar : null));
 
             CreateMap<Squad, SquadDTO>()
+                .ForMember(dto => dto.NoPlayerSquad,
+                map => map.MapFrom(
+                    squad => squad.Match.League.NoPlayerSquad ))
+                .ForMember(dto => dto.MaxNoPlayerSub,
+                map => map.MapFrom(
+                    squad => squad.Match.League.MaxNoPlayer - squad.Match.League.NoPlayerSquad))
                 .ForMember(dto => dto.StartingSquad,
                 map => map.MapFrom(
                     squad => squad.SquadPositions.Where(p => !p.PositionKey.Equals("P0"))))
@@ -217,10 +230,12 @@ namespace FLMS_BackEnd.DTO
 
             //MatchEvent
             CreateMap<MatchEvent, MatchEventDTO>();
+
             CreateMap<Player, MatchEventPlayerDTO>();
 
             //MatchStatistic
             CreateMap<MatchStat, StatisticDTO>();
+
             CreateMap<StatInfoDTO, MatchStat>();
         }
     }

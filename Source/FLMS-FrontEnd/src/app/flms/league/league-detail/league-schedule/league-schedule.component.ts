@@ -4,8 +4,10 @@ import { LeagueService } from '../../league.service';
 import { map, tap } from 'rxjs/operators';
 import { MatchScheduleResponse } from '../../../../models/match-schedule-response.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+
 import { PopUpEditMatchInfoComponent } from 'src/app/flms/match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmIsFinishComponent } from '../../pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
 
 @Component({
   selector: 'app-league-schedule',
@@ -15,6 +17,7 @@ import { PopUpEditMatchInfoComponent } from 'src/app/flms/match/match-detail/pop
 export class LeagueScheduleComponent implements OnInit {
   displayedColumns: string[] = ['time','date', 'home','vs', 'away', 'group','stadium', 'action'];
   leagueId: number ;
+  matchId: number;
   listMatch: MatchSchedule[] = [];
 
   constructor(
@@ -53,4 +56,15 @@ export class LeagueScheduleComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  openDialogConfirmIsFinished(matchId: number): void {
+    const dialogRef = this.dialog.open(ConfirmIsFinishComponent, {
+      width: '100%',
+      data: { matchId: matchId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
 }

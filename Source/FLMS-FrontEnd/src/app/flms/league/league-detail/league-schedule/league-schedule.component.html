@@ -90,7 +90,7 @@
             <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <div *ngIf="element.isFinish != true">
-                    <button mat-raised-button color="warn" style="margin-left: 10px;">Finish</button>
+                    <button mat-raised-button color="warn" style="margin-left: 10px;" (click)="openDialogConfirmIsFinished(element.matchId)">Finish</button>
                     <button mat-raised-button color="primary" (click)="openEditMatchInfo(element.matchId)">Edit</button>
                 </div>
                 
