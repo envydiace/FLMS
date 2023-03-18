@@ -69,5 +69,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<UpdateMatchInfoResponse>> UpdateMatch(UpdateMatchInfoRequest request)
+        {
+            var response = await matchService.UpdateMatchInfo(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

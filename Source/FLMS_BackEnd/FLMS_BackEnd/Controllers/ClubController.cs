@@ -115,5 +115,12 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
             }
         }
+        [HttpGet("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<List<IncomingMatchDTO>>> GetIncomingMatches()
+        {
+            var response = await clubService.GetIncomingMatch(UserID);
+            return Ok(response);
+        }
     }
 }
