@@ -165,6 +165,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-SQ-01","Add player to position success" },
             {"MS-SQ-02","Remove player from position success" },
+            {"MS-SQ-03","Update squad success" },
             {"ER-SQ-01","Squad not found" },
             {"ER-SQ-02","Position not found" },
             {"ER-SQ-03","Position already have player" },
@@ -174,6 +175,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-SQ-07","Remove player from position failed" },
             {"ER-SQ-08","User doesn't have permission to add player to position" },
             {"ER-SQ-09","User doesn't have permission to remove player from position" },
+            {"ER-SQ-10","Squad size does not valid" },
+            {"ER-SQ-11","Update squad fail" },
 
             {"MS-MA-01","Finish match success" },
             {"ER-MA-01","Match not found" },

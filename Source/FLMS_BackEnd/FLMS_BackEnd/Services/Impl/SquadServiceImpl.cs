@@ -23,6 +23,7 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<MatchSquadResponse> GetMatchSquad(int matchId)
         {
             var matchSquad = await squadRepository.FindByCondition(s => s.MatchId == matchId)
+                                    .Include(s => s.Match).ThenInclude(m => m.League)
                                     .Include(s => s.SquadPositions).ThenInclude(p => p.Player)
                                         .ToListAsync();
             return new MatchSquadResponse
@@ -35,6 +36,7 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<SquadResponse> GetSquadById(int squadId)
         {
             var squad = await squadRepository.FindByCondition(s => s.SquadId == squadId)
+                    .Include(s => s.Match).ThenInclude(m => m.League)
                     .Include(s => s.SquadPositions)
                     .ThenInclude(p => p.Player)
                     .FirstOrDefaultAsync();
@@ -113,7 +115,7 @@ namespace FLMS_BackEnd.Services.Impl
             var squad = await squadRepository.FindByCondition(s =>
                             s.MatchId == request.MatchId &&
                             s.Match.Home.ClubClone != null &&
-                            s.Match.Away.ClubClone != null && 
+                            s.Match.Away.ClubClone != null &&
                             (
                                 (s.Match.Home.ClubClone != null && s.Match.Home.ClubClone.ClubId == request.ClubId) ||
                                 (s.Match.Away.ClubClone != null && s.Match.Away.ClubClone.ClubId == request.ClubId)
@@ -305,6 +307,68 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     Success = true,
                     MessageCode = "ER-SQ-07"
+                };
+            }
+        }
+
+        public async Task<UpdateSquadResponse> UpdateSquad(UpdateSquadRequest request, int userId)
+        {
+            var squad = await squadRepository.FindByCondition(s => s.SquadId == request.SquadId)
+                                .Include(s => s.Match).ThenInclude(m => m.League)
+                                .Include(s => s.SquadPositions)
+                                .FirstOrDefaultAsync();
+            if (squad == null)
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-01"
+                };
+            }
+            if (request.Mains.Count != squad.Match.League.NoPlayerSquad)
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-10"
+                };
+            }
+            squad.SquadPositions.ToList().ForEach(sp => sp.PlayerId = null);
+            var mainSquadPositions = squad.SquadPositions.Where(sp => !sp.PositionKey.Equals("P0")).OrderBy(sp => sp.PositionKey).ToList();
+            int mainIndex = 0;
+            mainSquadPositions.ForEach(sp =>
+            {
+                int? playerId = request.Mains.ElementAt(mainIndex++);
+                if (playerId != null && playerId != 0)
+                {
+                    sp.PlayerId = playerId;
+                }
+            });
+            int subIndex = 0;
+            var subSquadPositions = squad.SquadPositions.Where(sp => sp.PositionKey.Equals("P0")).ToList();
+            request.Subs.ForEach(s =>
+            {
+                if (s!=null && s != 0)
+                {
+                    subSquadPositions.ElementAt(subIndex++).PlayerId = s;
+                }
+            });
+            var result = await squadRepository.UpdateAsync(squad);
+
+            if (result != null)
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-SQ-03"
+                };
+            }
+            else
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-11"
                 };
             }
         }
