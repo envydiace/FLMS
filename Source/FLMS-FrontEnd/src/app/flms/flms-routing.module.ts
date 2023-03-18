@@ -11,6 +11,7 @@ import { ClubListComponent } from './club/club-list/club-list.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,12 @@ const routes: Routes = [
     path: 'match-info',
     component: MatchDetailComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'incoming-matches',
+    component: ClubIncomingMatchComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
   }
 ];
 

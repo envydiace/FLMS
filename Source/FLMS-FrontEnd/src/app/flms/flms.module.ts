@@ -51,7 +51,8 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { MatSelectModule } from '@angular/material/select';
 import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/pop-up-edit-match-stats.component'
 import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component';
-import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component'
+import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component'
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-
     MatchEventComponent,
     MatchDetailComponent,
     MatchStatisticComponent,
-    ConfirmIsFinishComponent
+    ConfirmIsFinishComponent,
+    ClubIncomingMatchComponent
   ],
   imports: [
     CommonModule,
