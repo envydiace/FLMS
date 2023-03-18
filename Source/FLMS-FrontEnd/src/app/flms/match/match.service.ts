@@ -10,6 +10,7 @@ import { MatchDetail } from '../../models/match-detail.model';
 import { MatchStats } from '../../models/match-statistics-model'
 import { MatchStatisticsResponse } from './../../models/match-statistic-response-model'
 import { MatchEvent } from './../../models/match-event-detail.model';
+import { Squad } from './../../models/match-squad.model';
 
 
 @Injectable({
@@ -33,7 +34,7 @@ export class MatchService {
   ): Observable<MatchDetailResponse> {
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetMatchInfo/${matchId}`)
       .pipe(map((res: MatchDetailResponse) => res),
-        catchError(err => throwError(err)))
+        catchError(err => throwError(err)));
   }
 
   getMatchStatsById(
@@ -41,7 +42,7 @@ export class MatchService {
   ): Observable<MatchStatisticsResponse> {
     return this.http.get<any>(`${environment.apiUrl}/api/MatchStatistic/GetMatchStat/${matchId}`)
       .pipe(map((res: MatchStatisticsResponse) => res),
-        catchError(err => throwError(err)))
+        catchError(err => throwError(err)));
   }
 
 
@@ -49,10 +50,16 @@ export class MatchService {
     return this.http.get<any>(`${environment.apiUrl}/api/Event/GetMatchEvent/${matchId}`,).pipe(
       map((res: MatchEvent[]) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
 
   updateMatchStats(body: MatchStatisticsResponse) {
     return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body,{ headers: this.headers })
+  }
+
+  getMatchSquad(squadId: number): Observable<Squad> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Event/GetMatchEvent/${squadId}`, { headers: this.headers }).pipe(
+      map((res: Squad) => res)
+    );
   }
 }

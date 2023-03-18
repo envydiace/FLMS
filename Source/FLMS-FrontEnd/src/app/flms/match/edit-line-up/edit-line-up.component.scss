@@ -21,11 +21,11 @@
     }
 
     .card-body {
-        height: 720px;
 
         .line-up-field {
             width: 100%;
-            height: 100%;
+            height: 640px;
+            margin: 0;
             background-image: url('../../../../assets/image/Field.png');
             background-color: #cccccc;
             background-position: center;
@@ -35,11 +35,6 @@
         }
     }
 
-    .positon-st {
-        margin-top: 20px;
-    }
-
-    .positon-lm {}
 }
 
 .player-list {

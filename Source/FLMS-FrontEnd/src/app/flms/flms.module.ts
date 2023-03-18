@@ -55,7 +55,6 @@ import { JoinedLeagueComponent } from './club/joined-league/joined-league.compon
 import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
 import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component';
 import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component'
 
 @NgModule({
@@ -87,7 +86,7 @@ import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-
     MatchStatisticComponent,
     JoinedLeagueComponent,
     ViewSquadComponent,
-    EditLineUpComponent
+    EditLineUpComponent,
     ConfirmIsFinishComponent
   ],
   imports: [

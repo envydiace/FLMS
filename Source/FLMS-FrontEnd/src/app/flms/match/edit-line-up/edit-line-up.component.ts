@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { MatchDetailResponse } from 'src/app/models/match-detail-response.model';
 import { MatchDetail } from 'src/app/models/match-detail.model';
+import { MatchSquad, Squad } from 'src/app/models/match-squad.model';
 import { MatchService } from '../match.service';
 
 @Component({
@@ -15,6 +16,8 @@ export class EditLineUpComponent implements OnInit {
   matchId: number;
   matchDetail: MatchDetail = null;
   imgSrc: string = './../../../../assets/image/Rashford.png';
+  squadId: number = 20;
+  matchSquad: MatchSquad;
 
   todo = [
     'Get to work',
@@ -41,9 +44,6 @@ export class EditLineUpComponent implements OnInit {
     'GK'
   ];
 
-
-
-
   constructor(
     private MatchService: MatchService,
     private route: ActivatedRoute
@@ -58,11 +58,17 @@ export class EditLineUpComponent implements OnInit {
   }
 
   initDataSource() {
-    this.getMatchInfoById(this.matchId);
+    this.getMatchInfoById(56);
   }
 
   getMatchInfoById(matchId: number) {
     this.MatchService.getMatchInfoById(matchId).pipe(map((res: MatchDetailResponse) => this.matchDetail = res.match)).subscribe();
+  }
+
+  getSquadById(squadId: number) {
+    this.MatchService.getMatchSquad(squadId).pipe(
+      map((res: Squad) => this.matchSquad = res.squad)
+    ).subscribe();
   }
 
   drop(event: CdkDragDrop<string[]>) {
