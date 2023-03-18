@@ -100,7 +100,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-LE-01","Create league success" },
             {"ER-LE-01","Create league fail" },
             {"ER-LE-02","League name existed" },
-            {"ER-LE-03","End date must after start date" },
+            {"ER-LE-03","Not enough date between start date and end date" },
             {"ER-LE-04","League Type is not valid" },
             {"ER-LE-05","League doesn't exist" },
             {"ER-LE-06","League doesn't belong to user" },
