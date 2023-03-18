@@ -29,7 +29,9 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             int numberOfRound = MethodUtils.CountNumberOfRound(request.LeagueType, request.NoParticipate);
-            if (request.EndDate.CompareTo(request.StartDate) <= 0)
+            if (request.EndDate
+                    .CompareTo(request.StartDate.AddDays(MethodUtils.CountLeagueDateRange(request.LeagueType, request.NoParticipate) - 1))
+                < 0)
             {
                 return new CreateLeagueResponse
                 {

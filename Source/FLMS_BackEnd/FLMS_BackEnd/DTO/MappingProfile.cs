@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.EMMA;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Utils;
+using System.Globalization;
 using System.Numerics;
 
 namespace FLMS_BackEnd.DTO
@@ -40,7 +41,8 @@ namespace FLMS_BackEnd.DTO
                         .Select(p => p.JoinDate)
                             .FirstOrDefault()))
                 ;
-            CreateMap<Club, UnpositionClubDTO>();
+            CreateMap<Club, ClubBasicInfoDTO>();
+
             //User
             CreateMap<User, UserProfileDTO>()
                 .ForMember(dto => dto.Role,
@@ -170,6 +172,11 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     match => match.League.LeagueName));
 
+            CreateMap<UpdateMatchInfoRequest, Match>()
+                .ForMember(match => match.MatchDate,
+                map=>map.MapFrom(
+                    request => DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime, "yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)));
+
             //Squad
             CreateMap<SquadPosition, SquadPositionDTO>()
                 .ForMember(dto => dto.PlayerName,
@@ -180,6 +187,12 @@ namespace FLMS_BackEnd.DTO
                     squadPosition => squadPosition.Player != null ? squadPosition.Player.Avatar : null));
 
             CreateMap<Squad, SquadDTO>()
+                .ForMember(dto => dto.NoPlayerSquad,
+                map => map.MapFrom(
+                    squad => squad.Match.League.NoPlayerSquad ))
+                .ForMember(dto => dto.MaxNoPlayerSub,
+                map => map.MapFrom(
+                    squad => squad.Match.League.MaxNoPlayer - squad.Match.League.NoPlayerSquad))
                 .ForMember(dto => dto.StartingSquad,
                 map => map.MapFrom(
                     squad => squad.SquadPositions.Where(p => !p.PositionKey.Equals("P0"))))
