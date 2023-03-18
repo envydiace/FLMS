@@ -80,7 +80,7 @@ namespace FLMS_BackEnd.Controllers
         }
         [HttpGet("[action]/{id}")]
         [Authorize(Roles = "LEAGUE_MANAGER")]
-        public async Task<ActionResult<List<UnpositionClubDTO>>> GetUnpositionClub(int id)
+        public async Task<ActionResult<List<ClubBasicInfoDTO>>> GetUnpositionClub(int id)
         {
             var result = await participationService.ListUnpositionClub(id, UserID);
             return Ok(result);
