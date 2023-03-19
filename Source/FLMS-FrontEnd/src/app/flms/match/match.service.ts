@@ -55,4 +55,10 @@ export class MatchService {
   updateMatchStats(body: MatchStatisticsResponse) {
     return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body,{ headers: this.headers })
   }
+
+ editMatchInfo(body: MatchDetail){
+  return this.http.put(`${environment.apiUrl}/api/Match/UpdateMatch`, body, { headers: this.headers });
+
+ }
+
 }

@@ -1,27 +1,31 @@
 .match-detail-container {
 
-    .match-detail-cover {
-        background-color: #F5F5FA;
-        width: 100%;
-        height: 100px;
-        background-position: bottom;
-    }
-    .match-detail-info {
-        background-color: #FFFFFF;
-        width: 100%;
-        height: 100px;
 
-        .match-detail-card {
-            max-width: 100%;
-        }
 
-        .match-detail-logo {
-            background-size: cover;
-            height: 130px;
-            width: 130px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
+    .match-detail-content {
+        width: 100%;
+        margin: 0 10px;
     }
+
+
+    .match-detail-content {
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    .match-detail-container {
+        display: flex;
+
+    }
+
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
 
     .match-detail-content {
         width: 100%;
@@ -51,12 +55,12 @@
         margin-bottom: 20px;
     }
 
-    
-    .score-container{
-        display:flex;
+
+    .score-container {
+        display: flex;
     }
 
-    .team-1{
+    .team-1 {
         flex: 1;
         align-items: center;
         justify-content: center;
@@ -64,42 +68,44 @@
         // display: block ;
     }
 
-    .team-2{
+    .team-2 {
         flex: 1;
         align-items: center;
         justify-content: center;
         position: relative;
-      //display: block;
+        //display: block;
     }
-    .match-detail-title{
+
+    .match-detail-title {
         display: block;
         padding-top: 10px;
         text-align: center;
+        font-size: 25px;
     }
 
-    .mat-card-header{
+    .mat-card-header {
         display: grid;
     }
 
-    .score-content{
+    .score-content {
         justify-content: center;
         width: 100px;
     }
 
-    .goal-data{
+    .goal-data {
         font-size: 3em;
         text-align: center;
         line-height: 120px;
     }
 
-    .match-status{
+    .match-status {
         text-align: center;
         line-height: 1.5em;
     }
 
-
 }
 
-.example-full-width{
-    width: 50%;
+.example-full-width {
+    width: 80%;
+
 }
