@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using Org.BouncyCastle.Asn1.Pkcs;
 using RazorEngineCore;
+using Serilog;
+using System.Diagnostics;
 using System.Text;
 
 namespace FLMS_BackEnd.Services.Impl
@@ -63,7 +65,7 @@ namespace FLMS_BackEnd.Services.Impl
                 // Add Content to Mime Message
                 var body = new BodyBuilder();
                 mail.Subject = mailRequest.Subject;
-                body.HtmlBody = mailRequest.Body;
+                body.HtmlBody = this.GetEmailTemplate(mailRequest.MailType,mailRequest.MailData!=null? mailRequest.MailData : new MailDTO());
                 mail.Body = body.ToMessageBody();
 
                 // Check if we got any attachments and add the to the builder for our message

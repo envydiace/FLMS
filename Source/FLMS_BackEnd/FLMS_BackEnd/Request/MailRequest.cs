@@ -1,4 +1,6 @@
-﻿namespace FLMS_BackEnd.Request
+﻿using FLMS_BackEnd.DTO;
+
+namespace FLMS_BackEnd.Request
 {
     public class MailRequest
     {
@@ -19,29 +21,10 @@
         // Content
         public string? Subject { get; set; }
 
-        public string? Body { get; set; }
         public IFormFileCollection? Attachments { get; set; }
 
-        public MailRequest()
-        {
-        }
-        public MailRequest(List<string> to, string subject, string? body = null, string? from = null, string? displayName = null, string? replyTo = null, string? replyToName = null, List<string>? bcc = null, List<string>? cc = null, IFormFileCollection? attachments = null)
-        {
-            // Receiver
-            To = to;
-            Bcc = bcc ?? new List<string>();
-            Cc = cc ?? new List<string>();
+        public string MailType { get; set; } = null!;
 
-            // Sender
-            From = from;
-            DisplayName = displayName;
-            ReplyTo = replyTo;
-            ReplyToName = replyToName;
-
-            // Content
-            Subject = subject;
-            Body = body;
-            Attachments = attachments;
-        }
+        public MailDTO? MailData { get; set; }
     }
 }
