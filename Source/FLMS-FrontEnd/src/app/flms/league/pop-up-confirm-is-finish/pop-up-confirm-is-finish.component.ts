@@ -21,10 +21,8 @@ export class ConfirmIsFinishComponent implements OnInit {
     public data: {
       matchId: number;
     }
-  ) {
-
-  }
-
+  ) {}
+  
   ngOnInit(): void {
   }
 
@@ -41,7 +39,7 @@ export class ConfirmIsFinishComponent implements OnInit {
       .subscribe({
         next: () => {
           this.dialogRef.close();
-          this.commonService.sendMessage('Confirmed Match is finished!','success')
+          this.commonService.sendMessage('Finish match success!','success')
         },
         error: error => {
           this.loading = false;

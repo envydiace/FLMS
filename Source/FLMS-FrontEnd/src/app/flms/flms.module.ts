@@ -53,6 +53,7 @@ import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/po
 import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component';
 import { PopUpEditMatchInfoComponent } from './match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component'
 import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component'
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component'
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-
     MatchDetailComponent,
     MatchStatisticComponent,
     PopUpEditMatchInfoComponent,
-    ConfirmIsFinishComponent
+    ConfirmIsFinishComponent,
+    ClubIncomingMatchComponent
   ],
   imports: [
     CommonModule,
