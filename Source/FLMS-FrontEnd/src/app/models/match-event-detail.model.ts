@@ -39,7 +39,10 @@ export interface AddMatchEvent {
     matchId: number,
     eventType: string,
     eventTime: number,
-    clubId: number
+    clubId: number,
+    mainName: string,
+    subName: string,
+    clubName: string
 }
 
 export class AddMatchEvent implements AddMatchEvent {
@@ -49,7 +52,10 @@ export class AddMatchEvent implements AddMatchEvent {
         matchId: number,
         eventType: string,
         eventTime: number,
-        clubId: number
+        clubId: number,
+        mainName: string,
+        subName: string,
+        clubName: string
     ) {
         this.mainId = mainId;
         this.subId = subId;
@@ -57,5 +63,8 @@ export class AddMatchEvent implements AddMatchEvent {
         this.eventType = eventType;
         this.eventTime = eventTime;
         this.clubId = clubId;
+        this.mainName = mainName;
+        this.subName = subName;
+        this.clubName = clubName;
     }
 }

@@ -45,7 +45,7 @@ export class LeagueScheduleComponent implements OnInit {
 
   openDialogConfirmIsFinished(matchId: number): void {
     const dialogRef = this.dialog.open(ConfirmIsFinishComponent, {
-      width: '100%',
+      width: '50%',
       data: { matchId: matchId }
     });
     dialogRef.afterClosed().subscribe(result => {
