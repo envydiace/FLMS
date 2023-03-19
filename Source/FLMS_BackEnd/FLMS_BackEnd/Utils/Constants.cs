@@ -54,6 +54,15 @@ namespace FLMS_BackEnd.Utils
             public const string DrawKey = "D";
             public const string LossKey = "L";
         }
+        public static class MailType
+        {
+            public const string Invitation = "Invitation";
+            public const string Registration = "Registration";
+            public const string Accept = "AcceptRequest";
+            public const string Reject = "RejectRequest";
+            public const string Cancel = "CancelRequest";
+            public const string RemoveClub = "RemoveClub";
+        }
 
         public const string HOME = "Home";
         public const string AWAY = "Away";

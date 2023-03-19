@@ -1,5 +1,6 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using FLMS_BackEnd.Helpers;
+using FLMS_BackEnd.Listeners.Events;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Repositories.Impl;
@@ -108,6 +109,9 @@ builder.Services.AddScoped<MatchStatisticRepository, MatchStatisticRepositoryImp
 builder.Services.AddScoped<ClubCloneRepository, ClubCloneRepositoryImpl>();
 
 builder.Services.AddScoped<TokenHelper>();
+
+//Event singleton
+builder.Services.AddSingleton<SendMailEventHandler>();
 
 var app = builder.Build();
 
