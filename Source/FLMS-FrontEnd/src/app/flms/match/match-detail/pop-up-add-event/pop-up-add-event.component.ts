@@ -5,7 +5,7 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { AddMatchEvent, MatchEvent } from 'src/app/models/match-event-detail.model';
 import { PlayerForEvent } from 'src/app/models/player-for-event.model';
 import { MatchService } from 'src/app/flms/match/match.service';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { ClubListPlayerResponse } from 'src/app/models/club-list-player-response.model';
 import { ClubListPlayer } from 'src/app/models/club-list-player.model';
 import { CommonService } from 'src/app/common/common/common.service';
@@ -87,6 +87,18 @@ export class PopUpAddEventComponent implements OnInit {
 
   }
 
+  // public addlistMatchEvent() {
+  //   this.matchService.addListEvent(this.addmatchEvent)
+  //     .pipe(first())
+  //     .subscribe({
+  //       next: () => {
+  //         this.initDataSource();
+  //       },
+  //       error: error => {
+  //       }
+  //     });
+  // }
+
   addEventIntoList() {
     let eventTime: number = +this.time
 
@@ -102,7 +114,7 @@ export class PopUpAddEventComponent implements OnInit {
       clubName: this.matchDetail.home.clubId == this.clubId ? this.matchDetail.home.name : this.matchDetail.away.name
     }
     // this.addmatchEvent.push(MatchEvent);
-    
+
     const newUsersArray = this.addmatchEvent;
     newUsersArray.push(MatchEvent);
     this.addmatchEvent = [...newUsersArray];
