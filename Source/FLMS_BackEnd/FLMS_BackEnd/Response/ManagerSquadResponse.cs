@@ -46,6 +46,6 @@ namespace FLMS_BackEnd.Response
         public virtual List<SquadPositionDTO>? SquadPositions { get; set; } 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual List<PlayerSquadPositionDTO>? UnSquadPositions { get; set; } 
+        public virtual List<SquadPositionDTO>? UnSquadPositions { get; set; } 
     }
 }
