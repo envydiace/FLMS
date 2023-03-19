@@ -375,7 +375,7 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<ManagerSquadResponse> GetSquadByManager(int squadId, int userId)
         {
-            var UnsquadPlayers = new List<PlayerSquadPositionDTO>();
+            var UnsquadPlayers = new List<SquadPositionDTO>();
             var squad = await squadRepository.FindByCondition(s => s.SquadId == squadId)
                             .Include(s => s.Match)
                                 .ThenInclude(m => m.League)
@@ -417,7 +417,7 @@ namespace FLMS_BackEnd.Services.Impl
                                 false
                             ) != null
                             ).ToListAsync();
-            UnsquadPlayers = mapper.Map<List<PlayerSquadPositionDTO>>(players);
+            UnsquadPlayers = mapper.Map<List<SquadPositionDTO>>(players);
             Match match = squad.Match;
             return new ManagerSquadResponse
             {
