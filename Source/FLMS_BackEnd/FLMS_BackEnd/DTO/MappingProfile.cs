@@ -174,10 +174,18 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<UpdateMatchInfoRequest, Match>()
                 .ForMember(match => match.MatchDate,
-                map=>map.MapFrom(
-                    request => DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime, "yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)));
+                map => map.MapFrom(
+                    request => DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)));
 
             //Squad
+            CreateMap<Player, SquadPositionDTO>()
+                .ForMember(dto => dto.PlayerName,
+                map => map.MapFrom(
+                    player => player.Name))
+                .ForMember(dto => dto.PlayerAvatar,
+                map => map.MapFrom(
+                    player => player.Avatar));
+
             CreateMap<SquadPosition, SquadPositionDTO>()
                 .ForMember(dto => dto.PlayerName,
                 map => map.MapFrom(
@@ -189,7 +197,7 @@ namespace FLMS_BackEnd.DTO
             CreateMap<Squad, SquadDTO>()
                 .ForMember(dto => dto.NoPlayerSquad,
                 map => map.MapFrom(
-                    squad => squad.Match.League.NoPlayerSquad ))
+                    squad => squad.Match.League.NoPlayerSquad))
                 .ForMember(dto => dto.MaxNoPlayerSub,
                 map => map.MapFrom(
                     squad => squad.Match.League.MaxNoPlayer - squad.Match.League.NoPlayerSquad))

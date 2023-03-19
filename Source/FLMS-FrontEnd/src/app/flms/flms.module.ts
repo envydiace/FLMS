@@ -56,6 +56,7 @@ import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.c
 import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component'
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component'
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-
     JoinedLeagueComponent,
     ViewSquadComponent,
     EditLineUpComponent,
-    ConfirmIsFinishComponent
+    ConfirmIsFinishComponent,
+    ClubIncomingMatchComponent
   ],
   imports: [
     CommonModule,

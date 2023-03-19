@@ -13,6 +13,7 @@ import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src
 import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
 import { MailDataResponse } from './../../models/mail-data-response.model';
+import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
 
 
 @Injectable({
@@ -131,8 +132,13 @@ export class LeagueService {
 
   }
 
-  finishMatchConfirm(matchId: number):Observable<any> {
-    return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers ,observe:'response'});
+  finishMatchConfirm(matchId: number) {
+    return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers });
+  }
+
+  getLeagueStatistics(leagueId: number): Observable<LeagueStatisticResponse> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetLeagueStatistic/${leagueId}`).pipe(map((res: LeagueStatisticResponse) => res),
+      catchError(err => throwError(err)));
   }
 
   getJoinedLeagueByUser(): Observable<LeagueDetail[]> {

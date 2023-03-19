@@ -12,6 +12,7 @@ import { ClubDetailResponse } from './../../models/club-detail-response.model';
 import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
+import { ClubIncomingMatches } from 'src/app/models/club-incoming-matches-model';
 
 
 @Injectable({
@@ -31,7 +32,7 @@ export class ClubService {
   }
 
   addClub(club: AddClub) {
-    return this.http.post(`${environment.apiUrl}/api/Club/CreateClub`, club, { headers: this.headers })
+    return this.http.post(`${environment.apiUrl}/api/Club/CreateClub`, club, { headers: this.headers });
   }
 
 
@@ -44,14 +45,14 @@ export class ClubService {
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter`, { params }).pipe(
       map((clubList: ClubList) => clubList),
       catchError(err => throwError(err))
-    )
+    );
   }
 
   findbyUserId(): Observable<ClubListbyUser[]> {
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubByUser`, { headers: this.headers }).pipe(
       map((ClubListbyUser: ClubListbyUser[]) => ClubListbyUser),
       catchError(err => throwError(err))
-    )
+    );
   }
 
   public getListClubFilter(
@@ -74,7 +75,7 @@ export class ClubService {
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClub/${id}`).pipe(
       map((res: ClubDetailResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
 
   public addPlayer(player: Player) {
@@ -93,7 +94,7 @@ export class ClubService {
     return this.http.get<any>(`${environment.apiUrl}/api/Player/GetListPlayerFilter`, { params }).pipe(
       map((res: ClubListPlayerResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
 
   sendInvitation(leagueId: number, clubId: number) {
@@ -101,7 +102,7 @@ export class ClubService {
       leagueId,
       clubId
     }
-    return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body, { headers: this.headers })
+    return this.http.post(`${environment.apiUrl}/api/Request/SendInvitation`, body, { headers: this.headers });
   }
 
   getClubMatch(clubId: number): Observable<ClubMatchScheduleResponse> {
@@ -109,7 +110,14 @@ export class ClubService {
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetClubSchedule/${clubId}`).pipe(
       map((res: ClubMatchScheduleResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
+  }
+
+  getIncomingMatches(): Observable<ClubIncomingMatches[]> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetIncomingMatches`, { headers: this.headers }).pipe(
+      map((res: ClubIncomingMatches[]) => res),
+      catchError(err => throwError(err))
+      );
   }
 
 }

@@ -13,6 +13,7 @@ import { LeagueDetailComponent } from './league/league-detail/league-detail.comp
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 import { JoinedLeagueComponent } from './club/joined-league/joined-league.component';
 import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
 
 const routes: Routes = [
   {
@@ -79,6 +80,12 @@ const routes: Routes = [
     path: 'edit-line-up',
     component: EditLineUpComponent,
     canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
+  },
+  {
+    path: 'incoming-matches',
+    component: ClubIncomingMatchComponent,
+    canActivate: [AuthGuard],
     data: { expectedRole: 'CLUB_MANAGER' }
   }
 ];
