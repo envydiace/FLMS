@@ -1,1 +1,114 @@
-<p>league-statistic works!</p>
+<div class="card">
+    <div class=" flex-row">
+        <div class="col-sm-8">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active">League Standing</a>
+                    </li>
+                </ul>
+            </div>
+            <mat-table [dataSource]="leagueStanding" class="mat-elevation-z8">
+                <!-- Name Column -->
+                <ng-container matColumnDef="No">
+                    <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.standing}} </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="Team">
+                    <mat-header-cell *matHeaderCellDef> Team </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.clubName}} </mat-cell>
+                </ng-container>
+                <!-- clubA Column -->
+                <ng-container matColumnDef="Matches">
+                    <mat-header-cell *matHeaderCellDef> Matches </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.pl}} </mat-cell>
+                </ng-container>
+                <!-- clubB Column -->
+                <ng-container matColumnDef="W-D-L">
+                    <mat-header-cell *matHeaderCellDef> Wins-Draws-Looses </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.won}}-{{element.draw}}-{{element.loss}} </mat-cell>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="+/-">
+                    <mat-header-cell *matHeaderCellDef> +/- </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.goalsFor}}/{{element.goalsAgainst}} ({{element.gd}})
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Points">
+                    <mat-header-cell *matHeaderCellDef> Points </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.point}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="History">
+                    <mat-header-cell *matHeaderCellDef> History </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.history}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayLeagueStandingColumns"></mat-header-row>
+                <mat-row *matRowDef="let element; columns: displayLeagueStandingColumns;"
+                    class="example-element-row"></mat-row>
+            </mat-table>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active">Top Scorer</a>
+                    </li>
+                </ul>
+            </div>
+            <mat-table [dataSource]="topScorer" class="mat-elevation-z8">
+                <!-- Name Column -->
+                <ng-container matColumnDef="No">
+                    <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
+                    <mat-cell *matCellDef="let element ; let i = 'index + 1'"> {{i}} </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="Player">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.playerName}} </mat-cell>
+                </ng-container>
+                <!-- clubA Column -->
+                <ng-container matColumnDef="Record">
+                    <mat-header-cell *matHeaderCellDef> Goals </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.record}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayTopPlayer"></mat-header-row>
+                <mat-row *matRowDef="let element; columns: displayTopPlayer;" class="example-element-row"></mat-row>
+            </mat-table>
+
+            <br />
+
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active">Top Assistant</a>
+                    </li>
+                </ul>
+            </div>
+            <mat-table [dataSource]="topAssist" class="mat-elevation-z8">
+                <!-- Name Column -->
+                <ng-container matColumnDef="No">
+                    <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = 'index + 1'"> {{i}} </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="Player">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.playerName}} </mat-cell>
+                </ng-container>
+                <!-- clubA Column -->
+                <ng-container matColumnDef="Record">
+                    <mat-header-cell *matHeaderCellDef> Assists </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.record}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayTopPlayer"></mat-header-row>
+                <mat-row *matRowDef="let element; columns: displayTopPlayer;" class="example-element-row"></mat-row>
+            </mat-table>
+
+        </div>
+    </div>
+</div>
