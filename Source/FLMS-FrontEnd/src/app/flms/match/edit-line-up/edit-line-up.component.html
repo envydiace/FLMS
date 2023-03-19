@@ -6,17 +6,16 @@
 <div class="line-up-containner row" cdkDropListGroup>
     <div class="col-xl-3">
         <div class="card mb-4 mb-xl-0 league-card">
-            <p>
-                <mat-toolbar>
-                    <span>Team members</span>
-                </mat-toolbar>
-            </p>
+            <mat-toolbar>
+                <span>Team members</span>
+            </mat-toolbar>
             <div class="card-body ">
-                <div cdkDropList [cdkDropListData]="todo" class="player-list" (cdkDropListDropped)="drop($event)">
-                    <mat-card class="player-box" *ngFor="let item of todo" cdkDrag>
+                <div cdkDropList [cdkDropListData]="unsquadPlayers" class="player-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <mat-card class="player-box" *ngFor="let item of unsquadPlayers" cdkDrag>
                         <mat-card-header>
                             <div mat-card-avatar class="avatar-header-image"></div>
-                            <mat-card-title style="line-height: 52px; margin-bottom: 0;">{{item}}</mat-card-title>
+                            <mat-card-title style="line-height: 37px; margin-bottom: 0;">{{item.name}}</mat-card-title>
                         </mat-card-header>
                     </mat-card>
                 </div>
@@ -25,39 +24,39 @@
     </div>
     <div class="col-xl-6">
         <div class="card mb-4">
-            <p>
-                <mat-toolbar>
-                    <span>Line-up</span>
-                </mat-toolbar>
-            </p>
+            <mat-toolbar>
+                <span>Line-up</span>
+            </mat-toolbar>
             <div class="card-body">
                 <!-- <div class="line-up-field"> -->
-                <div cdkDropList [cdkDropListData]="middle" class="player-list line-up-field row justify-content-center"
-                    (cdkDropListDropped)="drop($event)">
+                <div class="player-list line-up-field row justify-content-center">
                     <div class="positon-st">
                         <mat-card class="player-box player-position" cdkDrag>
                             <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
-                            <mat-card-title style="line-height: 52px; margin-bottom: 0;">{{middle[0]}}</mat-card-title>
+                            <mat-card-title
+                                style="line-height: 52px; margin-bottom: 0;">{{startingSquad[6].playerName}}</mat-card-title>
                         </mat-card>
                     </div>
                     <div style="display: flex; justify-content: center; margin-top: 20px;">
                         <div class="positon-lm">
                             <mat-card class="player-box player-position" cdkDrag>
                                 <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
-                                <mat-card-title style="line-height: 52px; margin-bottom: 0;">{{middle[1]}}</mat-card-title>
+                                <mat-card-title
+                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[5].playerName}}</mat-card-title>
                             </mat-card>
                         </div>
                         <div style="width: 300px;"></div>
                         <div class="positon-rm">
                             <mat-card class="player-box player-position" cdkDrag>
                                 <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
-                                <mat-card-title style="line-height: 52px; margin-bottom: 0;">{{middle[2]}}</mat-card-title>
+                                <mat-card-title
+                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[4].playerName}}</mat-card-title>
                             </mat-card>
                         </div>
                     </div>
-                    
 
-                    
+
+
 
                 </div>
                 <!-- </div> -->
@@ -66,17 +65,23 @@
     </div>
     <div class="col-xl-3">
         <div class="card mb-4 mb-xl-0 league-card">
-            <p>
-                <mat-toolbar>
-                    <span>Main Squad</span>
-                </mat-toolbar>
-            </p>
-            <div class="card-body ">
-                <div cdkDropList [cdkDropListData]="middle" class="player-list" (cdkDropListDropped)="drop($event)">
-                    <mat-card class="player-box" *ngFor="let item of done" cdkDrag>
+            <mat-toolbar>
+                <span>Main Squad</span>
+            </mat-toolbar>
+            <div class="card-body " style="display: flex;">
+                <div>
+                    <div *ngFor="let position of position.reverse()">
+                        {{position}}
+                    </div>
+                </div>
+                <div cdkDropList [cdkDropListData]="startingSquad" class="player-list"
+                    (cdkDropListDropped)="drop($event)" style="width: 100%;">
+                    <mat-card class="player-box" *ngFor="let item of startingSquad" cdkDrag>
+
                         <mat-card-header>
                             <div mat-card-avatar class="avatar-header-image"></div>
-                            <mat-card-title style="line-height: 52px; margin-bottom: 0;">{{item}}</mat-card-title>
+                            <mat-card-title
+                                style="line-height: 37px; margin-bottom: 0;">{{item.playerName}}</mat-card-title>
                         </mat-card-header>
                     </mat-card>
                 </div>
@@ -90,11 +95,13 @@
                 </mat-toolbar>
             </p>
             <div class="card-body ">
-                <div cdkDropList [cdkDropListData]="done" class="player-list" (cdkDropListDropped)="drop($event)">
-                    <mat-card class="player-box" *ngFor="let item of done" cdkDrag>
+                <div cdkDropList [cdkDropListData]="substitution" class="player-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <mat-card class="player-box" *ngFor="let item of substitution" cdkDrag>
                         <mat-card-header>
                             <div mat-card-avatar class="avatar-header-image"></div>
-                            <mat-card-title style="line-height: 52px; margin-bottom: 0;">{{item}}</mat-card-title>
+                            <mat-card-title
+                                style="line-height: 37px; margin-bottom: 0;">{{item.playerName}}</mat-card-title>
                         </mat-card-header>
                     </mat-card>
                 </div>

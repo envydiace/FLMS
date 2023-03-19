@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { MatchDetailResponse } from 'src/app/models/match-detail-response.model';
 import { MatchDetail } from 'src/app/models/match-detail.model';
-import { MatchSquad, Squad } from 'src/app/models/match-squad.model';
+import { MatchSquad, Squad, SquadPosition } from 'src/app/models/match-squad.model';
+import { Player } from 'src/app/models/player.model';
 import { MatchService } from '../match.service';
 
 @Component({
@@ -18,31 +19,11 @@ export class EditLineUpComponent implements OnInit {
   imgSrc: string = './../../../../assets/image/Rashford.png';
   squadId: number = 20;
   matchSquad: MatchSquad;
+  startingSquad: SquadPosition[] = [];
+  substitution: SquadPosition[] = [];
+  unsquadPlayers: Player[] = [];
 
-  todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep'
-  ];
-
-  done = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog'
-  ];
-
-  middle = [
-    'ST',
-    'LM',
-    'RM',
-    'LB',
-    'RB',
-    'CB',
-    'GK'
-  ];
+  position = ['ST', 'LM', 'RM', 'LB', 'RB', 'CB', 'GK'];
 
   constructor(
     private MatchService: MatchService,
@@ -59,6 +40,8 @@ export class EditLineUpComponent implements OnInit {
 
   initDataSource() {
     this.getMatchInfoById(56);
+    this.getSquadById(this.squadId);
+    this.getUnsquadPlayers(this.squadId);
   }
 
   getMatchInfoById(matchId: number) {
@@ -67,8 +50,16 @@ export class EditLineUpComponent implements OnInit {
 
   getSquadById(squadId: number) {
     this.MatchService.getMatchSquad(squadId).pipe(
-      map((res: Squad) => this.matchSquad = res.squad)
+      map((res: Squad) => {
+        this.matchSquad = res.squad,
+        this.startingSquad = this.matchSquad.startingSquad,
+        this.substitution = this.matchSquad.substitution
+      })
     ).subscribe();
+  }
+
+  getUnsquadPlayers(squadId: number) {
+    this.MatchService.getUnsquadPlayers(squadId).pipe(map((res: Player[]) => this.unsquadPlayers = res)).subscribe();
   }
 
   drop(event: CdkDragDrop<string[]>) {

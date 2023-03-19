@@ -11,6 +11,7 @@ import { MatchStats } from '../../models/match-statistics-model'
 import { MatchStatisticsResponse } from './../../models/match-statistic-response-model'
 import { MatchEvent } from './../../models/match-event-detail.model';
 import { Squad } from './../../models/match-squad.model';
+import { Player } from 'src/app/models/player.model';
 
 
 @Injectable({
@@ -23,7 +24,7 @@ export class MatchService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) { 
+  ) {
     this.token = JSON.parse(localStorage.getItem('user'));
     if (this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
 
@@ -54,12 +55,22 @@ export class MatchService {
   }
 
   updateMatchStats(body: MatchStatisticsResponse) {
-    return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body,{ headers: this.headers })
+    return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body, { headers: this.headers })
   }
 
   getMatchSquad(squadId: number): Observable<Squad> {
-    return this.http.get<any>(`${environment.apiUrl}/api/Event/GetMatchEvent/${squadId}`, { headers: this.headers }).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/api/Squad/GetSquad/${squadId}`, { headers: this.headers }).pipe(
       map((res: Squad) => res)
+    );
+  }
+
+  getUnsquadPlayers(squadId: number): Observable<Player[]> {
+    let params = new HttpParams();
+
+    params = params.append('squadId', String(squadId));
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Squad/GetUnsquadPlayers`, { params, headers: this.headers }).pipe(
+      map((res: Player[]) => res)
     );
   }
 }

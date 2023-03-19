@@ -16,6 +16,7 @@ export interface MatchSquad {
     isHome: boolean;
     noPlayerSquad: number;
     startingSquad: SquadPosition[];
+    substitution: SquadPosition[];
 }
 
 export class MatchSquad implements MatchSquad {
@@ -24,13 +25,15 @@ export class MatchSquad implements MatchSquad {
         matchId: number,
         isHome: boolean,
         noPlayerSquad: number,
-        startingSquad: SquadPosition[]
+        startingSquad: SquadPosition[],
+        substitution: SquadPosition[]
     ) {
         this.squadId = squadId;
         this.matchId = matchId;
         this.isHome = isHome;
         this.noPlayerSquad = noPlayerSquad;
         this.startingSquad = startingSquad;
+        this.substitution = substitution;
     }
 }
 

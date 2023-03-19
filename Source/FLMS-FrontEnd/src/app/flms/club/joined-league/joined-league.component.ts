@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { LeagueDetail, LeagueListbyUser } from 'src/app/models/league-detail.model';
 import { token } from 'src/app/models/token.model';
@@ -37,6 +37,12 @@ export class JoinedLeagueComponent implements OnInit {
   }
 
   navigateToLeagueDetail(id: number) {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        leagueId: id
+      }
+    }
     this.router.navigate(['/manager/my-league-info'], { queryParams: { leagueId: id }, skipLocationChange: true });
+    // this.router.navigate(['/manager/my-league-info'], navigationExtras);
   }
 }
