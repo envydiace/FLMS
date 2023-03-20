@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { token } from '../../models/token.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { LeagueList } from './../../models/league-list.model';
 import { environment } from '../../../environments/environment';
-import { LeagueListbyUser } from '../../models/league-detail.model';
+import { LeagueListbyUser, LeagueDetail } from '../../models/league-detail.model';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
@@ -140,5 +139,13 @@ export class LeagueService {
   getLeagueStatistics(leagueId: number): Observable<LeagueStatisticResponse> {
     return this.http.get(`${environment.apiUrl}/api/League/GetLeagueStatistic/${leagueId}`).pipe(map((res: LeagueStatisticResponse) => res),
       catchError(err => throwError(err)));
+  }
+
+  getJoinedLeagueByUser(): Observable<LeagueDetail[]> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Participation/GetListJoinedLeague`, { headers: this.headers })
+      .pipe(
+        map((res: LeagueDetail[]) => res),
+        catchError(err => throwError(err))
+      )
   }
 }

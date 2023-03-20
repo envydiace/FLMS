@@ -22,7 +22,7 @@ export class LeagueDetailComponent implements OnInit {
   constructor(
     private LeagueService: LeagueService,
     private route: ActivatedRoute,
-
+    private router: Router,
     private http: HttpClient,
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
@@ -31,6 +31,11 @@ export class LeagueDetailComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
     });
+
+    // if (this.router.getCurrentNavigation().extras.state) {
+    //   this.leagueId = this.router.getCurrentNavigation().extras.state.leagueId;
+    //   console.log(this.leagueId);
+    // }
   }
 
   ngOnInit(): void {
