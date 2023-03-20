@@ -1,22 +1,20 @@
-export interface Squad {
-    squad: MatchSquad;
-}
-
-export class Squad implements Squad {
-    constructor(
-        squad: MatchSquad
-    ) {
-        this.squad = squad;
-    }
-}
-
 export interface MatchSquad {
+    messageCode: string;
+    message: string;
     squadId: number;
     matchId: number;
     isHome: boolean;
+    ownClub: ClubOfSquad;
+    against: ClubOfSquad;
+    leagueName: string;
+    matchDate: string;
+    matchTime: string;
+    round: string;
+    stadium: string;
     noPlayerSquad: number;
-    startingSquad: SquadPosition[];
-    substitution: SquadPosition[];
+    maxNoPlayerSub: number;
+    squadPositions: SquadPosition[];
+    unSquadPositions: SquadPosition[];
 }
 
 export class MatchSquad implements MatchSquad {
@@ -25,15 +23,33 @@ export class MatchSquad implements MatchSquad {
         matchId: number,
         isHome: boolean,
         noPlayerSquad: number,
-        startingSquad: SquadPosition[],
-        substitution: SquadPosition[]
+        squadPositions: SquadPosition[],
+        unSquadPositions: SquadPosition[]
     ) {
         this.squadId = squadId;
         this.matchId = matchId;
         this.isHome = isHome;
         this.noPlayerSquad = noPlayerSquad;
-        this.startingSquad = startingSquad;
-        this.substitution = substitution;
+        this.squadPositions = squadPositions;
+        this.unSquadPositions = unSquadPositions;
+    }
+}
+
+export interface ClubOfSquad {
+    clubId: number;
+    clubName: string;
+    logo: string;
+}
+
+export class ClubOfSquad implements ClubOfSquad {
+    constructor(
+        clubId: number,
+        clubName: string,
+        logo: string
+    ) {
+        this.clubId = clubId;
+        this.clubName = clubName;
+        this.logo = logo;
     }
 }
 
@@ -44,6 +60,8 @@ export interface SquadPosition {
     playerId: number;
     playerName: string;
     playerAvatar: string;
+    xAxis: number;
+    yAxis: number;
 }
 
 export class SquadPosition implements SquadPosition {
@@ -53,7 +71,9 @@ export class SquadPosition implements SquadPosition {
         positionKey: string,
         playerId: number,
         playerName: string,
-        playerAvatar: string
+        playerAvatar: string,
+        xAxis: number,
+        yAxis: number
     ) {
         this.squadPositionId = squadPositionId;
         this.squadId = squadId;
@@ -61,5 +81,25 @@ export class SquadPosition implements SquadPosition {
         this.playerId = playerId;
         this.playerName = playerName;
         this.playerAvatar = playerAvatar;
+        this.xAxis = xAxis;
+        this.yAxis = yAxis;
+    }
+}
+
+export interface UpdateSquad {
+    squadId: number;
+    mains: number[];
+    subs: number[];
+}
+
+export class UpdateSquad implements UpdateSquad {
+    constructor(
+        squadId: number,
+        mains: number[],
+        subs: number[]
+    ) {
+        this.squadId = squadId;
+        this.mains = mains;
+        this.subs = subs;
     }
 }

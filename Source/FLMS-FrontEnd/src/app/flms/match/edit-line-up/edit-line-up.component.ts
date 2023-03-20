@@ -1,10 +1,11 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
+import { CommonService } from 'src/app/common/common/common.service';
 import { MatchDetailResponse } from 'src/app/models/match-detail-response.model';
 import { MatchDetail } from 'src/app/models/match-detail.model';
-import { MatchSquad, Squad, SquadPosition } from 'src/app/models/match-squad.model';
+import { MatchSquad, SquadPosition, UpdateSquad } from 'src/app/models/match-squad.model';
 import { Player } from 'src/app/models/player.model';
 import { MatchService } from '../match.service';
 
@@ -21,17 +22,15 @@ export class EditLineUpComponent implements OnInit {
   matchSquad: MatchSquad;
   startingSquad: SquadPosition[] = [];
   substitution: SquadPosition[] = [];
-  unsquadPlayers: Player[] = [];
-
+  unsquadPlayers: SquadPosition[] = [];
+  updateSquadModel: UpdateSquad;
   position = ['ST', 'LM', 'RM', 'LB', 'RB', 'CB', 'GK'];
 
   constructor(
     private MatchService: MatchService,
+    private commonService: CommonService,
     private route: ActivatedRoute
   ) {
-    this.route.queryParams.subscribe(params => {
-      this.matchId = params['matchId'];
-    });
   }
 
   ngOnInit(): void {
@@ -39,43 +38,83 @@ export class EditLineUpComponent implements OnInit {
   }
 
   initDataSource() {
-    this.getMatchInfoById(56);
     this.getSquadById(this.squadId);
-    this.getUnsquadPlayers(this.squadId);
-  }
-
-  getMatchInfoById(matchId: number) {
-    this.MatchService.getMatchInfoById(matchId).pipe(map((res: MatchDetailResponse) => this.matchDetail = res.match)).subscribe();
   }
 
   getSquadById(squadId: number) {
     this.MatchService.getMatchSquad(squadId).pipe(
-      map((res: Squad) => {
-        this.matchSquad = res.squad,
-        this.startingSquad = this.matchSquad.startingSquad,
-        this.substitution = this.matchSquad.substitution
+      map((res: MatchSquad) => {
+        this.matchSquad = res,
+          this.startingSquad = res.squadPositions.filter(p => p.positionKey != 'P0'),
+          this.substitution = res.squadPositions.filter(p => p.positionKey == 'P0'),
+          this.unsquadPlayers = res.unSquadPositions
       })
     ).subscribe();
-  }
-
-  getUnsquadPlayers(squadId: number) {
-    this.MatchService.getUnsquadPlayers(squadId).pipe(map((res: Player[]) => this.unsquadPlayers = res)).subscribe();
   }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log(this.startingSquad);
+      console.log(this.substitution);
+      console.log(this.unsquadPlayers);
+
+      this.resetPositionKey();
     } else {
-      // transferArrayItem(event.previousContainer.data,
-      //   event.container.data,
-      //   event.previousIndex,
-      //   event.currentIndex);
+      if (event.previousContainer.data[event.currentIndex] != undefined) {
+        let oldtarget = event.previousContainer.data[event.previousIndex];
+        event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
+        event.container.data[event.currentIndex] = oldtarget;
+      } else {
+        if (this.startingSquad.length < 7) {
+          transferArrayItem(event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex);
+        }
+      }
 
 
-      let oldtarget = event.previousContainer.data[event.previousIndex];
-      event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
-      event.container.data[event.currentIndex] = oldtarget;
+      console.log(this.startingSquad);
+      console.log(this.substitution);
+      console.log(this.unsquadPlayers);
+
     }
   }
 
+  resetPositionKey() {
+    for (let index = 0; index < this.startingSquad.length; index++) {
+      this.startingSquad[index].positionKey = 'P' + (index + 1);
+    }
+  }
+
+  onSubmit() {
+    let mains: number[] = [];
+    let subs: number[] = [];
+
+    this.startingSquad.forEach(element => {
+      const newUsersArray = mains;
+      newUsersArray.push(element.playerId);
+      mains = [...newUsersArray];
+    });
+
+    this.substitution.forEach(element => {
+      const newUsersArray = subs;
+      newUsersArray.push(element.playerId);
+      subs = [...newUsersArray];
+    });
+
+    const updateSquadModel = new UpdateSquad(this.squadId, mains, subs);
+
+    this.MatchService.updateSquad(updateSquadModel)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.commonService.sendMessage('Update success!', 'success')
+        },
+        error: error => {
+          this.commonService.sendMessage(error.error.message, 'fail')
+        }
+      });
+  }
 }
