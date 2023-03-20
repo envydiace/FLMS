@@ -42,6 +42,7 @@
                         </div>
                     </section>
                     <div>
+                     
                     </div>
                     <div class="row">
                         <mat-card-content class="match-detail-content">
@@ -53,7 +54,7 @@
                                 </mat-tab>
                                 <mat-tab label="Event">
                                     <ng-template matTabContent>
-                                        <app-match-event></app-match-event>
+                                        <app-match-event [matchDetail]="matchDetail"></app-match-event>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Line up">

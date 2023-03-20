@@ -55,8 +55,11 @@ import { JoinedLeagueComponent } from './club/joined-league/joined-league.compon
 import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
 import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component'
-import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component'
+import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
+import { PopUpEditMatchInfoComponent } from './match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component';
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
+import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
+import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +84,7 @@ import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-mat
     PopUpAddPlayerComponent,
     PopUpLeagueFeeDetailComponent,
     PopUpEditMatchStatsComponent,
+    PopUpAddEventComponent,
     PopUpUpdatePrizeComponent,
     MatchEventComponent,
     MatchDetailComponent,
@@ -88,8 +92,10 @@ import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-mat
     JoinedLeagueComponent,
     ViewSquadComponent,
     EditLineUpComponent,
+    PopUpEditMatchInfoComponent,
     ConfirmIsFinishComponent,
-    ClubIncomingMatchComponent
+    ClubIncomingMatchComponent,
+    PopUpRemoveEvemtComponent
   ],
   imports: [
     CommonModule,
