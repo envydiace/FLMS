@@ -10,9 +10,9 @@ import { MatchScheduleResponse } from './../../models/match-schedule-response.mo
 import { ClubList } from 'src/app/models/club-list.model';
 import { token } from 'src/app/models/token.model';
 import { Router } from '@angular/router';
-import { ClubListByLeagueResponse } from './../../models/club-list-by-league-response.model'
-import { LeagueFeeResponse } from './../../models/fee-response.model'
-import { MatchEvent } from './../../models/match-event-detail.model'
+import { ClubListByLeagueResponse } from './../../models/club-list-by-league-response.model';
+import { LeagueFeeResponse } from './../../models/fee-response.model';
+import { MatchEvent } from './../../models/match-event-detail.model';
 import { leagueFee } from 'src/app/models/league-prize.model';
 import { createLeagueInfo } from 'src/app/models/create-league-info.model';
 import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
