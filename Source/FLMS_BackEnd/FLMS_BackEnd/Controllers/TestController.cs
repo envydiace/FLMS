@@ -59,5 +59,25 @@ namespace FLMS_BackEnd.Controllers
         {
             return Ok(type.Equals(Constants.RequestType.Invite.ToString()));
         }
+        [HttpGet("[action]")]
+        public IActionResult GetMap(Input input)
+        {
+            List<string> strings = input.text.Replace(' ', ',').Split(',').Where(s => int.TryParse(s, out _)).ToList();
+            if (strings.Count % input.len != 0)
+            {
+                return BadRequest();
+            }
+            var result = new List<int>();
+            for (int i = strings.Count / input.len - 1; i >= 0; i--)
+            {
+                result.AddRange(strings.Skip(input.len * i).Take(input.len).Select(x => Convert.ToInt32(x)).ToList());
+            }
+            return Ok(result);
+        }
+    }
+    public class Input
+    {
+        public string text { get; set; } = null!;
+        public int len { get; set; }
     }
 }
