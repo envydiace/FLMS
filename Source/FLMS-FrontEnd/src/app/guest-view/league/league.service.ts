@@ -15,6 +15,7 @@ import { LeagueFeeResponse } from './../../models/fee-response.model'
 import { MatchEvent } from './../../models/match-event-detail.model'
 import { leagueFee } from 'src/app/models/league-prize.model';
 import { createLeagueInfo } from 'src/app/models/create-league-info.model';
+import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
 
 @Injectable({
   providedIn: 'root'
@@ -129,4 +130,8 @@ export class LeagueService {
     return this.http.post(`${environment.apiUrl}/api/League/CreateLeague`, league, { headers: this.headers });
   }
 
+  getLeagueStatistics(leagueId: number): Observable<LeagueStatisticResponse> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetLeagueStatistic/${leagueId}`).pipe(map((res: LeagueStatisticResponse) => res),
+      catchError(err => throwError(err)));
+  }
 }
