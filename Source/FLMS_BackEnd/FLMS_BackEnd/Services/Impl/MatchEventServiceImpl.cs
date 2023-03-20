@@ -112,27 +112,27 @@ namespace FLMS_BackEnd.Services.Impl
                             sp.PlayerId == request.MainId)
                         .Include(sp => sp.Squad)
                         .FirstOrDefaultAsync();
-            if (squadPosition == null)
-            {
-                return new AddMatchEventResponse
-                {
-                    Success = false,
-                    MessageCode = "ER-EV-03"
-                };
-            }
+            //if (squadPosition == null)
+            //{
+            //    return new AddMatchEventResponse
+            //    {
+            //        Success = false,
+            //        MessageCode = "ER-EV-03"
+            //    };
+            //}
             var squadPositionSub = await squadPositionRepository.FindByCondition(sp =>
                             sp.Squad.MatchId == request.MatchId &&
                             sp.PlayerId == request.SubId)
                         .Include(sp => sp.Squad)
                         .FirstOrDefaultAsync();
-            if (request.SubId != null && squadPositionSub == null)
-            {
-                return new AddMatchEventResponse
-                {
-                    Success = false,
-                    MessageCode = "ER-EV-05"
-                };
-            }
+            //if (request.SubId != null && squadPositionSub == null)
+            //{
+            //    return new AddMatchEventResponse
+            //    {
+            //        Success = false,
+            //        MessageCode = "ER-EV-05"
+            //    };
+            //}
 
             MatchEvent matchEvent = new MatchEvent
             {
