@@ -58,6 +58,10 @@ export class MatchService {
     return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body, { headers: this.headers })
   }
 
+ editMatchInfo(body: MatchDetail){
+  return this.http.put(`${environment.apiUrl}/api/Match/UpdateMatch`, body, { headers: this.headers });
+
+ }
   getPlayerForEvent(ClubId: number): Observable<ClubListPlayerResponse> {
     let params = new HttpParams();
 

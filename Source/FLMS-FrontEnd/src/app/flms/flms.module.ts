@@ -51,7 +51,8 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { MatSelectModule } from '@angular/material/select';
 import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/pop-up-edit-match-stats.component'
 import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component';
-import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
+import { PopUpEditMatchInfoComponent } from './match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component'
+import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component'
 import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component'
 import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
 import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
@@ -84,6 +85,7 @@ import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-ev
     MatchEventComponent,
     MatchDetailComponent,
     MatchStatisticComponent,
+    PopUpEditMatchInfoComponent,
     ConfirmIsFinishComponent,
     ClubIncomingMatchComponent,
     PopUpRemoveEvemtComponent

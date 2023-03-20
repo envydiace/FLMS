@@ -4,6 +4,8 @@ import { LeagueService } from '../../league.service';
 import { map, tap } from 'rxjs/operators';
 import { MatchScheduleResponse } from '../../../../models/match-schedule-response.model';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { PopUpEditMatchInfoComponent } from 'src/app/flms/match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmIsFinishComponent } from '../../pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
 
@@ -41,6 +43,18 @@ export class LeagueScheduleComponent implements OnInit {
 
   navigateToMatchDetail(id: number) {
     this.router.navigate(['/manager/match-info'], { queryParams: {matchId : id}, skipLocationChange: true});
+  }
+
+  openEditMatchInfo(matchId: number): void{
+    const dialogRef = this.dialog.open(PopUpEditMatchInfoComponent, {
+      width: '50%',
+      data: { matchId : matchId}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
   }
 
   openDialogConfirmIsFinished(matchId: number): void {
