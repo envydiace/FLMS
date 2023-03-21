@@ -35,7 +35,7 @@ export class ClubListComponent implements OnInit {
     let page = event.pageIndex;
     let size = event.pageSize;
 
-    if (this.clubName == null && this.clubName == null) {
+    if (this.clubName == null) {
       page = page + 1;
       this.clubService.findAll(page, size).pipe(
         map((clubList: ClubList) => this.clubList = clubList)

@@ -1,4 +1,11 @@
 <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="leagueName">
+    <mat-header-cell *matHeaderCellDef> League Name </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.leagueName}} </mat-cell>
+  </ng-container>
+
   <!-- Position Column -->
   <ng-container matColumnDef="matchDate">
     <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
