@@ -60,6 +60,7 @@ import { PopUpEditMatchInfoComponent } from './match/match-detail/pop-up-edit-ma
 import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
 import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
 import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
+import { LeagueHistoryComponent } from './club/club-detail/league-history/league-history.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-ev
     ViewSquadComponent,
     EditLineUpComponent,
     PopUpEditMatchInfoComponent,
+    LeagueHistoryComponent,
     ConfirmIsFinishComponent,
     ClubIncomingMatchComponent,
     PopUpRemoveEvemtComponent
