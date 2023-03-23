@@ -1,6 +1,9 @@
-﻿namespace FLMS_BackEnd.Response
+﻿using FLMS_BackEnd.DTO;
+
+namespace FLMS_BackEnd.Response
 {
-    public class ConfirmRegistFeeResponse : BaseResponse
+    public class ConfirmRegistFeeResponse : BaseMailResponse
     {
+        public MailDTO mailData { get; set; }
     }
 }
