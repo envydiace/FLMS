@@ -30,6 +30,10 @@ export class LeagueStatisticComponent implements OnInit {
 
 
   initDataSource() {
+   this.getLeagueStatistic();
+  }
+
+  getLeagueStatistic(){
     this.LeagueService.getLeagueStatistics(this.leagueId).pipe(
       map((res: LeagueStatisticResponse) => {
         this.leagueStanding = res.leagueStanding,
