@@ -80,15 +80,28 @@ export class LeagueService {
     return this.http.post(`${environment.apiUrl}/api/Request/SendRegistration`, body, { headers: this.headers })
   }
 
+  findAll(page: number, size: number): Observable<any> {
+    let params = new HttpParams();
 
-  findLeagueByName(
-    leagueName: string
-  ): Observable<LeagueList> {
+    params = params.append('page', String(page));
+    params = params.append('pageSize', String(size));
+
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params }).pipe(map((leagueList: LeagueList) => leagueList),
+      catchError(err => throwError(err))
+    )
+  }
+
+  findListLeagueFilter(
+    leagueName: string,
+    page: number,
+    size: number,
+  ): Observable<any> {
     let params = new HttpParams();
     params = params.append('searchLeagueName', leagueName);
-    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params }).pipe
-      (map((res: LeagueList) => res)
-        , catchError(err => throwError(err)))
+    params = params.append('page', String(page));
+    params = params.append('size', String(size));
+
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params })
   }
 
 
