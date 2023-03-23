@@ -287,5 +287,52 @@ namespace FLMS_BackEnd.Services.Impl
                 TopAssist = topAssist
             };
         }
+
+        public async Task<DeleteLeagueResponse> DeleteLeague(int leagueId, int userId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                            .Include(l => l.LeagueFees)
+                            .Include(l => l.ParticipateRequests)
+                            .Include(l=>l.Participations)
+                            .Include(l=>l.Matches)
+                                .ThenInclude(m=>m.Squads)
+                                    .ThenInclude(s=>s.SquadPositions)
+                            .Include(l => l.ParticipateNodes)
+                            .Include(l =>l.ClubClones)
+                            .FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != userId)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            var result = await leagueRepository.DeleteAsync(league);
+            if (result != null)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-LE-02"
+                };
+            }
+            else
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-08"
+                };
+            }
+        }
     }
 }

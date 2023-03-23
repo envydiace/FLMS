@@ -303,7 +303,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEABC61AE4D");
+                    .HasName("PK__RefreshT__658FEEEA7CEE0709");
 
                 entity.ToTable("RefreshToken");
 
