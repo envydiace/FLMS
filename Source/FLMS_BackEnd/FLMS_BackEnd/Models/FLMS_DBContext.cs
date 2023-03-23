@@ -290,7 +290,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.PlayerClubs)
                     .HasForeignKey(d => d.ClubId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PlayerClu__ClubI__440B1D61");
 
                 entity.HasOne(d => d.Player)
@@ -303,7 +302,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEABC61AE4D");
+                    .HasName("PK__RefreshT__658FEEEA7CEE0709");
 
                 entity.ToTable("RefreshToken");
 
