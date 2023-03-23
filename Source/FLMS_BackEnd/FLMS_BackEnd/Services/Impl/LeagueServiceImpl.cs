@@ -12,10 +12,12 @@ namespace FLMS_BackEnd.Services.Impl
     public class LeagueServiceImpl : BaseService, LeagueService
     {
         private readonly LeagueRepository leagueRepository;
+        private readonly MatchRepository matchRepository;
 
-        public LeagueServiceImpl(LeagueRepository leagueRepository)
+        public LeagueServiceImpl(LeagueRepository leagueRepository, MatchRepository matchRepository)
         {
             this.leagueRepository = leagueRepository;
+            this.matchRepository = matchRepository;
         }
 
         public async Task<CreateLeagueResponse> CreateLeague(CreateLeagueRequest request, int userId)
@@ -291,14 +293,8 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<DeleteLeagueResponse> DeleteLeague(int leagueId, int userId)
         {
             var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
-                            .Include(l => l.LeagueFees)
-                            .Include(l => l.ParticipateRequests)
                             .Include(l=>l.Participations)
                             .Include(l=>l.Matches)
-                                .ThenInclude(m=>m.Squads)
-                                    .ThenInclude(s=>s.SquadPositions)
-                            .Include(l => l.ParticipateNodes)
-                            .Include(l =>l.ClubClones)
                             .FirstOrDefaultAsync();
             if (league == null)
             {
@@ -315,6 +311,27 @@ namespace FLMS_BackEnd.Services.Impl
                     Success = false,
                     MessageCode = "ER-LE-06"
                 };
+            }
+            if (league.Participations.Any())
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-09"
+                };
+            }
+            var matches = league.Matches;
+            while(matches.Count > 0)
+            {
+                var r = await matchRepository.DeleteAsync(matches.FirstOrDefault());
+                if (r == null)
+                {
+                    return new DeleteLeagueResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-LE-08"
+                    };
+                }
             }
             var result = await leagueRepository.DeleteAsync(league);
             if (result != null)
