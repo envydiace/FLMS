@@ -1,42 +1,48 @@
 <div>
-    <mat-table [dataSource]="" class="mat-elevation-z8">
+    <mat-table [dataSource]="leagueHistoryList" class="mat-elevation-z8">
         <!-- Name Column -->
         <ng-container matColumnDef="joinedDate">
             <mat-header-cell *matHeaderCellDef class="time-header"> Joined Time </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="time-content"> </mat-cell>
+            <mat-cell *matCellDef="let element" class="time-content"> 
+                {{element.joinedDate | date:'dd/MM/yyyy'}} 
+            </mat-cell>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="leagueName">
             <mat-header-cell *matHeaderCellDef> leagueName </mat-header-cell>
-            <mat-cell *matCellDef="let element"></mat-cell>
+            <mat-cell *matCellDef="let element">
+                {{element.leagueName}}
+            </mat-cell>
         </ng-container>
         <!-- clubA Column -->
-        <ng-container matColumnDef="won">
+        <ng-container matColumnDef="won" style="width: 50px;">
             <mat-header-cell *matHeaderCellDef> W </mat-header-cell>
-            <mat-cell *matCellDef="let element"> </mat-cell>
+            <mat-cell *matCellDef="let element"> 
+                {{element.won}} 
+            </mat-cell>
         </ng-container>
         <!-- clubB Column -->
         <ng-container matColumnDef="draw">
             <mat-header-cell *matHeaderCellDef> D </mat-header-cell>
             <mat-cell *matCellDef="let element">
-               
+                {{element.draw}}
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="loss">
             <mat-header-cell *matHeaderCellDef> L </mat-header-cell>
             <mat-cell *matCellDef="let element">
-               
+                {{element.loss}}
             </mat-cell>
         </ng-container>
         
         <!-- Symbol Column -->
         <ng-container matColumnDef="goal">
             <mat-header-cell *matHeaderCellDef> Goals </mat-header-cell>
-            <mat-cell *matCellDef="let element">  </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.goal}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="rank">
             <mat-header-cell *matHeaderCellDef> Ranks </mat-header-cell>
-            <mat-cell *matCellDef="let element"> </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.rank}}</mat-cell>
         </ng-container>
        
 
