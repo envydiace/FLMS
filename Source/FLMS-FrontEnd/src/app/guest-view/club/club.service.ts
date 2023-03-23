@@ -10,6 +10,8 @@ import { token } from 'src/app/models/token.model';
 import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
+import { ClubLeagueHistory } from './../../models/club-league-history.model';
+import { ClubLeagueHistoryResponse } from './../../models/club-league-history-response.model'
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +102,13 @@ export class ClubService {
       catchError(err => throwError(err))
     )
   }
+  getClubLeagueHistory(clubId: number): Observable<ClubLeagueHistory[]> {
 
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubLeagueHistory/${clubId}`).pipe(
+      map((res: ClubLeagueHistory[]) => res),
+      catchError(err => throwError(err))
+    );
+  }
 
 }
 
