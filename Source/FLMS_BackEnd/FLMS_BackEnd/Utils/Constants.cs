@@ -102,6 +102,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-CL-06","Update club failled" },
             {"ER-CL-07","Club name already existed" },
             {"ER-CL-08","Club doesn't belong to user" },
+            {"ER-CL-09","Clubs that have participated in some leagues cannot be deleted" },
+            {"ER-CL-10","Clubs have sent some requests that cannot be deleted" },
             {"MS-CL-01","Club removed successfully" },
             {"MS-CL-02","Create club success" },
             {"MS-CL-03","Update club success" },

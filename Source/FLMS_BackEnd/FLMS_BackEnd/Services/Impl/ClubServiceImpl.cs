@@ -101,7 +101,11 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<DeleteClubResponse> DeleteClub(int id, int userId)
         {
             //TODO: check number of player in club
-            var club = await clubRepository.FindByCondition(club => club.ClubId == id).FirstOrDefaultAsync();
+            var club = await clubRepository.FindByCondition(club => club.ClubId == id)
+                        .Include(c=>c.ClubClones)
+                        .Include(c=>c.ParticipateRequests)
+                        .Include(c=>c.Participations)
+                        .FirstOrDefaultAsync();
             if (club == null)
             {
                 return new DeleteClubResponse
@@ -113,6 +117,14 @@ namespace FLMS_BackEnd.Services.Impl
             if (club.UserId != userId)
             {
                 return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-03" };
+            }
+            if (club.ParticipateRequests.Any())
+            {
+                return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-10" };
+            }
+            if (club.ClubClones.Any() || club.Participations.Any())
+            {
+                return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-09" };
             }
             Club result = await clubRepository.DeleteAsync(club);
             if (result != null)
