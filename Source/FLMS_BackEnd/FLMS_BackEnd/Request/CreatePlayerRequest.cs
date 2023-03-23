@@ -14,6 +14,7 @@ namespace FLMS_BackEnd.Request
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? SocialCont { get; set; }
+        public string? Avatar { get; set; }
         public int ClubId { get; set; }
         public int Number { get; set; }
 

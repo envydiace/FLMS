@@ -11,10 +11,14 @@ namespace FLMS_BackEnd.Services.Impl
     public class FeeServiceImpl: BaseService, FeeService
     {
         private readonly FeeRepository feeRepository;
+        private readonly LeagueRepository leagueRepository;
+        private readonly ClubRepository clubRepository;
 
-        public FeeServiceImpl(FeeRepository feeRepository)
+        public FeeServiceImpl(FeeRepository feeRepository, LeagueRepository leagueRepository, ClubRepository clubRepository)
         {
             this.feeRepository = feeRepository;
+            this.leagueRepository = leagueRepository;
+            this.clubRepository = clubRepository;
         }
 
         public async Task<FeeDetailResponse> GetLeagueFeeDetail(int LeagueFeeId)
@@ -61,7 +65,51 @@ namespace FLMS_BackEnd.Services.Impl
                 Success = false,
                 MessageCode = "ER-FE-01"
             };
-            
+        }
+
+        public async Task<LeagueFeeClubResponse> GetListLeagueFeeEachClub(int leagueId, int clubId)
+        {
+            var leaguefees = await feeRepository.FindByCondition(lf => lf.LeagueId == leagueId && lf.IsActual == false).ToListAsync();
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId).FirstOrDefaultAsync();
+            var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).FirstOrDefaultAsync();
+            var result = mapper.Map<List<LeagueFeeClubDTO>>(leaguefees.ToList());
+            if(league == null)
+            {
+                return new LeagueFeeClubResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (club == null)
+            {
+                return new LeagueFeeClubResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            if (result == null)
+            {
+                return new LeagueFeeClubResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-FE-02"
+                };
+            }
+            var total = Math.Round((((from e in result where e.FeeType.Equals("Prize") select e.Cost).Sum() +
+                (from e in result where e.FeeType.Equals("Fee") select e.Cost).Sum() -
+                (from e in result where e.FeeType.Equals("Sponsored") select e.Cost).Sum()) / league.NoParticipate)/100,0) *100 ;
+            return new LeagueFeeClubResponse
+            {
+                Success = true,
+                Plan = result,
+                Total = total,
+                NoParticipate = league.NoParticipate,
+                ClubName = club.ClubName,
+                Logo = club.Logo,
+                LeagueName = league.LeagueName
+            };
         }
 
         public async Task<FeeDetailResponse> UpdateFeeDetail(FeeDetailRequest request, int UserID)

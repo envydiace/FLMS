@@ -17,6 +17,7 @@ export interface LeagueDetail {
     noRound: number;
     logo: string;
     totalPrize: number;
+    isFinished: boolean;
 }
 
 export class LeagueDetail implements LeagueDetail {
@@ -37,7 +38,8 @@ export class LeagueDetail implements LeagueDetail {
         leagueType: string,
         noRound: number,
         logo: string,
-        totalPrize: number
+        totalPrize: number,
+        isFinished: boolean
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
@@ -56,6 +58,7 @@ export class LeagueDetail implements LeagueDetail {
         this.noRound = noRound;
         this.logo = logo;
         this.totalPrize = totalPrize;
+        this.isFinished = isFinished;
     }
 }
 

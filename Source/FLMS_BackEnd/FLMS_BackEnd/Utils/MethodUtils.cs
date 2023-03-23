@@ -32,6 +32,18 @@ namespace FLMS_BackEnd.Utils
             }
 
         }
+        public static Constants.MatchEventType? GetMatchEventTypeByName(string name)
+        {
+            try
+            {
+                return (Constants.MatchEventType)Enum.Parse(typeof(Constants.MatchEventType), name);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
 
         public static int CountNumberOfRound(string type, int NumberOfParticipate)
         {
@@ -200,6 +212,49 @@ namespace FLMS_BackEnd.Utils
             };
             result.Add(away);
             return result;
+        }
+
+        public static string? GetLeagueKoRound(int deep)
+        {
+            string result = "";
+            if (deep < 1) return null;
+            switch (deep)
+            {
+                case 1:
+                    result = "Final";
+                    break;
+                case 2:
+                    result = "Semi Final";
+                    break;
+                case 3:
+                    result = "Quater Final";
+                    break;
+                default:
+                    result = "1/" + (Math.Pow(2, deep - 1));
+                    break;
+            }
+            return result;
+        }
+
+        public static int CountLeagueDateRange(string type, int numberOfParticipation)
+        {
+            if (numberOfParticipation < 2) return 0;
+            switch (MethodUtils.GetLeagueTypeByName(type))
+            {
+                case Constants.LeagueType.KO:
+                    int height = 1;
+                    while (numberOfParticipation > Math.Pow(2, height))
+                    {
+                        height++;
+                    }
+                    return height * 2 - 1;
+                case Constants.LeagueType.LEAGUE:
+                    return (numberOfParticipation % 2 == 0 ? numberOfParticipation - 1 : numberOfParticipation) * 2 - 1;
+                case Constants.LeagueType.TABLE:
+                    return 0;
+                default:
+                    return 0;
+            }
         }
     }
 }

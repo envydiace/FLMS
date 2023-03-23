@@ -10,6 +10,7 @@ namespace FLMS_BackEnd.Models
         public int ClubId { get; set; }
         public bool Confirmed { get; set; }
         public string? Evidence { get; set; }
+        public DateTime JoinDate { get; set; }
 
         public virtual Club Club { get; set; } = null!;
         public virtual League League { get; set; } = null!;

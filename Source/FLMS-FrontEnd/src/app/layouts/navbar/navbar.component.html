@@ -36,13 +36,14 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item >
-                        <a  [routerLink]="['/manager/view-profile']">
-                            <mat-icon>account_circle</mat-icon>
-                            <span>View Profile</span>
-
-                        </a>
-                    </button>
+                    <a [routerLink]="['/manager/']" style="text-decoration: none; ">
+                        <button mat-menu-item>
+                            <span style="color: rgba(0, 0, 0, 0.87);">
+                                <mat-icon>account_circle</mat-icon>
+                                <span>Manager</span>
+                            </span>
+                        </button>
+                    </a>
                     <button mat-menu-item (click)="logout()">
                         <mat-icon>logout</mat-icon>
                         <span>Logout</span>

@@ -8,15 +8,14 @@
                 </div>
             </form> -->
 
-            <form class="example-form">
+            <form class="league-list-form">
                 <div class="input-group">
-                    <mat-form-field class="example-full-width">
-                        <!-- <mat-label>Search</mat-label> -->
-                        <input type="tel" matInput>
+                    <mat-form-field class="league-list-full-width">
+                        <mat-label>Search by League's name</mat-label>
+                        <input matInput type="text" [(ngModel)]="leagueName" [ngModelOptions]="{standalone: true}"
+                            (input)="findLeagueByName(leagueName)" placeholder="Enter league name">
                         <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
-                    <div style="line-height: 85px; margin-left: 25px;"><button mat-raised-button
-                            color="warn">Search</button></div>
                 </div>
             </form>
         </div>
@@ -48,27 +47,29 @@
     </div>
 </div>
 
-
-<div class="container">
-    <div class="row">
-        <div *ngFor="let leagues of leagueList" class="col-sm-3">
-            <div class="list-container">
-                <a (click)="navigateToLeagueDetail(leagues.leagueId)" style="cursor: pointer;">
-                    <mat-card class="league-list-card">
-                        <mat-card-subtitle>{{leagues.startDate}} - {{leagues.endDate}}</mat-card-subtitle>
-                        <mat-card-title>{{leagues.leagueName}}</mat-card-title>
-                        <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
-                        <img mat-card-avatar class="league-header-image"
-                            src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
-                            alt="Photo of a Shiba Inu">
-                        <mat-card-actions>
+<div *ngIf="leagueList">
+    <div class="container">
+        <div class="row">
+            <div *ngFor="let league of leagueList.leagues" class="col-sm-3">
+                <div class="list-container">
+                    <a (click)="navigateToLeagueDetail(league.leagueId)" style="cursor: pointer;">
+                        <mat-card class="league-list-card">
+                            <mat-card-subtitle>{{league.startDate}} - {{league.endDate}}</mat-card-subtitle>
+                            <mat-card-title>{{league.leagueName}}</mat-card-title>
+                            <mat-card-subtitle>{{league.location}}</mat-card-subtitle>
+                            <img mat-card-avatar class="league-header-image"
+                                src="./../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+                                alt="Photo of a Shiba Inu">
+                            <!-- <mat-card-actions>
                             <button mat-button>Join</button>
-                        </mat-card-actions>
-                    </mat-card>
-                </a>
+                        </mat-card-actions> -->
+                        </mat-card>
+                    </a>
+                </div>
             </div>
         </div>
+        <mat-paginator class="league-paginator" [length]="leagueList.total" [pageSize]="8"
+            (page)="pageEvent = $event; onPaginateChange($event)" [pageSizeOptions]=" [5, 8, 25, 100]" showFirstLastButtons>
+        </mat-paginator>
     </div>
-    <mat-paginator class="league-paginator" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
-    </mat-paginator>
 </div>

@@ -8,6 +8,7 @@ namespace FLMS_BackEnd.Models
         public int MatchStatId { get; set; }
         public int MatchId { get; set; }
         public bool IsHome { get; set; }
+        public int Score { get; set; }
         public int Shot { get; set; }
         public int ShotOnTarget { get; set; }
         public int Conner { get; set; }

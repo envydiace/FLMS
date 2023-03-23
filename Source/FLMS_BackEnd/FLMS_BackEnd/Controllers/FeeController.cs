@@ -32,7 +32,7 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpGet("[action]/{LeagueFeeId}")]
-        public async Task<ActionResult<LeagueFeeResponse>> GetFeeDetail(int LeagueFeeId)
+        public async Task<ActionResult<FeeDetailResponse>> GetFeeDetail(int LeagueFeeId)
         {
             var response = await feeService.GetLeagueFeeDetail(LeagueFeeId);
             if (response.Success)
@@ -49,6 +49,19 @@ namespace FLMS_BackEnd.Controllers
         public async Task<ActionResult<FeeDetailResponse>> UpdateFee(FeeDetailRequest request)
         {
             var response = await feeService.UpdateFeeDetail(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]/{leagueId}/{clubId}")]
+        public async Task<ActionResult<LeagueFeeClubResponse>> GetLeagueClubFees(int leagueId, int clubId)
+        {
+            var response = await feeService.GetListLeagueFeeEachClub(leagueId,clubId);
             if (response.Success)
             {
                 return Ok(response);

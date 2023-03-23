@@ -3,6 +3,7 @@ using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FLMS_BackEnd.Controllers
 {
@@ -16,7 +17,7 @@ namespace FLMS_BackEnd.Controllers
             this.matchService = matchService;
         }
         [HttpGet("[action]/{matchId}")]
-        public async Task<ActionResult<LeagueScheduleResponse>> GetMatchInfo(int matchId)
+        public async Task<ActionResult<MatchInfoResponse>> GetMatchInfo(int matchId)
         {
             var response = await matchService.GetMatchInfo(matchId);
             if (response.Success)
@@ -29,7 +30,7 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpGet("[action]")]
-        public async Task<ActionResult<LeagueScheduleResponse>> GetLeagueSchedule([FromQuery]LeagueScheduleRequest request)
+        public async Task<ActionResult<LeagueScheduleResponse>> GetLeagueSchedule([FromQuery] LeagueScheduleRequest request)
         {
             var response = await matchService.GetLeagueSchedule(request);
             if (response.Success)
@@ -45,6 +46,34 @@ namespace FLMS_BackEnd.Controllers
         public async Task<ActionResult<ClubScheduleResponse>> GetClubSchedule(int clubId)
         {
             var response = await matchService.GetClubSchedule(clubId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("[action]/{id}")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<FinishMatchResponse>> FinishMatch(int id)
+        {
+            var response = await matchService.FinishMatch(id, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<UpdateMatchInfoResponse>> UpdateMatch(UpdateMatchInfoRequest request)
+        {
+            var response = await matchService.UpdateMatchInfo(request, UserID);
             if (response.Success)
             {
                 return Ok(response);

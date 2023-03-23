@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -61,7 +62,7 @@ namespace FLMS_BackEnd.Controllers
         }
         [HttpGet("[action]")]
         [Authorize(Roles = "LEAGUE_MANAGER")]
-        public async Task<IActionResult> GetListLeagueByUser()
+        public async Task<ActionResult<List<LeagueByUserDTO>>> GetListLeagueByUser()
         {
             try
             {
@@ -71,6 +72,34 @@ namespace FLMS_BackEnd.Controllers
             catch (Exception)
             {
                 return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
+            }
+        }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueStatisticResponse>> GetLeagueStatistic(int id)
+        {
+
+            var response = await leagueService.GetLeagueStatistic(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpDelete("[action]/{id}")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<DeleteLeagueResponse>> DeleteLeague(int id)
+        {
+            var response = await leagueService.DeleteLeague(id, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
             }
         }
     }

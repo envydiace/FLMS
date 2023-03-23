@@ -7,30 +7,26 @@
         </div>
         <div class="col-sm-4" style="line-height: 80px; text-align: right; margin-left: -20px;">
             <button mat-raised-button color="primary">Save</button>
-          
+
         </div>
 
     </div>
 
-
-
-
-
     <div class="box-content">
         <mat-form-field class="example-full-width">
             <mat-label>Club Name</mat-label>
-            <input matInput  formControlName="clubName" placeholder="Club Name">
+            <input matInput formControlName="clubName" placeholder="Club Name">
         </mat-form-field>
 
         <table class="example-full-width" cellspacing="10">
             <tr>
                 <td><mat-form-field class="example-full-width">
                         <mat-label>Email</mat-label>
-                        <input matInput  formControlName="email">
+                        <input matInput formControlName="email">
                     </mat-form-field></td>
                 <td><mat-form-field class="example-full-width">
                         <mat-label>Phone Number</mat-label>
-                        <input matInput  formControlName="phoneNumber">
+                        <input matInput formControlName="phoneNumber">
                     </mat-form-field></td>
 
             </tr>
@@ -40,7 +36,7 @@
 
                 <td><mat-form-field class="example-full-width">
                         <mat-label>socialCont</mat-label>
-                        <input matInput  formControlName="socialCont">
+                        <input matInput formControlName="socialCont">
                     </mat-form-field></td>
 
             </tr>
@@ -48,31 +44,33 @@
 
         <table class="example-full-width" cellspacing="0">
             <tr>
-
-                <td><mat-form-field class="example-full-width">
+                <td>
+                    <!-- <mat-form-field class="example-full-width">
                         <mat-label>Logo</mat-label>
-                        <input matInput  formControlName="logo">
-                    </mat-form-field></td>
-
-                <td><mat-form-field class="example-full-width">
+                        <input matInput type="file" formControlName="logo" (change)="showPreview($event)">
+                    </mat-form-field> -->
+                    <input type="file" (change)="showPreview($event)">
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width">
                         <mat-label>Uniform</mat-label>
-                        <input matInput  formControlName="kit">
-                    </mat-form-field></td>
-
+                        <input matInput formControlName="kit">
+                    </mat-form-field>
+                </td>
             </tr>
         </table>
 
         <div class="form-actions" style="margin-bottom:0">
             <div class="row">
                 <div class="col-sm-9 col-sm-offset-3">
-                                                            
+
                 </div>
             </div>
         </div>
     </div>
-   
+
 </form>
 
-<div class="bottom-tab" >
-    <button mat-raised-button color="warn" >Back</button>
+<div class="bottom-tab">
+    <button mat-raised-button color="warn">Back</button>
 </div>

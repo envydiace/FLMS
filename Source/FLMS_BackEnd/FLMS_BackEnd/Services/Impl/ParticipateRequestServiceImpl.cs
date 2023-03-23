@@ -11,20 +11,24 @@ namespace FLMS_BackEnd.Services.Impl
     public class ParticipateRequestServiceImpl : BaseService, ParticipateRequestService
     {
         private readonly ParticipateRequestRepository participateRequestRepository;
+        private readonly ParticipationRepository participationRepository;
         private readonly LeagueRepository leagueRepository;
         private readonly ClubRepository clubRepository;
         private readonly UserRepository userRepository;
-        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository, ClubRepository clubRepository)
+        public ParticipateRequestServiceImpl(ParticipateRequestRepository participateRequestRepository, LeagueRepository leagueRepository, UserRepository userRepository, ClubRepository clubRepository, ParticipationRepository participationRepository)
         {
             this.participateRequestRepository = participateRequestRepository;
             this.leagueRepository = leagueRepository;
             this.userRepository = userRepository;
             this.clubRepository = clubRepository;
+            this.participationRepository = participationRepository;
         }
         public async Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type)
         {
             string leagueManagerFullName = "";
             string clubManagerFullName = "";
+            string clubName = "";
+            string leagueName = "";
             string email = "";
             string defaultFailMessageCode = "ER-RE-06";
             string defaultSuccessMessageCode = "MS-RE-03";
@@ -58,6 +62,8 @@ namespace FLMS_BackEnd.Services.Impl
                     defaultFailMessageCode = "ER-RE-04";
                     if (league != null && c != null)
                     {
+                        clubName = c.ClubName;
+                        leagueName = league.LeagueName;
                         leagueManagerFullName = league.User.FullName;
                         clubManagerFullName = c.User.FullName;
                         email = c.User.Email;
@@ -91,6 +97,8 @@ namespace FLMS_BackEnd.Services.Impl
                     defaultFailMessageCode = "ER-RE-05";
                     if (club != null && l != null)
                     {
+                        clubName = club.ClubName;
+                        leagueName = l.LeagueName;
                         leagueManagerFullName = l.User.FullName;
                         clubManagerFullName = club.User.FullName;
                         email = l.User.Email;
@@ -155,6 +163,8 @@ namespace FLMS_BackEnd.Services.Impl
                             Success = true,
                             mailData = new MailDTO
                             {
+                                LeagueName = leagueName,
+                                ClubName = clubName,
                                 LeagueManagerName = leagueManagerFullName,
                                 ClubManagerName = clubManagerFullName,
                                 Email = email,
@@ -168,6 +178,8 @@ namespace FLMS_BackEnd.Services.Impl
                             Success = true,
                             mailData = new MailDTO
                             {
+                                LeagueName = leagueName,
+                                ClubName = clubName,
                                 LeagueManagerName = leagueManagerFullName,
                                 ClubManagerName = clubManagerFullName,
                                 Email = email,
@@ -310,9 +322,18 @@ namespace FLMS_BackEnd.Services.Impl
                             MessageCode = "ER-RE-10"
                         };
                     }
+                    var participations = await participationRepository.FindByCondition(p => p.LeagueId == request.LeagueId).ToListAsync();
+                    if(request.League.NoParticipate == participations.Count)
+                    {
+                        return new ResponseRequestResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-RE-14"
+                        };
+                    }
                     request.RequestStatus = Constants.RequestStatus.Accepted.ToString();
                     messageCode = "MS-RE-04";
-                    request.League.Participations.Add(new Participation { ClubId = request.ClubId, Confirmed = false });
+                    request.League.Participations.Add(new Participation { ClubId = request.ClubId, Confirmed = false, JoinDate = DateTime.Now });
                     break;
                 case Constants.RequestResponse.Reject:
                     if ((request.RequestType.Equals(Constants.RequestType.Invite.ToString()) && role.Equals(roleLeagueManager)) ||

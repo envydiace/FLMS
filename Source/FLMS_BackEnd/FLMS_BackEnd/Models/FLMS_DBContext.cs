@@ -18,7 +18,6 @@ namespace FLMS_BackEnd.Models
 
         public virtual DbSet<Club> Clubs { get; set; } = null!;
         public virtual DbSet<ClubClone> ClubClones { get; set; } = null!;
-        public virtual DbSet<ClubLeague> ClubLeagues { get; set; } = null!;
         public virtual DbSet<League> Leagues { get; set; } = null!;
         public virtual DbSet<LeagueFee> LeagueFees { get; set; } = null!;
         public virtual DbSet<Match> Matches { get; set; } = null!;
@@ -63,7 +62,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.Clubs)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Club__UserId__3E52440B");
+                    .HasConstraintName("FK__Club__UserId__412EB0B6");
             });
 
             modelBuilder.Entity<ClubClone>(entity =>
@@ -74,6 +73,8 @@ namespace FLMS_BackEnd.Models
                     .HasMaxLength(10)
                     .IsFixedLength();
 
+                entity.Property(e => e.Rank).HasMaxLength(50);
+
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.ClubClones)
                     .HasForeignKey(d => d.ClubId)
@@ -82,20 +83,7 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.ClubClones)
                     .HasForeignKey(d => d.LeagueId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClubClone_League");
-            });
-
-            modelBuilder.Entity<ClubLeague>(entity =>
-            {
-                entity.ToTable("ClubLeague");
-
-                entity.Property(e => e.ClubName).HasMaxLength(1);
-
-                entity.HasOne(d => d.Club)
-                    .WithMany(p => p.ClubLeagues)
-                    .HasForeignKey(d => d.ClubId)
-                    .HasConstraintName("FK__ClubLeagu__ClubI__412EB0B6");
             });
 
             modelBuilder.Entity<League>(entity =>
@@ -135,10 +123,11 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.ExpenseName).HasMaxLength(50);
 
+                entity.Property(e => e.FeeType).HasMaxLength(50);
+
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.LeagueFees)
                     .HasForeignKey(d => d.LeagueId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__LeagueFee__Leagu__3E52440B");
             });
 
@@ -147,6 +136,10 @@ namespace FLMS_BackEnd.Models
                 entity.ToTable("Match");
 
                 entity.Property(e => e.MatchDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Round).HasMaxLength(100);
+
+                entity.Property(e => e.Stadium).HasMaxLength(100);
 
                 entity.HasOne(d => d.Away)
                     .WithMany(p => p.MatchAways)
@@ -182,7 +175,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Match)
                     .WithMany(p => p.MatchEvents)
                     .HasForeignKey(d => d.MatchId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MatchEvent_Match");
 
                 entity.HasOne(d => d.Sub)
@@ -198,7 +190,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Match)
                     .WithMany(p => p.MatchStats)
                     .HasForeignKey(d => d.MatchId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MatchStat__Match__47DBAE45");
             });
 
@@ -214,7 +205,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.ParticipateNodes)
                     .HasForeignKey(d => d.LeagueId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ParticipateNode_League");
             });
 
@@ -240,7 +230,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.League)
                     .WithMany(p => p.ParticipateRequests)
                     .HasForeignKey(d => d.LeagueId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Request__LeagueI__48CFD27E");
             });
 
@@ -249,6 +238,8 @@ namespace FLMS_BackEnd.Models
                 entity.ToTable("Participation");
 
                 entity.Property(e => e.Evidence).HasColumnName("evidence");
+
+                entity.Property(e => e.JoinDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.Participations)
@@ -293,7 +284,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.PlayerClubs)
                     .HasForeignKey(d => d.ClubId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PlayerClu__ClubI__440B1D61");
 
                 entity.HasOne(d => d.Player)
@@ -306,7 +296,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEA5CEDB901");
+                    .HasName("PK__RefreshT__658FEEEA7CEE0709");
 
                 entity.ToTable("RefreshToken");
 
@@ -322,7 +312,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.RefreshTokens)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__RefreshTo__UserI__5070F446");
+                    .HasConstraintName("FK__RefreshTo__UserI__5441852A");
             });
 
             modelBuilder.Entity<Squad>(entity =>
@@ -332,7 +322,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Match)
                     .WithMany(p => p.Squads)
                     .HasForeignKey(d => d.MatchId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Squad_Match");
             });
 
@@ -350,7 +339,6 @@ namespace FLMS_BackEnd.Models
                 entity.HasOne(d => d.Squad)
                     .WithMany(p => p.SquadPositions)
                     .HasForeignKey(d => d.SquadId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SquadPosition_Squad");
             });
 

@@ -1,19 +1,22 @@
 export interface Player {
-    name: string,
-    nickName: string,
-    dob: Date,
-    height: string,
-    weight: string,
-    address: string,
-    phoneNumber: string,
-    email: string,
-    socialCont: string,
-    clubId: number,
-    number: number
+    playerId: number;
+    name: string;
+    nickName: string;
+    dob: Date;
+    height: string;
+    weight: string;
+    address: string;
+    phoneNumber: string;
+    email: string;
+    socialCont: string;
+    clubId: number;
+    number: number;
+    avatar: string;
 }
 
 export class Player implements Player {
     constructor(
+        playerId: number,
         name: string,
         nickName: string,
         dob: Date,
@@ -24,8 +27,10 @@ export class Player implements Player {
         email: string,
         socialCont: string,
         clubId: number,
-        number: number
+        number: number,
+        avatar: string
     ) {
+        this.playerId = playerId;
         this.name = name;
         this.nickName = nickName;
         this.dob = dob;
@@ -37,5 +42,6 @@ export class Player implements Player {
         this.socialCont = socialCont;
         this.clubId = clubId;
         this.number = number;
+        this.avatar = avatar;
     }
 }
