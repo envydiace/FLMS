@@ -1,1 +1,26 @@
-<p>league-settings works!</p>
+<div class="league-setting-containner row">
+    <div class="col-xl-3">
+        <div class="card mb-4 mb-xl-0 league-card">
+            <mat-toolbar>
+                <span>List Clubs</span>
+            </mat-toolbar>
+            <div class="card-body ">
+                <div cdkDropList [cdkDropListData]="listClubByLeague" class="player-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <mat-card class="player-box" *ngFor="let item of listClubByLeague" cdkDrag>
+                        <mat-card-header>
+                            <div mat-card-avatar class="avatar-header-image"></div>
+                            <mat-card-title
+                                style="line-height: 37px; margin-bottom: 0;font-size: 15px;">{{item.clubName}}</mat-card-title>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-9 league-tree-container">
+        <div class="">
+
+        </div>
+    </div>
+</div>
