@@ -7,9 +7,10 @@ namespace FLMS_BackEnd.Response
     {
         [JsonIgnore()]
         public bool Success { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? MessageCode { get; set; } = null;
+
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Message { get { return MessageCode != null ? Constants.SystemMessage.GetValueOrDefault(MessageCode) : null; } }
     }
