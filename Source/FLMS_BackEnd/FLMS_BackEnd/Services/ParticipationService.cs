@@ -13,5 +13,6 @@ namespace FLMS_BackEnd.Services
         public Task<AddClubPositionResponse> AddClubPosition(int clubCloneId, int clubId, int userId);
         public Task<List<JoinedLeagueDTO>> GetListJoinedLeague(int userId);
         public Task<ParticipateTreeResponse> GetLeagueParticipateTree(int leagueId);
+        public Task<LeagueSettingResponse> SaveLeagueTree(SaveLeagueTreeRequest request, int userId);
     }
 }

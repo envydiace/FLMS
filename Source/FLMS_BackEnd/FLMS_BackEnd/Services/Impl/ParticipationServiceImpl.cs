@@ -307,5 +307,94 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return new ParticipateTreeResponse();
         }
+
+        public async Task<LeagueSettingResponse> SaveLeagueTree(SaveLeagueTreeRequest request, int userId)
+        {
+            //TODO: authorize
+            var league = await leagueRepository.FindByCondition(n => n.LeagueId == request.LeagueId)
+                    .Include(l => l.ParticipateNodes).ThenInclude(p => p.ClubClone)
+                    .FirstOrDefaultAsync();
+            //TODO: validate
+            if (league == null)
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != userId)
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (league.ParticipateNodes.Any(n => (n.ClubCloneId != null && n.ClubCloneId != 0) &&
+                            (n.LeftId != null && n.LeftId != 0)))
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-10"
+                };
+            }
+            foreach (var node in league.ParticipateNodes.ToList())
+            {
+                if (node.LeftId == 0)
+                {
+                    if (node.ClubClone == null)
+                    {
+                        return new LeagueSettingResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-PA-06"
+                        };
+                    }
+                    node.ClubClone.ClubId = null;
+                }
+            };
+
+            foreach (var node in request.ListNode)
+            {
+                var pNode = league.ParticipateNodes.FirstOrDefault(n => n.ParticipateId == node.NodeId);
+
+                if (pNode == null || pNode.ClubClone == null)
+                {
+                    return new LeagueSettingResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-PA-06"
+                    };
+                }
+                if (pNode.LeftId!=0)
+                {
+                    return new LeagueSettingResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-PA-11"
+                    };
+                }
+                pNode.ClubClone.ClubId = node.ClubId;
+            };
+            var result = await leagueRepository.UpdateAsync(league);
+            if (result != null)
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-PA-03"
+                };
+            }
+            else
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-08"
+                };
+            }
+        }
     }
 }

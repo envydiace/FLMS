@@ -129,6 +129,20 @@ namespace FLMS_BackEnd.Controllers
             var response = await participationService.GetLeagueParticipateTree(id);
             return response;
         }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<LeagueSettingResponse>> ManageLeagueSettingKO(SaveLeagueTreeRequest request)
+        {
+            var response = await participationService.SaveLeagueTree(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
 
