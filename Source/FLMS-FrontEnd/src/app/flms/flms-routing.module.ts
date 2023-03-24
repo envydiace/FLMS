@@ -89,12 +89,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { expectedRole: 'CLUB_MANAGER' }
   },
-  // {  
-  //   path : 'player-info',
-  //   component: PlayerInfoComponent,
-  //   canActivate: [AuthGuard, RoleGuard],
-  //   data: { expectedRole: 'CLUB_MANAGER' }
-  // },
+  {  
+    path : 'player-detail',
+    component: PlayerInfoComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
+  },
 ];
 
 

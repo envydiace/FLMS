@@ -119,18 +119,24 @@ export class ClubService {
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetIncomingMatches`, { headers: this.headers }).pipe(
       map((res: ClubIncomingMatches[]) => res),
       catchError(err => throwError(err))
-      );
+    );
   }
 
-  
-  getPlayerInfo(playerId: number): Observable<ClubPlayerInfoResponse>{
+
+  getPlayerInfo(playerId: number): Observable<ClubPlayerInfoResponse> {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Player/GetPlayer/${playerId}`)
-    .pipe(map((res: ClubPlayerInfoResponse) => res),
-      catchError(err => throwError(err)))
+      .pipe(map((res: ClubPlayerInfoResponse) => res),
+        catchError(err => throwError(err)))
   }
 
   editPlayer(player: ClubListPlayer) {
     return this.http.put(`${environment.apiUrl}/api/Player/UpdatePlayer`, player, { headers: this.headers });
   }
+  removeEvent(playerId: number): Observable<any> {
+
+    return this.http.delete(`${environment.apiUrl}/api/Player/DeletePlayer/${playerId}`, { headers: this.headers });
+
+  }
+
 }

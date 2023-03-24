@@ -41,7 +41,7 @@ export class PlayerInfoComponent implements OnInit {
     this.form = this.formBuilder.group({
       playerId: this.playerId,
       name: ['', Validators.required],
-      nickName: ['', ],
+      nickName: ['',],
       number: ['', Validators.required],
       dob: ['', Validators.required],
       height: ['', Validators.required],
@@ -49,7 +49,7 @@ export class PlayerInfoComponent implements OnInit {
       phoneNumber: ['', Validators.required],
       address: ['', Validators.required],
       email: ['', Validators.required],
-      socialCont: ['', ],
+      socialCont: ['',],
 
     })
 
@@ -58,13 +58,18 @@ export class PlayerInfoComponent implements OnInit {
   get f() { return this.form.controls; }
 
   initDataSource() {
+    this.getPlayerInfo();
+  }
+
+
+  getPlayerInfo() {
     this.clubService.getPlayerInfo(this.playerId).pipe(
       map((res: ClubPlayerInfoResponse) =>
-      //  {
-        this.playerInfo = res.playerInfo,
-      //   this.playerClub = res.playerInfo.playerClubs
-      // }
-       )
+        //  {
+        this.playerInfo = res.playerInfo
+        //   this.playerClub = res.playerInfo.playerClubs
+        // }
+      )
     ).subscribe(response => {
       if (response != null) this.bindValueIntoForm(response);
     }
@@ -76,46 +81,30 @@ export class PlayerInfoComponent implements OnInit {
 
     this.form.controls['name'].patchValue(res.name);
     this.form.controls['nickName'].patchValue(res.nickName);
-
-    this.form.controls['number'].patchValue(this.playerClub);
+    this.form.controls['number'].patchValue(this.playerInfo.playerClubs);
     this.form.controls['dob'].patchValue(res.dob);
     this.form.controls['height'].patchValue(res.height);
     this.form.controls['weight'].patchValue(res.weight);
-
     this.form.controls['phoneNumber'].patchValue(res.phoneNumber);
     this.form.controls['address'].patchValue(res.address);
     this.form.controls['email'].patchValue(res.email);
     this.form.controls['socialCont'].patchValue(res.socialCont);
 
-    this.form.controls['nickName'].disable(); 
+
+    this.form.controls['name'].disable();
+    this.form.controls['nickName'].disable();
+    this.form.controls['number'].disable();
+    this.form.controls['dob'].disable();
+    this.form.controls['height'].disable();
+    this.form.controls['weight'].disable();
+    this.form.controls['phoneNumber'].disable();
+    this.form.controls['address'].disable();
+    this.form.controls['email'].disable();
     this.form.controls['socialCont'].disable();
+
   }
 
-  // public onSubmit() {
-  //   this.submitted = true;
 
-  //   // stop here if form is invalid
-  //   if (this.form.invalid) {
-  //     return;
-  //   }
-
-  //   this.loading = true;
-  //   this.clubService.editPlayer(this.form.value)
-  //     .pipe(first())
-  //     .subscribe({
-  //       next: () => {
-  //         this.initDataSource();
-  //         this.commonService.sendMessage('Update player s info success!', 'success');
-
-  //       },
-  //       error: error => {
-  //         this.loading = false;
-  //         this.commonService.sendMessage('Update fail!.', 'fail');
-
-  //       }
-  //     });
-
-  // }
 
 
 }
