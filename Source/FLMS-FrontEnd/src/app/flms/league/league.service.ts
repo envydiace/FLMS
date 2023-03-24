@@ -146,6 +146,11 @@ export class LeagueService {
       .pipe(
         map((res: LeagueDetail[]) => res),
         catchError(err => throwError(err))
-      )
+      );
   }
+
+  deleteLeague(leagueId: number): Observable<any> {
+    return this.http.delete<any>(`${environment.apiUrl}/api/League/DeleteLeague/${leagueId}`, { headers: this.headers });
+  }
+
 }
