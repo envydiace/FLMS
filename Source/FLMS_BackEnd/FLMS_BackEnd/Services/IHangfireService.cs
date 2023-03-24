@@ -3,7 +3,7 @@
     public interface IHangfireService
     {
         void AddFireAndForgetJob();
-        void AddReccuringJob();
+        Task AnnouceMatchIncoming(string Type);
         void AddDelayedJob();
         void AddContinuationJob();
         void Test();

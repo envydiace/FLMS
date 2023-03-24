@@ -62,6 +62,13 @@ namespace FLMS_BackEnd.Utils
             public const string Reject = "RejectRequest";
             public const string Cancel = "CancelRequest";
             public const string RemoveClub = "RemoveClub";
+            public const string AnnounceMatch = "AnnounceMatch";
+            public const string AnnounceSquad = "AnnounceSquad";
+        }
+        public static class MailSubject
+        {
+            public const string AnnounceMatch = "Reminder - Upcoming Match in 2 Days";
+            public const string AnnounceSquad = "Reminder to review squad before tomorrow's match";
         }
 
         public const string HOME = "Home";

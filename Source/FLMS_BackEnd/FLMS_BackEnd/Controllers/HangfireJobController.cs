@@ -1,4 +1,5 @@
 ﻿using FLMS_BackEnd.Services;
+using FLMS_BackEnd.Utils;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,8 +37,8 @@ namespace FLMS_BackEnd.Controllers
         [HttpGet("[action]")]
         public ActionResult AddRecurringJob()
         {
-            _recurringJobManager.AddOrUpdate("Test", () => _hangfireService.Test(), "* * * * *");
-            _recurringJobManager.AddOrUpdate("TestJobId", () => _hangfireService.AddReccuringJob(), "* * * * *");
+            _recurringJobManager.AddOrUpdate("AnnounceMatch", () => _hangfireService.AnnouceMatchIncoming(Constants.MailType.AnnounceMatch), "48 0 * * *" , TimeZoneInfo.Local);
+            _recurringJobManager.AddOrUpdate("AnnounceSquad", () => _hangfireService.AnnouceMatchIncoming(Constants.MailType.AnnounceSquad), "48 0 * * *" , TimeZoneInfo.Local);
             return Ok();
         }
     }
