@@ -17,6 +17,8 @@
 
         <div *ngFor="let player of listPlayer" class="col-sm-6">
             <div class="player-container">
+                <a  (click)="navigateToPlayerInfo(player.playerId)" style="cursor: pointer;">
+
                 <mat-card class="player-list-card">
                     <mat-card-header>
                         <div mat-card-avatar class="profile-image"></div>
@@ -35,6 +37,7 @@
                         <button mat-button>Delete</button> -->
                     </mat-card-actions>
                 </mat-card>
+                </a>
             </div>
         </div>
 

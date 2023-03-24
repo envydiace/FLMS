@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { ClubDetail } from 'src/app/models/club-detail.model';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { PopUpDeleteClubComponent } from '../pop-up-delete-club/pop-up-delete-club.component';
 
 @Component({
   selector: 'app-club-detail',
@@ -35,7 +36,6 @@ export class ClubDetailComponent implements OnInit {
     if (!this.tabLoadTimes[index]) {
       this.tabLoadTimes[index] = new Date();
     }
-
     return this.tabLoadTimes[index];
   }
 
@@ -44,6 +44,16 @@ export class ClubDetailComponent implements OnInit {
       map((res: ClubDetailResponse) => this.clubdetail = res.clubInfo)
     ).subscribe();
 
+  }
+
+  openDeleteClubPopup(clubId: number): void {
+    const dialogRef = this.dialog.open(PopUpDeleteClubComponent, {
+      width: '50%',
+      data: { clubId: clubId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }

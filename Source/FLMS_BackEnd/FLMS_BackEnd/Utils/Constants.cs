@@ -160,6 +160,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-PA-08","Add participation to position fail" },
             {"ER-PA-09","This participation not available" },
             {"ER-PA-10","This league has been started" },
+            {"ER-PA-11","Can not add participation to this position" },
             {"MS-PA-01","Confirm success" },
             {"MS-PA-02","Remove club success" },
             {"MS-PA-03","Add participation to position success" },
