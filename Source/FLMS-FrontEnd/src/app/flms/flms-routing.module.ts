@@ -10,6 +10,10 @@ import { CreateLeagueComponent } from './league/create-league/create-league.comp
 import { ClubListComponent } from './club/club-list/club-list.component';
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
+import { JoinedLeagueComponent } from './club/joined-league/joined-league.component';
+import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
 
 const routes: Routes = [
   {
@@ -29,7 +33,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRole: 'LEAGUE_MANAGER' }
   },
-    {
+  {
     path: 'my-league',
     component: LeagueListComponent,
     canActivate: [AuthGuard, RoleGuard],
@@ -38,8 +42,7 @@ const routes: Routes = [
   {
     path: 'my-league-info',
     component: LeagueDetailComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: { expectedRole: 'LEAGUE_MANAGER' }
+    canActivate: [AuthGuard]
   },
   {
     path: 'request-list',
@@ -59,7 +62,31 @@ const routes: Routes = [
   {
     path: 'my-clubs',
     component: ClubListComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
+  },
+  {
+    path: 'match-detail',
+    component: MatchDetailComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'joined-league',
+    component: JoinedLeagueComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
+  },
+  {
+    path: 'edit-line-up',
+    component: EditLineUpComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
+  },
+  {
+    path: 'incoming-matches',
+    component: ClubIncomingMatchComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'CLUB_MANAGER' }
   }
 ];
 

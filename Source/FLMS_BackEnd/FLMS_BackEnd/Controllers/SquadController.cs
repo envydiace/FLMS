@@ -100,5 +100,37 @@ namespace FLMS_BackEnd.Controllers
             var response = await squadService.GetMatchPlayers(matchId);
             return Ok(response);
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<PlayerSquadPositionDTO>>> GetPlayerForEvent([FromQuery]PlayerForEventRequest request)
+        {
+            var response = await squadService.GetPlayerForEvent(request);
+            return Ok(response);
+        }
+        [HttpPut("[action]")]
+        public async Task<ActionResult<UpdateSquadResponse>> UpdateSquad(UpdateSquadRequest request)
+        {
+            var response = await squadService.UpdateSquad(request, 0);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<ManagerSquadResponse>> GetSquadByManager(int squadId)
+        {
+            var response = await squadService.GetSquadByManager(squadId, 0);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./league-history.component.scss']
 })
 export class LeagueHistoryComponent implements OnInit {
+  displayedColumns: string[] = ['joinedDate','leagueName', 'won','draw', 'loss', 'goal','rank'];
 
   constructor() { }
 

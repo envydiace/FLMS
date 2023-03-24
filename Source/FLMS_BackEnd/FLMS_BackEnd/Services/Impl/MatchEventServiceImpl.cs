@@ -112,27 +112,27 @@ namespace FLMS_BackEnd.Services.Impl
                             sp.PlayerId == request.MainId)
                         .Include(sp => sp.Squad)
                         .FirstOrDefaultAsync();
-            if (squadPosition == null)
-            {
-                return new AddMatchEventResponse
-                {
-                    Success = false,
-                    MessageCode = "ER-EV-03"
-                };
-            }
+            //if (squadPosition == null)
+            //{
+            //    return new AddMatchEventResponse
+            //    {
+            //        Success = false,
+            //        MessageCode = "ER-EV-03"
+            //    };
+            //}
             var squadPositionSub = await squadPositionRepository.FindByCondition(sp =>
                             sp.Squad.MatchId == request.MatchId &&
                             sp.PlayerId == request.SubId)
                         .Include(sp => sp.Squad)
                         .FirstOrDefaultAsync();
-            if (request.SubId != null && squadPositionSub == null)
-            {
-                return new AddMatchEventResponse
-                {
-                    Success = false,
-                    MessageCode = "ER-EV-05"
-                };
-            }
+            //if (request.SubId != null && squadPositionSub == null)
+            //{
+            //    return new AddMatchEventResponse
+            //    {
+            //        Success = false,
+            //        MessageCode = "ER-EV-05"
+            //    };
+            //}
 
             MatchEvent matchEvent = new MatchEvent
             {
@@ -199,6 +199,15 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-07"
                 };
             }
+        }
+
+        public async Task<AddMatchEventResponse> AddMultipleEvent(List<AddMatchEventRequest> requests, int userId)
+        {
+            foreach(var request in requests)
+            {
+                await this.AddEvent(request, userId);
+            }
+            return new AddMatchEventResponse { Success = true, MessageCode = "MS-EV-01" };
         }
     }
 }

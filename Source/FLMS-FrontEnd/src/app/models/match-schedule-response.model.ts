@@ -3,14 +3,21 @@ import { ClubMatchSchedule } from "./match-schedule.model";
 
 
 export interface MatchScheduleResponse {
+
+    messageCode: string,
+    message: string,
     listMatch: MatchSchedule[];
 
 }
 
 export class MatchScheduleResponse implements MatchScheduleResponse {
     constructor(
+        messageCode: string,
+        message: string,
         listMatch: MatchSchedule[]
     ) {
+        this.messageCode = messageCode;
+        this.message = message;
         this.listMatch = listMatch;
     }
 }
@@ -22,14 +29,14 @@ export interface ClubMatchScheduleResponse {
     listMatch: ClubMatchSchedule[]
 }
 
-export class ClubMatchScheduleResponse implements ClubMatchScheduleResponse{
+export class ClubMatchScheduleResponse implements ClubMatchScheduleResponse {
     constructor(
         messageCode: string,
         message: string,
         listMatch: ClubMatchSchedule[]
-    ){
-       this.messageCode = messageCode,
-       this.message = message,
-       this.listMatch = listMatch;
+    ) {
+        this.messageCode = messageCode,
+            this.message = message,
+            this.listMatch = listMatch;
     }
 }

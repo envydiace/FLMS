@@ -45,10 +45,22 @@ import { LeagueStatisticComponent } from './league/league-detail/league-statisti
 import { LeagueFeeComponent } from './league/league-detail/league-fee/league-fee.component'
 import { LeagueSettingsComponent } from './league/league-detail/league-settings/league-settings.component'
 import { ConfirmFeeComponent } from './league/league-detail/confirm-fee/confirm-fee.component'
+import { MatchEventComponent } from './match/match-detail/match-event/match-event.component';
+import { MatchStatisticComponent } from './match/match-detail/match-statistic/match-statistic.component';
+import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 import { MatSelectModule } from '@angular/material/select';
-
-
-import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component'
+import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/pop-up-edit-match-stats.component'
+import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component';
+import { JoinedLeagueComponent } from './club/joined-league/joined-league.component';
+import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
+import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
+import { PopUpEditMatchInfoComponent } from './match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component';
+import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
+import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
+import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
+import { LeagueHistoryComponent } from './club/club-detail/league-history/league-history.component';
 
 @NgModule({
   declarations: [
@@ -72,8 +84,20 @@ import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-lea
     ClubPlayerComponent,
     PopUpAddPlayerComponent,
     PopUpLeagueFeeDetailComponent,
-
+    PopUpEditMatchStatsComponent,
+    PopUpAddEventComponent,
     PopUpUpdatePrizeComponent,
+    MatchEventComponent,
+    MatchDetailComponent,
+    MatchStatisticComponent,
+    JoinedLeagueComponent,
+    ViewSquadComponent,
+    EditLineUpComponent,
+    PopUpEditMatchInfoComponent,
+    LeagueHistoryComponent,
+    ConfirmIsFinishComponent,
+    ClubIncomingMatchComponent,
+    PopUpRemoveEvemtComponent
   ],
   imports: [
     CommonModule,
@@ -105,7 +129,8 @@ import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-lea
     MatNativeDateModule,
     MatTabsModule,
     MatListModule,
-    CdkTableModule
+    CdkTableModule,
+    DragDropModule
   ]
 })
 export class FlmsModule { }

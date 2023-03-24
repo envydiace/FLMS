@@ -32,28 +32,5 @@ namespace FLMS_BackEnd.Controllers
                 }
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> SendEmailUsingTemplate(MailDTO welcomeMail)
-        {
-            // Create MailData object
-            MailRequest request = new MailRequest(
-                new List<string> { 
-                    welcomeMail.Email 
-                },
-            "Welcome to the MailKit Demo",
-                mailService.GetEmailTemplate("Index", welcomeMail));
-
-
-            bool sendResult = await mailService.SendEmailAsync(request, new CancellationToken());
-
-            if (sendResult)
-            {
-                return StatusCode(StatusCodes.Status200OK, "Mail has successfully been sent using template.");
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occured. The Mail could not be sent.");
-            }
-        }
     }
 }

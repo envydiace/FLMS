@@ -27,6 +27,8 @@ namespace FLMS_BackEnd.Services.Impl
         {
             string leagueManagerFullName = "";
             string clubManagerFullName = "";
+            string clubName = "";
+            string leagueName = "";
             string email = "";
             string defaultFailMessageCode = "ER-RE-06";
             string defaultSuccessMessageCode = "MS-RE-03";
@@ -60,6 +62,8 @@ namespace FLMS_BackEnd.Services.Impl
                     defaultFailMessageCode = "ER-RE-04";
                     if (league != null && c != null)
                     {
+                        clubName = c.ClubName;
+                        leagueName = league.LeagueName;
                         leagueManagerFullName = league.User.FullName;
                         clubManagerFullName = c.User.FullName;
                         email = c.User.Email;
@@ -93,6 +97,8 @@ namespace FLMS_BackEnd.Services.Impl
                     defaultFailMessageCode = "ER-RE-05";
                     if (club != null && l != null)
                     {
+                        clubName = club.ClubName;
+                        leagueName = l.LeagueName;
                         leagueManagerFullName = l.User.FullName;
                         clubManagerFullName = club.User.FullName;
                         email = l.User.Email;
@@ -157,6 +163,8 @@ namespace FLMS_BackEnd.Services.Impl
                             Success = true,
                             mailData = new MailDTO
                             {
+                                LeagueName = leagueName,
+                                ClubName = clubName,
                                 LeagueManagerName = leagueManagerFullName,
                                 ClubManagerName = clubManagerFullName,
                                 Email = email,
@@ -170,6 +178,8 @@ namespace FLMS_BackEnd.Services.Impl
                             Success = true,
                             mailData = new MailDTO
                             {
+                                LeagueName = leagueName,
+                                ClubName = clubName,
                                 LeagueManagerName = leagueManagerFullName,
                                 ClubManagerName = clubManagerFullName,
                                 Email = email,

@@ -13,10 +13,14 @@ namespace FLMS_BackEnd.Services.Impl
     {
 
         private readonly ClubRepository clubRepository;
+        private readonly SquadRepository squadRepository;
+        private readonly MatchRepository matchRepository;
 
-        public ClubServiceImpl(ClubRepository clubRepository)
+        public ClubServiceImpl(ClubRepository clubRepository, SquadRepository squadRepository, MatchRepository matchRepository)
         {
             this.clubRepository = clubRepository;
+            this.squadRepository = squadRepository;
+            this.matchRepository = matchRepository;
         }
         public async Task<ClubResponse> GetClubById(int id)
         {
@@ -97,7 +101,11 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<DeleteClubResponse> DeleteClub(int id, int userId)
         {
             //TODO: check number of player in club
-            var club = await clubRepository.FindByCondition(club => club.ClubId == id).FirstOrDefaultAsync();
+            var club = await clubRepository.FindByCondition(club => club.ClubId == id)
+                        .Include(c=>c.ClubClones)
+                        .Include(c=>c.ParticipateRequests)
+                        .Include(c=>c.Participations)
+                        .FirstOrDefaultAsync();
             if (club == null)
             {
                 return new DeleteClubResponse
@@ -109,6 +117,14 @@ namespace FLMS_BackEnd.Services.Impl
             if (club.UserId != userId)
             {
                 return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-03" };
+            }
+            if (club.ParticipateRequests.Any())
+            {
+                return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-10" };
+            }
+            if (club.ClubClones.Any() || club.Participations.Any())
+            {
+                return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-09" };
             }
             Club result = await clubRepository.DeleteAsync(club);
             if (result != null)
@@ -139,6 +155,54 @@ namespace FLMS_BackEnd.Services.Impl
                 return new List<ClubHistoryDTO>();
             }
             var result = mapper.Map<List<ClubHistoryDTO>>(club.ClubClones.ToList());
+            return result;
+        }
+
+        public async Task<List<IncomingMatchDTO>> GetIncomingMatch(int userId)
+        {
+            var result = new List<IncomingMatchDTO>();
+            var clubIds = await clubRepository.FindByCondition(c => c.UserId == userId).Select(c => c.ClubId).ToListAsync();
+            if (clubIds == null || !clubIds.Any())
+            {
+                return result;
+            }
+            var squads = await squadRepository.FindByCondition(s =>
+                            s.Match.Home.ClubClone != null &&
+                            s.Match.Away.ClubClone != null &&
+                            s.Match.Home.ClubClone.ClubId != null &&
+                            s.Match.Away.ClubClone.ClubId != null &&
+                            (
+                                (
+                                    s.IsHome &&
+                                    clubIds.Contains(s.Match.Home.ClubClone.ClubId.Value)
+                                ) ||
+                                (
+                                    !s.IsHome &&
+                                    clubIds.Contains(s.Match.Away.ClubClone.ClubId.Value)
+                                )
+                            ) &&
+                            !s.Match.IsFinish
+                            )
+                            .Include(s => s.Match).ThenInclude(m => m.Home).ThenInclude(h => h.ClubClone).ThenInclude(cl => cl.Club)
+                            .Include(s => s.Match).ThenInclude(m => m.Away).ThenInclude(h => h.ClubClone).ThenInclude(cl => cl.Club)
+                            .Include(s => s.Match).ThenInclude(m => m.League)
+                            .OrderBy(s => s.Match.MatchDate)
+                    .ToListAsync();
+            squads.ForEach(s =>
+            {
+                result.Add(new IncomingMatchDTO
+                {
+                    SquadId = s.SquadId,
+                    ClubName = s.IsHome ? s.Match.Home.ClubClone.Club.ClubName : s.Match.Away.ClubClone.Club.ClubName,
+                    Against = s.IsHome ? s.Match.Away.ClubClone.Club.ClubName : s.Match.Home.ClubClone.Club.ClubName,
+                    Ha = s.IsHome ? Constants.HOME : Constants.AWAY,
+                    LeagueName = s.Match.League.LeagueName,
+                    Round = s.Match.Round,
+                    Stadium = s.Match.Stadium,
+                    MatchDate = s.Match.MatchDate.ToString(Constants.DATE_FORMAT),
+                    MatchTime = s.Match.MatchDate.ToString(Constants.TIME_FORMAT)
+                });
+            });
             return result;
         }
     }

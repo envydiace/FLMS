@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { token } from '../../models/token.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { LeagueList } from './../../models/league-list.model';
 import { environment } from '../../../environments/environment';
-import { LeagueListbyUser } from '../../models/league-detail.model';
+import { LeagueListbyUser, LeagueDetail } from '../../models/league-detail.model';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
@@ -13,7 +12,8 @@ import { MatchEvent } from 'src/app/models/match-event-detail.model';
 import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
 import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
-
+import { MailDataResponse } from './../../models/mail-data-response.model';
+import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
 
 
 @Injectable({
@@ -106,20 +106,46 @@ export class LeagueService {
     )
   }
 
-  confirmRegistFee(fee:LeagueClubFee ){
+  confirmRegistFee(fee: LeagueClubFee) {
     return this.http.put(`${environment.apiUrl}/api/Participation/ConfirmRegistFee`, fee, { headers: this.headers })
 
   }
 
   getFeeDetail(leagueFeeId: number): Observable<FeeDetailResponse> {
-    
-    return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetFeeDetail/${leagueFeeId}` ).pipe(
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetFeeDetail/${leagueFeeId}`).pipe(
       map((res: FeeDetailResponse) => res),
       catchError(err => throwError(err))
     )
   }
-  editLeagueFee(feeInfo: FeeDetail){
+  editLeagueFee(feeInfo: FeeDetail) {
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
 
+  }
+
+  removeJoinedClub(leagueId: number, clubId: number): Observable<any> {
+    let params = new HttpParams();
+
+    params = params.append("leagueId", String(leagueId));
+    params = params.append("clubId", String(clubId));
+    return this.http.delete(`${environment.apiUrl}/api/Participation/RemoveJoinedClub`, { params, headers: this.headers });
+
+  }
+
+  finishMatchConfirm(matchId: number) {
+    return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers });
+  }
+
+  getLeagueStatistics(leagueId: number): Observable<LeagueStatisticResponse> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetLeagueStatistic/${leagueId}`).pipe(map((res: LeagueStatisticResponse) => res),
+      catchError(err => throwError(err)));
+  }
+
+  getJoinedLeagueByUser(): Observable<LeagueDetail[]> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Participation/GetListJoinedLeague`, { headers: this.headers })
+      .pipe(
+        map((res: LeagueDetail[]) => res),
+        catchError(err => throwError(err))
+      )
   }
 }

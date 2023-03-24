@@ -1,6 +1,10 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Listeners;
+using FLMS_BackEnd.Listeners.Events;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
+using FLMS_BackEnd.Utils;
 using MailKit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,12 +18,20 @@ namespace FLMS_BackEnd.Controllers
     public class ParticipationController : BaseApiController
     {
         private readonly ParticipationService participationService;
-        private readonly IMailService mailService;
-
-        public ParticipationController(ParticipationService participationService, IMailService mailService)
+        private readonly SendMailEventHandler sendMailEventHandler;
+        public ParticipationController(ParticipationService participationService, IMailService mailService, SendMailEventHandler sendMailEventHandler)
         {
             this.participationService = participationService;
-            this.mailService = mailService;
+            this.sendMailEventHandler = sendMailEventHandler;
+
+            sendMailEventHandler.SendMailEventArgs += async (sender, args) =>
+            {
+                bool sendResult = await mailService.SendEmailAsync(args.MailRequest, new CancellationToken());
+                if (!sendResult)
+                {
+                    Console.WriteLine("Failed to send email: {EmailRequest}", args.MailRequest);
+                }
+            };
         }
 
         [HttpPut("[action]")]
@@ -66,26 +78,51 @@ namespace FLMS_BackEnd.Controllers
             var response = await participationService.RemoveJoinedTeam(request, UserID);
             if (response.Success)
             {
-                MailRequest mailRequest = new MailRequest(
-                    new List<string> {
+                MailRequest mailRequest = new MailRequest
+                {
+                    To = new List<string> {
                        response.mailData.Email
                     },
-                    response.MailMessage,
-                    mailService.GetEmailTemplate("RemoveClub", response.mailData));
-                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
-                if (sendResult)
-                {
-                    return Ok(response);
-                }
-                else
-                {
-                    return BadRequest("Mail sent failed");
-                }
+                    Subject = response.MailMessage,
+                    MailType = Constants.MailType.RemoveClub,
+                    MailData = response.mailData
+                };
+                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                return Ok(response);
             }
             else
             {
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]/{id}")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<List<ClubBasicInfoDTO>>> GetUnpositionClub(int id)
+        {
+            var result = await participationService.ListUnpositionClub(id, UserID);
+            return Ok(result);
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<AddClubPositionResponse>> AddParticipationToPosition(int clubId, int clubCloneId)
+        {
+            var response = await participationService.AddClubPosition(clubCloneId, clubId, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<List<JoinedLeagueDTO>>> GetListJoinedLeague()
+        {
+            var response = await participationService.GetListJoinedLeague(UserID);
+            return response;
+        }
     }
 }
+

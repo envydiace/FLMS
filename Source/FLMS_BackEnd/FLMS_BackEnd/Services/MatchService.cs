@@ -8,5 +8,6 @@ namespace FLMS_BackEnd.Services
         Task<ClubScheduleResponse> GetClubSchedule(int ClubId);
         Task<MatchInfoResponse> GetMatchInfo(int matchId);
         Task<FinishMatchResponse> FinishMatch(int matchId, int userId);
+        Task<UpdateMatchInfoResponse> UpdateMatchInfo(UpdateMatchInfoRequest request,int UserId);
     }
 }

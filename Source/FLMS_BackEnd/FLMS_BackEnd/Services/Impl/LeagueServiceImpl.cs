@@ -12,10 +12,12 @@ namespace FLMS_BackEnd.Services.Impl
     public class LeagueServiceImpl : BaseService, LeagueService
     {
         private readonly LeagueRepository leagueRepository;
+        private readonly MatchRepository matchRepository;
 
-        public LeagueServiceImpl(LeagueRepository leagueRepository)
+        public LeagueServiceImpl(LeagueRepository leagueRepository, MatchRepository matchRepository)
         {
             this.leagueRepository = leagueRepository;
+            this.matchRepository = matchRepository;
         }
 
         public async Task<CreateLeagueResponse> CreateLeague(CreateLeagueRequest request, int userId)
@@ -29,7 +31,9 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             int numberOfRound = MethodUtils.CountNumberOfRound(request.LeagueType, request.NoParticipate);
-            if (request.EndDate.CompareTo(request.StartDate) <= 0)
+            if (request.EndDate
+                    .CompareTo(request.StartDate.AddDays(MethodUtils.CountLeagueDateRange(request.LeagueType, request.NoParticipate) - 1))
+                < 0)
             {
                 return new CreateLeagueResponse
                 {
@@ -91,6 +95,8 @@ namespace FLMS_BackEnd.Services.Impl
                                 Home = participates.FirstOrDefault(x => x.ParticipateId == participate.LeftId),
                                 Away = participates.FirstOrDefault(x => x.ParticipateId == participate.RightId),
                                 MatchDate = league.EndDate.AddDays(-(participate.Deep - 1) * 2),
+                                Stadium = request.Location,
+                                Round = MethodUtils.GetLeagueKoRound(participate.Deep),
                                 Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad, request.MaxNoPlayer)
                             };
                             matchList.Add(match);
@@ -131,6 +137,8 @@ namespace FLMS_BackEnd.Services.Impl
                                         Home = home,
                                         Away = away,
                                         MatchDate = league.StartDate.AddDays(day * 2),
+                                        Stadium = request.Location,
+                                        Round = "Round " + (day + 1),
                                         Squads = MethodUtils.GenerateMatchSquad(request.NoPlayerSquad, request.MaxNoPlayer)
                                     });
                                 }
@@ -280,6 +288,68 @@ namespace FLMS_BackEnd.Services.Impl
                 TopScore = topScore,
                 TopAssist = topAssist
             };
+        }
+
+        public async Task<DeleteLeagueResponse> DeleteLeague(int leagueId, int userId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                            .Include(l=>l.Participations)
+                            .Include(l=>l.Matches)
+                            .FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != userId)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (league.Participations.Any())
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-09"
+                };
+            }
+            var matches = league.Matches;
+            while(matches.Count > 0)
+            {
+                var r = await matchRepository.DeleteAsync(matches.FirstOrDefault());
+                if (r == null)
+                {
+                    return new DeleteLeagueResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-LE-08"
+                    };
+                }
+            }
+            var result = await leagueRepository.DeleteAsync(league);
+            if (result != null)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-LE-02"
+                };
+            }
+            else
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-08"
+                };
+            }
         }
     }
 }

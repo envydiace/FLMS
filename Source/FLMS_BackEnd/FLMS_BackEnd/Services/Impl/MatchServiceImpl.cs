@@ -8,6 +8,7 @@ using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Globalization;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -39,13 +40,13 @@ namespace FLMS_BackEnd.Services.Impl
                     .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
                     .Include(m => m.League)
                     .ToListAsync();
-                if(matches != null)
+                if (matches != null)
                 {
                     lmatches.AddRange(matches);
                 }
             }
 
-            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m=>m.MatchId));
+            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m => m.MatchId));
             foreach (MatchClubDTO matchClub in listmatches)
             {
                 var match = await matchRepository.FindByCondition(m => m.MatchId == matchClub.MatchId)
@@ -112,12 +113,27 @@ namespace FLMS_BackEnd.Services.Impl
             .Include(m => m.League)
             .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
             .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+            .Include(m => m.MatchStats)
             .OrderBy(m => m.MatchDate)
             .ToListAsync();
+
+            var listMatch = mapper.Map<List<MatchDTO>>(matches);
+            listMatch.ForEach(m =>
+            {
+                var match = matches.Where(x => x.MatchId == m.MatchId).FirstOrDefault();
+                if (match!=null && match.IsFinish)
+                {
+                    var homeStats = match.MatchStats.FirstOrDefault(ms => ms.IsHome);
+                    m.Home.Score = homeStats != null ? homeStats.Score : 0;
+                    var awayStats = match.MatchStats.FirstOrDefault(ms => !ms.IsHome);
+                    m.Away.Score = awayStats != null ? awayStats.Score : 0;
+                }
+            });
+            
             return new LeagueScheduleResponse
             {
                 Success = true,
-                listMatch = mapper.Map<List<MatchDTO>>(matches)
+                listMatch = listMatch
             };
         }
 
@@ -276,6 +292,95 @@ namespace FLMS_BackEnd.Services.Impl
                     };
                 }
             }
+        }
+
+        public async Task<UpdateMatchInfoResponse> UpdateMatchInfo(UpdateMatchInfoRequest request, int UserId)
+        {
+            var dateTime = new DateTime();
+            var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId)
+                .Include(m=>m.League).ThenInclude(l => l.User)
+                .FirstOrDefaultAsync();
+            if(match == null)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-01"
+                };
+            }
+            if(match.League.User.UserId != UserId)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-03"
+                };
+            }
+            if (match.IsFinish)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-02"
+                };
+            }
+            try
+            {
+                dateTime = DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime
+                    , "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+            }
+            catch (FormatException e)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-12"
+                };
+            }
+            if (dateTime < match.League.StartDate || dateTime > match.League.EndDate)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-09"
+                };
+            }
+            var matchHomes = await matchRepository.FindByCondition(m => 
+            m.HomeId == match.HomeId && m.MatchId != match.MatchId)
+                .ToListAsync();
+            var matchAways = await matchRepository.FindByCondition(m => 
+            m.AwayId == match.AwayId && m.MatchId != match.MatchId)
+                .ToListAsync();
+            foreach(var matchH in matchHomes)
+            {
+                if(Math.Abs(matchH.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                {
+                    return new UpdateMatchInfoResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-MA-10"
+                    };
+                }
+            }
+            foreach(var matchA in matchAways)
+            {
+                if(Math.Abs(matchA.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                {
+                    return new UpdateMatchInfoResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-MA-10"
+                    };
+                }
+            }
+            match.MatchDate = dateTime;
+            Match matchUpdate = mapper.Map<Match>(match);
+            Match result = await matchRepository.UpdateAsync(match);
+            if (result != null)
+            {
+                return new UpdateMatchInfoResponse { Success = true, MessageCode="MS-MA-02" };
+            }
+            return new UpdateMatchInfoResponse { Success = false, MessageCode = "ER-MA-11"};
         }
     }
 }

@@ -19,9 +19,12 @@ export class Club implements Club {
 export interface MatchSchedule {
     matchId: number,
     leagueId: number,
-    matchDate: Date,
+    leagueName: string,
+    round: string,
+    stadium: string,
+    matchDate: string,
+    matchTime: string,
     isFinish: boolean,
-
     away: Club,
     home: Club
 }
@@ -30,7 +33,11 @@ export class MatchSchedule implements MatchSchedule {
     constructor(
         matchId: number,
         leagueId: number,
-        matchDate: Date,
+        leagueName: string,
+        round: string,
+        stadium: string,
+        matchDate: string,
+        matchTime: string,
         isFinish: boolean,
 
         away: Club,
@@ -38,7 +45,11 @@ export class MatchSchedule implements MatchSchedule {
     ) {
         this.matchId = matchId;
         this.leagueId = leagueId;
+        this.leagueName = leagueName;
+        this.round = round;
+        this.stadium = stadium;
         this.matchDate = matchDate;
+        this.matchTime = matchTime
         this.isFinish = isFinish;
         this.away = away;
         this.home = home;

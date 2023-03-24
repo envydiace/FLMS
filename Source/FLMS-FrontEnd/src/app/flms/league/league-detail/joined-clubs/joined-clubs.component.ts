@@ -8,8 +8,10 @@ import { ClubListByLeague } from '../../../../models/club-list-by-league.model';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmFeeComponent } from '../confirm-fee/confirm-fee.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MailDataResponse } from 'src/app/models/mail-data-response.model';
+import { MailData } from 'src/app/models/mail-data.model';
 
-
+import { CommonService } from './../../../../common/common/common.service';
 
 
 @Component({
@@ -22,11 +24,13 @@ export class JoinedClubsComponent implements OnInit {
   clubId: number;
   // @Input() clubName: string;
   listClubByLeague: ClubListByLeague[] = [];
-  
+  mailData: MailData;
+
   constructor(
     private route: ActivatedRoute,
     private leagueService: LeagueService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public commonService: CommonService
   ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
@@ -51,13 +55,21 @@ export class JoinedClubsComponent implements OnInit {
   }
   openLeagueClubFee(clubId: number): void{
     const dialogRef = this.dialog.open(ConfirmFeeComponent, {
-      width: '45%',
+      width: '35%',
       data: { clubId: clubId, leagueId: this.leagueId}
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
     });
   }
 
+  RemoveJoinedClub(clubId: number) {
+    let idTemp = +this.leagueId;
+    this.leagueService.removeJoinedClub(idTemp, clubId).subscribe(res => {
+      this.commonService.sendMessage('delete success!', 'success');
+      this.initDataSource();
+    });
+  }
 }
