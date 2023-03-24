@@ -5,7 +5,9 @@ import { map } from 'rxjs/operators';
 import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
 import { LeagueDetail, LeagueListbyUser } from 'src/app/models/league-detail.model';
 import { token } from 'src/app/models/token.model';
+import { MatDialog } from '@angular/material/dialog';
 import { LeagueService } from '../league.service';
+import { PopupDeleteLeagueComponent } from '../popup-delete-league/popup-delete-league.component';
 
 @Component({
   selector: 'app-league-detail',
@@ -24,6 +26,7 @@ export class LeagueDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
+    public dialog: MatDialog
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
@@ -48,5 +51,14 @@ export class LeagueDetailComponent implements OnInit {
     ).subscribe();
   }
 
+  openDeleteLeaguePopup(clubId: number): void {
+    const dialogRef = this.dialog.open(PopupDeleteLeagueComponent, {
+      width: '50%',
+      data: { leagueId: this.leagueId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
 }
