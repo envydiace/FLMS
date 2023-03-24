@@ -62,6 +62,7 @@ namespace FLMS_BackEnd.Utils
             public const string Reject = "RejectRequest";
             public const string Cancel = "CancelRequest";
             public const string RemoveClub = "RemoveClub";
+            public const string ConfirmFee = "ConfirmFee";
         }
 
         public const string HOME = "Home";

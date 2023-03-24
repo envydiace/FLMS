@@ -83,7 +83,16 @@ namespace FLMS_BackEnd.Services.Impl
                 return new ConfirmRegistFeeResponse
                 {
                     Success = true,
-                    MessageCode = "MS-PA-01"
+                    MessageCode = "MS-PA-01",
+                    mailData = new MailDTO
+                    {
+                        LeagueManagerName = result.League.User.FullName,
+                        ClubManagerName = result.Club.User.FullName,
+                        Email = result.Club.User.Email,
+                        LeagueName = result.League.LeagueName,
+                        ClubName = result.Club.ClubName,
+                        ReceiverRole = result.Club.User.Role
+                    },
                 };
             }
             else

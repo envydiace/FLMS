@@ -41,6 +41,16 @@ namespace FLMS_BackEnd.Controllers
             var response = await participationService.ConfirmResgistFee(request, UserID);
             if (response.Success)
             {
+                MailRequest mailRequest = new MailRequest
+                {
+                    To = new List<string> {
+                       response.mailData.Email
+                    },
+                    Subject = response.MailMessage,
+                    MailType = Constants.MailType.ConfirmFee,
+                    MailData = response.mailData
+                };
+                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
