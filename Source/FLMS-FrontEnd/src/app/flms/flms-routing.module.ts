@@ -14,6 +14,7 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { JoinedLeagueComponent } from './club/joined-league/joined-league.component';
 import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
 import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
+import { PlayerInfoComponent } from './club/player-info/player-info.component';
 
 const routes: Routes = [
   {
@@ -87,7 +88,13 @@ const routes: Routes = [
     component: ClubIncomingMatchComponent,
     canActivate: [AuthGuard],
     data: { expectedRole: 'CLUB_MANAGER' }
-  }
+  },
+  // {  
+  //   path : 'player-info',
+  //   component: PlayerInfoComponent,
+  //   canActivate: [AuthGuard, RoleGuard],
+  //   data: { expectedRole: 'CLUB_MANAGER' }
+  // },
 ];
 
 
