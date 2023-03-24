@@ -120,4 +120,8 @@ export class ClubService {
       );
   }
 
+  deleteClub(clubId: number): Observable<any>{
+    return this.http.delete(`${environment.apiUrl}/api/Club/DeleteClub/${clubId}`, {headers: this.headers});
+  }
+
 }
