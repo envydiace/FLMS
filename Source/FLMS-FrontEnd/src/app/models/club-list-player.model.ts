@@ -16,6 +16,7 @@ export interface ClubListPlayer {
     assistant:number;
     redCard:number;
     yellowCard:number;
+    avatar: string;
 }
 
 export class ClubListPlayer implements ClubListPlayer {
@@ -34,7 +35,8 @@ export class ClubListPlayer implements ClubListPlayer {
         goal:number,
         assistant:number,
         redCard:number,
-        yellowCard:number
+        yellowCard:number,
+        avatar: string,
     ) {
         this.playerId = playerId;
         this.name = name;
@@ -51,5 +53,6 @@ export class ClubListPlayer implements ClubListPlayer {
         this.assistant = assistant;
         this.redCard = redCard;
         this.yellowCard = yellowCard;
+        this.avatar = avatar;
     }
 }

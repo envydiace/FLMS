@@ -105,8 +105,6 @@ namespace FLMS_BackEnd.DTO
                     request => Constants.FeeType.Prize.ToString()
                     ));
 
-            CreateMap<ParticipateNodeDTO, ParticipateNode>();
-
             CreateMap<ClubCloneDTO, ClubClone>();
 
             CreateMap<League, LeagueDTO>();
@@ -132,6 +130,22 @@ namespace FLMS_BackEnd.DTO
                     clubClone => clubClone.Club != null ? clubClone.Club.ClubName : clubClone.ClubCloneKey.Trim()));
 
             CreateMap<League, JoinedLeagueDTO>();
+
+            //ParticipagteNode
+            CreateMap<ParticipateNodeDTO, ParticipateNode>();
+
+            CreateMap<ParticipateNode, ParticipateTreeNodeDTO>()
+                .ForMember(dto => dto.NodeId,
+                map => map.MapFrom(
+                    node => node.ParticipateId))
+                .ForMember(dto => dto.HasChild,
+                map => map.MapFrom(
+                    node => (node.LeftId != null && node.LeftId != 0) ||
+                            (node.RightId != null && node.RightId != 0)))
+                .ForMember(dto => dto.ClubBasicInfo,
+                map => map.MapFrom(
+                    node => node.ClubClone != null && node.ClubClone.Club != null ? node.ClubClone.Club : null))
+                ;
 
             //Match
             CreateMap<ParticipateNode, ClubMatchDTO>()

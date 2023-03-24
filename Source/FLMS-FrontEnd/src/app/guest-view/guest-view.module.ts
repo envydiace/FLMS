@@ -47,6 +47,7 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { MatchStatisticComponent } from './match/match-detail/match-statistic/match-statistic.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MatchEventComponent } from './match/match-detail/match-event/match-event.component';
+import { PlayerInfoComponent } from './club/player-info/player-info.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { MatchEventComponent } from './match/match-detail/match-event/match-even
     MatchDetailComponent,
     MatchStatisticComponent,
     NotFoundComponent,
-    MatchEventComponent
+    MatchEventComponent,
+    PlayerInfoComponent
   ],
   imports: [
     CommonModule,

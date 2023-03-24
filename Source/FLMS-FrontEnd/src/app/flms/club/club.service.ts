@@ -13,6 +13,9 @@ import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { ClubIncomingMatches } from 'src/app/models/club-incoming-matches-model';
+import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
+import { ClubListPlayer } from 'src/app/models/club-list-player.model';
+import { ClubLeagueHistory } from 'src/app/models/club-league-history.model';
 
 
 @Injectable({
@@ -117,7 +120,37 @@ export class ClubService {
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetIncomingMatches`, { headers: this.headers }).pipe(
       map((res: ClubIncomingMatches[]) => res),
       catchError(err => throwError(err))
-      );
+    );
+  }
+
+
+  getPlayerInfo(playerId: number): Observable<ClubPlayerInfoResponse> {
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Player/GetPlayer/${playerId}`)
+      .pipe(map((res: ClubPlayerInfoResponse) => res),
+        catchError(err => throwError(err)))
+  }
+
+  editPlayer(player: ClubListPlayer) {
+    return this.http.put(`${environment.apiUrl}/api/Player/UpdatePlayer`, player, { headers: this.headers });
+  }
+  removeEvent(playerId: number): Observable<any> {
+
+    return this.http.delete(`${environment.apiUrl}/api/Player/DeletePlayer/${playerId}`, { headers: this.headers });
+
+  }
+
+
+  deleteClub(clubId: number): Observable<any>{
+    return this.http.delete(`${environment.apiUrl}/api/Club/DeleteClub/${clubId}`, {headers: this.headers});
+  }
+
+  getClubLeagueHistory(clubId: number): Observable<ClubLeagueHistory[]> {
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubLeagueHistory/${clubId}`).pipe(
+      map((res: ClubLeagueHistory[]) => res),
+      catchError(err => throwError(err))
+    );
   }
 
 }

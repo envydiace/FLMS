@@ -41,6 +41,16 @@ namespace FLMS_BackEnd.Controllers
             var response = await participationService.ConfirmResgistFee(request, UserID);
             if (response.Success)
             {
+                MailRequest mailRequest = new MailRequest
+                {
+                    To = new List<string> {
+                       response.mailData.Email
+                    },
+                    Subject = response.MailMessage,
+                    MailType = Constants.MailType.ConfirmFee,
+                    MailData = response.mailData
+                };
+                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -112,6 +122,26 @@ namespace FLMS_BackEnd.Controllers
         {
             var response = await participationService.GetListJoinedLeague(UserID);
             return response;
+        }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<ParticipateTreeResponse>> GetLeagueTree(int id)
+        {
+            var response = await participationService.GetLeagueParticipateTree(id);
+            return response;
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<LeagueSettingResponse>> ManageLeagueSettingKO(SaveLeagueTreeRequest request)
+        {
+            var response = await participationService.SaveLeagueTree(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
         }
     }
 }

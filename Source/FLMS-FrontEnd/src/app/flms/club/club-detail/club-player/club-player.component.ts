@@ -6,6 +6,7 @@ import { ClubListPlayer } from './../../../../models/club-list-player.model';
 import { ClubListPlayerResponse } from './../../../../models/club-list-player-response.model';
 import { Club } from 'src/app/models/match-schedule.model';
 import { map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-club-player',
@@ -20,6 +21,7 @@ export class ClubPlayerComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private router: Router,
     private clubService: ClubService
   ) { }
 
@@ -49,5 +51,9 @@ export class ClubPlayerComponent implements OnInit {
     this.clubService.getPlayerListFilter(player, this.id).pipe(
       map((listPlayer: ClubListPlayerResponse) => this.listPlayer = listPlayer.players)
     ).subscribe();
+  }
+
+  navigateToPlayerInfo(playerId: number) {
+    this.router.navigate(['/manager/player-detail'], { queryParams: {playerId : playerId}, skipLocationChange: true});
   }
 }

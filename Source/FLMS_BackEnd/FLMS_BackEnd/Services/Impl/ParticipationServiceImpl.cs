@@ -83,7 +83,16 @@ namespace FLMS_BackEnd.Services.Impl
                 return new ConfirmRegistFeeResponse
                 {
                     Success = true,
-                    MessageCode = "MS-PA-01"
+                    MessageCode = "MS-PA-01",
+                    mailData = new MailDTO
+                    {
+                        LeagueManagerName = result.League.User.FullName,
+                        ClubManagerName = result.Club.User.FullName,
+                        Email = result.Club.User.Email,
+                        LeagueName = result.League.LeagueName,
+                        ClubName = result.Club.ClubName,
+                        ReceiverRole = result.Club.User.Role
+                    },
                 };
             }
             else
@@ -274,6 +283,145 @@ namespace FLMS_BackEnd.Services.Impl
                 .Select(p => p.League)
                 .ToListAsync();
             return mapper.Map<List<JoinedLeagueDTO>>(leagues != null ? leagues : new List<League>());
+        }
+
+        public async Task<ParticipateTreeResponse> GetLeagueParticipateTree(int leagueId)
+        {
+
+            var list = await participateNodeRepository.FindByCondition(n => n.LeagueId == leagueId)
+                    .Include(n => n.ClubClone).ThenInclude(c => c.Club)
+                    .OrderBy(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
+                    .ToListAsync();
+            if (list != null)
+            {
+                var listAvailNode = new List<ParticipateTreeNodeDTO>();
+                List<ClubBasicInfoDTO> result = new List<ClubBasicInfoDTO>();
+                var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                            .Include(l => l.ClubClones)
+                            .Include(l => l.Participations).ThenInclude(p => p.Club)
+                            .FirstOrDefaultAsync();
+                if (league != null)
+                {
+                    var clubs = league.Participations.Where(p =>
+                            p.Confirmed &&
+                            !league.ClubClones.Any(cl => cl.ClubId == p.ClubId))
+                        .Select(p => p.Club)
+                        .ToList();
+                    if (clubs != null && clubs.Count > 0)
+                    {
+                        result = mapper.Map<List<ClubBasicInfoDTO>>(clubs);
+                    }
+                    result.ForEach(c =>
+                    {
+                        listAvailNode.Add(new ParticipateTreeNodeDTO
+                        {
+                            ClubBasicInfo = c
+                        });
+                    });
+                }
+                var listNodes = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
+
+                return new ParticipateTreeResponse
+                {
+                    LeagueId = leagueId,
+                    ListNode = listNodes,
+                    ListAvailNode = listAvailNode,
+                    NumberOfNode = list.Count,
+                    TreeHeight = list.LastOrDefault().Deep,
+                    CanEdit = !list.Any(n => (n.ClubCloneId != null && n.ClubCloneId != 0) &&
+                            (n.LeftId != null && n.LeftId != 0))
+                };
+            }
+            return new ParticipateTreeResponse();
+        }
+
+        public async Task<LeagueSettingResponse> SaveLeagueTree(SaveLeagueTreeRequest request, int userId)
+        {
+            //TODO: authorize
+            var league = await leagueRepository.FindByCondition(n => n.LeagueId == request.LeagueId)
+                    .Include(l => l.ParticipateNodes).ThenInclude(p => p.ClubClone)
+                    .FirstOrDefaultAsync();
+            //TODO: validate
+            if (league == null)
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != userId)
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (league.ParticipateNodes.Any(n => (n.ClubCloneId != null && n.ClubCloneId != 0) &&
+                            (n.LeftId != null && n.LeftId != 0)))
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-10"
+                };
+            }
+            foreach (var node in league.ParticipateNodes.ToList())
+            {
+                if (node.LeftId == 0)
+                {
+                    if (node.ClubClone == null)
+                    {
+                        return new LeagueSettingResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-PA-06"
+                        };
+                    }
+                    node.ClubClone.ClubId = null;
+                }
+            };
+
+            foreach (var node in request.ListNode)
+            {
+                var pNode = league.ParticipateNodes.FirstOrDefault(n => n.ParticipateId == node.NodeId);
+
+                if (pNode == null || pNode.ClubClone == null)
+                {
+                    return new LeagueSettingResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-PA-06"
+                    };
+                }
+                if (pNode.LeftId != 0)
+                {
+                    return new LeagueSettingResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-PA-11"
+                    };
+                }
+                pNode.ClubClone.ClubId = node.ClubId;
+            };
+            var result = await leagueRepository.UpdateAsync(league);
+            if (result != null)
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-PA-03"
+                };
+            }
+            else
+            {
+                return new LeagueSettingResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PA-08"
+                };
+            }
         }
     }
 }

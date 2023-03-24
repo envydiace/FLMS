@@ -61,6 +61,8 @@ import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-mat
 import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
 import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
 import { LeagueHistoryComponent } from './club/club-detail/league-history/league-history.component';
+import { PlayerInfoComponent } from './club/player-info/player-info.component';
+import { PopUpDeleteClubComponent } from './club/pop-up-delete-club/pop-up-delete-club.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,9 @@ import { LeagueHistoryComponent } from './club/club-detail/league-history/league
     LeagueHistoryComponent,
     ConfirmIsFinishComponent,
     ClubIncomingMatchComponent,
-    PopUpRemoveEvemtComponent
+    PopUpRemoveEvemtComponent,
+    PlayerInfoComponent,
+    PopUpDeleteClubComponent
   ],
   imports: [
     CommonModule,
