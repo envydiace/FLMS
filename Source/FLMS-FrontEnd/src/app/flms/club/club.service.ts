@@ -121,6 +121,11 @@ export class ClubService {
       );
   }
 
+
+  deleteClub(clubId: number): Observable<any>{
+    return this.http.delete(`${environment.apiUrl}/api/Club/DeleteClub/${clubId}`, {headers: this.headers});
+  }
+
   getClubLeagueHistory(clubId: number): Observable<ClubLeagueHistory[]> {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubLeagueHistory/${clubId}`).pipe(
