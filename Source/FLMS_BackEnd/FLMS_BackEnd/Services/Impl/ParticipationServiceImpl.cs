@@ -284,5 +284,28 @@ namespace FLMS_BackEnd.Services.Impl
                 .ToListAsync();
             return mapper.Map<List<JoinedLeagueDTO>>(leagues != null ? leagues : new List<League>());
         }
+
+        public async Task<ParticipateTreeResponse> GetLeagueParticipateTree(int leagueId)
+        {
+            var list = await participateNodeRepository.FindByCondition(n => n.LeagueId == leagueId)
+                    .Include(n => n.ClubClone).ThenInclude(c => c.Club)
+                    .OrderBy(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
+                    .ToListAsync();
+            if (list != null)
+            {
+                var listNodes = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
+
+                return new ParticipateTreeResponse
+                {
+                    LeagueId = leagueId,
+                    ListNode = listNodes,
+                    NumberOfNode = list.Count,
+                    TreeHeight = list.LastOrDefault().Deep,
+                    CanEdit = !list.Any(n => (n.ClubCloneId != null && n.ClubCloneId != 0) &&
+                            (n.LeftId != null && n.LeftId != 0))
+                };
+            }
+            return new ParticipateTreeResponse();
+        }
     }
 }

@@ -123,6 +123,12 @@ namespace FLMS_BackEnd.Controllers
             var response = await participationService.GetListJoinedLeague(UserID);
             return response;
         }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<ParticipateTreeResponse>> GetLeagueTree(int id)
+        {
+            var response = await participationService.GetLeagueParticipateTree(id);
+            return response;
+        }
     }
 }
 
