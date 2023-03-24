@@ -6,6 +6,7 @@ namespace FLMS_BackEnd.Response
     public class ParticipateTreeResponse : BaseResponse
     {
         public List<ParticipateTreeNodeDTO> ListNode { get; set; } = new List<ParticipateTreeNodeDTO>();
+        public List<ParticipateTreeNodeDTO> ListAvailNode { get; set; } = new List<ParticipateTreeNodeDTO>();
         public int LeagueId { get; set; }
         public bool CanEdit { get; set; } = false;
         public int NumberOfNode { get; set; }

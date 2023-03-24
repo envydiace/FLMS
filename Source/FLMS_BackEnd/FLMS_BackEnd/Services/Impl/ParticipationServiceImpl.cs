@@ -287,18 +287,45 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<ParticipateTreeResponse> GetLeagueParticipateTree(int leagueId)
         {
+
             var list = await participateNodeRepository.FindByCondition(n => n.LeagueId == leagueId)
                     .Include(n => n.ClubClone).ThenInclude(c => c.Club)
                     .OrderBy(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
                     .ToListAsync();
             if (list != null)
             {
+                var listAvailNode = new List<ParticipateTreeNodeDTO>();
+                List<ClubBasicInfoDTO> result = new List<ClubBasicInfoDTO>();
+                var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                            .Include(l => l.ClubClones)
+                            .Include(l => l.Participations).ThenInclude(p => p.Club)
+                            .FirstOrDefaultAsync();
+                if (league != null)
+                {
+                    var clubs = league.Participations.Where(p =>
+                            p.Confirmed &&
+                            !league.ClubClones.Any(cl => cl.ClubId == p.ClubId))
+                        .Select(p => p.Club)
+                        .ToList();
+                    if (clubs != null && clubs.Count > 0)
+                    {
+                        result = mapper.Map<List<ClubBasicInfoDTO>>(clubs);
+                    }
+                    result.ForEach(c =>
+                    {
+                        listAvailNode.Add(new ParticipateTreeNodeDTO
+                        {
+                            ClubBasicInfo = c
+                        });
+                    });
+                }
                 var listNodes = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
 
                 return new ParticipateTreeResponse
                 {
                     LeagueId = leagueId,
                     ListNode = listNodes,
+                    ListAvailNode = listAvailNode,
                     NumberOfNode = list.Count,
                     TreeHeight = list.LastOrDefault().Deep,
                     CanEdit = !list.Any(n => (n.ClubCloneId != null && n.ClubCloneId != 0) &&
@@ -368,7 +395,7 @@ namespace FLMS_BackEnd.Services.Impl
                         MessageCode = "ER-PA-06"
                     };
                 }
-                if (pNode.LeftId!=0)
+                if (pNode.LeftId != 0)
                 {
                     return new LeagueSettingResponse
                     {
