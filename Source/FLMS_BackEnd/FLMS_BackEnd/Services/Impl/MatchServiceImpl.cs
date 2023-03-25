@@ -121,7 +121,7 @@ namespace FLMS_BackEnd.Services.Impl
             listMatch.ForEach(m =>
             {
                 var match = matches.Where(x => x.MatchId == m.MatchId).FirstOrDefault();
-                if (match!=null && match.IsFinish)
+                if (match != null && match.IsFinish)
                 {
                     var homeStats = match.MatchStats.FirstOrDefault(ms => ms.IsHome);
                     m.Home.Score = homeStats != null ? homeStats.Score : 0;
@@ -129,7 +129,7 @@ namespace FLMS_BackEnd.Services.Impl
                     m.Away.Score = awayStats != null ? awayStats.Score : 0;
                 }
             });
-            
+
             return new LeagueScheduleResponse
             {
                 Success = true,
@@ -239,22 +239,70 @@ namespace FLMS_BackEnd.Services.Impl
                 var awayClubClone = match.Away.ClubClone;
                 awayClubClone.GoalsFor = awayScore;
                 awayClubClone.GoalsAgainst = homeScore;
-                if (homeScore > awayScore)
+                switch (MethodUtils.GetLeagueTypeByName(match.League.LeagueType))
                 {
-                    homeClubClone.Won++;
-                    awayClubClone.Loss++;
+                    case Constants.LeagueType.KO:
+                        if(homeScore == awayScore)
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-13"
+                            };
+                        }
+                        var clubCloneId = match.Home.ClubCloneId;
+                        if (homeScore < awayScore)
+                        {
+                            clubCloneId = match.Away.ClubCloneId;
+                        }
+                        var node = await participateNodeRepository.FindByCondition(n => 
+                                n.LeagueId == match.LeagueId &&
+                                n.ParticipateId == match.Home.ParentId
+                                )
+                                .FirstOrDefaultAsync();
+                        if (node == null)
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-08"
+                            };
+                        }
+                        node.ClubCloneId = clubCloneId;
+                        var r = await participateNodeRepository.UpdateAsync(node);
+                        if (r == null)
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-08"
+                            };
+                        }
+                        break;
+                    case Constants.LeagueType.LEAGUE:
+                        if (homeScore > awayScore)
+                        {
+                            homeClubClone.Won++;
+                            awayClubClone.Loss++;
+                        }
+                        else if (homeScore < awayScore)
+                        {
+                            homeClubClone.Loss++;
+                            awayClubClone.Won++;
+                        }
+                        else
+                        {
+                            homeClubClone.Draw++;
+                            awayClubClone.Draw++;
+                        }
+                        break;
+                    default:
+                        return new FinishMatchResponse
+                        {
+                            Success = true,
+                            MessageCode = "ER-MA-08"
+                        };
                 }
-                else if (homeScore < awayScore)
-                {
-                    homeClubClone.Loss++;
-                    awayClubClone.Won++;
-                }
-                else
-                {
-                    homeClubClone.Draw++;
-                    awayClubClone.Draw++;
-                }
-
                 var homeStats = match.MatchStats.FirstOrDefault(ms => ms.IsHome);
                 if (homeStats != null)
                 {
@@ -298,9 +346,9 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var dateTime = new DateTime();
             var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId)
-                .Include(m=>m.League).ThenInclude(l => l.User)
+                .Include(m => m.League).ThenInclude(l => l.User)
                 .FirstOrDefaultAsync();
-            if(match == null)
+            if (match == null)
             {
                 return new UpdateMatchInfoResponse
                 {
@@ -308,7 +356,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-01"
                 };
             }
-            if(match.League.User.UserId != UserId)
+            if (match.League.User.UserId != UserId)
             {
                 return new UpdateMatchInfoResponse
                 {
@@ -345,15 +393,15 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-09"
                 };
             }
-            var matchHomes = await matchRepository.FindByCondition(m => 
+            var matchHomes = await matchRepository.FindByCondition(m =>
             m.HomeId == match.HomeId && m.MatchId != match.MatchId)
                 .ToListAsync();
-            var matchAways = await matchRepository.FindByCondition(m => 
+            var matchAways = await matchRepository.FindByCondition(m =>
             m.AwayId == match.AwayId && m.MatchId != match.MatchId)
                 .ToListAsync();
-            foreach(var matchH in matchHomes)
+            foreach (var matchH in matchHomes)
             {
-                if(Math.Abs(matchH.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                if (Math.Abs(matchH.MatchDate.Subtract(dateTime).TotalDays) < 1)
                 {
                     return new UpdateMatchInfoResponse
                     {
@@ -362,9 +410,9 @@ namespace FLMS_BackEnd.Services.Impl
                     };
                 }
             }
-            foreach(var matchA in matchAways)
+            foreach (var matchA in matchAways)
             {
-                if(Math.Abs(matchA.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                if (Math.Abs(matchA.MatchDate.Subtract(dateTime).TotalDays) < 1)
                 {
                     return new UpdateMatchInfoResponse
                     {
@@ -378,9 +426,9 @@ namespace FLMS_BackEnd.Services.Impl
             Match result = await matchRepository.UpdateAsync(match);
             if (result != null)
             {
-                return new UpdateMatchInfoResponse { Success = true, MessageCode="MS-MA-02" };
+                return new UpdateMatchInfoResponse { Success = true, MessageCode = "MS-MA-02" };
             }
-            return new UpdateMatchInfoResponse { Success = false, MessageCode = "ER-MA-11"};
+            return new UpdateMatchInfoResponse { Success = false, MessageCode = "ER-MA-11" };
         }
     }
 }
