@@ -242,7 +242,19 @@ namespace FLMS_BackEnd.Services.Impl
                 switch (MethodUtils.GetLeagueTypeByName(match.League.LeagueType))
                 {
                     case Constants.LeagueType.KO:
-                        if(homeScore == awayScore)
+                        var listNode = await participateNodeRepository.FindByCondition(n =>
+                                n.LeagueId == match.LeagueId)
+                                .Include(n => n.ClubClone)
+                                .ToListAsync();
+                        if (listNode.Any(n => n.LeftId == 0 && (n.ClubClone == null || n.ClubClone.ClubId == null)))
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-14"
+                            };
+                        }
+                        if (homeScore == awayScore)
                         {
                             return new FinishMatchResponse
                             {
@@ -255,11 +267,7 @@ namespace FLMS_BackEnd.Services.Impl
                         {
                             clubCloneId = match.Away.ClubCloneId;
                         }
-                        var node = await participateNodeRepository.FindByCondition(n => 
-                                n.LeagueId == match.LeagueId &&
-                                n.ParticipateId == match.Home.ParentId
-                                )
-                                .FirstOrDefaultAsync();
+                        var node = listNode.FirstOrDefault(n => n.ParticipateId == match.Home.ParentId);
                         if (node == null)
                         {
                             return new FinishMatchResponse
