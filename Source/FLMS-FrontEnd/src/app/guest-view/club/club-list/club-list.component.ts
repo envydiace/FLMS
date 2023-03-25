@@ -15,6 +15,7 @@ export class ClubListComponent implements OnInit {
   managerName: string = null;
   clubList: ClubList = null;
   pageEvent: PageEvent;
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
   constructor(
     private clubService: ClubService,

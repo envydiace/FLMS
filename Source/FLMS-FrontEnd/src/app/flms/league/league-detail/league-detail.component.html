@@ -13,7 +13,11 @@
             <div class="col-10">
                 <mat-card class="league-detail-card">
                     <mat-card-header>
-                        <div mat-card-avatar class="league-detail-logo"></div>
+                        <div mat-card-avatar class="league-detail-logo">
+                            <img mat-card-avatar class="league-detail-logo"
+                                [src]="leagueDetail.logo != null ? leagueDetail.logo : defaultLogo" alt="League's Pic">
+
+                        </div>
                         <div class="league-detail-title">
                             <mat-card-subtitle>COMPETITION</mat-card-subtitle>
                             <mat-card-title>{{leagueDetail.leagueName}}</mat-card-title>
