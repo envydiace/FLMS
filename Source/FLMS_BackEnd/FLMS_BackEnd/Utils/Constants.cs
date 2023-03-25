@@ -216,6 +216,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-11","Update match failed" },
             {"ER-MA-12","Please enter the date and time in the correct format (e.g. YYYY-MM-DD HH:MM) and try again." },
             {"ER-MA-13","Knock out match can not draw." },
+            {"ER-MA-14","League participation doesn't complete." },
 
             {"MS-EV-01","Add match event success" },
             {"MS-EV-02","Delete match event success" },
