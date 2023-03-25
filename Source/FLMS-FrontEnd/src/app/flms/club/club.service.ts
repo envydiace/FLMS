@@ -134,7 +134,7 @@ export class ClubService {
   editPlayer(player: ClubListPlayer) {
     return this.http.put(`${environment.apiUrl}/api/Player/UpdatePlayer`, player, { headers: this.headers });
   }
-  removeEvent(playerId: number): Observable<any> {
+  removePlayer(playerId: number): Observable<any> {
 
     return this.http.delete(`${environment.apiUrl}/api/Player/DeletePlayer/${playerId}`, { headers: this.headers });
 

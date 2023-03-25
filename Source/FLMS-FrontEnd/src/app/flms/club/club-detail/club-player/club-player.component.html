@@ -17,27 +17,33 @@
 
         <div *ngFor="let player of listPlayer" class="col-sm-6">
             <div class="player-container">
-                <a  (click)="navigateToPlayerInfo(player.playerId)" style="cursor: pointer;">
 
                 <mat-card class="player-list-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="profile-image"></div>
-                        <mat-card-title style="line-height: 85px;">{{player.name}}</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-                        <div style="text-align: right; 
-                             position:absolute; right:10px; top: 40px;">
-                            {{player.goal}} - Goal <br/>
-                            {{player.assistant}} - Assist <br/>
-                            {{player.yellowCard}} - Yellow Card <br/>
-                            {{player.redCard}} - Red Card
-                        </div>
-                    </mat-card-header>
+                    <a (click)="navigateToPlayerInfo(player.playerId)" style="cursor: pointer;">
+
+                        <mat-card-header>
+                            <div mat-card-avatar class="profile-image"></div>
+                            <mat-card-title style="line-height: 85px;">{{player.name}}</mat-card-title>
+                            <mat-card-subtitle></mat-card-subtitle>
+                            <div style="text-align: right; 
+                             position:absolute; right:10px; ">
+                                {{player.goal}} - <img class="header-image"
+                                    src="../../../../../assets/image/football-goal-icon.png"> <br />
+                                {{player.assistant}} - Assist <br />
+                                {{player.yellowCard}} - <img class="header-image"
+                                    src="../../../../../assets/image/football-yellowCard-icon.svg.png"> <br />
+                                {{player.redCard}} - <img class="header-image"
+                                    src="../../../../../assets/image/football-redCard-icon.png">
+                            </div>
+                        </mat-card-header>
+                    </a>
                     <mat-card-actions>
-                        <!-- <button mat-button>Update </button>
-                        <button mat-button>Delete</button> -->
+                        <!-- <button mat-button>Update </button> -->
+                        <button mat-raised-button color="warn"
+                            (click)="openDeleteplayerConfirm(player.playerId)">Delete</button>
                     </mat-card-actions>
                 </mat-card>
-                </a>
+
             </div>
         </div>
 
