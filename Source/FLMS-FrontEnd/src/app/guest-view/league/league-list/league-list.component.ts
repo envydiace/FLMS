@@ -60,7 +60,7 @@ export class LeagueListComponent implements OnInit {
   }
 
   navigateToLeagueDetail(id: number) {
-    this.router.navigate(['/league-info'], { queryParams: { leagueId: id }, skipLocationChange: true });
+    this.router.navigate(['/league-info'], { queryParams: { leagueId: id }});
   }
 }
 

@@ -1,28 +1,30 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonService } from '../../../common/common/common.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { first } from 'rxjs/operators';
 import { LeagueService } from '../league.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-confirm-is-finish',
-  templateUrl: './pop-up-confirm-is-finish.component.html',
-  styleUrls: ['./pop-up-confirm-is-finish.component.scss']
+  selector: 'app-popup-delete-league',
+  templateUrl: './popup-delete-league.component.html',
+  styleUrls: ['./popup-delete-league.component.scss']
 })
-export class ConfirmIsFinishComponent implements OnInit {
-
+export class PopupDeleteLeagueComponent implements OnInit {
   loading = false;
+
   constructor(
     private commonService: CommonService,
     private leagueService: LeagueService,
     public dialogRe: MatDialog,
-    public dialogRef: MatDialogRef<ConfirmIsFinishComponent>,
+    public dialogRef: MatDialogRef<PopupDeleteLeagueComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      matchId: number;
-    }
-  ) {}
-  
+      leagueId: number;
+    },
+    private router: Router,
+  ) { }
+
   ngOnInit(): void {
   }
 
@@ -31,19 +33,19 @@ export class ConfirmIsFinishComponent implements OnInit {
   }
 
   onSubmit() {
-   // stop here if form is invalid
-
+    // stop here if form is invalid
     this.loading = true;
-    this.leagueService.finishMatchConfirm(this.data.matchId)
+    this.leagueService.deleteLeague(this.data.leagueId)
       .pipe(first())
       .subscribe({
         next: () => {
           this.dialogRef.close();
-          this.commonService.sendMessage('Finish match success!','success');
+          this.commonService.sendMessage('Delete league success!', 'success');
+          this.router.navigate(['manager/my-league'])
         },
         error: error => {
           this.loading = false;
-          this.commonService.sendMessage(error.error.message,'fail');
+          this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
   }

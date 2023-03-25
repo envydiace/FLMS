@@ -18,6 +18,6 @@ export class ViewSquadComponent implements OnInit {
   }
 
   navigateToEditLineUp() {
-    this.router.navigate(['manager/edit-line-up'], { queryParams: {matchId : this.matchId}, skipLocationChange: true});
+    this.router.navigate(['manager/edit-line-up'], { queryParams: {matchId : this.matchId}});
   }
 }

@@ -22,7 +22,8 @@
                     <br>
                     <section class="league-detail-container">
                         <div class="left-detail" style="text-align: center;">
-                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}</p>
+                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}
+                            </p>
                             <p class="league-detail-content">Number of teams: {{leagueDetail.noParticipate}}</p>
                             <p class="league-detail-content">Tournament type: {{leagueDetail.leagueType}}</p>
                             <p class="league-detail-content">League manager: {{leagueDetail.managerName}}</p>
@@ -37,16 +38,21 @@
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
-                    <div>
-                        
+                    <div class="container">
+                        <div class="col-xs-8 justify-content-center" style="display: flex;">
+                            <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                    mat-raised-button style="width: 120px;" color="warn"
+                                    (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                            </div>
+                        </div>
                     </div>
-                    
+
                     <div class="row">
                         <mat-card-content class="league-detail-content">
                             <mat-tab-group>
                                 <mat-tab label="Schedule">
                                     <ng-template matTabContent>
-                                      <app-league-schedule></app-league-schedule>
+                                        <app-league-schedule></app-league-schedule>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Clubs">
