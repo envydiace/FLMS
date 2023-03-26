@@ -20,6 +20,7 @@ export class ClubListComponent implements OnInit {
   clubList: ClubList = null;
   pageEvent: PageEvent;
   token: token;
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
   clubListByUser: ClubListbyUser[] = [];
 

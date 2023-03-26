@@ -20,7 +20,11 @@
                 <a (click)="navigateToPlayerInfo(player.playerId)" style="cursor: pointer;">
                     <mat-card class="player-list-card">
                         <mat-card-header>
-                            <div mat-card-avatar class="profile-image"></div>
+                            <div mat-card-avatar class="profile-image">
+                                <img mat-card-avatar class="profile-image"
+                                [src]="player.avatar != null ? player.logo : defaultLogo"
+                                    alt="player profile">
+                            </div>
                             <mat-card-title style="line-height: 85px;">{{player.name}}</mat-card-title>
                             <mat-card-subtitle></mat-card-subtitle>
                             <div style="text-align: right; 

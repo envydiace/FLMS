@@ -20,6 +20,7 @@ export class ClubPlayerComponent implements OnInit {
   @Input() playerName: string;
   listPlayer: ClubListPlayer[] = [];
   
+  defaultLogo: string = './../../../../assets/image/Default_pfp.svg.png';
 
   playerId: number;
   
