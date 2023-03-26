@@ -7,6 +7,7 @@ import { ClubListPlayerResponse } from './../../../../models/club-list-player-re
 import { Club } from 'src/app/models/match-schedule.model';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { PopUpConfirmDeletePlayerComponent } from '../../pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
 
 @Component({
   selector: 'app-club-player',
@@ -18,7 +19,11 @@ export class ClubPlayerComponent implements OnInit {
   @Input() clubName: string;
   @Input() playerName: string;
   listPlayer: ClubListPlayer[] = [];
+  
+  defaultLogo: string = './../../../../assets/image/Default_pfp.svg.png';
 
+  playerId: number;
+  
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -46,14 +51,26 @@ export class ClubPlayerComponent implements OnInit {
     ).subscribe();
   }
 
-  getPlayerByName(player: string){
+  getPlayerByName(player: string) {
     if (player == null) player = '';
     this.clubService.getPlayerListFilter(player, this.id).pipe(
       map((listPlayer: ClubListPlayerResponse) => this.listPlayer = listPlayer.players)
     ).subscribe();
   }
 
-  navigateToPlayerInfo(playerId: number) {
-    this.router.navigate(['/manager/player-detail'], { queryParams: {playerId : playerId}, skipLocationChange: true});
+  navigateToPlayerInfo(playerId: number, clubId: number) {
+    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId , clubId: clubId}, skipLocationChange: true });
+  }
+
+  openDeleteplayerConfirm(playerId: number): void {
+    const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
+      width: '50%',
+      data: { playerId: playerId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.initDataSource();
+
+    });
   }
 }

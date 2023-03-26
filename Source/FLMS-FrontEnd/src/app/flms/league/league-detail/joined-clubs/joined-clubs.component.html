@@ -17,7 +17,11 @@
             <div class="player-container">
                 <mat-card class="player-list-card">
                     <mat-card-header>
-                        <div mat-card-avatar class="profile-image"></div>
+                        <div mat-card-avatar class="profile-image">
+                            <img mat-card-avatar class="profile-image"
+                            [src]="club.logo != null ? club.logo : defaultLogo"
+                                alt="club logo">
+                        </div>
                         <mat-card-title style="line-height: 85px;">{{club.clubName}}</mat-card-title>
                         <div>
 

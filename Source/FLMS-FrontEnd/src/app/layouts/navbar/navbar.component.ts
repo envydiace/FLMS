@@ -14,6 +14,7 @@ import { UserProfile } from 'src/app/models/user-profile.model';
 export class NavbarComponent implements OnInit {
   user: UserProfile;
   token: token;
+  defaultLogo: string = './../../../assets/image/default-avatar-profile-icon.webp';
 
   constructor(
     private authService: AuthService

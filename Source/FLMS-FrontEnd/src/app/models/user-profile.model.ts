@@ -2,7 +2,8 @@ export interface UserProfile {
     email: string,
     fullName: string,
     address: string,
-    phone: string
+    phone: string,
+    avatar: string
 }
 
 export class UserProfile implements UserProfile {
@@ -10,11 +11,13 @@ export class UserProfile implements UserProfile {
         email: string,
         fullName: string,
         address: string,
-        phone: string
+        phone: string,
+        avatar: string
     ) {
         this.email = email;
         this.fullName = fullName;
         this.address = address;
         this.phone = phone;
+        this.avatar = avatar;
     }
 }

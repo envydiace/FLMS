@@ -8,6 +8,8 @@ import { ClubListPlayer } from 'src/app/models/club-list-player.model';
 import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
 import { ClubService } from '../club.service';
 import { DatePipe } from '@angular/common';
+import { PopUpConfirmDeletePlayerComponent } from '../pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-player-info',
@@ -21,6 +23,7 @@ export class PlayerInfoComponent implements OnInit {
   loading = false;
   submitted = false;
   playerId: number;
+  clubId: number;
 
   playerNum: number;
   Dob: Date;
@@ -31,10 +34,12 @@ export class PlayerInfoComponent implements OnInit {
     private router: Router,
     public commonService: CommonService,
     private clubService: ClubService,
+    public dialog: MatDialog,
 
   ) {
     this.route.queryParams.subscribe(params => {
       this.playerId = params['playerId'];
+      this.clubId = params['clubId']
     });
   }
 
@@ -96,12 +101,10 @@ export class PlayerInfoComponent implements OnInit {
 
     // public onSubmit() {
   //   this.submitted = true;
-
   //   // stop here if form is invalid
   //   if (this.form.invalid) {
   //     return;
   //   }
-
   //   this.loading = true;
   //   this.clubService.editPlayer(this.form.value)
   //     .pipe(first())
@@ -109,16 +112,26 @@ export class PlayerInfoComponent implements OnInit {
   //       next: () => {
   //         this.initDataSource();
   //         this.commonService.sendMessage('Update player s info success!', 'success');
-
   //       },
   //       error: error => {
   //         this.loading = false;
   //         this.commonService.sendMessage('Update fail!.', 'fail');
-
   //       }
   //     });
 
   // }
-  
+
+  openDeleteplayerConfirm(playerId: number, clubId:number): void {
+    const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
+      width: '50%',
+      data: { playerId: playerId , clubId: this.clubId}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      
+
+    });
+  }
+
 
 }

@@ -63,6 +63,13 @@ namespace FLMS_BackEnd.Utils
             public const string Cancel = "CancelRequest";
             public const string RemoveClub = "RemoveClub";
             public const string ConfirmFee = "ConfirmFee";
+            public const string AnnounceMatch = "AnnounceMatch";
+            public const string AnnounceSquad = "AnnounceSquad";
+        }
+        public static class MailSubject
+        {
+            public const string AnnounceMatch = "Reminder - Upcoming Match in 2 Days";
+            public const string AnnounceSquad = "Reminder to review squad before tomorrow's match";
         }
 
         public const string HOME = "Home";
@@ -120,6 +127,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-07","This league has been finished" },
             {"ER-LE-08","Delete league fail" },
             {"ER-LE-09","Unable to delete a league that already has participation" },
+            {"ER-LE-10","Wrong league type" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
@@ -208,6 +216,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-MA-10","Please select a date that is at least one day away from any existing matches." },
             {"ER-MA-11","Update match failed" },
             {"ER-MA-12","Please enter the date and time in the correct format (e.g. YYYY-MM-DD HH:MM) and try again." },
+            {"ER-MA-13","Knock out match can not draw." },
+            {"ER-MA-14","League participation doesn't complete." },
 
             {"MS-EV-01","Add match event success" },
             {"MS-EV-02","Delete match event success" },

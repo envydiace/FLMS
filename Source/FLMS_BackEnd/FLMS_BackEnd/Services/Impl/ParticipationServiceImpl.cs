@@ -37,8 +37,9 @@ namespace FLMS_BackEnd.Services.Impl
             var participation = await participationRepository.FindByCondition(p =>
                     p.ClubId == request.ClubId &&
                     p.LeagueId == request.LeagueId)
-                .Include(p => p.League)
-                .ThenInclude(l => l.ClubClones)
+                .Include(p => p.Club).ThenInclude(c => c.User)
+                .Include(p => p.League).ThenInclude(l => l.User)
+                .Include(p => p.League).ThenInclude(l => l.ClubClones)
                 .FirstOrDefaultAsync();
             if (participation == null)
             {

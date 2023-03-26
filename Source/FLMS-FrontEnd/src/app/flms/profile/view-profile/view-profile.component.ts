@@ -15,10 +15,11 @@ import { token } from 'src/app/models/token.model';
   styleUrls: ['./view-profile.component.scss']
 })
 export class ViewProfileComponent implements OnInit {
-  userProfile: UserProfile = null;
+  userProfile: UserProfile ;
   form: FormGroup;
   loading = false;
   submitted = false;
+  defaultLogo: string = './../../../../assets/image/default-avatar-profile-icon.webp';
 
   token: token;
   private headers: HttpHeaders;
@@ -32,7 +33,8 @@ export class ViewProfileComponent implements OnInit {
     this.form = new FormGroup({
       fullName: new FormControl(),
       phone: new FormControl(),
-      address: new FormControl()
+      address: new FormControl(),
+      avatar: new FormControl()
     })
 
     this.token = JSON.parse(localStorage.getItem('user'));
@@ -42,11 +44,13 @@ export class ViewProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initDataSource();
 
+    console.log("123" +this.userProfile);
     this.form = this.formBuilder.group({
       fullName: ['', Validators.required],
       phone: ['', Validators.required],
       address: ['', Validators.required],
-      email: ['', Validators.required]
+      email: ['', Validators.required],
+      avatar:['', ],
     })
   }
 
@@ -68,6 +72,7 @@ export class ViewProfileComponent implements OnInit {
     this.form.controls['address'].patchValue(res.address);
     this.form.controls['email'].patchValue(res.email);
     this.form.controls['email'].disable();
+    this.form.controls['avatar'].patchValue(res.avatar);
   }
 
   public onSubmit() {
