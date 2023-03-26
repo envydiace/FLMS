@@ -75,10 +75,24 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpGet("[action]/{id}")]
-        public async Task<ActionResult<LeagueStatisticResponse>> GetLeagueStatistic(int id)
+        public async Task<ActionResult<LeagueLeagueStatisticResponse>> GetLeagueStatistic(int id)
         {
 
-            var response = await leagueService.GetLeagueStatistic(id);
+            var response = await leagueService.GetLeagueStatisticTypeLeague(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueKnockOutStatisticResponse>> GetKnockOutStatistic(int id)
+        {
+
+            var response = await leagueService.GetLeagueStatisticTypeKO(id);
             if (response.Success)
             {
                 return Ok(response);

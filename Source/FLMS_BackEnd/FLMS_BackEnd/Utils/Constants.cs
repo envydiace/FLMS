@@ -127,6 +127,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-07","This league has been finished" },
             {"ER-LE-08","Delete league fail" },
             {"ER-LE-09","Unable to delete a league that already has participation" },
+            {"ER-LE-10","Wrong league type" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
