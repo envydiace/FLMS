@@ -20,6 +20,7 @@ export class PopUpConfirmDeletePlayerComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       playerId: number;
+      clubId:number
     }
   ) {
 
@@ -36,7 +37,7 @@ export class PopUpConfirmDeletePlayerComponent implements OnInit {
     // stop here if form is invalid
  
      this.loading = true;
-     this.clubService.removePlayer(this.data.playerId)
+     this.clubService.removePlayerfromClub(this.data.playerId, this.data.clubId)
        .pipe(first())
        .subscribe({
          next: () => {

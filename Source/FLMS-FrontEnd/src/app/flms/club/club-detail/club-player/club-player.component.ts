@@ -23,7 +23,8 @@ export class ClubPlayerComponent implements OnInit {
   defaultLogo: string = './../../../../assets/image/Default_pfp.svg.png';
 
   playerId: number;
-  
+ 
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -62,10 +63,10 @@ export class ClubPlayerComponent implements OnInit {
     this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId , clubId: clubId}, skipLocationChange: true });
   }
 
-  openDeleteplayerConfirm(playerId: number): void {
+  openDeleteplayerConfirm(playerId: number, clubId: number): void {
     const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
       width: '50%',
-      data: { playerId: playerId }
+      data: { playerId: playerId , clubId: this.id}
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
