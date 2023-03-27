@@ -400,7 +400,7 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             var list = league.ParticipateNodes
-                    .OrderByDescending(n => n.Deep).ThenByDescending(n => n.ParentId).ThenBy(n => n.ParticipateId)
+                    .OrderByDescending(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
                     .ToList();
             var listNodes = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
             List<MatchNodeDTO> listMatchNode = new List<MatchNodeDTO>();
