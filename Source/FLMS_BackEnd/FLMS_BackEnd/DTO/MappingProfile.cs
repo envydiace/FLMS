@@ -147,6 +147,8 @@ namespace FLMS_BackEnd.DTO
                     node => node.ClubClone != null && node.ClubClone.Club != null ? node.ClubClone.Club : null))
                 ;
 
+            CreateMap<ParticipateTreeNodeDTO, ParticipationNodeTreeDTO>();
+
             //Match
             CreateMap<ParticipateNode, ClubMatchDTO>()
                 .ForMember(dto => dto.ClubId,
