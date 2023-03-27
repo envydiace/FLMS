@@ -400,9 +400,30 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             var list = league.ParticipateNodes
-                    .OrderBy(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
+                    .OrderByDescending(n => n.Deep).ThenByDescending(n => n.ParentId).ThenBy(n => n.ParticipateId)
                     .ToList();
             var listNodes = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
+            List<MatchNodeDTO> listMatchNode = new List<MatchNodeDTO>();
+            var groupNodes = from node in listNodes
+                             group node by node.ParentId;
+            foreach (var node in groupNodes)
+            {
+                List<ParticipationNodeTreeDTO> Participation = new List<ParticipationNodeTreeDTO>();
+                int deep = 0;
+                foreach (var n in node.ToList())
+                {
+                    Participation.Add(mapper.Map<ParticipationNodeTreeDTO>(n));
+                    deep = n.Deep;
+                }
+                var matchNode = new MatchNodeDTO
+                {
+                    ParentId = node.Key,
+                    Deep = deep,
+                    Participation = Participation
+                };
+                listMatchNode.Add(matchNode);
+            }
+
             var topEvent = await this.GetLeagueTopEvent(leagueId);
 
             return new LeagueKnockOutStatisticResponse
@@ -410,7 +431,7 @@ namespace FLMS_BackEnd.Services.Impl
                 Success = true,
                 LeagueId = leagueId,
                 LeagueType = league.LeagueType,
-                ListNode = listNodes,
+                ListNode = listMatchNode,
                 TopScore = topEvent.TopScore,
                 TopAssist = topEvent.TopAssist
             };
