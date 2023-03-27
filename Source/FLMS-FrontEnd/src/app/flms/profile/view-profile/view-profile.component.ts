@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { token } from 'src/app/models/token.model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-view-profile',
@@ -21,12 +22,15 @@ export class ViewProfileComponent implements OnInit {
   submitted = false;
   defaultLogo: string = './../../../../assets/image/default-avatar-profile-icon.webp';
 
+  role: string;
+
   token: token;
   private headers: HttpHeaders;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    public authSer: AuthService,
     private profileService: ProfileService
 
   ) {
@@ -52,6 +56,8 @@ export class ViewProfileComponent implements OnInit {
       email: ['', Validators.required],
       avatar:['', ],
     })
+    
+    this.role = this.authSer.getUserRole();
   }
 
   get f() { return this.form.controls; }
