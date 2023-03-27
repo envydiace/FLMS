@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { token } from 'src/app/models/token.model';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CommonService } from 'src/app/common/common/common.service';
 
 @Component({
   selector: 'app-view-profile',
@@ -16,7 +17,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./view-profile.component.scss']
 })
 export class ViewProfileComponent implements OnInit {
-  userProfile: UserProfile ;
+  userProfile: UserProfile;
   form: FormGroup;
   loading = false;
   submitted = false;
@@ -31,6 +32,7 @@ export class ViewProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public authSer: AuthService,
+    public common: CommonService,
     private profileService: ProfileService
 
   ) {
@@ -48,15 +50,14 @@ export class ViewProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initDataSource();
 
-    console.log("123" +this.userProfile);
     this.form = this.formBuilder.group({
       fullName: ['', Validators.required],
       phone: ['', Validators.required],
       address: ['', Validators.required],
       email: ['', Validators.required],
-      avatar:['', ],
+      avatar: ['',],
     })
-    
+
     this.role = this.authSer.getUserRole();
   }
 
@@ -95,9 +96,11 @@ export class ViewProfileComponent implements OnInit {
       .subscribe({
         next: () => {
           this.initDataSource();
+          this.common.sendMessage('Info Updated!', 'success')
         },
         error: error => {
           this.loading = false;
+          this.common.sendMessage(error.error.message, 'fail')
         }
       });
 

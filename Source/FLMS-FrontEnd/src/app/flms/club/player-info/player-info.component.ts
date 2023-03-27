@@ -121,17 +121,17 @@ export class PlayerInfoComponent implements OnInit {
 
   // }
 
-  openDeleteplayerConfirm(playerId: number, clubId:number): void {
-    const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
-      width: '50%',
-      data: { playerId: playerId , clubId: this.clubId}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+  // openDeleteplayerConfirm(playerId: number, clubId:number): void {
+  //   const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
+  //     width: '50%',
+  //     data: { playerId: playerId , clubId: this.clubId}
+  //   });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
       
 
-    });
-  }
+  //   });
+  // }
 
 
 }

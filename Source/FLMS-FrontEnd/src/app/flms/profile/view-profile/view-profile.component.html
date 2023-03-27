@@ -1,8 +1,14 @@
+<p>
+    <mat-toolbar class="card">
+        <span>Account</span>
+    </mat-toolbar>
+</p>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-card class="example-card">
         <mat-card-header>
 
-            <mat-card-title>Account </mat-card-title>
+            <mat-card-title> </mat-card-title>
             <br />
             <mat-card-subtitle> </mat-card-subtitle>
         </mat-card-header>
@@ -12,12 +18,12 @@
                 <div class="col-xl-3">
                     <div class="card mb-4 mb-xl-0">
                         <div class="card-header">Profile Picture</div>
-                        <div class="card-body text-center">
+                        <div *ngIf="userProfile" class="card-body text-center">
                             <img class="img-account-profile rounded-circle mb-2"
-                            
-                                [src]="userProfile.avatar != null ? userProfile.avatar : defaultLogo" alt="profile's Pic">
-                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div> <button
-                                class="btn btn-primary" type="button">Upload new image</button>
+                                [src]="userProfile.avatar != null ? userProfile.avatar : defaultLogo"
+                                alt="profile's Pic">
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <button class="btn btn-primary" type="button">Upload new image</button>
                         </div>
                     </div>
 

@@ -1,32 +1,131 @@
+<p>
+    <mat-toolbar class="card">
+        <span>Create Club</span>
+    </mat-toolbar>
+</p>
+
+
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="row">
+
+    <mat-card class="example-card">
+        <mat-card-header>
+
+            <mat-card-title> </mat-card-title>
+            <br />
+            <mat-card-subtitle> </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="row">
+
+                <div class="col-xl-9">
+
+                    <div class="card mb-4">
+                        <div class="card-header">Club's Info</div>
+                        <div class="card-body">
+
+                            <div class="mb-3">
+                                <!-- <label class="small mb-1" for="inputUsername">Username </label>  -->
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>ClubName</mat-label>
+                                    <input matInput formControlName="clubName" placeholder="Club Name">
+
+                                </mat-form-field>
+                            </div>
+
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Telephone</mat-label>
+                                        <span matPrefix>+84 &nbsp;</span>
+                                        <input type="tel" matInput formControlName="phoneNumber"
+                                            placeholder="0912345678">
+
+
+                                        <mat-icon matSuffix>mode_edit</mat-icon>
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Email </mat-label>
+                                        <input type="email" formControlName="email" matInput
+                                            placeholder="Ex. pat@example.com">
+
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>socialCont</mat-label>
+
+                                    <input matInput formControlName="socialCont">
+                                </mat-form-field>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3">
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Logo</div>
+                        <div class="card-body text-center">
+                            
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            
+                            
+                            <!-- <img mat-card-avatar class="league-header-image" [src]="imgSrc"><br> -->
+                            <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
+        
+                        </div>
+                    </div>
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Uniform</div>
+                        <div class="card-body text-center">
+                            <img class="img-account-profile rounded-circle mb-2">
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
+
+                        </div>
+                    </div>
+                    <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
+                </div>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-raised-button color="warn">Back</button>
+        </mat-card-actions>
+
+    </mat-card>
+
+    <!-- <div class="row">
         <div class="col-sm-8">
             <div class="page-header container">
                 <h1>Add Club </h1>
             </div>
         </div>
-        <div class="col-sm-4" style="line-height: 80px; text-align: right; margin-left: -20px;">
-            <button mat-raised-button color="primary">Save</button>
-
-        </div>
+      
 
     </div>
 
     <div class="box-content">
         <mat-form-field class="example-full-width">
             <mat-label>Club Name</mat-label>
-            <input matInput formControlName="clubName" placeholder="Club Name">
+            
         </mat-form-field>
 
         <table class="example-full-width" cellspacing="10">
             <tr>
                 <td><mat-form-field class="example-full-width">
                         <mat-label>Email</mat-label>
-                        <input matInput formControlName="email">
+
                     </mat-form-field></td>
                 <td><mat-form-field class="example-full-width">
                         <mat-label>Phone Number</mat-label>
-                        <input matInput formControlName="phoneNumber">
+                        
                     </mat-form-field></td>
 
             </tr>
@@ -36,7 +135,7 @@
 
                 <td><mat-form-field class="example-full-width">
                         <mat-label>socialCont</mat-label>
-                        <input matInput formControlName="socialCont">
+                        
                     </mat-form-field></td>
 
             </tr>
@@ -45,16 +144,17 @@
         <table class="example-full-width" cellspacing="0">
             <tr>
                 <td>
-                    <!-- <mat-form-field class="example-full-width">
-                        <mat-label>Logo</mat-label>
-                        <input matInput type="file" formControlName="logo" (change)="showPreview($event)">
-                    </mat-form-field> -->
-                    <input type="file" (change)="showPreview($event)">
+                    <mat-label>Logo</mat-label>
+                    <mat-form-field class="example-full-width">
+                      
+                        <input matInput type="file" formControlName="logo" (change)="showPreview($event)"> 
+                    </mat-form-field> 
+                    
                 </td>
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Uniform</mat-label>
-                        <input matInput formControlName="kit">
+                        
                     </mat-form-field>
                 </td>
             </tr>
@@ -72,5 +172,5 @@
 </form>
 
 <div class="bottom-tab">
-    <button mat-raised-button color="warn">Back</button>
-</div>
+
+</div> -->
