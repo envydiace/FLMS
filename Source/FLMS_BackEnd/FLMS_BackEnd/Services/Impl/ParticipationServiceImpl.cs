@@ -291,7 +291,7 @@ namespace FLMS_BackEnd.Services.Impl
 
             var list = await participateNodeRepository.FindByCondition(n => n.LeagueId == leagueId)
                     .Include(n => n.ClubClone).ThenInclude(c => c.Club)
-                    .OrderBy(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
+                    .OrderByDescending(n => n.Deep).ThenByDescending(n => n.ParentId).ThenBy(n => n.ParticipateId)
                     .ToListAsync();
             if (list != null)
             {
@@ -320,15 +320,34 @@ namespace FLMS_BackEnd.Services.Impl
                         });
                     });
                 }
-                var listNodes = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
-
+                var listNode = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
+                List<MatchNodeDTO> listMatchNode = new List<MatchNodeDTO>();
+                var groupNodes = from node in listNode
+                                 group node by node.ParentId;
+                foreach (var node in groupNodes)
+                {
+                    List<ParticipationNodeTreeDTO> Participation = new List<ParticipationNodeTreeDTO>();
+                    int deep = 0;
+                    foreach (var n in node.ToList())
+                    {
+                        Participation.Add(mapper.Map<ParticipationNodeTreeDTO>(n));
+                        deep = n.Deep;
+                    }
+                    var matchNode = new MatchNodeDTO
+                    {
+                        ParentId = node.Key,
+                        Deep = deep,
+                        Participation = Participation
+                    };
+                    listMatchNode.Add(matchNode);
+                }
                 return new ParticipateTreeResponse
                 {
                     LeagueId = leagueId,
-                    ListNode = listNodes,
+                    ListNode = listMatchNode,
                     ListAvailNode = listAvailNode,
                     NumberOfNode = list.Count,
-                    TreeHeight = list.LastOrDefault().Deep,
+                    TreeHeight = list.FirstOrDefault().Deep,
                     CanEdit = !list.Any(n => (n.ClubCloneId != null && n.ClubCloneId != 0) &&
                             (n.LeftId != null && n.LeftId != 0))
                 };
