@@ -13,7 +13,10 @@
     }
 
     .league-tree-container {
-        background-color: #FFFFFF;
+        background-color: #e7e7e7;
+        margin: 0;
+        overflow: hidden;
+
     }
 }
 
@@ -72,4 +75,29 @@
     height: 70px;
     width: 70px;
     margin: 0 auto;
+}
+
+.player-position {
+    display: block;
+    padding: 0;
+    margin: 0 auto;
+    border: none;
+    text-align: center;
+    cursor: move;
+    // background: none;
+    font-size: 14px;
+    width: 150px;
+    box-shadow: none;
+}
+
+.player-header-image {
+    height: 70px;
+    width: 70px;
+    margin: 0 auto;
+}
+
+.example-list {
+    min-height: 60px;
+    display: flex;
+    overflow: hidden;
 }

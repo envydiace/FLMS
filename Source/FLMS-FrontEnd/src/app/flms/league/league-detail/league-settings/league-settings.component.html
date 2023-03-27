@@ -1,5 +1,5 @@
-<div class="league-setting-containner row">
-    <div class="col-xl-3">
+<div class="league-setting-containner row" cdkDropListGroup>
+    <div class="col-xl-3" *ngIf="leagueTree">
         <div class="card mb-4 mb-xl-0 league-card">
             <mat-toolbar>
                 <span>List Clubs</span>
@@ -19,8 +19,18 @@
         </div>
     </div>
     <div class="col-xl-9 league-tree-container">
-        <div class="">
-
+        <div *ngFor="let row of treeNode, let i = index">
+            <div class="example-list" cdkDropList [cdkDropListData]="treeNode[i].rowNodes"
+                cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+                <mat-card class="player-box player-position" *ngFor="let item of treeNode[i].rowNodes" cdkDrag>
+                    <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
+                    <mat-card-subtitle style="line-height: 52px; margin-bottom: 0;">{{item.clubBasicInfo != null ?
+                        item.clubBasicInfo.clubName : '_'}}</mat-card-subtitle>
+                </mat-card>
+            </div>
         </div>
+
+
+
     </div>
 </div>
