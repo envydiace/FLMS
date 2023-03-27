@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Office2016.Excel;
 using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
@@ -6,6 +7,7 @@ using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -15,12 +17,14 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly ClubRepository clubRepository;
         private readonly SquadRepository squadRepository;
         private readonly MatchRepository matchRepository;
+        private readonly ParticipateNodeRepository participateNodeRepository;
 
-        public ClubServiceImpl(ClubRepository clubRepository, SquadRepository squadRepository, MatchRepository matchRepository)
+        public ClubServiceImpl(ClubRepository clubRepository, SquadRepository squadRepository, MatchRepository matchRepository, ParticipateNodeRepository participateNodeRepository)
         {
             this.clubRepository = clubRepository;
             this.squadRepository = squadRepository;
             this.matchRepository = matchRepository;
+            this.participateNodeRepository = participateNodeRepository;
         }
         public async Task<ClubResponse> GetClubById(int id)
         {
@@ -102,9 +106,9 @@ namespace FLMS_BackEnd.Services.Impl
         {
             //TODO: check number of player in club
             var club = await clubRepository.FindByCondition(club => club.ClubId == id)
-                        .Include(c=>c.ClubClones)
-                        .Include(c=>c.ParticipateRequests)
-                        .Include(c=>c.Participations)
+                        .Include(c => c.ClubClones)
+                        .Include(c => c.ParticipateRequests)
+                        .Include(c => c.Participations)
                         .FirstOrDefaultAsync();
             if (club == null)
             {
@@ -204,6 +208,48 @@ namespace FLMS_BackEnd.Services.Impl
                 });
             });
             return result;
+        }
+
+        public async Task<ClubHistoryResponse> GetClubHistory(int clubId)
+        {
+            var nodes = await participateNodeRepository.FindByCondition(p => p.ClubClone.ClubId == clubId).ToListAsync();
+            if (nodes == null)
+            {
+                nodes = new List<ParticipateNode>();
+            }
+            List<Match> lmatches = new List<Match>();
+            foreach (var node in nodes)
+            {
+                var matches = await matchRepository.FindByCondition
+                    (m => ((m.HomeId == node.ParticipateNodeId) || (m.AwayId == node.ParticipateNodeId)) && m.IsFinish)
+                    .Include(m => m.Home).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+                    .Include(m => m.Away).ThenInclude(p => p.ClubClone).ThenInclude(c => c != null ? c.Club : null)
+                    .Include(m => m.League)
+                    .Include(m => m.MatchStats)
+                    .ToListAsync();
+                if (matches != null)
+                {
+                    lmatches.AddRange(matches);
+                }
+            }
+            var listMatch = mapper.Map<List<MatchDTO>>(lmatches.OrderBy(m => m.MatchDate));
+            listMatch.ForEach(m =>
+            {
+                var match = lmatches.Where(x => x.MatchId == m.MatchId).FirstOrDefault();
+                if (match != null)
+                {
+                    var homeStats = match.MatchStats.FirstOrDefault(ms => ms.IsHome);
+                    m.Home.Score = homeStats != null ? homeStats.Score : 0;
+                    var awayStats = match.MatchStats.FirstOrDefault(ms => !ms.IsHome);
+                    m.Away.Score = awayStats != null ? awayStats.Score : 0;
+                }
+            });
+
+            return new ClubHistoryResponse
+            {
+                Success = true,
+                listMatch = listMatch
+            };
         }
     }
 }
