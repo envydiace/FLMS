@@ -291,7 +291,7 @@ namespace FLMS_BackEnd.Services.Impl
 
             var list = await participateNodeRepository.FindByCondition(n => n.LeagueId == leagueId)
                     .Include(n => n.ClubClone).ThenInclude(c => c.Club)
-                    .OrderByDescending(n => n.Deep).ThenByDescending(n => n.ParentId).ThenBy(n => n.ParticipateId)
+                    .OrderByDescending(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
                     .ToListAsync();
             if (list != null)
             {
