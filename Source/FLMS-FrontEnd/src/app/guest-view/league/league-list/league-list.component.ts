@@ -17,6 +17,7 @@ export class LeagueListComponent implements OnInit {
   leagueName: string = null;
   leagueList: LeagueList = null;
   pageEvent: PageEvent;
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
 
 
   constructor(
