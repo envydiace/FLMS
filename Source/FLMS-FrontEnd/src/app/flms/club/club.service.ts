@@ -134,15 +134,21 @@ export class ClubService {
   editPlayer(player: ClubListPlayer) {
     return this.http.put(`${environment.apiUrl}/api/Player/UpdatePlayer`, player, { headers: this.headers });
   }
-  removePlayer(playerId: number): Observable<any> {
-
-    return this.http.delete(`${environment.apiUrl}/api/Player/DeletePlayer/${playerId}`, { headers: this.headers });
+  removePlayerfromClub(playerId: number, clubId: number): Observable<any> {
+    const options = {
+      headers: this.headers,
+      body: {
+        playerId,
+        clubId
+      },
+    };
+    return this.http.delete(`${environment.apiUrl}/api/Player/DeletePlayerClub`, options);
 
   }
 
 
-  deleteClub(clubId: number): Observable<any>{
-    return this.http.delete(`${environment.apiUrl}/api/Club/DeleteClub/${clubId}`, {headers: this.headers});
+  deleteClub(clubId: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/api/Club/DeleteClub/${clubId}`, { headers: this.headers });
   }
 
   getClubLeagueHistory(clubId: number): Observable<ClubLeagueHistory[]> {

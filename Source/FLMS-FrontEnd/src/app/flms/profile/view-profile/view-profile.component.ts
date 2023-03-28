@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { UserProfileResponse } from 'src/app/models/user-profile-response.model';
 import { UserProfile } from 'src/app/models/user-profile.model';
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { token } from 'src/app/models/token.model';
+import { AuthService } from 'src/app/auth/auth.service';
+import { CommonService } from 'src/app/common/common/common.service';
+import {AngularFireStorage} from '@angular/fire/storage';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-view-profile',
@@ -15,11 +19,14 @@ import { token } from 'src/app/models/token.model';
   styleUrls: ['./view-profile.component.scss']
 })
 export class ViewProfileComponent implements OnInit {
-  userProfile: UserProfile ;
+  userProfile: UserProfile;
   form: FormGroup;
   loading = false;
   submitted = false;
-  defaultLogo: string = './../../../../assets/image/default-avatar-profile-icon.webp';
+  imgSrc: string = './../../../../assets/image/default-avatar-profile-icon.webp';
+
+  role: string;
+  selectedImage: any ;
 
   token: token;
   private headers: HttpHeaders;
@@ -27,7 +34,11 @@ export class ViewProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private profileService: ProfileService
+    public authSer: AuthService,
+    public common: CommonService,
+    private profileService: ProfileService,
+    @Inject(AngularFireStorage) private storage: AngularFireStorage
+
 
   ) {
     this.form = new FormGroup({
@@ -44,18 +55,23 @@ export class ViewProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initDataSource();
 
-    console.log("123" +this.userProfile);
     this.form = this.formBuilder.group({
       fullName: ['', Validators.required],
       phone: ['', Validators.required],
       address: ['', Validators.required],
       email: ['', Validators.required],
-      avatar:['', ],
+      avatar: ['',],
     })
+
+    this.role = this.authSer.getUserRole();
   }
 
   get f() { return this.form.controls; }
 
+
+  getCurrentDateTime(): string {
+    return formatDate(new Date(), 'dd-MM-yyyy', 'en-US');
+  }
 
   initDataSource() {
     this.profileService.getuserprofile().pipe(
@@ -72,7 +88,18 @@ export class ViewProfileComponent implements OnInit {
     this.form.controls['address'].patchValue(res.address);
     this.form.controls['email'].patchValue(res.email);
     this.form.controls['email'].disable();
-    this.form.controls['avatar'].patchValue(res.avatar);
+    this.imgSrc = res.avatar;
+  }
+  showPreview(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+    } else {
+      this.imgSrc = './../../../../assets/image/default-avatar-profile-icon.webp';
+      this.selectedImage = null;
+    }
   }
 
   public onSubmit() {
@@ -84,16 +111,34 @@ export class ViewProfileComponent implements OnInit {
     }
 
     this.loading = true;
-    this.profileService.editProfile(this.form.value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.initDataSource();
-        },
-        error: error => {
-          this.loading = false;
-        }
-      });
+
+    const nameImg ='profile/'+ this.userProfile.fullName + 'avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
+    const fileRef = this.storage.ref(nameImg);
+    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe((url) => {
+
+          this.form.get('avatar').patchValue(url);
+
+          this.profileService.editProfile(this.form.value)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.initDataSource();
+              this.common.sendMessage('Info Updated!', 'success')
+            },
+            error: error => {
+              this.loading = false;
+              this.common.sendMessage(error.error.message, 'fail')
+            }
+          });
+
+        });
+      })
+    ).subscribe();
+
+
+   
 
   }
 

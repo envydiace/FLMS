@@ -14,5 +14,6 @@ namespace FLMS_BackEnd.Services
         Task<DeleteClubResponse> DeleteClub(int id, int userId);
         Task<List<ClubHistoryDTO>> GetClubLeagueHistory(int clubId);
         Task<List<IncomingMatchDTO>> GetIncomingMatch(int userId);
+        Task<ClubHistoryResponse> GetClubHistory(int clubId);
     }
 }
