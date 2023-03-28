@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.DTO;
+﻿using ClosedXML.Excel;
+using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 
 namespace FLMS_BackEnd.Utils
@@ -255,6 +256,19 @@ namespace FLMS_BackEnd.Utils
                 default:
                     return 0;
             }
+        }
+
+        public static void SetColumnWidths(IXLWorksheet worksheet)
+        {
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Time]).Width = 12;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Date]).Width = 20;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Home]).Width = 30;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.HomeScore]).Width = 16;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.AwayScore]).Width = 16;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Away]).Width = 30;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Round]).Width = 12;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Stadium]).Width = 36;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Status]).Width = 20;
         }
     }
 }
