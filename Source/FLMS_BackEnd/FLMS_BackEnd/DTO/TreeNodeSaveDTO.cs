@@ -3,6 +3,6 @@
     public class TreeNodeSaveDTO
     {
         public int NodeId { get; set; }
-        public int ClubId { get; set; }
+        public int? ClubId { get; set; }
     }
 }
