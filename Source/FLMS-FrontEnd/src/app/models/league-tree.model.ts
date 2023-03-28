@@ -1,5 +1,5 @@
 export interface LeagueTree {
-    listNode: TreeNode[];
+    listNode: CoupleNode[];
     listAvailNode: TreeNode[];
     leagueId: number;
     canEdit: boolean;
@@ -9,7 +9,7 @@ export interface LeagueTree {
 
 export class LeagueTree implements LeagueTree {
     constructor(
-        listNode: TreeNode[],
+        listNode: CoupleNode[],
         listAvailNode: TreeNode[],
         leagueId: number,
         canEdit: boolean,
@@ -27,8 +27,6 @@ export class LeagueTree implements LeagueTree {
 
 export interface TreeNode {
     nodeId: number;
-    deep: number;
-    parentId: number;
     leftId: number;
     rightId: number;
     hasChild: boolean;
@@ -39,8 +37,6 @@ export interface TreeNode {
 export class TreeNode implements TreeNode {
     constructor(
         nodeId: number,
-        deep: number,
-        parentId: number,
         leftId: number,
         rightId: number,
         hasChild: boolean,
@@ -48,13 +44,29 @@ export class TreeNode implements TreeNode {
         clubBasicInfo: ClubBasicInfo
     ) {
         this.nodeId = nodeId;
-        this.deep = deep;
-        this.parentId = parentId;
         this.leftId = leftId;
         this.rightId = rightId;
         this.hasChild = hasChild;
         this.score = score;
         this.clubBasicInfo = clubBasicInfo;
+    }
+}
+
+export interface CoupleNode {
+    deep: number;
+    parentId: number;
+    participation: TreeNode[];
+}
+
+export class CoupleNode implements CoupleNode {
+    constructor(
+        deep: number,
+        parentId: number,
+        participation: TreeNode[]
+    ) {
+        this.deep = deep;
+        this.parentId = parentId;
+        this.participation = participation;
     }
 }
 
@@ -75,4 +87,15 @@ export class ClubBasicInfo implements ClubBasicInfo {
         this.logo = logo;
     }
 }
+
+export class UpdateTreeModel {
+    leagueId: number;
+    listNode: UpdateNode[];
+}
+
+export class UpdateNode {
+    nodeId: number;
+    clubId: number;
+}
+
 

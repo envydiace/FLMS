@@ -1,19 +1,13 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { ClubListByLeagueResponse } from 'src/app/models/club-list-by-league-response.model';
 import { ClubListByLeague } from 'src/app/models/club-list-by-league.model';
-import { LeagueTree, TreeNode } from 'src/app/models/league-tree.model';
+import { CoupleNode, LeagueTree, TreeNode, UpdateNode, UpdateTreeModel } from 'src/app/models/league-tree.model';
 import { LeagueService } from '../../league.service';
-
-export class Nodes {
-  node: TreeNode[];
-}
-
-export class Tree {
-  rowNodes: TreeNode[];
-}
+import { NgttTournament, NgttRound } from 'ng-tournament-tree';
+import { CommonService } from 'src/app/common/common/common.service';
 
 @Component({
   selector: 'app-league-settings',
@@ -21,23 +15,18 @@ export class Tree {
   styleUrls: ['./league-settings.component.scss']
 })
 export class LeagueSettingsComponent implements OnInit {
-  listClubByLeague: ClubListByLeague[] = [];
   leagueId: number;
   imgSrc: string = './../../../../../assets/image/clubDefaultLogo.png';
   leagueTree: LeagueTree;
-  treeNode: Tree[] = [];
+  listAvailNode: TreeNode[];
+  winner: TreeNode;
 
-  timePeriods = [
-    'Bronze age',
-    'Iron age',
-    'Middle ages',
-    'Early modern period',
-    'Long nineteenth century'
-  ];
+  public singleEliminationTournament: NgttTournament;
 
   constructor(
     private route: ActivatedRoute,
     private leagueService: LeagueService,
+    private commonService: CommonService,
   ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
@@ -46,57 +35,136 @@ export class LeagueSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
-
   }
 
   initDataSource() {
-    this.findClubByLeague();
     this.getLeagueTree();
-  }
-
-  findClubByLeague() {
-    this.leagueService.findClubByLeague(this.leagueId + '', '').pipe(
-      map((listClubByLeague: ClubListByLeagueResponse) => this.listClubByLeague = listClubByLeague.clubs)
-    ).subscribe();
   }
 
   getLeagueTree() {
     this.leagueService.getLeagueTree(this.leagueId).pipe(
-      map((res: LeagueTree) => this.leagueTree = res)
+      map((res: LeagueTree) => {
+        this.leagueTree = res;
+        this.listAvailNode = res.listAvailNode;
+        if (res != null && res != undefined) this.bindNodeIntoTree(res);
+      })
     ).subscribe(() => {
-      this.bindNodeIntoTree();
+
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<TreeNode[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 
     } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      const previousPosition = event.previousContainer.data[event.previousIndex];
+      const currentPosition = event.container.data[event.currentIndex];
+
+      if (previousPosition != undefined && currentPosition != undefined && currentPosition.hasChild == false) {
+        //swap nodeId befor change
+        let oldNodeId = event.previousContainer.data[event.previousIndex].nodeId;
+        event.previousContainer.data[event.previousIndex].nodeId = event.container.data[event.currentIndex].nodeId;
+        event.container.data[event.currentIndex].nodeId = oldNodeId;
+
+        let oldtarget = event.previousContainer.data[event.previousIndex];
+        event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
+        event.container.data[event.currentIndex] = oldtarget;
+      }
+
+      // transferArrayItem(event.previousContainer.data,
+      //   event.container.data,
+      //   event.previousIndex,
+      //   event.currentIndex);
     }
   }
 
-  bindNodeIntoTree() {
-    const treeNodeFromDB = this.leagueTree;
+  bindNodeIntoTree(res: LeagueTree) {
+    const leagueTree = res;
+    const rounds: NgttRound[] = [];
+    for (let index = leagueTree.treeHeight; index >= 1; index--) {
+      let matches = leagueTree.listNode.filter(n => n.deep == index);
 
-    if (treeNodeFromDB != null && treeNodeFromDB != undefined) {
-      for (let index = 1; index <= treeNodeFromDB.treeHeight; index++) {
-        const nodes: TreeNode[] = treeNodeFromDB.listNode.filter(n => n.deep == index);
+      let round: NgttRound;
+      if (index == 2) {
+        round = {
+          type: 'Final',
+          matches
+        };
+      } else if (index == 1) {
+        this.winner = matches[0].participation[0];
+      } else {
+        round = {
+          type: 'Winnerbracket',
+          matches
+        };
+      }
 
-        let rowNode: Tree = new Tree();
-        rowNode.rowNodes = nodes;
+      const parentRound = leagueTree.listNode.filter(n => n.deep == index - 1);
+      if (matches.length < parentRound.length * 2) {
+        const emptyMatch: CoupleNode = {
+          deep: index,
+          parentId: null,
+          participation: null
+        }
+        for (let i = matches.length + 1; i <= parentRound.length * 2; i++) {
 
-        this.treeNode.push(rowNode);
+          round.matches.push(emptyMatch);
+        }
+      }
+
+
+      if (round != undefined && round != null) rounds.push(round);
+    }
+    this.singleEliminationTournament = {
+      rounds
+    };
+  }
+
+  onSubmit() {
+    const CoupleNodes: CoupleNode[] = [];
+    const nodes: TreeNode[] = [];
+    let listNode: UpdateNode[] = [];
+
+    nodes.push(this.winner);
+    for (let index = this.leagueTree.treeHeight - 2; index >= 0; index--) {
+
+      const nodeRound = this.singleEliminationTournament.rounds[index].matches;
+
+      if (this.singleEliminationTournament.rounds[index].type == 'Final') {
+        CoupleNodes.push(nodeRound[0]);
+      } else {
+        CoupleNodes.push(...nodeRound);
+
       }
     }
 
-    this.treeNode.forEach(element => {
-      console.log('Tree Nodes:' + element.rowNodes.length);
-
+    CoupleNodes.forEach(element => {
+      if(element.participation != null) nodes.push(...element.participation);
     });
+
+    nodes.forEach(node => {
+      let tempNode = {
+        nodeId: node.nodeId,
+        clubId: node.clubBasicInfo != null ? node.clubBasicInfo.clubId : null
+      }
+      listNode.push(tempNode);
+    });
+
+    const tree: UpdateTreeModel = {
+      leagueId: this.leagueId,
+      listNode: listNode
+    }
+
+    this.leagueService.updateLeagueTree(tree)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.commonService.sendMessage('Update success!', 'success')
+        },
+        error: error => {
+          this.commonService.sendMessage(error.error.message, 'fail')
+        }
+      });
   }
 }

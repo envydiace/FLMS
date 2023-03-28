@@ -5,32 +5,28 @@
                 <span>List Clubs</span>
             </mat-toolbar>
             <div class="card-body ">
-                <div cdkDropList [cdkDropListData]="listClubByLeague" class="player-list"
+                <div cdkDropList [cdkDropListData]="listAvailNode" class="player-list"
                     (cdkDropListDropped)="drop($event)">
-                    <mat-card class="player-box" *ngFor="let item of listClubByLeague" cdkDrag>
+                    <mat-card class="player-box" *ngFor="let item of listAvailNode" cdkDrag>
                         <mat-card-header>
                             <div mat-card-avatar class="avatar-header-image"></div>
-                            <mat-card-title
-                                style="line-height: 37px; margin-bottom: 0;font-size: 15px;">{{item.clubName}}</mat-card-title>
+                            <mat-card-title style="line-height: 37px; margin-bottom: 0;font-size: 15px;">{{
+                                item.clubBasicInfo != null ? item.clubBasicInfo.clubName : '_' }}</mat-card-title>
                         </mat-card-header>
                     </mat-card>
                 </div>
             </div>
         </div>
+        <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" >Save</button>
     </div>
     <div class="col-xl-9 league-tree-container">
-        <div *ngFor="let row of treeNode, let i = index">
-            <div class="example-list" cdkDropList [cdkDropListData]="treeNode[i].rowNodes"
-                cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-                <mat-card class="player-box player-position" *ngFor="let item of treeNode[i].rowNodes" cdkDrag>
-                    <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
-                    <mat-card-subtitle style="line-height: 52px; margin-bottom: 0;">{{item.clubBasicInfo != null ?
-                        item.clubBasicInfo.clubName : '_'}}</mat-card-subtitle>
-                </mat-card>
-            </div>
-        </div>
+        <ng-container *ngIf="singleEliminationTournament">
+            <ngtt-single-elimination-tree [tournament]="singleEliminationTournament"
+                [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+        </ng-container>
 
-
-
+        <ng-template #matchTemplate let-match>
+            <app-tournament-match [match]="match"></app-tournament-match>
+        </ng-template>
     </div>
 </div>

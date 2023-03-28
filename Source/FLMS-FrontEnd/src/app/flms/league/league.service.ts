@@ -12,7 +12,7 @@ import { MatchEvent } from 'src/app/models/match-event-detail.model';
 import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
 import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
-import { LeagueTree } from './../../models/league-tree.model';
+import { LeagueTree, UpdateTreeModel } from './../../models/league-tree.model';
 import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
 
 
@@ -157,5 +157,9 @@ export class LeagueService {
     return this.http.get(`${environment.apiUrl}/api/Participation/GetLeagueTree/${leagueId}`)
       .pipe(map((res: LeagueTree) => res),
         catchError(err => throwError(err)));
+  }
+
+  updateLeagueTree(tree: UpdateTreeModel) {
+    return this.http.put(`${environment.apiUrl}/api/Participation/ManageLeagueSettingKO`, tree, { headers: this.headers });
   }
 }
