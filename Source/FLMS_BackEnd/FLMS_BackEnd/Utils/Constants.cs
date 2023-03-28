@@ -72,6 +72,19 @@ namespace FLMS_BackEnd.Utils
             public const string AnnounceSquad = "Reminder to review squad before tomorrow's match";
         }
 
+        public static class DataColumn
+        {
+            public const string Time = "Time";
+            public const string Date = "Date";
+            public const string Home = "Home";
+            public const string Away = "Away";
+            public const string HomeScore = "Home Score";
+            public const string AwayScore = "Away Score";
+            public const string Round = "Round";
+            public const string Stadium = "Stadium";
+            public const string Status = "Status";
+        }
+
         public const string HOME = "Home";
         public const string AWAY = "Away";
 
@@ -231,6 +244,20 @@ namespace FLMS_BackEnd.Utils
 
             {"ER-CC-01","This club clone is not existed" },
         };
+
+        public static readonly Dictionary<string, string> columnMapLeagueSchedule = new Dictionary<string, string>
+        {
+            { DataColumn.Time, "A" },
+            { DataColumn.Date, "B" },
+            { DataColumn.Home, "C" },
+            { DataColumn.HomeScore, "D" },
+            { DataColumn.AwayScore, "E" },
+            { DataColumn.Away, "F" },
+            { DataColumn.Round, "G" },
+            { DataColumn.Stadium, "H" },
+            { DataColumn.Status, "I" },
+        };
+
 
         public static int DEFAULT_PAGE = 1;
         public static int DEFAULT_LEAGUE_PAGE_SIZE = 6;
