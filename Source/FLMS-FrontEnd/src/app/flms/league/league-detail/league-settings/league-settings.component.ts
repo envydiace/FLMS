@@ -140,15 +140,17 @@ export class LeagueSettingsComponent implements OnInit {
     }
 
     CoupleNodes.forEach(element => {
-      if(element.participation != null) nodes.push(...element.participation);
+      if (element.participation != null) nodes.push(...element.participation);
     });
 
     nodes.forEach(node => {
-      let tempNode = {
-        nodeId: node.nodeId,
-        clubId: node.clubBasicInfo != null ? node.clubBasicInfo.clubId : null
+      if (node.hasChild == false) {
+        let tempNode = {
+          nodeId: node.nodeId,
+          clubId: node.clubBasicInfo != null ? node.clubBasicInfo.clubId : null
+        }
+        listNode.push(tempNode);
       }
-      listNode.push(tempNode);
     });
 
     const tree: UpdateTreeModel = {
