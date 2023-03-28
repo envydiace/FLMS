@@ -13,7 +13,7 @@ import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src
 import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
 import { LeagueTree, UpdateTreeModel } from './../../models/league-tree.model';
-import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
+import { LeagueStatisticResponse } from './../../models/league-statistics-response.model';
 
 
 @Injectable({

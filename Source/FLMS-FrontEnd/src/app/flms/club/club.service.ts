@@ -12,11 +12,11 @@ import { ClubDetailResponse } from './../../models/club-detail-response.model';
 import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
-import { ClubIncomingMatches } from 'src/app/models/club-incoming-matches-model';
+import { ClubIncomingMatches } from 'src/app/models/club-incoming-matches.model';
 import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
 import { ClubListPlayer } from 'src/app/models/club-list-player.model';
 import { ClubLeagueHistory } from 'src/app/models/club-league-history.model';
-
+import { ClubMatchHistoryResponse } from './../../models/club-match-history-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +155,14 @@ export class ClubService {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubLeagueHistory/${clubId}`).pipe(
       map((res: ClubLeagueHistory[]) => res),
+      catchError(err => throwError(err))
+    );
+  }
+
+  getClubMatchHistory(clubId: number): Observable<ClubMatchHistoryResponse> {
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubHistory/${clubId}`).pipe(
+      map((res: ClubMatchHistoryResponse) => res),
       catchError(err => throwError(err))
     );
   }

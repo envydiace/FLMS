@@ -1,4 +1,4 @@
-import { ClubStats } from "./match-statistics-model";
+import { ClubStats } from "./match-statistics.model";
 
 export interface MatchStatisticsResponse {
     messageCode: string;

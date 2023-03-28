@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { MatchService } from './../../match.service';
-import { ClubStats, MatchStats } from '../../../../models/match-statistics-model';
-import { MatchStatisticsResponse } from '../../../../models/match-statistic-response-model';
+import { ClubStats, MatchStats } from '../../../../models/match-statistics.model';
+import { MatchStatisticsResponse } from '../../../../models/match-statistic-response.model';
 @Component({
   selector: 'app-match-statistic',
   templateUrl: './match-statistic.component.html',

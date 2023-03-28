@@ -1,1 +1,35 @@
-<p>match-history works!</p>
+<div>
+    <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="Date">
+            <mat-header-cell *matHeaderCellDef class="date-header"> Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="date-content">
+                {{element.matchDate | date:'dd/MM/yyyy'}}
+            </mat-cell>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="Time">
+            <mat-header-cell *matHeaderCellDef class="time-header"> Time </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="time-content">
+                {{element.matchTime}}
+            </mat-cell>
+        </ng-container>
+        <!-- clubA Column -->
+        <ng-container matColumnDef="Match">
+            <mat-header-cell *matHeaderCellDef class="match-header"> Match </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="match-content">
+                {{element.home.name}} {{element.home.score}} - {{element.away.score}} {{element.away.name}}
+            </mat-cell>
+        </ng-container>
+        <!-- clubB Column -->
+        <ng-container matColumnDef="Stadium">
+            <mat-header-cell *matHeaderCellDef class="stadium-header"> Stadium </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="stadium-content">
+                {{element.stadium}}
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"></mat-row>
+    </mat-table>
+</div>
