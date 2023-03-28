@@ -19,11 +19,9 @@
                     <div class="card mb-4 mb-xl-0">
                         <div class="card-header">Profile Picture</div>
                         <div *ngIf="userProfile" class="card-body text-center">
-                            <img class="img-account-profile rounded-circle mb-2"
-                                [src]="userProfile.avatar != null ? userProfile.avatar : defaultLogo"
-                                alt="profile's Pic">
+                            <img class="img-account-profile rounded-circle mb-2" [src]="imgSrc" alt="profile's Pic">
                             <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                            <button class="btn btn-primary" type="button">Upload new image</button>
+                            <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
                         </div>
                     </div>
 
