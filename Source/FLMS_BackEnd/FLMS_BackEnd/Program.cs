@@ -101,6 +101,7 @@ builder.Services.AddScoped<ParticipationService, ParticipationServiceImpl>();
 builder.Services.AddScoped<SquadService, SquadServiceImpl>();
 builder.Services.AddScoped<MatchEventService, MatchEventServiceImpl>();
 builder.Services.AddScoped<MatchStatisticService, MatchStatisticServiceImpl>();
+builder.Services.AddScoped<ExportService, ExportServiceImpl>();
 
 //Map repository
 builder.Services.AddScoped<UserRepository, UserRepositoryImpl>();

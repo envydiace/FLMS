@@ -211,22 +211,5 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return new DeletePlayerClubResponse { Success = false, MessageCode = "ER-PL-04" };
         }
-
-        public async Task<DataTable> ExportPlayer()
-        {
-            var players = await playerRepository.FindAll().ToListAsync();
-            var result = mapper.Map<List<PlayerDTO>>(players.ToList());
-            DataTable dtPlayer = new DataTable("Players");
-            dtPlayer.Columns.AddRange(new DataColumn[4] { new DataColumn("Name"),
-                                            new DataColumn("NickName"),
-                                            new DataColumn("Height"),
-                                            new DataColumn("Weight") });
-            foreach (var player in result)
-            {
-                dtPlayer.Rows.Add(player.Name, player.NickName, player.Height, player.Weight);
-            }
-
-            return dtPlayer;
-        }
     }
 }
