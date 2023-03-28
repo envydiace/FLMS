@@ -42,7 +42,7 @@ export class JoinedLeagueComponent implements OnInit {
         leagueId: id
       }
     }
-    this.router.navigate(['/manager/my-league-info'], { queryParams: { leagueId: id }, skipLocationChange: true });
+    this.router.navigate(['/manager/my-league-info'], { queryParams: { leagueId: id } });
     // this.router.navigate(['/manager/my-league-info'], navigationExtras);
   }
 }
