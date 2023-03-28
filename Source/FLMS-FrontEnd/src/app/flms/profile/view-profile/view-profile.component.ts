@@ -45,7 +45,9 @@ export class ViewProfileComponent implements OnInit {
       fullName: new FormControl(),
       phone: new FormControl(),
       address: new FormControl(),
-      avatar: new FormControl()
+      avatar: new FormControl(),
+      role: new FormControl(),
+      gmail: new FormControl(),
     })
 
     this.token = JSON.parse(localStorage.getItem('user'));
@@ -61,6 +63,7 @@ export class ViewProfileComponent implements OnInit {
       address: ['', Validators.required],
       email: ['', Validators.required],
       avatar: [null,],
+      role: [null]
     })
 
     this.role = this.authSer.getUserRole();
@@ -89,6 +92,9 @@ export class ViewProfileComponent implements OnInit {
     this.form.controls['email'].patchValue(res.email);
     this.form.controls['email'].disable();
     this.imgSrc = res.avatar;
+    this.form.controls['role'].patchValue(res.role);
+    this.form.controls['role'].disable();
+
   }
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
