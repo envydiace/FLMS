@@ -14,11 +14,23 @@
                 {{element.matchTime}}
             </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="Team1">
+            <mat-header-cell *matHeaderCellDef class="team1-header">  </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="team1-content">
+                {{element.home.name}}
+            </mat-cell>
+        </ng-container>
         <!-- clubA Column -->
         <ng-container matColumnDef="Match">
             <mat-header-cell *matHeaderCellDef class="match-header"> Match </mat-header-cell>
             <mat-cell *matCellDef="let element" class="match-content">
-                {{element.home.name}} {{element.home.score}} - {{element.away.score}} {{element.away.name}}
+                {{element.home.score}} - {{element.away.score}} 
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Team2">
+            <mat-header-cell *matHeaderCellDef class="team2-header">  </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="team2-content">
+                {{element.away.name}}
             </mat-cell>
         </ng-container>
         <!-- clubB Column -->
