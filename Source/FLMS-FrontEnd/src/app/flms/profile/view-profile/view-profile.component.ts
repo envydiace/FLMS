@@ -10,7 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { token } from 'src/app/models/token.model';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CommonService } from 'src/app/common/common/common.service';
-import {AngularFireStorage} from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -26,7 +26,7 @@ export class ViewProfileComponent implements OnInit {
   imgSrc: string = './../../../../assets/image/default-avatar-profile-icon.webp';
 
   role: string;
-  selectedImage: any ;
+  selectedImage: any = null;
 
   token: token;
   private headers: HttpHeaders;
@@ -112,33 +112,51 @@ export class ViewProfileComponent implements OnInit {
 
     this.loading = true;
 
-    const nameImg ='profile/'+ this.userProfile.fullName + 'avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
-    const fileRef = this.storage.ref(nameImg);
-    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe((url) => {
+    if (this.selectedImage != null) {
+      const nameImg = 'profile/' + this.userProfile.fullName + '/avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
+      const fileRef = this.storage.ref(nameImg);
+      this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
 
-          this.form.get('avatar').patchValue(url);
+            this.form.get('avatar').patchValue(url);
 
-          this.profileService.editProfile(this.form.value)
-          .pipe(first())
-          .subscribe({
-            next: () => {
-              this.initDataSource();
-              this.common.sendMessage('Info Updated!', 'success')
-            },
-            error: error => {
-              this.loading = false;
-              this.common.sendMessage(error.error.message, 'fail')
-            }
+            this.profileService.editProfile(this.form.value)
+              .pipe(first())
+              .subscribe({
+                next: () => {
+                  this.initDataSource();
+                  this.common.sendMessage('Info Updated!', 'success')
+                },
+                error: error => {
+                  this.loading = false;
+                  this.common.sendMessage(error.error.message, 'fail')
+                }
+              });
+
           });
+        })
+      ).subscribe();
+    } else {
 
+      this.profileService.editProfile(this.form.value)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.initDataSource();
+            this.common.sendMessage('Info Updated!', 'success')
+          },
+          error: error => {
+            this.loading = false;
+            this.common.sendMessage(error.error.message, 'fail')
+          }
         });
-      })
-    ).subscribe();
+    }
 
 
-   
+
+
+
 
   }
 

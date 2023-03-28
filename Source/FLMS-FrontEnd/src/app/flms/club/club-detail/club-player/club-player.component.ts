@@ -60,7 +60,7 @@ export class ClubPlayerComponent implements OnInit {
   }
 
   navigateToPlayerInfo(playerId: number, clubId: number) {
-    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId , clubId: clubId}, skipLocationChange: true });
+    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId , clubId: clubId}});
   }
 
   openDeleteplayerConfirm(playerId: number, clubId: number): void {
@@ -70,8 +70,9 @@ export class ClubPlayerComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.initDataSource();
+    
 
     });
+    this.initDataSource();
   }
 }

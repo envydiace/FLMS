@@ -6,13 +6,14 @@
             <mat-card class="player-list-card">
                 <mat-card-header>
                     <div mat-card-avatar class="profile-image">
-                       
+                        <img class="profile-image rounded-circle mb-2" [src]="imgSrc" alt="profile's Pic" >
+                        
                     </div>
                     <mat-card-title >
-                        <input type="file" style="margin: 10px 0;">
+                        <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
                     </mat-card-title>
                     <mat-card-subtitle>
-                        <button mat-raised-button color="primary">Upload</button>
+                       
 
                     </mat-card-subtitle>
                     <!-- <div style="text-align: right; 

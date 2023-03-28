@@ -56,6 +56,6 @@ export class ClubPlayerComponent implements OnInit {
   }
 
   navigateToPlayerInfo(playerId: number) {
-    this.router.navigate(['/player-info'], { queryParams: {playerId : playerId}, skipLocationChange: true});
+    this.router.navigate(['/player-info'], { queryParams: {playerId : playerId}});
   }
 }

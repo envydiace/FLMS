@@ -72,7 +72,7 @@ export class ClubListComponent implements OnInit {
   }
 
   navigateToClubDetail(id: number) {
-    this.router.navigate(['manager/club-detail'], { queryParams: {clubId : id}, skipLocationChange: true});
+    this.router.navigate(['manager/club-detail'], { queryParams: {clubId : id}});
   }
 
 }
