@@ -60,7 +60,7 @@ export class ViewProfileComponent implements OnInit {
       phone: ['', Validators.required],
       address: ['', Validators.required],
       email: ['', Validators.required],
-      avatar: ['',],
+      avatar: [null,],
     })
 
     this.role = this.authSer.getUserRole();
@@ -112,7 +112,7 @@ export class ViewProfileComponent implements OnInit {
 
     this.loading = true;
 
-    if (this.selectedImage != null) {
+    if (this.selectedImage != null ) {
       const nameImg = 'profile/' + this.userProfile.fullName + '/avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
       const fileRef = this.storage.ref(nameImg);
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
