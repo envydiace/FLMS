@@ -65,6 +65,8 @@ import { PlayerInfoComponent } from './club/player-info/player-info.component';
 import { PopUpDeleteClubComponent } from './club/pop-up-delete-club/pop-up-delete-club.component';
 import { PopUpConfirmDeletePlayerComponent } from './club/pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
 import { PopupDeleteLeagueComponent } from './league/popup-delete-league/popup-delete-league.component';
+import { NgTournamentTreeModule } from 'ng-tournament-tree';
+import { TournamentMatchComponent } from './league/league-detail/league-settings/tournament-match/tournament-match.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +108,8 @@ import { PopupDeleteLeagueComponent } from './league/popup-delete-league/popup-d
     PopupDeleteLeagueComponent,
     PlayerInfoComponent,
     PopUpDeleteClubComponent,
-    PopUpConfirmDeletePlayerComponent
+    PopUpConfirmDeletePlayerComponent,
+    TournamentMatchComponent
   ],
   imports: [
     CommonModule,
@@ -139,7 +142,8 @@ import { PopupDeleteLeagueComponent } from './league/popup-delete-league/popup-d
     MatTabsModule,
     MatListModule,
     CdkTableModule,
-    DragDropModule
+    DragDropModule,
+    NgTournamentTreeModule
   ]
 })
 export class FlmsModule { }

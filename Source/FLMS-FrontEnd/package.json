@@ -24,6 +24,7 @@
     "@angular/router": "~10.0.0",
     "firebase": "^8.10.0",
     "jwt-decode": "^3.1.2",
+    "ng-tournament-tree": "^2.0.2",
     "rxjs": "~6.5.5",
     "stream": "0.0.2",
     "tslib": "^2.0.0",

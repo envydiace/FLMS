@@ -48,8 +48,8 @@ export class LoginComponent implements OnInit {
         next: () => {
           // get return url from query parameters or default to home page
           // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.commonService.sendMessage('Login Success!', 'success');
           window.location.href = environment.localUrl + '/manager';
+          this.commonService.sendMessage('Login Success!', 'success');
         },
         error: error => {
           this.commonService.sendMessage(error.error.message, 'fail');
