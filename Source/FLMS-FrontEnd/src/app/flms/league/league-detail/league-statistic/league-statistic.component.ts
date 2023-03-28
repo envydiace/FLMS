@@ -40,7 +40,7 @@ export class LeagueStatisticComponent implements OnInit {
 
   initDataSource() {
     if (this.leagueType == 'LEAGUE') this.getLeagueStatistic();
-    if (this.leagueType == 'KO') this.getLeagueStatistic();
+    if (this.leagueType == 'KO') this.getLeagueStatisticTypeKO();
 
   }
 

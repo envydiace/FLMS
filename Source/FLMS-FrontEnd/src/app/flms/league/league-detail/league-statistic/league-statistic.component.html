@@ -1,6 +1,6 @@
 <div class="card">
     <div class=" flex-row">
-        <div class="col-sm-8">
+        <div *ngIf="leagueType == 'LEAGUE'" class="col-sm-8">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
@@ -50,14 +50,14 @@
             </mat-table>
         </div>
 
-        <div class="col-sm-8">
+        <div *ngIf="leagueType == 'KO'" class="col-sm-8" style="background-color: #e7e7e7;">
             <ng-container *ngIf="singleEliminationTournament">
                 <ngtt-single-elimination-tree [tournament]="singleEliminationTournament"
                     [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
             </ng-container>
-    
+
             <ng-template #matchTemplate let-match>
-                <app-tournament-match [match]="match"></app-tournament-match>
+                <app-tournament-tree [match]="match"></app-tournament-tree>
             </ng-template>
         </div>
 
