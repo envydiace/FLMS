@@ -430,6 +430,7 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 Success = true,
                 LeagueId = leagueId,
+                Height = list.Max(x => x.Deep),
                 LeagueType = league.LeagueType,
                 ListNode = listMatchNode,
                 TopScore = topEvent.TopScore,
