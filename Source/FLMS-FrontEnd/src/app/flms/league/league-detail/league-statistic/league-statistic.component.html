@@ -50,6 +50,17 @@
             </mat-table>
         </div>
 
+        <div class="col-sm-8">
+            <ng-container *ngIf="singleEliminationTournament">
+                <ngtt-single-elimination-tree [tournament]="singleEliminationTournament"
+                    [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+            </ng-container>
+    
+            <ng-template #matchTemplate let-match>
+                <app-tournament-match [match]="match"></app-tournament-match>
+            </ng-template>
+        </div>
+
         <div class="col-sm-4">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
