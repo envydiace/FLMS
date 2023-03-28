@@ -93,7 +93,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
           this.commonService.sendMessage('Update fee success!', 'success');
         },
         error: error => {
-          this.commonService.sendMessage('Update fee fail!', 'fail');
+          this.commonService.sendMessage(error.error.message,'fail');
           this.loading = false;
         },
         

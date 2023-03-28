@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ClubService } from '../../club.service';
 import { first } from 'rxjs/operators';
 import { Player } from 'src/app/models/player.model';
+import { CommonService } from 'src/app/common/common/common.service';
 
 @Component({
   selector: 'app-pop-up-add-player',
@@ -19,6 +20,7 @@ export class PopUpAddPlayerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private clubService: ClubService,
     public dialogRef: MatDialogRef<PopUpAddPlayerComponent>,
+    public commonService: CommonService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       clubId: number;
@@ -88,6 +90,7 @@ export class PopUpAddPlayerComponent implements OnInit {
         },
         error: error => {
           this.loading = false;
+          this.commonService.sendMessage(error.error.message,'fail');
         }
       });
   }

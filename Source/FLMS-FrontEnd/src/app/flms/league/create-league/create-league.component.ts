@@ -148,7 +148,7 @@ export class CreateLeagueComponent implements OnInit {
               },
               error: error => {
                 this.loading = false;
-                this.commonService.sendMessage('Create League Fail!', 'fail');
+                this.commonService.sendMessage(error.error.message,'fail');
               }
             });
         });
