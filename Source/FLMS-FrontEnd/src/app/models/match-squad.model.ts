@@ -14,6 +14,8 @@ export interface MatchSquad {
     noPlayerSquad: number;
     maxNoPlayerSub: number;
     squadPositions: SquadPosition[];
+    startingSquad: SquadPosition[];
+    substitution: SquadPosition[];
     unSquadPositions: SquadPosition[];
 }
 
@@ -24,6 +26,8 @@ export class MatchSquad implements MatchSquad {
         isHome: boolean,
         noPlayerSquad: number,
         squadPositions: SquadPosition[],
+        startingSquad: SquadPosition[],
+        substitution: SquadPosition[],
         unSquadPositions: SquadPosition[]
     ) {
         this.squadId = squadId;
@@ -31,6 +35,8 @@ export class MatchSquad implements MatchSquad {
         this.isHome = isHome;
         this.noPlayerSquad = noPlayerSquad;
         this.squadPositions = squadPositions;
+        this.startingSquad = startingSquad;
+        this.substitution = substitution;
         this.unSquadPositions = unSquadPositions;
     }
 }
@@ -101,5 +107,20 @@ export class UpdateSquad implements UpdateSquad {
         this.squadId = squadId;
         this.mains = mains;
         this.subs = subs;
+    }
+}
+
+export interface ViewMatchSquad {
+    home: MatchSquad;
+    away: MatchSquad;
+}
+
+export class ViewMatchSquad implements ViewMatchSquad {
+    constructor(
+        home: MatchSquad,
+        away: MatchSquad
+    ) {
+        this.home = home;
+        this.away = away;
     }
 }

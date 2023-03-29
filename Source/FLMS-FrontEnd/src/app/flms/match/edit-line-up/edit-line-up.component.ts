@@ -31,6 +31,9 @@ export class EditLineUpComponent implements OnInit {
     private commonService: CommonService,
     private route: ActivatedRoute
   ) {
+    this.route.queryParams.subscribe(params => {
+      this.squadId = params['squadId'];
+    })
   }
 
   ngOnInit(): void {
