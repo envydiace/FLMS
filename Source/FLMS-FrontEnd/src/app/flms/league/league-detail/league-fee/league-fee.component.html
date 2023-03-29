@@ -9,6 +9,9 @@
         <p>
             <mat-toolbar class="card">
                 <span>Cost Plan</span>
+                <div style="margin: 0 0 0 auto;">
+                    <button mat-raised-button color="primary" (click)="openAddPlan(leagueId)">Add</button>
+                </div>
             </mat-toolbar>
         </p>
         <table mat-table class="mat-elevation-z8" style="margin-bottom: 20px;" [dataSource]="plan">

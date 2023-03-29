@@ -68,12 +68,10 @@ export class ChangePasswordComponent implements OnInit {
           },
           error: error => {
             this.loading = false;
-            this.commonService.sendMessage('Change Password Failed, please check again!', 'fail')
+            this.commonService.sendMessage(error.error.message,'fail');
           }
         });
-    } else {
-      this.commonService.sendMessage('Password verification must match with new password!', 'fail')
-    }
+    } 
 
   }
 

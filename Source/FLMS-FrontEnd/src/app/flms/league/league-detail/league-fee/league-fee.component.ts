@@ -9,7 +9,7 @@ import { PopUpLeagueFeeDetailComponent } from '../pop-up-league-fee-detail/pop-u
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from 'src/app/common/common/common.service';
 import { PopUpAddActualComponent } from '../../pop-up-add-actual/pop-up-add-actual.component';
-
+import { PopUpAddPlanComponent } from './../../pop-up-add-plan/pop-up-add-plan.component'; 
 @Component({
   selector: 'app-league-fee',
   templateUrl: './league-fee.component.html',
@@ -83,6 +83,19 @@ openEditFee(leagueFeeId: number): void{
 
   openAddActual(leagueId: number): void{
     const dialogRef = this.dialog.open(PopUpAddActualComponent, {
+      width: '50%',
+      data: { leagueId: leagueId}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // this.initDataSource();
+      // this.getTotal();
+      // console.log('The dialog was closed');
+    });
+  }
+
+  openAddPlan(leagueId: number): void{
+    const dialogRef = this.dialog.open(PopUpAddPlanComponent, {
       width: '50%',
       data: { leagueId: leagueId}
     });

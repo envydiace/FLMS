@@ -3,7 +3,7 @@
     <div class="col-xl-12">
 
         <div class="card mb-4">
-            <div class="card-header">Edit Fee</div>
+            <div class="card-header">Edit Cost Plan</div>
             <div class="card-body">
                 <form [formGroup]="form" >
                     <div class="mb-3">
@@ -37,10 +37,10 @@
                     <div class="mb-3">
                         <mat-form-field appearance="fill" >
                             <mat-label>Type</mat-label>
-                            <mat-select matNativeControl required  formControlName="feeType" disabled>
+                            <mat-select matNativeControl required  formControlName="feeType" >
                               <mat-option value="Prize">Price</mat-option>
                               <mat-option value="Fee">Fee</mat-option>
-                            
+                              <mat-option value="Sponsored">Sponsored</mat-option>
                             </mat-select>
                           </mat-form-field>
                     </div>

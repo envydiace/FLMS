@@ -1,1 +1,51 @@
 <p>pop-up-update-actual works!</p>
+
+<mat-card-content>
+    <div class="col-xl-12">
+
+        <div class="card mb-4">
+            <div class="card-header">Edit Cost Plan</div>
+            <div class="card-body">
+                <!-- <form [formGroup]="form"> -->
+                    <div class="mb-3">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Name</mat-label>
+                            <input matInput >
+                      
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row gx-3 mb-3">
+                        <div class="col-md-10">
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Cost</mat-label>
+
+                                <input type="tel" matInput >
+                                <span matSuffix> &nbsp; VND</span>
+
+                          
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Type</mat-label>
+                            <mat-select matNativeControl required >
+                                <mat-option value="Prize">Price</mat-option>
+                                <mat-option value="Fee">Fee</mat-option>
+                                <mat-option value="Sponsored">Sponsored</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+
+                    <button class="btn btn-primary" type="submit" >Save changes</button>
+                    <button class="btn btn-warn" style="justify-content: right;" >Cancel</button>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+
+</mat-card-content>

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pop-up-add-actual.component.scss']
 })
 export class PopUpAddActualComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'expenseName', 'cost', 'action']
+  displayedColumns: string[] = ['no', 'expenseName', 'cost','type', 'action']
 
   constructor(
 

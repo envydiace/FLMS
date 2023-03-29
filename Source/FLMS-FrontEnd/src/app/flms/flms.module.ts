@@ -71,6 +71,7 @@ import { TournamentMatchComponent } from './league/league-detail/league-settings
 import { PopUpAddActualComponent } from './league/pop-up-add-actual/pop-up-add-actual.component';
 import { PopUpUpdateActualComponent } from './league/pop-up-update-actual/pop-up-update-actual.component';
 import { TournamentTreeComponent } from './league/league-detail/league-statistic/tournament-tree/tournament-tree.component';
+import { PopUpAddPlanComponent } from './league/pop-up-add-plan/pop-up-add-plan.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { TournamentTreeComponent } from './league/league-detail/league-statistic
     TournamentMatchComponent,
     PopUpAddActualComponent,
     PopUpUpdateActualComponent,
-    TournamentTreeComponent
+    TournamentTreeComponent,
+    PopUpAddPlanComponent
   ],
   imports: [
     CommonModule,
