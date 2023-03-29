@@ -49,6 +49,8 @@ namespace FLMS_BackEnd.Services.Impl
                 LeagueFeeResponse leagueFeeResponse = new LeagueFeeResponse();
                 leagueFeeResponse.Actual.AddRange(result.Where(f => f.IsActual).ToList());
                 leagueFeeResponse.Plan.AddRange(result.Where(f => !f.IsActual).ToList());
+                leagueFeeResponse.TotalPlanFee = MethodUtils.SumTotalLeagueFee(leagueFeeResponse.Plan);
+                leagueFeeResponse.TotalActualFee = MethodUtils.SumTotalLeagueFee(leagueFeeResponse.Actual);
                 leagueFeeResponse.Success = true;
                 return leagueFeeResponse;
             }

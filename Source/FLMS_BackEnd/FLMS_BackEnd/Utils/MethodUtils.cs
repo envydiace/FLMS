@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
+using FLMS_BackEnd.Response;
 
 namespace FLMS_BackEnd.Utils
 {
@@ -280,7 +281,14 @@ namespace FLMS_BackEnd.Utils
                     return 0;
             }
         }
-
+        public static decimal SumTotalLeagueFee(List<LeagueFeeDTO> leagueFees)
+        {
+            var totalfee = ((from e in leagueFees where e.FeeType.Equals("Prize") select e.Cost).Sum() +
+                (from e in leagueFees where e.FeeType.Equals("Fee") select e.Cost).Sum() -
+                (from e in leagueFees where e.FeeType.Equals("Sponsored") select e.Cost).Sum());
+            return totalfee;
+        }
+        
         public static void SetColumnWidths(IXLWorksheet worksheet)
         {
             worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Time]).Width = 12;
