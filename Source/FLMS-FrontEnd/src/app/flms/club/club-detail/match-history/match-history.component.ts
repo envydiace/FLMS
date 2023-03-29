@@ -12,7 +12,7 @@ import { ClubMatchHistoryResponse } from '../../../../models/club-match-history-
 })
 export class MatchHistoryComponent implements OnInit {
 
-  displayedColumns: string[] = ['Date', 'Time', 'Match', 'Stadium'];
+  displayedColumns: string[] = ['League Name','Date', 'Time','Team1', 'Match','Team2','Round', 'Stadium'];
   clubId: number;
   listMatch: MatchDetail[];
   constructor(

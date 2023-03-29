@@ -1,3 +1,9 @@
+.name-header,
+.name-content{
+    max-width: 15%; 
+    justify-content: center;
+}
+
 .date-header,
 .date-content{
     max-width: 15%; 
@@ -11,7 +17,7 @@
 }
 .team1-header,
 .team1-content{
-    max-width: 30%;
+    max-width: 20%;
     justify-content: right;
 }
 
@@ -28,6 +34,12 @@
 .team2-content{
     max-width: 10%;
     justify-content: left;
+}
+
+.round-header,
+.round-content{
+    max-width: 5%; 
+    justify-content: center;
 }
 
 .stadium-header,
