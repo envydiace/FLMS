@@ -116,8 +116,7 @@ import { TournamentTreeComponent } from './league/league-detail/league-statistic
     PopUpConfirmDeletePlayerComponent,
     TournamentMatchComponent,
     PopUpAddActualComponent,
-    PopUpUpdateActualComponent
-    TournamentMatchComponent,
+    PopUpUpdateActualComponent,
     TournamentTreeComponent
   ],
   imports: [
