@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClubService } from '../../club.service';
 import { ClubIncomingMatches } from './../../../../models/club-incoming-matches-model';
 import { MatSort } from '@angular/material/sort';
@@ -21,7 +21,8 @@ export class ClubIncomingMatchComponent implements OnInit, AfterViewInit {
 
   constructor(
     private clubService: ClubService,
-  ) {
+    private router: Router
+    ) {
   }
 
   ngOnInit(): void {
@@ -43,5 +44,9 @@ export class ClubIncomingMatchComponent implements OnInit, AfterViewInit {
     this.clubService.getIncomingMatches().pipe
       (map((res: ClubIncomingMatches[]) => this.dataSource.data = res)
       ).subscribe();
+  }
+
+  navigateToEditLineUp(squadId: any) {
+    this.router.navigate(['manager/edit-line-up'], { queryParams: {squadId : squadId}});
   }
 }
