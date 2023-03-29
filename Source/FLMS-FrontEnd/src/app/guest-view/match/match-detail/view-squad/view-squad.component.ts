@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { MatchDetail } from 'src/app/models/match-detail.model';
-import { MatchSquad, SquadPosition, ViewMatchSquad } from 'src/app/models/match-squad.model';
+import { SquadPosition, ViewMatchSquad } from 'src/app/models/match-squad.model';
 import { MatchService } from '../../match.service';
 
 @Component({
@@ -24,14 +22,12 @@ export class ViewSquadComponent implements OnInit {
   position = ['ST', 'LM', 'RM', 'LB', 'RB', 'CB', 'GK'];
 
   constructor(
-    private router: Router,
     private matchService: MatchService
   ) { }
 
   ngOnInit(): void {
     this.initDataSource();
   }
-
   initDataSource() {
     this.getSquadByMatchId(this.matchId);
   }

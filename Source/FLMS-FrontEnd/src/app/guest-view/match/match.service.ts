@@ -10,6 +10,7 @@ import { MatchDetail } from '../../models/match-detail.model';
 import {MatchStats} from '../../models/match-statistics.model'
 import {MatchStatisticsResponse} from '../../models/match-statistic-response.model'
 import { MatchEvent } from 'src/app/models/match-event-detail.model';
+import { ViewMatchSquad } from 'src/app/models/match-squad.model';
 
 
 @Injectable({
@@ -44,5 +45,11 @@ export class MatchService {
       map((res: MatchEvent[]) => res),
       catchError(err => throwError(err))
     )
+  }
+
+  getMatchSquadByMatch(matchId: number): Observable<ViewMatchSquad> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Squad/GetMatchSquad/${matchId}`).pipe(
+      map((res: ViewMatchSquad) => res)
+    );
   }
 }
