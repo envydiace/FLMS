@@ -93,8 +93,9 @@ namespace FLMS_BackEnd.DTO
                     ))
                 .ForMember(fee => fee.ExpenseKey,
                 map => map.MapFrom(
-                    request => Constants.Fee.FeeKey
+                    request => Constants.Fee.DefaultFeeKey
                     ));
+
             CreateMap<LeaguePrizeRequest, LeagueFee>()
                 .ForMember(fee => fee.IsActual,
                 map => map.MapFrom(
@@ -121,6 +122,8 @@ namespace FLMS_BackEnd.DTO
             CreateMap<LeagueFee, LeagueFeeDTO>();
 
             CreateMap<LeagueFee, LeagueFeeClubDTO>();
+
+            CreateMap<LeagueFeeDTO, LeagueFeeClubDTO>();
 
             CreateMap<League, LeagueByUserDTO>();
 
