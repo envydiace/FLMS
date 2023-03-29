@@ -168,4 +168,8 @@ export class LeagueService {
     return this.http.get(`${environment.apiUrl}/api/League/GetKnockOutStatistic/${leagueId}`).pipe(map((res: LeagueStatisticTypeKO) => res),
       catchError(err => throwError(err)));
   }
+
+  exportLeagueSchedule(leagueId: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
+  }
 }
