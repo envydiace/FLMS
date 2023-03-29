@@ -7,13 +7,13 @@ import { token } from './../../models/token.model';
 import { Router } from '@angular/router';
 import { MatchDetailResponse } from '../../models/match-detail-response.model';
 import { MatchDetail } from '../../models/match-detail.model';
-import { MatchStats } from '../../models/match-statistics-model';
-import { MatchStatisticsResponse } from './../../models/match-statistic-response-model';
+import { MatchStats } from '../../models/match-statistics.model';
+import { MatchStatisticsResponse } from '../../models/match-statistic-response.model';
 import { AddMatchEvent, MatchEvent } from './../../models/match-event-detail.model';
 import { Player } from 'src/app/models/player.model';
 import { PlayerForEvent } from './../../models/player-for-event.model'
 import { ClubListPlayerResponse } from 'src/app/models/club-list-player-response.model';
-import { MatchSquad, UpdateSquad } from './../../models/match-squad.model';
+import { MatchSquad, UpdateSquad, ViewMatchSquad } from './../../models/match-squad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -94,5 +94,11 @@ export class MatchService {
 
   updateSquad(squad: UpdateSquad) {
     return this.http.put(`${environment.apiUrl}/api/Squad/UpdateSquad`, squad, { headers: this.headers });
+  }
+
+  getMatchSquadByMatch(matchId: number): Observable<ViewMatchSquad> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Squad/GetMatchSquad/${matchId}`).pipe(
+      map((res: ViewMatchSquad) => res)
+    );
   }
 }

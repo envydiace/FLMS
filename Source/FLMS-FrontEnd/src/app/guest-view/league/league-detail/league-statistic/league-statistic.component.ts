@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LeagueService } from '../../league.service';
 import { map, tap } from 'rxjs/operators';
-import { LeagueStatisticResponse } from './../../../../models/league-statistics-response-model';
-import { LeagueStanding, TopAssist, TopScorer } from 'src/app/models/league-statistics-model';
+import { LeagueStatisticResponse } from '../../../../models/league-statistics-response.model';
+import { LeagueStanding, TopAssist, TopScorer } from 'src/app/models/league-statistics.model';
 
 @Component({
   selector: 'app-league-statistic',

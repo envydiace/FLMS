@@ -14,6 +14,7 @@ import { ClubLeagueHistory } from './../../models/club-league-history.model';
 import { ClubLeagueHistoryResponse } from './../../models/club-league-history-response.model'
 import { ClubPlayerInfoResponse } from './../../models/player-info-response.model'
 import { ClubListPlayer } from 'src/app/models/club-list-player.model';
+import { ClubMatchHistoryResponse } from './../../models/club-match-history-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -112,11 +113,19 @@ export class ClubService {
     );
   }
 
-  getPlayerInfo(playerId: number): Observable<ClubPlayerInfoResponse>{
+  getClubMatchHistory(clubId: number): Observable<ClubMatchHistoryResponse> {
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubHistory/${clubId}`).pipe(
+      map((res: ClubMatchHistoryResponse) => res),
+      catchError(err => throwError(err))
+    );
+  }
+
+  getPlayerInfo(playerId: number): Observable<ClubPlayerInfoResponse> {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Player/GetPlayer/${playerId}`)
-    .pipe(map((res: ClubPlayerInfoResponse) => res),
-      catchError(err => throwError(err)))
+      .pipe(map((res: ClubPlayerInfoResponse) => res),
+        catchError(err => throwError(err)))
   }
 
   editPlayer(player: ClubListPlayer) {

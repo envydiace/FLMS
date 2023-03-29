@@ -15,7 +15,7 @@ import { LeagueFeeResponse } from './../../models/fee-response.model';
 import { MatchEvent } from './../../models/match-event-detail.model';
 import { leagueFee } from 'src/app/models/league-prize.model';
 import { createLeagueInfo } from 'src/app/models/create-league-info.model';
-import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
+import { LeagueStatisticResponse } from '../../models/league-statistics-response.model';
 
 @Injectable({
   providedIn: 'root'

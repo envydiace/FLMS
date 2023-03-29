@@ -37,6 +37,7 @@ import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { ClubListComponent } from './club/club-list/club-list.component';
 import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-schedule.component';
 import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
+import { MatchHistoryComponent } from './club/club-detail/match-history/match-history.component';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-update-prize.component';
 import { LeagueScheduleComponent } from './league/league-detail/league-schedule/league-schedule.component';
@@ -69,6 +70,7 @@ import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { TournamentMatchComponent } from './league/league-detail/league-settings/tournament-match/tournament-match.component';
 import { PopUpAddActualComponent } from './league/pop-up-add-actual/pop-up-add-actual.component';
 import { PopUpUpdateActualComponent } from './league/pop-up-update-actual/pop-up-update-actual.component';
+import { TournamentTreeComponent } from './league/league-detail/league-statistic/tournament-tree/tournament-tree.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,7 @@ import { PopUpUpdateActualComponent } from './league/pop-up-update-actual/pop-up
     ClubListComponent,
     ClubScheduleComponent,
     ClubPlayerComponent,
+    MatchHistoryComponent,
     PopUpAddPlayerComponent,
     PopUpLeagueFeeDetailComponent,
     PopUpEditMatchStatsComponent,
@@ -114,6 +117,8 @@ import { PopUpUpdateActualComponent } from './league/pop-up-update-actual/pop-up
     TournamentMatchComponent,
     PopUpAddActualComponent,
     PopUpUpdateActualComponent
+    TournamentMatchComponent,
+    TournamentTreeComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
-import { LeagueStanding, TopAssist, TopScorer } from "./league-statistics-model";
+import { LeagueStanding, TopAssist, TopScorer } from "./league-statistics.model";
 
 export interface LeagueStatisticResponse{
     messageCode:string,
