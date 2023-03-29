@@ -45,6 +45,29 @@ namespace FLMS_BackEnd.Utils
             }
 
         }
+        public static bool CheckFeeType(string feeType)
+        {
+            return Enum.GetValues(typeof(Constants.SystemRole))
+                .Cast<Constants.FeeType>()
+                .Select(v => v.ToString())
+                .ToList().Contains(feeType);
+        }
+        public static bool CheckEditableFeeKey(string feeKey)
+        {
+            if (feeKey != null && feeKey.ToUpper().StartsWith("F"))
+            {
+                try
+                {
+                    int keyIndex = int.Parse(feeKey.Substring(1, feeKey.Length - 1));
+                    if (keyIndex > 0 && keyIndex < 8)
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception) { }
+            }
+            return true;
+        }
 
         public static int CountNumberOfRound(string type, int NumberOfParticipate)
         {
