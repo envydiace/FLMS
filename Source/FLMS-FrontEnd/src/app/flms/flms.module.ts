@@ -58,7 +58,7 @@ import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
 import { PopUpEditMatchInfoComponent } from './match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component';
-import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
+import { ClubIncomingMatchComponent } from './match/club-incoming-match/club-incoming-match.component';
 import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
 import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
 import { LeagueHistoryComponent } from './club/club-detail/league-history/league-history.component';

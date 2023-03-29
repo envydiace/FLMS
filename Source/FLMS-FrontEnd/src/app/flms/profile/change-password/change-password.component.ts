@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ErrorHandler, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from '../profile.service';
@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { map } from 'rxjs/operators';
 import { token } from 'src/app/models/token.model';
 import { CommonService } from 'src/app/common/common/common.service';
+import {ConfirmPasswordValidator} from './confirm-password.validator';
 
 
 export interface Tile {
@@ -41,11 +42,17 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       oldpassword: ['', Validators.required],
-      newpassword: ['', Validators.required],
+      newpassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]],
       cfpassword: ['', Validators.required]
-    });
+    },
+    {
+      validator: ConfirmPasswordValidator("newpassword","cfpassword")
+    }
+    );
   }
   get f() { return this.form.controls; }
+
+  get newpass() {return this.form.get('newpassword');}
 
   onSubmit() {
     this.submitted = true;
@@ -58,23 +65,20 @@ export class ChangePasswordComponent implements OnInit {
       let passValue = {
         oldPassword: this.form.get('oldpassword').value,
         newPassword: this.form.get('newpassword').value,
-        rePassword: this.form.get('cfpassword').value
+        rePassword: this.form.get('cfpassword').value,
       }
       this.profileService.changePassword(passValue).pipe(first())
         .subscribe({
           next: () => {
-            this.router.navigate(['/manager/view-profile'])
-            this.commonService.sendMessage('Change Password Success!', 'success')
+            this.router.navigate(['/manager/view-profile']);
+            this.commonService.sendMessage('Change Password Success!', 'success');
           },
           error: error => {
             this.loading = false;
-            this.commonService.sendMessage('Change Password Failed, please check again!', 'fail')
+            this.commonService.sendMessage(error.error.message, 'fail');
           }
         });
-    } else {
-      this.commonService.sendMessage('Password verification must match with new password!', 'fail')
     }
-
   }
 
   hide = true;
@@ -88,4 +92,5 @@ export class ChangePasswordComponent implements OnInit {
   getErrorRePassword() {
     return this.form.get('cfpassword').hasError('required') ? 'Re-Password is required and match with New Password' : '';
   }
+
 }
