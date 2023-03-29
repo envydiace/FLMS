@@ -10,7 +10,7 @@ import { ClubService } from '../../club.service';
   styleUrls: ['./match-history.component.scss']
 })
 export class MatchHistoryComponent implements OnInit {
-  displayedColumns: string[] = ['Date', 'Time','Team1', 'Match','Team2', 'Stadium'];
+  displayedColumns: string[] = ['League Name','Date', 'Time','Team1', 'Match','Team2','Round', 'Stadium'];
   clubId: number;
   listMatch: MatchDetail[];
   constructor(

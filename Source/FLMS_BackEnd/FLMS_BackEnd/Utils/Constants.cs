@@ -46,7 +46,7 @@ namespace FLMS_BackEnd.Utils
         {
             public const string SponsoredKey = "F0";
             public const string SponsoredName = "Sponsored";
-            public const string FeeKey = "Ff";
+            public const string DefaultFeeKey = "Fx";
         }
         public static class LeagueStatistic
         {
@@ -186,9 +186,14 @@ namespace FLMS_BackEnd.Utils
             {"MS-PA-02","Remove club success" },
             {"MS-PA-03","Add participation to position success" },
 
+            {"MS-FE-01","Add list dee success" },
             {"ER-FE-01","No fees have been announced for this league" },
             {"ER-FE-02","League fee not found!" },
             {"ER-FE-03","Update league fee failed!" },
+            {"ER-FE-04","Invalid fee type" },
+            {"ER-FE-05","Can not edit plan fee when the league started" },
+            {"ER-FE-06","Can not add plan fee when the league started" },
+            {"ER-FE-07","Add list fee failed!" },
 
             {"MS-MAIL-01","You got a new invitation!!!" },
             {"MS-MAIL-02","You got a new registration!!!" },

@@ -1,39 +1,55 @@
 <div>
     <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
-        <!-- Name Column -->
+        <!-- League Name Column -->
+        <ng-container matColumnDef="League Name">
+            <mat-header-cell *matHeaderCellDef class="name-header"> League Name </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="name-content">
+                {{element.leagueName}}
+            </mat-cell>
+        </ng-container>
+        <!-- Date Column -->
         <ng-container matColumnDef="Date">
             <mat-header-cell *matHeaderCellDef class="date-header"> Date </mat-header-cell>
             <mat-cell *matCellDef="let element" class="date-content">
                 {{element.matchDate | date:'dd/MM/yyyy'}}
             </mat-cell>
         </ng-container>
-        <!-- Name Column -->
+        <!-- Time Column -->
         <ng-container matColumnDef="Time">
             <mat-header-cell *matHeaderCellDef class="time-header"> Time </mat-header-cell>
             <mat-cell *matCellDef="let element" class="time-content">
                 {{element.matchTime}}
             </mat-cell>
         </ng-container>
+        <!-- Team1 Column -->
         <ng-container matColumnDef="Team1">
-            <mat-header-cell *matHeaderCellDef class="team1-header">  </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="team1-header"> </mat-header-cell>
             <mat-cell *matCellDef="let element" class="team1-content">
                 {{element.home.name}}
             </mat-cell>
         </ng-container>
-        <!-- clubA Column -->
+        <!-- Match Column -->
         <ng-container matColumnDef="Match">
             <mat-header-cell *matHeaderCellDef class="match-header"> Match </mat-header-cell>
             <mat-cell *matCellDef="let element" class="match-content">
-                {{element.home.score}} - {{element.away.score}} 
+                {{element.home.score}} - {{element.away.score}}
             </mat-cell>
         </ng-container>
+        <!-- Team2 Column -->
         <ng-container matColumnDef="Team2">
-            <mat-header-cell *matHeaderCellDef class="team2-header">  </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="team2-header"> </mat-header-cell>
             <mat-cell *matCellDef="let element" class="team2-content">
                 {{element.away.name}}
             </mat-cell>
         </ng-container>
-        <!-- clubB Column -->
+        <!-- Round Column -->
+        <ng-container matColumnDef="Round">
+            <mat-header-cell *matHeaderCellDef class="round-header"> Round </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="round-content">
+                {{element.round}}
+            </mat-cell>
+        </ng-container>
+        <!-- Stadium Column -->
         <ng-container matColumnDef="Stadium">
             <mat-header-cell *matHeaderCellDef class="stadium-header"> Stadium </mat-header-cell>
             <mat-cell *matCellDef="let element" class="stadium-content">
