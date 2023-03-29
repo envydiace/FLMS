@@ -6,5 +6,7 @@ namespace FLMS_BackEnd.Response
     {
         public List<LeagueFeeDTO> Plan { get; set; } = new List<LeagueFeeDTO>();
         public List<LeagueFeeDTO> Actual { get; set; } = new List<LeagueFeeDTO>();
+        public decimal TotalPlanFee { get; set; }
+        public decimal TotalActualFee { get; set; }
     }
 }

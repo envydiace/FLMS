@@ -385,7 +385,7 @@ namespace FLMS_BackEnd.Services.Impl
                 dateTime = DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime
                     , "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return new UpdateMatchInfoResponse
                 {
@@ -430,7 +430,7 @@ namespace FLMS_BackEnd.Services.Impl
                 }
             }
             match.MatchDate = dateTime;
-            Match matchUpdate = mapper.Map<Match>(match);
+            match.Stadium = request.Stadium;
             Match result = await matchRepository.UpdateAsync(match);
             if (result != null)
             {

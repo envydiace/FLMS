@@ -49,6 +49,8 @@ namespace FLMS_BackEnd.Services.Impl
                 LeagueFeeResponse leagueFeeResponse = new LeagueFeeResponse();
                 leagueFeeResponse.Actual.AddRange(result.Where(f => f.IsActual).ToList());
                 leagueFeeResponse.Plan.AddRange(result.Where(f => !f.IsActual).ToList());
+                leagueFeeResponse.TotalPlanFee = MethodUtils.SumTotalLeagueFee(leagueFeeResponse.Plan);
+                leagueFeeResponse.TotalActualFee = MethodUtils.SumTotalLeagueFee(leagueFeeResponse.Actual);
                 leagueFeeResponse.Success = true;
                 return leagueFeeResponse;
             }
@@ -89,9 +91,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-FE-02"
                 };
             }
-            var total = Math.Round((((from e in result where e.FeeType.Equals("Prize") select e.Cost).Sum() +
-                (from e in result where e.FeeType.Equals("Fee") select e.Cost).Sum() -
-                (from e in result where e.FeeType.Equals("Sponsored") select e.Cost).Sum()) / league.NoParticipate) / 100, 0) * 100;
+            var total = Math.Round((MethodUtils.SumTotalLeagueFee(mapper.Map<List<LeagueFeeDTO>>(result))/ league.NoParticipate) / 100, 0) * 100;
             return new LeagueFeeClubResponse
             {
                 Success = true,
