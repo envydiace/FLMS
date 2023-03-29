@@ -147,4 +147,8 @@ export class LeagueService {
     return this.http.get(`${environment.apiUrl}/api/League/GetLeagueStatistic/${leagueId}`).pipe(map((res: LeagueStatisticResponse) => res),
       catchError(err => throwError(err)));
   }
+
+  exportLeagueSchedule(leagueId: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
+  }
 }
