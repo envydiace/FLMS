@@ -117,6 +117,23 @@ namespace FLMS_BackEnd.Test
             yield return new object[] { "KO", 9, 7 };
             yield return new object[] { "KO", 16, 7 };
         }
+
+        [TestCaseSource(nameof(SourceProviderTestCheckEditableFeeKey))]
+        public void TestCheckEditableFeeKey(string key, bool expect)
+        {
+            bool actual = MethodUtils.CheckEditableFeeKey(key);
+            Assert.AreEqual(expect, actual);
+        }
+        public static IEnumerable<object[]> SourceProviderTestCheckEditableFeeKey()
+        {
+            yield return new object[] { "Fx", true };
+            yield return new object[] { "F0", true };
+            yield return new object[] { "F1", false };
+            yield return new object[] { "F7", false };
+            yield return new object[] { "f5", false };
+            yield return new object[] { null, true};
+            yield return new object[] { "f9", true };
+        }
     }
 
 }

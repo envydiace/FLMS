@@ -71,5 +71,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpPost("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<AddLeagueFeeResponse>> AddLeagueFee(AddLeagueFeeRequest request)
+        {
+            var response = await feeService.AddListLeagueFee(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
