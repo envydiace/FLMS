@@ -8,6 +8,7 @@ import { MatchEvent } from '../../../../models/match-event-detail.model';
 import { PopUpLeagueFeeDetailComponent } from '../pop-up-league-fee-detail/pop-up-league-fee-detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from 'src/app/common/common/common.service';
+import { PopUpAddActualComponent } from '../../pop-up-add-actual/pop-up-add-actual.component';
 
 @Component({
   selector: 'app-league-fee',
@@ -78,4 +79,18 @@ openEditFee(leagueFeeId: number): void{
     });
   }
   
+
+
+  openAddActual(leagueId: number): void{
+    const dialogRef = this.dialog.open(PopUpAddActualComponent, {
+      width: '50%',
+      data: { leagueId: leagueId}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // this.initDataSource();
+      // this.getTotal();
+      // console.log('The dialog was closed');
+    });
+  }
 }
