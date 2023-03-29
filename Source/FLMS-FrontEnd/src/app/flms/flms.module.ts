@@ -37,6 +37,7 @@ import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { ClubListComponent } from './club/club-list/club-list.component';
 import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-schedule.component';
 import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
+import { MatchHistoryComponent } from './club/club-detail/match-history/match-history.component';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-update-prize.component';
 import { LeagueScheduleComponent } from './league/league-detail/league-schedule/league-schedule.component';
@@ -89,6 +90,7 @@ import { TournamentTreeComponent } from './league/league-detail/league-statistic
     ClubListComponent,
     ClubScheduleComponent,
     ClubPlayerComponent,
+    MatchHistoryComponent,
     PopUpAddPlayerComponent,
     PopUpLeagueFeeDetailComponent,
     PopUpEditMatchStatsComponent,

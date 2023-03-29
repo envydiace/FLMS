@@ -7,8 +7,8 @@ import { token } from './../../models/token.model';
 import { Router } from '@angular/router';
 import { MatchDetailResponse } from '../../models/match-detail-response.model';
 import { MatchDetail } from '../../models/match-detail.model';
-import { MatchStats } from '../../models/match-statistics-model';
-import { MatchStatisticsResponse } from './../../models/match-statistic-response-model';
+import { MatchStats } from '../../models/match-statistics.model';
+import { MatchStatisticsResponse } from '../../models/match-statistic-response.model';
 import { AddMatchEvent, MatchEvent } from './../../models/match-event-detail.model';
 import { Player } from 'src/app/models/player.model';
 import { PlayerForEvent } from './../../models/player-for-event.model'

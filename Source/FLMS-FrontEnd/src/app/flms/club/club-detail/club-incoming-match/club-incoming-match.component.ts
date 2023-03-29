@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClubService } from '../../club.service';
-import { ClubIncomingMatches } from './../../../../models/club-incoming-matches-model';
+import { ClubIncomingMatches } from '../../../../models/club-incoming-matches.model';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
