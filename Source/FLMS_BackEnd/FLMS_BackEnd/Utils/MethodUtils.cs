@@ -283,9 +283,9 @@ namespace FLMS_BackEnd.Utils
         }
         public static decimal SumTotalLeagueFee(List<LeagueFeeDTO> leagueFees)
         {
-            var totalfee = ((from e in leagueFees where e.FeeType.Equals("Prize") select e.Cost).Sum() +
-                (from e in leagueFees where e.FeeType.Equals("Fee") select e.Cost).Sum() -
-                (from e in leagueFees where e.FeeType.Equals("Sponsored") select e.Cost).Sum());
+            var totalfee = ((from e in leagueFees where e.FeeType.Equals(Constants.FeeType.Prize.ToString()) select e.Cost).Sum() +
+                (from e in leagueFees where e.FeeType.Equals(Constants.FeeType.Fee.ToString()) select e.Cost).Sum() -
+                (from e in leagueFees where e.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) select e.Cost).Sum());
             return totalfee;
         }
         
