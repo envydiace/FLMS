@@ -14,6 +14,7 @@ import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.mo
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
 import { LeagueTree, UpdateTreeModel } from './../../models/league-tree.model';
 import { LeagueStatisticResponse } from './../../models/league-statistics-response-model';
+import { LeagueStatisticTypeKO } from './../../models/league-statistic-type-ko.model';
 
 
 @Injectable({
@@ -161,5 +162,10 @@ export class LeagueService {
 
   updateLeagueTree(tree: UpdateTreeModel) {
     return this.http.put(`${environment.apiUrl}/api/Participation/ManageLeagueSettingKO`, tree, { headers: this.headers });
+  }
+
+  getLeagueStatisticTypeKO(leagueId: number): Observable<LeagueStatisticTypeKO> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetKnockOutStatistic/${leagueId}`).pipe(map((res: LeagueStatisticTypeKO) => res),
+      catchError(err => throwError(err)));
   }
 }

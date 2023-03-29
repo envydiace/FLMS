@@ -1,6 +1,6 @@
 <p>
     <mat-toolbar class="card">
-        <span>League info</span>
+        <span>League</span>
     </mat-toolbar>
 </p>
 
@@ -66,7 +66,7 @@
                                 </mat-tab>
                                 <mat-tab label="League Statistic">
                                     <ng-template matTabContent>
-                                        <app-league-statistic [leagueId]="leagueId"></app-league-statistic>
+                                        <app-league-statistic [leagueId]="leagueId" [leagueType]="leagueDetail.leagueType"></app-league-statistic>
 
                                     </ng-template>
                                 </mat-tab>
@@ -76,7 +76,7 @@
 
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab label="League Settings">
+                                <mat-tab *ngIf="leagueDetail.leagueType == 'KO'" label="League Settings">
                                     <ng-template matTabContent>
                                         <app-league-settings></app-league-settings>
 
