@@ -54,7 +54,8 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
       leagueFeeId: this.data.leagueFeeId,
       expenseName: ['', Validators.required],
       cost: ['',Validators.required],
-      feeType: ['',]
+      feeType: ['',],
+      feeKey: ['',]
     })
   }
 
@@ -74,6 +75,8 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
     this.form.controls['expenseName'].patchValue(res.expenseName);
     this.form.controls['cost'].patchValue(res.cost);
     this.form.controls['feeType'].patchValue(res.feeType);
+    this.form.controls['feeKey'].patchValue(res.expenseKey);
+
   }
 
   public onSubmit() {

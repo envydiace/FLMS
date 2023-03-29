@@ -72,3 +72,4 @@ export class FeeDetailResponse implements FeeDetailResponse {
         this.feeInfo = feeInfo;
     }
 }
+
