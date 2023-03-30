@@ -19,11 +19,11 @@ export class ClubPlayerComponent implements OnInit {
   @Input() clubName: string;
   @Input() playerName: string;
   listPlayer: ClubListPlayer[] = [];
-  
+
   defaultLogo: string = './../../../../assets/image/Default_pfp.svg.png';
 
   playerId: number;
- 
+
 
   constructor(
     public dialog: MatDialog,
@@ -40,8 +40,8 @@ export class ClubPlayerComponent implements OnInit {
       width: '100%',
       data: { clubId: this.id, clubName: this.clubName }
     });
-
     dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
     });
   }
@@ -60,19 +60,17 @@ export class ClubPlayerComponent implements OnInit {
   }
 
   navigateToPlayerInfo(playerId: number, clubId: number) {
-    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId , clubId: clubId}});
+    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId, clubId: clubId } });
   }
 
   openDeleteplayerConfirm(playerId: number, clubId: number): void {
     const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
       width: '50%',
-      data: { playerId: playerId , clubId: this.id}
+      data: { playerId: playerId, clubId: this.id }
     });
     dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
-    
-
     });
-    this.initDataSource();
   }
 }

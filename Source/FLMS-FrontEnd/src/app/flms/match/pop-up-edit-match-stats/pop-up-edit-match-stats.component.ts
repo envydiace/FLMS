@@ -159,9 +159,9 @@ export class PopUpEditMatchStatsComponent implements OnInit {
     this.bindDataIntoHome();
     this.bindDataIntoAway();
     // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) {
+      return;
+    }
     const UpdateStats: MatchStatisticsResponse = {
       message: null,
       messageCode: null,
