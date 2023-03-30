@@ -12,7 +12,7 @@
         public int GoalsAgainst { get; set; } = 0;
         public int GD { get { return GoalsFor - GoalsAgainst; } }
         public int Point { get { return Won * 3 + Draw; } }
-        public List<string> History { get; set; } = new List<string>();
+        public List<string> History { get; set; } = new List<string>(new string[] { "W", "D", "L" });
 
     }
 }

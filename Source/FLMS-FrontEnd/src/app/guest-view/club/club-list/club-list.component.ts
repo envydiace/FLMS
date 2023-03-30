@@ -15,6 +15,7 @@ export class ClubListComponent implements OnInit {
   managerName: string = null;
   clubList: ClubList = null;
   pageEvent: PageEvent;
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
   constructor(
     private clubService: ClubService,
@@ -35,7 +36,7 @@ export class ClubListComponent implements OnInit {
     let page = event.pageIndex;
     let size = event.pageSize;
 
-    if (this.clubName == null && this.clubName == null) {
+    if (this.clubName == null) {
       page = page + 1;
       this.clubService.findAll(page, size).pipe(
         map((clubList: ClubList) => this.clubList = clubList)
@@ -60,7 +61,7 @@ export class ClubListComponent implements OnInit {
   }
 
   navigateToClubDetail(id: number) {
-    this.router.navigate(['/club-info'], { queryParams: {clubId : id}, skipLocationChange: true});
+    this.router.navigate(['/club-info'], { queryParams: {clubId : id}});
   }
 
 

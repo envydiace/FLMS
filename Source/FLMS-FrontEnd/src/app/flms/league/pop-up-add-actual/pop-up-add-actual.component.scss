@@ -1,0 +1,22 @@
+.list-fee {
+    height: 500px;
+    overflow: auto;
+
+    table {
+        width: 100%;
+
+        ::ng-deep .mat-form-field-wrapper {
+            margin-bottom: -1.25em;
+        }
+    }
+
+    tr.mat-footer-row {
+        font-weight: bold;
+    }
+
+    .mat-table-sticky {
+        border-top: 1px solid #e0e0e0 !important;
+    }
+
+
+}

@@ -4,7 +4,7 @@
 
     <div *ngIf="matchDetail">
         <div class="match-detail-info row justify-content-center">
-            <div class="col-8">
+            <div class="col-10">
                 <mat-card class="match-detail-card">
                     <mat-card class="score-container">
                         <mat-card-header class="team-1">
@@ -42,6 +42,7 @@
                         </div>
                     </section>
                     <div>
+                     
                     </div>
                     <div class="row">
                         <mat-card-content class="match-detail-content">
@@ -53,12 +54,12 @@
                                 </mat-tab>
                                 <mat-tab label="Event">
                                     <ng-template matTabContent>
-                                        <app-match-event></app-match-event>
+                                        <app-match-event [matchDetail]="matchDetail"></app-match-event>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Line up">
                                     <ng-template matTabContent>
-
+                                        <app-view-squad [matchId]="matchId"></app-view-squad>
                                     </ng-template>
                                 </mat-tab>
                             </mat-tab-group>

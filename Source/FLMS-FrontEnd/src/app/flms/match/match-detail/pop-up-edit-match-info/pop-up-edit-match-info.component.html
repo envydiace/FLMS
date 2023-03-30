@@ -1,0 +1,62 @@
+<div class="match-detail-container">
+    <div class="match-detail-info row justify-content-center">
+        <div class="col-10">
+            <div *ngIf="matchDetail">
+                <mat-card class="match-detail-card">
+                    <mat-card class="score-container">
+                        <mat-card-header class="team-1">
+                            <div class="match-detail-title">
+                                {{matchDetail.home.name}}
+                            </div>
+                        </mat-card-header>
+                        <div class="score-content">
+                            <div class="goal-data">
+                                <span>{{matchDetail.home.score}}</span>
+                                <span>:</span>
+                                <span>{{matchDetail.away.score}}</span>
+                            </div>
+                        </div>
+                        <mat-card-header class="team-2">
+                            <div class="match-detail-title">
+                                {{matchDetail.away.name}}
+                            </div>
+                        </mat-card-header>
+                    </mat-card>
+                    <p class="match-detail-content" style="margin-top: 20px;"> MatchInfo: </p>
+                    <form [formGroup]="form">
+                        <section class="match-detail-container">
+                            <div class="left-detail" style="text-align: center;">
+
+                                <mat-form-field class="example-full-width">
+                                    <mat-label> Round: </mat-label>
+                                    <input matInput ngModel="{{matchDetail.round}}" formControlName="round"
+                                        disabled>
+                                </mat-form-field>
+                                <mat-form-field class="example-full-width">
+                                    <mat-label> Stadium:</mat-label>
+                                    <input matInput ngModel="{{matchDetail.stadium}}" formControlName="stadium">
+                                </mat-form-field>
+
+                            </div>
+                            <div class="right-detail" style="text-align: center;">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label> Match Date</mat-label>
+                                    <input matInput [matDatepicker]="matchDate" ngModel="{{matchDetail.matchDate}}"
+                                        formControlName="matchDate">
+                                    <mat-datepicker-toggle matSuffix [for]="matchDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #matchDate></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="example-full-width">
+                                    <mat-label> Match Time</mat-label>
+                                    <input matInput ngModel="{{matchDetail.matchTime}}" formControlName="matchTime">
+
+                                </mat-form-field>
+                            </div>
+                        </section>
+                    </form>
+                </mat-card>
+                <button class="btn btn-primary" type="submit" (click)="onSubmit()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

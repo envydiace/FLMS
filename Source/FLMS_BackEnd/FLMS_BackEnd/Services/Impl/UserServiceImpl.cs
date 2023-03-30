@@ -167,6 +167,10 @@ namespace FLMS_BackEnd.Services.Impl
             user.Address = request.Address;
             user.FullName = request.FullName;
             user.Phone = request.Phone;
+            if (request.Avatar != null)
+            {
+                user.Avatar = request.Avatar;
+            }
             var result = await userRepository.UpdateAsync(user);
             if (result != null)
             {

@@ -1,5 +1,7 @@
-﻿using FLMS_BackEnd.DTO;
+﻿using ClosedXML.Excel;
+using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
+using FLMS_BackEnd.Response;
 
 namespace FLMS_BackEnd.Utils
 {
@@ -43,6 +45,29 @@ namespace FLMS_BackEnd.Utils
                 return null;
             }
 
+        }
+        public static bool CheckFeeType(string feeType)
+        {
+            return Enum.GetValues(typeof(Constants.SystemRole))
+                .Cast<Constants.FeeType>()
+                .Select(v => v.ToString())
+                .ToList().Contains(feeType);
+        }
+        public static bool CheckEditableFeeKey(string feeKey)
+        {
+            if (feeKey != null && feeKey.ToUpper().StartsWith("F"))
+            {
+                try
+                {
+                    int keyIndex = int.Parse(feeKey.Substring(1, feeKey.Length - 1));
+                    if (keyIndex > 0 && keyIndex < 8)
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception) { }
+            }
+            return true;
         }
 
         public static int CountNumberOfRound(string type, int NumberOfParticipate)
@@ -255,6 +280,26 @@ namespace FLMS_BackEnd.Utils
                 default:
                     return 0;
             }
+        }
+        public static decimal SumTotalLeagueFee(List<LeagueFeeDTO> leagueFees)
+        {
+            var totalfee = ((from e in leagueFees where e.FeeType.Equals(Constants.FeeType.Prize.ToString()) select e.Cost).Sum() +
+                (from e in leagueFees where e.FeeType.Equals(Constants.FeeType.Fee.ToString()) select e.Cost).Sum() -
+                (from e in leagueFees where e.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) select e.Cost).Sum());
+            return totalfee;
+        }
+        
+        public static void SetColumnWidths(IXLWorksheet worksheet)
+        {
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Time]).Width = 12;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Date]).Width = 20;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Home]).Width = 30;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.HomeScore]).Width = 16;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.AwayScore]).Width = 16;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Away]).Width = 30;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Round]).Width = 12;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Stadium]).Width = 36;
+            worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Status]).Width = 20;
         }
     }
 }

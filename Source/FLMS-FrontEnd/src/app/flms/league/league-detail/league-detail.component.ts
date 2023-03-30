@@ -5,7 +5,9 @@ import { map } from 'rxjs/operators';
 import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
 import { LeagueDetail, LeagueListbyUser } from 'src/app/models/league-detail.model';
 import { token } from 'src/app/models/token.model';
+import { MatDialog } from '@angular/material/dialog';
 import { LeagueService } from '../league.service';
+import { PopupDeleteLeagueComponent } from '../popup-delete-league/popup-delete-league.component';
 
 @Component({
   selector: 'app-league-detail',
@@ -17,13 +19,15 @@ export class LeagueDetailComponent implements OnInit {
   leagueId: number;
   private headers: HttpHeaders;
   token: token;
+  defaultLogo: string = './../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png';
 
 
   constructor(
     private LeagueService: LeagueService,
     private route: ActivatedRoute,
-
+    private router: Router,
     private http: HttpClient,
+    public dialog: MatDialog
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
@@ -31,6 +35,11 @@ export class LeagueDetailComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
     });
+
+    // if (this.router.getCurrentNavigation().extras.state) {
+    //   this.leagueId = this.router.getCurrentNavigation().extras.state.leagueId;
+    //   console.log(this.leagueId);
+    // }
   }
 
   ngOnInit(): void {
@@ -43,5 +52,14 @@ export class LeagueDetailComponent implements OnInit {
     ).subscribe();
   }
 
+  openDeleteLeaguePopup(clubId: number): void {
+    const dialogRef = this.dialog.open(PopupDeleteLeagueComponent, {
+      width: '50%',
+      data: { leagueId: this.leagueId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
 }

@@ -1,0 +1,98 @@
+
+<p>
+    <mat-toolbar class="card">
+        <span>Add Actual Cost</span>
+        <div style="margin: 0 0 0 auto;">
+            <button mat-raised-button type="submit" color="primary" [mat-dialog-close]="listFees"
+             >Save</button>
+        </div>
+    </mat-toolbar>
+</p>
+<div class="list-fee">
+    <table mat-table class="mat-elevation-z8" [dataSource] = "listFees">
+        <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element; let i = index"></td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <ng-container matColumnDef="expenseName">
+            <th mat-header-cell *matHeaderCellDef> Fee Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.expenseName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cost">
+            <th mat-header-cell *matHeaderCellDef> Cost(VND) </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="fill">
+                    <mat-label>Cost</mat-label>
+                    <input matInput type="number"  [(ngModel)] ="element.cost" >
+                </mat-form-field>
+            </td>
+          
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element;"> 
+                {{element.feeType}}
+               
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <!-- <button mat-raised-button color="primary" style="margin-right: 10px;">Accept</button> -->
+                <button mat-raised-button color="warn" (click)="removePlan(i)">Delete</button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="input-no">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+        </ng-container>
+
+        <ng-container matColumnDef="input-fee-name">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput [(ngModel)]="expenseName">
+                </mat-form-field>
+            </th>
+        </ng-container>
+
+        <ng-container matColumnDef="input-fee-cost">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field appearance="outline">
+                    <mat-label>Cost</mat-label>
+                    <input matInput type="number" [(ngModel)]="feeCost">
+                </mat-form-field>
+            </th>
+        </ng-container>
+
+        <ng-container matColumnDef="input-type">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field appearance="outline">
+                    <mat-label>Type</mat-label>
+                    <mat-select matNativeControl required [(ngModel)]="type" >
+                        <mat-option value="Sponsored">Sponsored</mat-option>
+                        <mat-option value="Prize">Prize</mat-option>
+                        <mat-option value="Fee">Fee</mat-option>
+                        
+                    </mat-select>
+                </mat-form-field>
+            </th>
+        </ng-container>
+        <ng-container matColumnDef="input-action">
+            <th mat-header-cell *matHeaderCellDef>
+                <button mat-raised-button color="primary" (click)="addActualFeetoList()" >Add</button>
+            </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-header-row *matHeaderRowDef="['input-no', 'input-fee-name', 'input-fee-cost','input-type', 'input-action']; sticky: true"></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

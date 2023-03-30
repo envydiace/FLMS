@@ -8,6 +8,7 @@ using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Globalization;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -120,7 +121,7 @@ namespace FLMS_BackEnd.Services.Impl
             listMatch.ForEach(m =>
             {
                 var match = matches.Where(x => x.MatchId == m.MatchId).FirstOrDefault();
-                if (match!=null && match.IsFinish)
+                if (match != null && match.IsFinish)
                 {
                     var homeStats = match.MatchStats.FirstOrDefault(ms => ms.IsHome);
                     m.Home.Score = homeStats != null ? homeStats.Score : 0;
@@ -128,7 +129,7 @@ namespace FLMS_BackEnd.Services.Impl
                     m.Away.Score = awayStats != null ? awayStats.Score : 0;
                 }
             });
-            
+
             return new LeagueScheduleResponse
             {
                 Success = true,
@@ -238,22 +239,78 @@ namespace FLMS_BackEnd.Services.Impl
                 var awayClubClone = match.Away.ClubClone;
                 awayClubClone.GoalsFor = awayScore;
                 awayClubClone.GoalsAgainst = homeScore;
-                if (homeScore > awayScore)
+                switch (MethodUtils.GetLeagueTypeByName(match.League.LeagueType))
                 {
-                    homeClubClone.Won++;
-                    awayClubClone.Loss++;
+                    case Constants.LeagueType.KO:
+                        var listNode = await participateNodeRepository.FindByCondition(n =>
+                                n.LeagueId == match.LeagueId)
+                                .Include(n => n.ClubClone)
+                                .ToListAsync();
+                        if (listNode.Any(n => n.LeftId == 0 && (n.ClubClone == null || n.ClubClone.ClubId == null)))
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-14"
+                            };
+                        }
+                        if (homeScore == awayScore)
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-13"
+                            };
+                        }
+                        var clubCloneId = match.Home.ClubCloneId;
+                        if (homeScore < awayScore)
+                        {
+                            clubCloneId = match.Away.ClubCloneId;
+                        }
+                        var node = listNode.FirstOrDefault(n => n.ParticipateId == match.Home.ParentId);
+                        if (node == null)
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-08"
+                            };
+                        }
+                        node.ClubCloneId = clubCloneId;
+                        var r = await participateNodeRepository.UpdateAsync(node);
+                        if (r == null)
+                        {
+                            return new FinishMatchResponse
+                            {
+                                Success = false,
+                                MessageCode = "ER-MA-08"
+                            };
+                        }
+                        break;
+                    case Constants.LeagueType.LEAGUE:
+                        if (homeScore > awayScore)
+                        {
+                            homeClubClone.Won++;
+                            awayClubClone.Loss++;
+                        }
+                        else if (homeScore < awayScore)
+                        {
+                            homeClubClone.Loss++;
+                            awayClubClone.Won++;
+                        }
+                        else
+                        {
+                            homeClubClone.Draw++;
+                            awayClubClone.Draw++;
+                        }
+                        break;
+                    default:
+                        return new FinishMatchResponse
+                        {
+                            Success = true,
+                            MessageCode = "ER-MA-08"
+                        };
                 }
-                else if (homeScore < awayScore)
-                {
-                    homeClubClone.Loss++;
-                    awayClubClone.Won++;
-                }
-                else
-                {
-                    homeClubClone.Draw++;
-                    awayClubClone.Draw++;
-                }
-
                 var homeStats = match.MatchStats.FirstOrDefault(ms => ms.IsHome);
                 if (homeStats != null)
                 {
@@ -291,6 +348,95 @@ namespace FLMS_BackEnd.Services.Impl
                     };
                 }
             }
+        }
+
+        public async Task<UpdateMatchInfoResponse> UpdateMatchInfo(UpdateMatchInfoRequest request, int UserId)
+        {
+            var dateTime = new DateTime();
+            var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId)
+                .Include(m => m.League).ThenInclude(l => l.User)
+                .FirstOrDefaultAsync();
+            if (match == null)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-01"
+                };
+            }
+            if (match.League.User.UserId != UserId)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-03"
+                };
+            }
+            if (match.IsFinish)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-02"
+                };
+            }
+            try
+            {
+                dateTime = DateTime.ParseExact(request.MatchDate.ToString(Constants.DATE_FORMAT) + " " + request.MatchTime
+                    , "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-12"
+                };
+            }
+            if (dateTime < match.League.StartDate || dateTime > match.League.EndDate)
+            {
+                return new UpdateMatchInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-09"
+                };
+            }
+            var matchHomes = await matchRepository.FindByCondition(m =>
+            m.HomeId == match.HomeId && m.MatchId != match.MatchId)
+                .ToListAsync();
+            var matchAways = await matchRepository.FindByCondition(m =>
+            m.AwayId == match.AwayId && m.MatchId != match.MatchId)
+                .ToListAsync();
+            foreach (var matchH in matchHomes)
+            {
+                if (Math.Abs(matchH.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                {
+                    return new UpdateMatchInfoResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-MA-10"
+                    };
+                }
+            }
+            foreach (var matchA in matchAways)
+            {
+                if (Math.Abs(matchA.MatchDate.Subtract(dateTime).TotalDays) < 1)
+                {
+                    return new UpdateMatchInfoResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-MA-10"
+                    };
+                }
+            }
+            match.MatchDate = dateTime;
+            match.Stadium = request.Stadium;
+            Match result = await matchRepository.UpdateAsync(match);
+            if (result != null)
+            {
+                return new UpdateMatchInfoResponse { Success = true, MessageCode = "MS-MA-02" };
+            }
+            return new UpdateMatchInfoResponse { Success = false, MessageCode = "ER-MA-11" };
         }
     }
 }

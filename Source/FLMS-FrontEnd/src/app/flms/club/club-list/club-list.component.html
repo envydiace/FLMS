@@ -49,8 +49,8 @@
                             <mat-card-title>{{club.clubName}}</mat-card-title>
                             <mat-card-subtitle></mat-card-subtitle>
                             <img mat-card-avatar class="league-header-image"
-                                src="./../../../../assets/image/Manchester_United_FC_crest.svg.png"
-                                alt="Photo of a Shiba Inu">
+                                [src]="club.logo != null ? club.logo : defaultLogo" 
+                                alt="club logo">
                             <mat-card-actions>
                                 <button mat-button>Invite</button>
                             </mat-card-actions>

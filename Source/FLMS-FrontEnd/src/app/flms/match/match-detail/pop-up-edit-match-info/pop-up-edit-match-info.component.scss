@@ -1,0 +1,111 @@
+.match-detail-container {
+
+
+
+    .match-detail-content {
+        width: 100%;
+        margin: 0 10px;
+    }
+
+
+    .match-detail-content {
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    .match-detail-container {
+        display: flex;
+
+    }
+
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
+
+    .match-detail-content {
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    .match-detail-container {
+        display: flex;
+
+    }
+
+    .left-detail {
+        flex: 1;
+    }
+
+    .right-detail {
+        flex: 1;
+    }
+
+    .box-border {
+        border-right: 1px solid black;
+    }
+
+    .match-detail-content {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+
+    .score-container {
+        display: flex;
+    }
+
+    .team-1 {
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        // display: block ;
+    }
+
+    .team-2 {
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        //display: block;
+    }
+
+    .match-detail-title {
+        display: block;
+        padding-top: 10px;
+        text-align: center;
+        font-size: 25px;
+    }
+
+    .mat-card-header {
+        display: grid;
+    }
+
+    .score-content {
+        justify-content: center;
+        width: 100px;
+    }
+
+    .goal-data {
+        font-size: 3em;
+        text-align: center;
+        line-height: 120px;
+    }
+
+    .match-status {
+        text-align: center;
+        line-height: 1.5em;
+    }
+
+}
+
+.example-full-width {
+    width: 80%;
+
+}

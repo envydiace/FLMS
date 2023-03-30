@@ -1,32 +1,38 @@
-<mat-card class="example-card">
-    <mat-card-header>
+<p>
+    <mat-toolbar class="card">
+        <span>Account</span>
+    </mat-toolbar>
+</p>
 
-        <mat-card-title>Account </mat-card-title>
-        <br />
-        <mat-card-subtitle> </mat-card-subtitle>
-    </mat-card-header>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card class="example-card">
+        <mat-card-header>
 
-    <mat-card-content>
-        <div class="row">
-            <div class="col-xl-3">
-                <div class="card mb-4 mb-xl-0">
-                    <div class="card-header">Profile Picture</div>
-                    <div class="card-body text-center">
-                        <img class="img-account-profile rounded-circle mb-2"
-                            src="./../../../../assets/image/Rashford.png" alt="">
-                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div> <button
-                            class="btn btn-primary" type="button">Upload new image</button>
+            <mat-card-title> </mat-card-title>
+            <br />
+            <mat-card-subtitle> </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="row">
+                <div class="col-xl-3">
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Profile Picture</div>
+                        <div *ngIf="userProfile" class="card-body text-center">
+                            <img class="img-account-profile rounded-circle mb-2" [src]="imgSrc" alt="profile's Pic">
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
+                        </div>
                     </div>
+
+                    <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
                 </div>
+                <div class="col-xl-9">
 
-                <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
-            </div>
-            <div class="col-xl-9">
+                    <div class="card mb-4">
+                        <div class="card-header">Account Details</div>
+                        <div class="card-body">
 
-                <div class="card mb-4">
-                    <div class="card-header">Account Details</div>
-                    <div class="card-body">
-                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
                             <div class="mb-3">
                                 <!-- <label class="small mb-1" for="inputUsername">Username </label>  -->
                                 <mat-form-field class="example-full-width">
@@ -74,23 +80,24 @@
                             <div class="mb-3">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>Role</mat-label>
-                                    <input matInput disabled value="">
+                                    <input matInput formControlName="role">
                                 </mat-form-field>
                             </div>
 
                             <button class="btn btn-primary" type="submit">Save changes</button>
 
-                        </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </mat-card-content>
+        </mat-card-content>
 
-    <mat-card-actions>
+        <mat-card-actions>
 
-        <a routerLink="../../change-password" class="btn btn-primary right" type="button">Change Pass</a>
+            <a routerLink="../../change-password" class="btn btn-primary right" type="button">Change Pass</a>
 
-    </mat-card-actions>
+        </mat-card-actions>
 
-</mat-card>
+    </mat-card>
+</form>

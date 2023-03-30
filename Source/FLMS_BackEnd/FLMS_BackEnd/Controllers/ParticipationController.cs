@@ -1,7 +1,10 @@
 ﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Listeners;
+using FLMS_BackEnd.Listeners.Events;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
+using FLMS_BackEnd.Utils;
 using MailKit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,12 +18,20 @@ namespace FLMS_BackEnd.Controllers
     public class ParticipationController : BaseApiController
     {
         private readonly ParticipationService participationService;
-        private readonly IMailService mailService;
-
-        public ParticipationController(ParticipationService participationService, IMailService mailService)
+        private readonly SendMailEventHandler sendMailEventHandler;
+        public ParticipationController(ParticipationService participationService, IMailService mailService, SendMailEventHandler sendMailEventHandler)
         {
             this.participationService = participationService;
-            this.mailService = mailService;
+            this.sendMailEventHandler = sendMailEventHandler;
+
+            sendMailEventHandler.SendMailEventArgs += async (sender, args) =>
+            {
+                bool sendResult = await mailService.SendEmailAsync(args.MailRequest, new CancellationToken());
+                if (!sendResult)
+                {
+                    Console.WriteLine("Failed to send email: {EmailRequest}", args.MailRequest);
+                }
+            };
         }
 
         [HttpPut("[action]")]
@@ -30,6 +41,16 @@ namespace FLMS_BackEnd.Controllers
             var response = await participationService.ConfirmResgistFee(request, UserID);
             if (response.Success)
             {
+                MailRequest mailRequest = new MailRequest
+                {
+                    To = new List<string> {
+                       response.mailData.Email
+                    },
+                    Subject = response.MailMessage,
+                    MailType = Constants.MailType.ConfirmFee,
+                    MailData = response.mailData
+                };
+                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -57,21 +78,17 @@ namespace FLMS_BackEnd.Controllers
             var response = await participationService.RemoveJoinedTeam(request, UserID);
             if (response.Success)
             {
-                MailRequest mailRequest = new MailRequest(
-                    new List<string> {
+                MailRequest mailRequest = new MailRequest
+                {
+                    To = new List<string> {
                        response.mailData.Email
                     },
-                    response.MailMessage,
-                    mailService.GetEmailTemplate("RemoveClub", response.mailData));
-                bool sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
-                if (sendResult)
-                {
-                    return Ok(response);
-                }
-                else
-                {
-                    return BadRequest("Mail sent failed");
-                }
+                    Subject = response.MailMessage,
+                    MailType = Constants.MailType.RemoveClub,
+                    MailData = response.mailData
+                };
+                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                return Ok(response);
             }
             else
             {
@@ -80,7 +97,7 @@ namespace FLMS_BackEnd.Controllers
         }
         [HttpGet("[action]/{id}")]
         [Authorize(Roles = "LEAGUE_MANAGER")]
-        public async Task<ActionResult<List<UnpositionClubDTO>>> GetUnpositionClub(int id)
+        public async Task<ActionResult<List<ClubBasicInfoDTO>>> GetUnpositionClub(int id)
         {
             var result = await participationService.ListUnpositionClub(id, UserID);
             return Ok(result);
@@ -105,6 +122,26 @@ namespace FLMS_BackEnd.Controllers
         {
             var response = await participationService.GetListJoinedLeague(UserID);
             return response;
+        }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<ParticipateTreeResponse>> GetLeagueTree(int id)
+        {
+            var response = await participationService.GetLeagueParticipateTree(id);
+            return response;
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<LeagueSettingResponse>> ManageLeagueSettingKO(SaveLeagueTreeRequest request)
+        {
+            var response = await participationService.SaveLeagueTree(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
         }
     }
 }

@@ -9,6 +9,9 @@
         <p>
             <mat-toolbar class="card">
                 <span>Cost Plan</span>
+                <div style="margin: 0 0 0 auto;">
+                    <button mat-raised-button color="primary" (click)="openAddPlan(leagueId)">Add</button>
+                </div>
             </mat-toolbar>
         </p>
         <table mat-table class="mat-elevation-z8" style="margin-bottom: 20px;" [dataSource]="plan">
@@ -27,15 +30,15 @@
 
             <ng-container matColumnDef="expenseKey">
                 <th mat-header-cell *matHeaderCellDef> Type </th>
-                <td mat-cell *matCellDef="let element">{{element.expenseKey}} </td>
+                <td mat-cell *matCellDef="let element">{{element.feeType}} </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
 
             <ng-container matColumnDef="editB">
-                <th mat-header-cell *matHeaderCellDef ></th>
+                <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
                     <button mat-icon-button color="primary" aria-label="Example icon button with a home icon"
-                    (click)="openEditFee(element.leagueFeeId)">
+                        (click)="openEditFee(element.leagueFeeId)">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </td>
@@ -51,6 +54,9 @@
         <p>
             <mat-toolbar class="card">
                 <span>Actual Cost</span>
+                <div style="margin: 0 0 0 auto;">
+                    <button mat-raised-button color="primary" (click)="openAddActual(leagueId)">Add</button>
+                </div>
             </mat-toolbar>
         </p>
         <table mat-table class="mat-elevation-z8" [dataSource]="actual">
@@ -69,15 +75,14 @@
 
             <ng-container matColumnDef="expenseKey">
                 <th mat-header-cell *matHeaderCellDef> Type </th>
-                <td mat-cell *matCellDef="let element"> {{element.expenseKey}}</td>
+                <td mat-cell *matCellDef="let element"> {{element.feeType}}</td>
                 <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
             <ng-container matColumnDef="editB">
-                <th mat-header-cell *matHeaderCellDef ></th>
+                <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button color="primary"  aria-label="Example icon button with a home icon"
-                    (click)="openEditFee(element.leagueFeeId)"
-                    >
+                    <button mat-icon-button color="primary" aria-label="Example icon button with a home icon"
+                        (click)="openEditCost(element.leagueFeeId)">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </td>

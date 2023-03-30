@@ -3,8 +3,8 @@ import { map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatchService } from './../../match.service';
-import { ClubStats, MatchStats } from '../../../../models/match-statistics-model';
-import { MatchStatisticsResponse } from '../../../../models/match-statistic-response-model';
+import { ClubStats, MatchStats } from '../../../../models/match-statistics.model';
+import { MatchStatisticsResponse } from '../../../../models/match-statistic-response.model';
 import { PopUpEditMatchStatsComponent } from '../../pop-up-edit-match-stats/pop-up-edit-match-stats.component';
 @Component({
   selector: 'app-match-statistic',

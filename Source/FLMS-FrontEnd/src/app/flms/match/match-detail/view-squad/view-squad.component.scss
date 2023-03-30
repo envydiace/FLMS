@@ -1,0 +1,101 @@
+.line-up-containner {
+    margin: 0;
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .card-body {
+
+        .line-up-field {
+            width: 100%;
+            height: 470px;
+            margin: 0;
+            background-image: url('../../../../../assets/image/Field.png');
+            background-color: #cccccc;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            position: relative;
+
+            .positon-st {
+                margin-top: 58px;
+            }
+
+            mat-card-subtitle {
+                font-weight: bold;
+            }
+        }
+    }
+
+}
+
+.player-list {
+    border: solid 1px #ccc;
+    min-height: 60px;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    display: block;
+}
+
+.player-box {
+    padding: 10px 10px;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background: white;
+    font-size: 14px;
+    width: 100%;
+}
+
+.player-position {
+    display: block;
+    padding: 0;
+    margin: 0 auto;
+    border: none;
+    text-align: center;
+    background: none;
+    font-size: 14px;
+    width: 150px;
+    box-shadow: none;
+}
+
+.avatar-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+    height: 35px;
+    width: 35px;
+    margin: 2px 0px 0px 2px;
+}
+
+.player-header-image {
+    height: 40px;
+    width: 40px;
+    margin: 0 auto;
+}
+
+.position-title {
+    font-weight: bold;
+    margin-top: 28px;
+    margin-bottom: 34px;
+}

@@ -19,7 +19,10 @@
   .player-heading {
     margin: 10px 0;
   }
-
+  .header-image {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .player-list-card {
@@ -33,7 +36,7 @@
 }
 
 .profile-image {
-  background-image: url('./../../../../../assets/image/Rashford.png');
+  // background-image: url('./../../../../../assets/image/Rashford.png');
   background-size: cover;
   height: 100px;
   width: 100px;

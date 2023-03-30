@@ -37,6 +37,7 @@ import { ClubDetailComponent } from './club/club-detail/club-detail.component';
 import { ClubListComponent } from './club/club-list/club-list.component';
 import { ClubScheduleComponent } from './club/club-detail/club-schedule/club-schedule.component';
 import { ClubPlayerComponent } from './club/club-detail/club-player/club-player.component';
+import { MatchHistoryComponent } from './club/club-detail/match-history/match-history.component';
 import { PopUpAddPlayerComponent } from './club/club-detail/pop-up-add-player/pop-up-add-player.component';
 import { PopUpUpdatePrizeComponent } from './league/pop-up-update-prize/pop-up-update-prize.component';
 import { LeagueScheduleComponent } from './league/league-detail/league-schedule/league-schedule.component';
@@ -51,7 +52,27 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { MatSelectModule } from '@angular/material/select';
 import { PopUpEditMatchStatsComponent } from './match/pop-up-edit-match-stats/pop-up-edit-match-stats.component'
 import { PopUpLeagueFeeDetailComponent } from './league/league-detail/pop-up-league-fee-detail/pop-up-league-fee-detail.component';
-import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component'
+import { JoinedLeagueComponent } from './club/joined-league/joined-league.component';
+import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
+import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
+import { PopUpEditMatchInfoComponent } from './match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component';
+import { ClubIncomingMatchComponent } from './match/club-incoming-match/club-incoming-match.component';
+import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
+import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
+import { LeagueHistoryComponent } from './club/club-detail/league-history/league-history.component';
+import { PlayerInfoComponent } from './club/player-info/player-info.component';
+import { PopUpDeleteClubComponent } from './club/pop-up-delete-club/pop-up-delete-club.component';
+import { PopUpConfirmDeletePlayerComponent } from './club/pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
+import { PopupDeleteLeagueComponent } from './league/popup-delete-league/popup-delete-league.component';
+import { NgTournamentTreeModule } from 'ng-tournament-tree';
+import { TournamentMatchComponent } from './league/league-detail/league-settings/tournament-match/tournament-match.component';
+import { PopUpAddActualComponent } from './league/pop-up-add-actual/pop-up-add-actual.component';
+import { PopUpUpdateActualComponent } from './league/pop-up-update-actual/pop-up-update-actual.component';
+import { TournamentTreeComponent } from './league/league-detail/league-statistic/tournament-tree/tournament-tree.component';
+import { PopUpAddPlanComponent } from './league/pop-up-add-plan/pop-up-add-plan.component';
+import { PopUpLeagueCostEditComponent } from './league/league-detail/pop-up-league-cost-edit/pop-up-league-cost-edit.component';
 
 @NgModule({
   declarations: [
@@ -73,14 +94,34 @@ import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-
     ClubListComponent,
     ClubScheduleComponent,
     ClubPlayerComponent,
+    MatchHistoryComponent,
     PopUpAddPlayerComponent,
     PopUpLeagueFeeDetailComponent,
     PopUpEditMatchStatsComponent,
+    PopUpAddEventComponent,
     PopUpUpdatePrizeComponent,
     MatchEventComponent,
     MatchDetailComponent,
     MatchStatisticComponent,
-    ConfirmIsFinishComponent
+    JoinedLeagueComponent,
+    ViewSquadComponent,
+    EditLineUpComponent,
+    PopUpEditMatchInfoComponent,
+    LeagueHistoryComponent,
+    ConfirmIsFinishComponent,
+    ClubIncomingMatchComponent,
+    PopUpRemoveEvemtComponent,
+    PopUpDeleteClubComponent,
+    PopupDeleteLeagueComponent,
+    PlayerInfoComponent,
+    PopUpDeleteClubComponent,
+    PopUpConfirmDeletePlayerComponent,
+    TournamentMatchComponent,
+    PopUpAddActualComponent,
+    PopUpUpdateActualComponent,
+    TournamentTreeComponent,
+    PopUpAddPlanComponent,
+    PopUpLeagueCostEditComponent
   ],
   imports: [
     CommonModule,
@@ -112,7 +153,9 @@ import { ConfirmIsFinishComponent } from './league/pop-up-confirm-is-finish/pop-
     MatNativeDateModule,
     MatTabsModule,
     MatListModule,
-    CdkTableModule
+    CdkTableModule,
+    DragDropModule,
+    NgTournamentTreeModule
   ]
 })
 export class FlmsModule { }
