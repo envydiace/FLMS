@@ -122,5 +122,18 @@ namespace FLMS_BackEnd.Controllers
             var response = await clubService.GetIncomingMatch(UserID);
             return Ok(response);
         }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<List<ClubHistoryDTO>>> GetClubHistory(int id)
+        {
+            try
+            {
+                var response = await clubService.GetClubHistory(id);
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
+            }
+        }
     }
 }

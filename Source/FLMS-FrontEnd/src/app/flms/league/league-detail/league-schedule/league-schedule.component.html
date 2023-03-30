@@ -31,7 +31,7 @@
             </div>
             <div class="row justify-content-right">
                 <div class=" justify-content-right" style="display: inline block; ">
-                    <button mat-raised-button color="primary">Export</button>
+                    <button mat-raised-button color="primary" (click)="exportLeagueSchedule()">Export</button>
 
                     <button mat-raised-button>Add</button>
                 </div>
@@ -91,7 +91,7 @@
             <mat-cell *matCellDef="let element">
                 <div *ngIf="element.isFinish != true">
                     <button mat-raised-button color="warn" style="margin-left: 10px;" (click)="openDialogConfirmIsFinished(element.matchId)">Finish</button>
-                    <button mat-raised-button color="primary">Edit</button>
+                    <button mat-raised-button color="primary" (click)="openEditMatchInfo(element.matchId)">Edit</button>
                 </div>
                 
             </mat-cell>
@@ -99,6 +99,7 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
-            (click)="navigateToMatchDetail(element.matchId)"></mat-row>
+            (click)="navigateToMatchDetail(element.matchId)"
+            ></mat-row>
     </mat-table>
 </div>

@@ -12,10 +12,12 @@ namespace FLMS_BackEnd.Services.Impl
     public class LeagueServiceImpl : BaseService, LeagueService
     {
         private readonly LeagueRepository leagueRepository;
+        private readonly MatchRepository matchRepository;
 
-        public LeagueServiceImpl(LeagueRepository leagueRepository)
+        public LeagueServiceImpl(LeagueRepository leagueRepository, MatchRepository matchRepository)
         {
             this.leagueRepository = leagueRepository;
+            this.matchRepository = matchRepository;
         }
 
         public async Task<CreateLeagueResponse> CreateLeague(CreateLeagueRequest request, int userId)
@@ -29,7 +31,9 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             int numberOfRound = MethodUtils.CountNumberOfRound(request.LeagueType, request.NoParticipate);
-            if (request.EndDate.CompareTo(request.StartDate) <= 0)
+            if (request.EndDate
+                    .CompareTo(request.StartDate.AddDays(MethodUtils.CountLeagueDateRange(request.LeagueType, request.NoParticipate) - 1))
+                < 0)
             {
                 return new CreateLeagueResponse
                 {
@@ -220,20 +224,74 @@ namespace FLMS_BackEnd.Services.Impl
             var listLeague = await leagueRepository.FindByCondition(l => l.UserId == userId).ToListAsync();
             return mapper.Map<List<LeagueByUserDTO>>(listLeague);
         }
-
-        public async Task<LeagueStatisticResponse> GetLeagueStatistic(int leagueId)
+        public async Task<TopEventResponse> GetLeagueTopEvent(int leagueId)
         {
             var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
-                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.Club)
                                     .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Main)
                                     .Include(l => l.Matches).ThenInclude(m => m.MatchEvents).ThenInclude(m => m.Sub)
                                     .FirstOrDefaultAsync();
+            if (league != null)
+            {
+                var listevent = new List<MatchEvent>();
+                var matchs = league.Matches.Where(m => m.IsFinish).ToList();
+                matchs.ForEach(m => listevent.AddRange(m.MatchEvents.Where(e =>
+                                    e.EventType.Equals(Constants.MatchEventType.Goal.ToString())).ToList())
+                               );
+
+                var topScore = listevent.GroupBy(
+                    e => e.MainId
+                    )
+                    .Select(e => new TopRecordPlayerDTO
+                    {
+                        PlayerId = e.Key,
+                        PlayerName = e.Select(x => x.Main.Name).FirstOrDefault(),
+                        Avatar = e.Select(x => x.Main.Avatar).FirstOrDefault(),
+                        Record = e.Count()
+                    })
+                    .OrderByDescending(x => x.Record)
+                    .ThenBy(x => x.PlayerName)
+                        .ToList();
+
+                var topAssist = listevent.Where(e => e.SubId != null).GroupBy(
+                    e => e.SubId
+                    )
+                    .Select(e => new TopRecordPlayerDTO
+                    {
+                        PlayerId = e.Key != null ? e.Key.Value : 0,
+                        PlayerName = e.Select(x => x.Sub != null ? x.Sub.Name : " ").FirstOrDefault(),
+                        Avatar = e.Select(x => x.Sub != null ? x.Sub.Avatar : null).FirstOrDefault(),
+                        Record = e.Count()
+                    })
+                    .OrderByDescending(x => x.Record)
+                    .ThenBy(x => x.PlayerName)
+                        .ToList();
+                return new TopEventResponse
+                {
+                    TopScore = topScore,
+                    TopAssist = topAssist
+                };
+            }
+            return new TopEventResponse();
+        }
+        public async Task<LeagueLeagueStatisticResponse> GetLeagueStatisticTypeLeague(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.Club)
+                                    .FirstOrDefaultAsync();
             if (league == null)
             {
-                return new LeagueStatisticResponse
+                return new LeagueLeagueStatisticResponse
                 {
                     Success = false,
                     MessageCode = "ER-LE-05"
+                };
+            }
+            if (!Constants.LeagueType.LEAGUE.Equals(MethodUtils.GetLeagueTypeByName(league.LeagueType)))
+            {
+                return new LeagueLeagueStatisticResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-10"
                 };
             }
             var standings = mapper.Map<List<LeagueStandingDTO>>(league.ClubClones)
@@ -243,47 +301,142 @@ namespace FLMS_BackEnd.Services.Impl
                             .ToList();
             standings.ForEach(s => s.Standing = (standings.IndexOf(s) + 1));
 
-            var listevent = new List<MatchEvent>();
-            var matchs = league.Matches.Where(m => m.IsFinish).ToList();
-            matchs.ForEach(m => listevent.AddRange(m.MatchEvents.Where(e =>
-                                e.EventType.Equals(Constants.MatchEventType.Goal.ToString())).ToList())
-                           );
+            var topEvent = await this.GetLeagueTopEvent(leagueId);
 
-            var topScore = listevent.GroupBy(
-                e => e.MainId
-                )
-                .Select(e => new TopRecordPlayerDTO
-                {
-                    PlayerId = e.Key,
-                    PlayerName = e.Select(x => x.Main.Name).FirstOrDefault(),
-                    Avatar = e.Select(x => x.Main.Avatar).FirstOrDefault(),
-                    Record = e.Count()
-                })
-                .OrderByDescending(x => x.Record)
-                .ThenBy(x => x.PlayerName)
-                    .ToList();
-
-            var topAssist = listevent.Where(e => e.SubId != null).GroupBy(
-                e => e.SubId
-                )
-                .Select(e => new TopRecordPlayerDTO
-                {
-                    PlayerId = e.Key != null ? e.Key.Value : 0,
-                    PlayerName = e.Select(x => x.Sub != null ? x.Sub.Name : " ").FirstOrDefault(),
-                    Avatar = e.Select(x => x.Sub != null ? x.Sub.Avatar : null).FirstOrDefault(),
-                    Record = e.Count()
-                })
-                .OrderByDescending(x => x.Record)
-                .ThenBy(x => x.PlayerName)
-                    .ToList();
-
-            return new LeagueStatisticResponse
+            return new LeagueLeagueStatisticResponse
             {
                 Success = true,
+                LeagueId = leagueId,
+                LeagueType = league.LeagueType,
                 LeagueStanding = standings,
-                TopScore = topScore,
-                TopAssist = topAssist
+                TopScore = topEvent.TopScore,
+                TopAssist = topEvent.TopAssist
             };
         }
+
+
+        public async Task<DeleteLeagueResponse> DeleteLeague(int leagueId, int userId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
+                            .Include(l => l.Participations)
+                            .Include(l => l.Matches)
+                            .FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != userId)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (league.Participations.Any())
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-09"
+                };
+            }
+            var matches = league.Matches;
+            while (matches.Count > 0)
+            {
+                var r = await matchRepository.DeleteAsync(matches.FirstOrDefault());
+                if (r == null)
+                {
+                    return new DeleteLeagueResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-LE-08"
+                    };
+                }
+            }
+            var result = await leagueRepository.DeleteAsync(league);
+            if (result != null)
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-LE-02"
+                };
+            }
+            else
+            {
+                return new DeleteLeagueResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-08"
+                };
+            }
+        }
+
+        public async Task<LeagueKnockOutStatisticResponse> GetLeagueStatisticTypeKO(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(n => n.LeagueId == leagueId)
+                    .Include(l => l.ParticipateNodes)
+                    .ThenInclude(n => n.ClubClone).ThenInclude(c => c.Club)
+                    .FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueKnockOutStatisticResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (!Constants.LeagueType.KO.Equals(MethodUtils.GetLeagueTypeByName(league.LeagueType)))
+            {
+                return new LeagueKnockOutStatisticResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-10"
+                };
+            }
+            var list = league.ParticipateNodes
+                    .OrderByDescending(n => n.Deep).ThenBy(n => n.ParentId).ThenBy(n => n.ParticipateId)
+                    .ToList();
+            var listNodes = mapper.Map<List<ParticipateTreeNodeDTO>>(list);
+            List<MatchNodeDTO> listMatchNode = new List<MatchNodeDTO>();
+            var groupNodes = from node in listNodes
+                             group node by node.ParentId;
+            foreach (var node in groupNodes)
+            {
+                List<ParticipationNodeTreeDTO> Participation = new List<ParticipationNodeTreeDTO>();
+                int deep = 0;
+                foreach (var n in node.ToList())
+                {
+                    Participation.Add(mapper.Map<ParticipationNodeTreeDTO>(n));
+                    deep = n.Deep;
+                }
+                var matchNode = new MatchNodeDTO
+                {
+                    ParentId = node.Key,
+                    Deep = deep,
+                    Participation = Participation
+                };
+                listMatchNode.Add(matchNode);
+            }
+
+            var topEvent = await this.GetLeagueTopEvent(leagueId);
+
+            return new LeagueKnockOutStatisticResponse
+            {
+                Success = true,
+                LeagueId = leagueId,
+                Height = list.Max(x => x.Deep),
+                LeagueType = league.LeagueType,
+                ListNode = listMatchNode,
+                TopScore = topEvent.TopScore,
+                TopAssist = topEvent.TopAssist
+            };
+        }
+
     }
 }

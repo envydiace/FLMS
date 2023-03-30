@@ -66,7 +66,8 @@ export class PopUpAddPlayerComponent implements OnInit {
       email: this.getControl('email').value,
       socialCont: this.getControl('socialCont').value,
       clubId: this.data.clubId,
-      number: this.getControl('number').value
+      number: this.getControl('number').value,
+      avatar: null
     }
   }
 

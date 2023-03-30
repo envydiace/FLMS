@@ -4,10 +4,14 @@
     </div>
     <div *ngIf = "clubdetail">
         <div class="club-detail-info row justify-content-center">
-            <div class="col-8">
+            <div class="col-10">
                 <mat-card class="club-detail-card">
                     <mat-card-header>
-                        <div mat-card-avatar class="club-detail-logo"></div>
+                        <div mat-card-avatar class="club-detail-logo">
+                            <img mat-card-avatar class="club-detail-logo"
+                            [src]="clubdetail.logo != null ? clubdetail.logo : defaultLogo" alt="Club's Pic">
+
+                        </div>
                         <div class="club-detail-title">
                             <mat-card-subtitle>TEAM</mat-card-subtitle>
                             <mat-card-title>{{clubdetail.clubName}}</mat-card-title>
@@ -39,7 +43,7 @@
                             </div>
                             <div class="col-xs-4 justify-content-center">
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="warn">Delete</button>
+                                        mat-raised-button style="width: 120px;" color="warn" (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
                                 </div>
                             </div>
                             <div class="col-xs-4 justify-content-center">
@@ -64,11 +68,11 @@
                                         <app-club-player [id]="clubdetail.clubId" [clubName]="clubdetail.clubName"></app-club-player>
                                     </ng-template>
                                 </mat-tab>
-                                <!-- <mat-tab label="League History">
+                                <mat-tab label="League History">
                                     <ng-template matTabContent>
                                         <app-league-history></app-league-history>
                                     </ng-template>
-                                </mat-tab> -->
+                                </mat-tab>
                                 <mat-tab label="Match History">
                                     <ng-template matTabContent>
                                         <app-match-history></app-match-history>

@@ -4,8 +4,11 @@ import { LeagueService } from '../../league.service';
 import { map, tap } from 'rxjs/operators';
 import { MatchScheduleResponse } from '../../../../models/match-schedule-response.model';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { PopUpEditMatchInfoComponent } from 'src/app/flms/match/match-detail/pop-up-edit-match-info/pop-up-edit-match-info.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmIsFinishComponent } from '../../pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
+import { CommonService } from 'src/app/common/common/common.service';
 
 @Component({
   selector: 'app-league-schedule',
@@ -13,17 +16,18 @@ import { ConfirmIsFinishComponent } from '../../pop-up-confirm-is-finish/pop-up-
   styleUrls: ['./league-schedule.component.scss']
 })
 export class LeagueScheduleComponent implements OnInit {
-  displayedColumns: string[] = ['time','date', 'home','vs', 'away', 'group','stadium', 'action'];
-  leagueId: number ;
+  displayedColumns: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium', 'action'];
+  leagueId: number;
   matchId: number;
   listMatch: MatchSchedule[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private LeagueService: LeagueService,
+    private commnonService: CommonService,
     private router: Router,
     public dialog: MatDialog,
-  ) { 
+  ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
     });
@@ -40,12 +44,24 @@ export class LeagueScheduleComponent implements OnInit {
   }
 
   navigateToMatchDetail(id: number) {
-    this.router.navigate(['/manager/match-info'], { queryParams: {matchId : id}, skipLocationChange: true});
+    this.router.navigate(['/manager/match-detail'], { queryParams: { matchId: id } });
+  }
+
+  openEditMatchInfo(matchId: number): void {
+    const dialogRef = this.dialog.open(PopUpEditMatchInfoComponent, {
+      width: '50%',
+      data: { matchId: matchId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
   }
 
   openDialogConfirmIsFinished(matchId: number): void {
     const dialogRef = this.dialog.open(ConfirmIsFinishComponent, {
-      width: '100%',
+      width: '50%',
       data: { matchId: matchId }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -53,4 +69,10 @@ export class LeagueScheduleComponent implements OnInit {
     });
   }
 
+  exportLeagueSchedule() {
+    this.LeagueService.exportLeagueSchedule(this.leagueId).subscribe(res => {
+      this.commnonService.downLoadFile(res, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      // this.downLoadFile(res, 'application/octet-stream');
+    });
+  }
 }

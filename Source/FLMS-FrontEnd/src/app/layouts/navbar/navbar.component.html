@@ -30,7 +30,11 @@
     <div *ngIf="user != null">
         <mat-card class="avatar-card">
             <mat-card-header>
-                <div mat-card-avatar class="avatar-header-image"></div>
+                <div mat-card-avatar class="avatar-header-image">
+                    <img mat-card-avatar class="avatar-detail-logo"
+                        [src]="user.avatar != null ? user.avatar : defaultLogo" alt="Club's Pic">
+
+                </div>
                 <mat-card-title style="line-height: 38px;">{{user.fullName}}</mat-card-title>
                 <button mat-icon-button [matMenuTriggerFor]="menu">
                     <mat-icon>keyboard_arrow_down</mat-icon>

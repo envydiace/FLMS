@@ -6,6 +6,8 @@ import { ClubListPlayer } from './../../../../models/club-list-player.model';
 import { ClubListPlayerResponse } from './../../../../models/club-list-player-response.model';
 import { Club } from 'src/app/models/match-schedule.model';
 import { map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { PopUpConfirmDeletePlayerComponent } from '../../pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
 
 @Component({
   selector: 'app-club-player',
@@ -18,8 +20,14 @@ export class ClubPlayerComponent implements OnInit {
   @Input() playerName: string;
   listPlayer: ClubListPlayer[] = [];
 
+  defaultLogo: string = './../../../../assets/image/Default_pfp.svg.png';
+
+  playerId: number;
+
+
   constructor(
     public dialog: MatDialog,
+    private router: Router,
     private clubService: ClubService
   ) { }
 
@@ -32,8 +40,8 @@ export class ClubPlayerComponent implements OnInit {
       width: '100%',
       data: { clubId: this.id, clubName: this.clubName }
     });
-
     dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
     });
   }
@@ -44,10 +52,25 @@ export class ClubPlayerComponent implements OnInit {
     ).subscribe();
   }
 
-  getPlayerByName(player: string){
+  getPlayerByName(player: string) {
     if (player == null) player = '';
     this.clubService.getPlayerListFilter(player, this.id).pipe(
       map((listPlayer: ClubListPlayerResponse) => this.listPlayer = listPlayer.players)
     ).subscribe();
+  }
+
+  navigateToPlayerInfo(playerId: number, clubId: number) {
+    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId, clubId: clubId } });
+  }
+
+  openDeleteplayerConfirm(playerId: number, clubId: number): void {
+    const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
+      width: '50%',
+      data: { playerId: playerId, clubId: this.id }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
   }
 }

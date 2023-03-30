@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { token } from '../../models/token.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { LeagueList } from './../../models/league-list.model';
 import { environment } from '../../../environments/environment';
-import { LeagueListbyUser } from '../../models/league-detail.model';
+import { LeagueListbyUser, LeagueDetail } from '../../models/league-detail.model';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
@@ -13,7 +12,9 @@ import { MatchEvent } from 'src/app/models/match-event-detail.model';
 import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
 import { MatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { FeeDetail, LeagueClubFee } from 'src/app/models/fee-detail.model';
-import { MailDataResponse } from './../../models/mail-data-response.model';
+import { LeagueTree, UpdateTreeModel } from './../../models/league-tree.model';
+import { LeagueStatisticResponse } from './../../models/league-statistics-response.model';
+import { LeagueStatisticTypeKO } from './../../models/league-statistic-type-ko.model';
 
 
 @Injectable({
@@ -118,9 +119,8 @@ export class LeagueService {
       catchError(err => throwError(err))
     )
   }
-  editLeagueFee(feeInfo: FeeDetail) {
+  editLeagueFee(feeInfo: any) {
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
-
   }
 
   removeJoinedClub(leagueId: number, clubId: number): Observable<any> {
@@ -132,7 +132,52 @@ export class LeagueService {
 
   }
 
-  finishMatchConfirm(matchId: number):Observable<any> {
-    return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers ,observe:'response'});
+  finishMatchConfirm(matchId: number) {
+    return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers });
+  }
+
+  getLeagueStatistics(leagueId: number): Observable<LeagueStatisticResponse> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetLeagueStatistic/${leagueId}`).pipe(map((res: LeagueStatisticResponse) => res),
+      catchError(err => throwError(err)));
+  }
+
+  getJoinedLeagueByUser(): Observable<LeagueDetail[]> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Participation/GetListJoinedLeague`, { headers: this.headers })
+      .pipe(
+        map((res: LeagueDetail[]) => res),
+        catchError(err => throwError(err))
+      );
+  }
+
+  deleteLeague(leagueId: number): Observable<any> {
+    return this.http.delete<any>(`${environment.apiUrl}/api/League/DeleteLeague/${leagueId}`, { headers: this.headers });
+  }
+
+  getLeagueTree(leagueId: number): Observable<LeagueTree> {
+    return this.http.get(`${environment.apiUrl}/api/Participation/GetLeagueTree/${leagueId}`)
+      .pipe(map((res: LeagueTree) => res),
+        catchError(err => throwError(err)));
+  }
+
+  updateLeagueTree(tree: UpdateTreeModel) {
+    return this.http.put(`${environment.apiUrl}/api/Participation/ManageLeagueSettingKO`, tree, { headers: this.headers });
+  }
+
+  getLeagueStatisticTypeKO(leagueId: number): Observable<LeagueStatisticTypeKO> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetKnockOutStatistic/${leagueId}`).pipe(map((res: LeagueStatisticTypeKO) => res),
+      catchError(err => throwError(err)));
+  }
+
+  exportLeagueSchedule(leagueId: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
+  }
+
+  editFee(leagueId: number, isActual: boolean, listFees: FeeDetail[]) {
+    let body = {
+      leagueId,
+      isActual,
+      listFees
+    }
+    return this.http.post(`${environment.apiUrl}/api/Fee/AddLeagueFee`, body, { headers: this.headers });
   }
 }

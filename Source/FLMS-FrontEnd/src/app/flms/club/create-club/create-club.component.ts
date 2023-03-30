@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { finalize } from "rxjs/operators";
 import {AngularFireStorage} from '@angular/fire/storage';
+import { CommonService } from 'src/app/common/common/common.service';
 
 interface Role {
   value: string;
@@ -29,6 +30,7 @@ export class CreateClubComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private clubService: ClubService,
+    public commonService: CommonService,
     @Inject(AngularFireStorage) private storage: AngularFireStorage
   ) {
     this.form = new FormGroup({
@@ -43,12 +45,12 @@ export class CreateClubComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      clubName: [''],
-      email: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      socialCont: ['', Validators.required],
-      logo: ['', Validators.required],
-      kit: ['', Validators.required]
+      clubName: [null],
+      email: [null, Validators.required],
+      phoneNumber: [null, Validators.required],
+      socialCont: [null, Validators.required],
+      logo: [null],
+      kit: [null]
     });
 
   }
@@ -62,9 +64,9 @@ export class CreateClubComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) {
+      return;
+    }
 
     this.loading = true;
 
@@ -80,10 +82,12 @@ export class CreateClubComponent implements OnInit {
           this.clubService.addClub(this.form.value)
             .pipe(first()).subscribe({
               next: () => {
+                this.commonService.sendMessage("Create Club success",'success');
                 this.router.navigate(['/club-list'])
               },
               error: error => {
                 this.loading = false;
+                this.commonService.sendMessage(error.error.message,'fail');
               }
             });
 

@@ -12,7 +12,7 @@ import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-respons
 })
 export class ClubScheduleComponent implements OnInit {
 
-  displayedColumns: string[] = ['matchDate', 'matchTime', 'against', 'stadium', 'ha'];
+  displayedColumns: string[] = [ 'leagueName','matchDate', 'matchTime', 'against', 'stadium', 'ha'];
   clubId: number;
   listMatch: ClubMatchSchedule[] = []
 

@@ -148,7 +148,7 @@ export class CreateLeagueComponent implements OnInit {
               },
               error: error => {
                 this.loading = false;
-                this.commonService.sendMessage('Create League Fail!', 'fail');
+                this.commonService.sendMessage(error.error.message,'fail');
               }
             });
         });
@@ -182,7 +182,7 @@ export class CreateLeagueComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
       this.selectedImage = event.target.files[0];
     } else {
-      this.imgSrc = './../../../../assets/image/default-logo.png';
+      this.imgSrc = './../../../.  ./assets/image/default-logo.png';
       this.selectedImage = null;
     }
   }

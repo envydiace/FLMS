@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { CommonService } from 'src/app/common/common/common.service';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
 
   constructor(
+    private commonService: CommonService,
     private formBuilder: FormBuilder,
     private authService: AuthService
   ) { }
@@ -36,21 +38,23 @@ export class LoginComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.form.invalid) {
-        return;
+      return;
     }
 
     this.loading = true;
     this.authService.login(this.f.username.value, this.f.password.value)
-        .pipe(first())
-        .subscribe({
-            next: () => {
-                // get return url from query parameters or default to home page
-                // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                window.location.href= environment.localUrl + '/manager';
-            },
-            error: error => {
-                this.loading = false;
-            }
-        });
-}
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          // get return url from query parameters or default to home page
+          // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          window.location.href = environment.localUrl + '/manager';
+          this.commonService.sendMessage('Login Success!', 'success');
+        },
+        error: error => {
+          this.commonService.sendMessage(error.error.message, 'fail');
+          this.loading = false;
+        }
+      });
+  }
 }

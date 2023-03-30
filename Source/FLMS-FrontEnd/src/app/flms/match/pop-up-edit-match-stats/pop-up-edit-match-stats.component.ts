@@ -3,8 +3,8 @@ import { map, tap } from 'rxjs/operators';
 import { first } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { MatchService } from './../match.service';
-import { ClubStats, MatchStats } from './../../../models/match-statistics-model';
-import { MatchStatisticsResponse } from './../../../models/match-statistic-response-model';
+import { ClubStats, MatchStats } from '../../../models/match-statistics.model';
+import { MatchStatisticsResponse } from '../../../models/match-statistic-response.model';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommonService } from './../../../common/common/common.service';
@@ -53,20 +53,20 @@ export class PopUpEditMatchStatsComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      shothome: ['', [Validators.required, Validators.min(0)]],
-      shotaway: ['', [Validators.required, Validators.min(0)]],
-      shotOnTargethome: ['', [Validators.required, Validators.min(0)]],
-      shotOnTargetaway: ['', [Validators.required, Validators.min(0)]],
-      connerhome: ['', [Validators.required, Validators.min(0)]],
-      conneraway: ['', [Validators.required, Validators.min(0)]],
-      foulhome: ['', [Validators.required, Validators.min(0)]],
-      foulaway: ['', [Validators.required, Validators.min(0)]],
-      offsidehome: ['', [Validators.required, Validators.min(0)]],
-      offsideaway: ['', [Validators.required, Validators.min(0)]],
-      redhome: ['', [Validators.required, Validators.min(0)]],
-      redaway: ['', [Validators.required, Validators.min(0)]],
-      yellowhome: ['', [Validators.required, Validators.min(0)]],
-      yellowaway: ['', [Validators.required, Validators.min(0)]]
+      shothome: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      shotaway: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      shotOnTargethome: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      shotOnTargetaway: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      connerhome: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      conneraway: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      foulhome: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      foulaway: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      offsidehome: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      offsideaway: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      redhome: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      redaway: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      yellowhome: ['', [Validators.required, Validators.min(0),Validators.max(999)]],
+      yellowaway: ['', [Validators.required, Validators.min(0),Validators.max(999)]]
     });
     this.initDataSource();
   }
@@ -159,9 +159,9 @@ export class PopUpEditMatchStatsComponent implements OnInit {
     this.bindDataIntoHome();
     this.bindDataIntoAway();
     // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) {
+      return;
+    }
     const UpdateStats: MatchStatisticsResponse = {
       message: null,
       messageCode: null,
@@ -180,7 +180,7 @@ export class PopUpEditMatchStatsComponent implements OnInit {
         },
         error: error => {
           this.loading = false;
-          this.commonService.sendMessage('Update Failed, please check your input!', 'fail');
+          this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
   }

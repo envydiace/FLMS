@@ -1,6 +1,6 @@
 <p>
     <mat-toolbar class="card">
-        <span>League info</span>
+        <span>League</span>
     </mat-toolbar>
 </p>
 
@@ -13,7 +13,11 @@
             <div class="col-10">
                 <mat-card class="league-detail-card">
                     <mat-card-header>
-                        <div mat-card-avatar class="league-detail-logo"></div>
+                        <div mat-card-avatar class="league-detail-logo">
+                            <img mat-card-avatar class="league-detail-logo"
+                                [src]="leagueDetail.logo != null ? leagueDetail.logo : defaultLogo" alt="League's Pic">
+
+                        </div>
                         <div class="league-detail-title">
                             <mat-card-subtitle>COMPETITION</mat-card-subtitle>
                             <mat-card-title>{{leagueDetail.leagueName}}</mat-card-title>
@@ -22,7 +26,8 @@
                     <br>
                     <section class="league-detail-container">
                         <div class="left-detail" style="text-align: center;">
-                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}</p>
+                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}
+                            </p>
                             <p class="league-detail-content">Number of teams: {{leagueDetail.noParticipate}}</p>
                             <p class="league-detail-content">Tournament type: {{leagueDetail.leagueType}}</p>
                             <p class="league-detail-content">League manager: {{leagueDetail.managerName}}</p>
@@ -37,16 +42,21 @@
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
-                    <div>
-                        
+                    <div class="container">
+                        <div class="col-xs-8 justify-content-center" style="display: flex;">
+                            <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
+                                    mat-raised-button style="width: 120px;" color="warn"
+                                    (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                            </div>
+                        </div>
                     </div>
-                    
+
                     <div class="row">
                         <mat-card-content class="league-detail-content">
                             <mat-tab-group>
                                 <mat-tab label="Schedule">
                                     <ng-template matTabContent>
-                                      <app-league-schedule></app-league-schedule>
+                                        <app-league-schedule></app-league-schedule>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Clubs">
@@ -56,7 +66,7 @@
                                 </mat-tab>
                                 <mat-tab label="League Statistic">
                                     <ng-template matTabContent>
-                                        <app-league-statistic></app-league-statistic>
+                                        <app-league-statistic [leagueId]="leagueId" [leagueType]="leagueDetail.leagueType"></app-league-statistic>
 
                                     </ng-template>
                                 </mat-tab>
@@ -66,7 +76,7 @@
 
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab label="League Settings">
+                                <mat-tab *ngIf="leagueDetail.leagueType == 'KO'" label="League Settings">
                                     <ng-template matTabContent>
                                         <app-league-settings></app-league-settings>
 
