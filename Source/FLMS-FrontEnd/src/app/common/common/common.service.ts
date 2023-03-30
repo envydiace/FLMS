@@ -23,7 +23,7 @@ export class CommonService {
 
   public sendMessage(msg: string, type: string) {
     if (type == 'success') {
-      if (msg.trim() == null || msg.trim() == '') {
+      if (msg == null || msg == '') {
         msg = 'Success!';
       }
       this._snackBar.open(msg, 'Close', {
@@ -33,7 +33,7 @@ export class CommonService {
         verticalPosition: 'top',
       });
     } else if (type == 'fail') {
-      if (msg.trim() == null || msg.trim() == '') {
+      if (msg == null || msg == '') {
         msg = 'Something wrong!';
       }
       this._snackBar.open(msg, 'Close', {
