@@ -97,6 +97,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
       feeKey: this.form.controls['feeKey'].value
     }
 
+    
     this.loading = true;
     this.LeagueService.editLeagueFee(tempFee)
       .pipe(first())
