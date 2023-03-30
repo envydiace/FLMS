@@ -13,7 +13,7 @@ import { LeagueDetailComponent } from './league/league-detail/league-detail.comp
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 import { JoinedLeagueComponent } from './club/joined-league/joined-league.component';
 import { EditLineUpComponent } from './match/edit-line-up/edit-line-up.component';
-import { ClubIncomingMatchComponent } from './club/club-detail/club-incoming-match/club-incoming-match.component';
+import { ClubIncomingMatchComponent } from './match/club-incoming-match/club-incoming-match.component';
 import { PlayerInfoComponent } from './club/player-info/player-info.component';
 
 const routes: Routes = [
