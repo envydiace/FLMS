@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { token } from 'src/app/models/token.model';
 import { HttpHeaders } from '@angular/common/http';
+import { CommonService } from 'src/app/common/common/common.service';
 @Component({
   selector: 'app-pop-up-edit-match-info',
   templateUrl: './pop-up-edit-match-info.component.html',
@@ -29,6 +30,7 @@ export class PopUpEditMatchInfoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public dialogRe: MatDialog,
+    public commonService: CommonService,
     public dialogRef: MatDialogRef<PopUpEditMatchInfoComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -50,9 +52,9 @@ export class PopUpEditMatchInfoComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       matchId: this.data.matchId,
-      matchDate: ['', Validators.required],
-      matchTime: ['', Validators.required],
-      stadium: ['', Validators.required]
+      matchDate: [null, Validators.required],
+      matchTime: [null, Validators.required],
+      stadium: [null, Validators.required]
     })
   }
 
@@ -60,6 +62,8 @@ export class PopUpEditMatchInfoComponent implements OnInit {
 
   initDataSource() {
     this.getMatchInfoById(this.data.matchId);
+
+
   }
 
   bindValueIntoForm(res: MatchDetail) {
@@ -89,10 +93,13 @@ export class PopUpEditMatchInfoComponent implements OnInit {
       .subscribe({
         next: () => {
           this.initDataSource();
+          this.commonService.sendMessage('Update match success', 'success');
+
           this.dialogRef.close()
         },
         error: error => {
           this.loading = false;
+          this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
 
