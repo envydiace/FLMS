@@ -37,14 +37,25 @@ export class PopUpAddPlanComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.listFees = this.data.plan;
+    // this.listFees = this.data.plan;
+    // this.data.actual.forEach(element => {
+    //   const feeTemp: ListFees = {
+    //     expenseName: element.expenseName,
+    //     cost: element.cost,
+    //     feeType: element.feeType
+    //   }
+    //   const newUserArray = this.listFees;
+    //   newUserArray.push(feeTemp);
+    //   this.listFees = [...newUserArray];
+
+    // });
   }
 
   addPlanCostToList() {
-    const planTemp: ListFees ={
+    const planTemp: ListFees = {
       expenseName: this.expenseName,
       cost: this.planCost,
-      feeType : this.type
+      feeType: this.type
 
     }
 
@@ -54,7 +65,7 @@ export class PopUpAddPlanComponent implements OnInit {
 
   }
 
-  removePlan(position: number){
+  removePlan(position: number) {
     const newPlanArray = this.listFees;
     newPlanArray.slice(position, 1);
     this.listFees = [...newPlanArray];

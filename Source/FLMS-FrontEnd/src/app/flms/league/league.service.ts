@@ -119,7 +119,7 @@ export class LeagueService {
       catchError(err => throwError(err))
     )
   }
-  editLeagueFee(feeInfo: FeeDetail) {
+  editLeagueFee(feeInfo: any) {
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
   }
 
@@ -172,12 +172,12 @@ export class LeagueService {
     return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
   }
 
-  editFee(leagueId: number, isActual: boolean, feeInfo: FeeDetail[]) {
+  editFee(leagueId: number, isActual: boolean, listFees: FeeDetail[]) {
     let body = {
       leagueId,
       isActual,
-      feeInfo
+      listFees
     }
-    return this.http.put(`${environment.apiUrl}/api/Fee/AddFee`, body, { headers: this.headers });
+    return this.http.post(`${environment.apiUrl}/api/Fee/AddLeagueFee`, body, { headers: this.headers });
   }
 }

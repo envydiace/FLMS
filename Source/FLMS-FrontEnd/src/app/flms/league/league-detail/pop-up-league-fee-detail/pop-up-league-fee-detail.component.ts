@@ -20,7 +20,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
   form: FormGroup;
   loading = false;
   submitted = false;
- 
+
 
   token: token;
   private headers: HttpHeaders;
@@ -54,7 +54,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
     this.form = this.formBuilder.group({
       leagueFeeId: this.data.leagueFeeId,
       expenseName: ['', Validators.required],
-      cost: ['',Validators.required],
+      cost: ['', Validators.required],
       feeType: ['',],
       feeKey: ['',]
     })
@@ -67,7 +67,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
     this.LeagueService.getFeeDetail(this.data.leagueFeeId).pipe(
       map((res: FeeDetailResponse) => this.feeInfo = res.feeInfo)
     ).subscribe(response => {
-      
+
       if (response != null) this.bindValueIntoForm(response);
     }
     );
@@ -89,8 +89,16 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
       return;
     }
 
+    let tempFee = {
+      expenseName: this.form.controls['expenseName'].value,
+      leagueFeeId: this.data.leagueFeeId,
+      cost: this.form.controls['cost'].value,
+      feeType: this.form.controls['feeType'].value,
+      feeKey: this.form.controls['feeKey'].value
+    }
+
     this.loading = true;
-    this.LeagueService.editLeagueFee(this.form.value)
+    this.LeagueService.editLeagueFee(tempFee)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -98,10 +106,10 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
           this.commonService.sendMessage('Update fee success!', 'success');
         },
         error: error => {
-          this.commonService.sendMessage(error.error.message,'fail');
+          this.commonService.sendMessage(error.error.message, 'fail');
           this.loading = false;
         },
-        
+
       });
 
   }

@@ -8,8 +8,8 @@ import { ListFees } from 'src/app/models/fee-detail.model';
   styleUrls: ['./pop-up-add-actual.component.scss']
 })
 export class PopUpAddActualComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'expenseName', 'cost','type', 'action']
- 
+  displayedColumns: string[] = ['no', 'expenseName', 'cost', 'type', 'action']
+
   listFees: ListFees[] = [];
   leagueId: number;
   isActual: boolean;
@@ -23,26 +23,37 @@ export class PopUpAddActualComponent implements OnInit {
 
     @Inject(MAT_DIALOG_DATA)
     public data: {
-     isActual: boolean;
-     leagueId: number;
-     actual: ListFees[];
+      isActual: boolean;
+      leagueId: number;
+      actual: ListFees[];
 
     }
 
-  ) { 
-    
+  ) {
+
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit(): void {
-    this.listFees = this.data.actual;
+    // this.data.actual.forEach(element => {
+    //   const feeTemp: ListFees = {
+    //     expenseName: element.expenseName,
+    //     cost: element.cost,
+    //     feeType: element.feeType
+    //   }
+    //   const newUserArray = this.listFees;
+    //   newUserArray.push(feeTemp);
+    //   this.listFees = [...newUserArray];
+
+    // });
+
 
   }
 
-  addActualFeetoList(){
-    const feeTemp: ListFees ={
+  addActualFeetoList() {
+    const feeTemp: ListFees = {
       expenseName: this.expenseName,
       cost: this.feeCost,
       feeType: this.type
@@ -53,7 +64,7 @@ export class PopUpAddActualComponent implements OnInit {
     this.listFees = [...newUserArray];
 
   }
-  removePlan(position: number){
+  removePlan(position: number) {
     const newActualArray = this.listFees;
     newActualArray.slice(position, 1);
     this.listFees = [...newActualArray];

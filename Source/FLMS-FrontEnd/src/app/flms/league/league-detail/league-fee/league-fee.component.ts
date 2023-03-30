@@ -56,7 +56,7 @@ export class LeagueFeeComponent implements OnInit {
       })
     ).subscribe(res => {
       // 
-      
+
     });
 
 
@@ -117,19 +117,24 @@ export class LeagueFeeComponent implements OnInit {
       // this.getTotal();
       if (result != null || result != undefined) {
         this.loading = true;
-        this.actual = result
+        // this.actual = result
 
-        this.LeagueService.editFee(leagueId, this.isActual, this.actual).pipe(first())
-        .subscribe({
-          next: () => {
-            this.loading = false;
-            this.commonService.sendMessage('Add Actual Fee Success!', 'success');
-          },
-          error: error => {
-            this.loading = false;
-            this.commonService.sendMessage(error.error.message,'fail');
-          }
-        })
+        this.LeagueService.editFee(leagueId, this.isActual, result).pipe(first())
+          .subscribe({
+            next: () => {
+              this.loading = false;
+
+              const newUserArray = this.actual;
+              newUserArray.push(...result);
+              this.actual = [...newUserArray];
+              this.initDataSource();
+              this.commonService.sendMessage('Add Actual Fee Success!', 'success');
+            },
+            error: error => {
+              this.loading = false;
+              this.commonService.sendMessage(error.error.message, 'fail');
+            }
+          })
 
       }
 
@@ -153,19 +158,25 @@ export class LeagueFeeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null || result != undefined) {
         this.loading = true;
-        this.plan = result
+        // this.plan = result
 
-        this.LeagueService.editFee(leagueId, this.isActual, this.plan).pipe(first())
-        .subscribe({
-          next: () => {
-            this.loading = false;
-            this.commonService.sendMessage('Add Plan Fee Success!', 'success');
-          },
-          error: error => {
-            this.loading = false;
-            this.commonService.sendMessage(error.error.message,'fail');
-          }
-        })
+        this.LeagueService.editFee(leagueId, this.isActual, result).pipe(first())
+          .subscribe({
+            next: () => {
+              this.loading = false;
+              
+              const newUserArray = this.plan;
+              newUserArray.push(...result);
+              this.plan = [...newUserArray];
+              this.initDataSource();
+
+              this.commonService.sendMessage('Add Plan Fee Success!', 'success');
+            },
+            error: error => {
+              this.loading = false;
+              this.commonService.sendMessage(error.error.message, 'fail');
+            }
+          })
 
       }
 
