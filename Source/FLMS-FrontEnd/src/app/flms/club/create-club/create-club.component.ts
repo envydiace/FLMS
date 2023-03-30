@@ -45,12 +45,12 @@ export class CreateClubComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      clubName: [''],
-      email: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      socialCont: ['', Validators.required],
-      logo: ['', Validators.required],
-      kit: ['', Validators.required]
+      clubName: [null],
+      email: [null, Validators.required],
+      phoneNumber: [null, Validators.required],
+      socialCont: [null, Validators.required],
+      logo: [null],
+      kit: [null]
     });
 
   }
@@ -64,9 +64,9 @@ export class CreateClubComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) {
+      return;
+    }
 
     this.loading = true;
 

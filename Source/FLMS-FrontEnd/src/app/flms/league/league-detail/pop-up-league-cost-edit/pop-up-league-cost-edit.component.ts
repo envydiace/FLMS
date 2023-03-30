@@ -89,8 +89,16 @@ export class PopUpLeagueCostEditComponent implements OnInit {
       return;
     }
 
+    let tempFee = {
+      expenseName: this.form.controls['expenseName'].value,
+      leagueFeeId: this.data.leagueFeeId,
+      cost: this.form.controls['cost'].value,
+      feeType: this.form.controls['feeType'].value,
+      feeKey: this.form.controls['feeKey'].value
+    }
+
     this.loading = true;
-    this.LeagueService.editLeagueFee(this.form.value)
+    this.LeagueService.editLeagueFee(tempFee)
       .pipe(first())
       .subscribe({
         next: () => {
