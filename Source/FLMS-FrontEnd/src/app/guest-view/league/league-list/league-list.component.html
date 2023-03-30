@@ -54,7 +54,7 @@
                 <div class="list-container">
                     <a (click)="navigateToLeagueDetail(league.leagueId)" style="cursor: pointer;">
                         <mat-card class="league-list-card">
-                            <mat-card-subtitle>{{league.startDate}} - {{league.endDate}}</mat-card-subtitle>
+                            <mat-card-subtitle>{{league.startDate | date : 'dd/MM/yyyy'}} - {{league.endDate | date : 'dd/MM/yyyy'}}</mat-card-subtitle>
                             <mat-card-title>{{league.leagueName}}</mat-card-title>
                             <mat-card-subtitle>{{league.location}}</mat-card-subtitle>
                             <img mat-card-avatar class="league-header-image"
