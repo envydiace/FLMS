@@ -180,7 +180,7 @@ export class PopUpEditMatchStatsComponent implements OnInit {
         },
         error: error => {
           this.loading = false;
-          this.commonService.sendMessage('Update Failed, please check your input!', 'fail');
+          this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
   }
