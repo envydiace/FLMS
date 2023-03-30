@@ -161,6 +161,7 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new PlayerResponse
                 {
+                    Success = true,
                     PlayerInfo = null
                 };
             }
