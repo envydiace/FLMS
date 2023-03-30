@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { map } from 'rxjs/operators';
 import { token } from 'src/app/models/token.model';
 import { CommonService } from 'src/app/common/common/common.service';
-import {ConfirmPasswordValidator} from './confirm-password.validator';
+import { ConfirmPasswordValidator } from './confirm-password.validator';
 
 
 export interface Tile {
@@ -45,14 +45,14 @@ export class ChangePasswordComponent implements OnInit {
       newpassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]],
       cfpassword: ['', Validators.required]
     },
-    {
-      validator: ConfirmPasswordValidator("newpassword","cfpassword")
-    }
+      {
+        validator: ConfirmPasswordValidator("newpassword", "cfpassword")
+      }
     );
   }
   get f() { return this.form.controls; }
 
-  get newpass() {return this.form.get('newpassword');}
+  get newpass() { return this.form.get('newpassword'); }
 
   onSubmit() {
     this.submitted = true;
