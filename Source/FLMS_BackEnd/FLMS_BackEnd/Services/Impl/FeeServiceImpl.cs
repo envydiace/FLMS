@@ -199,5 +199,45 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
         }
+
+        public async Task<DeleteLeagueFeeResponse> DeleteLeagueFee(int LeagueFeeId, int UserId)
+        {
+            var feedetail = await feeRepository.FindByCondition(fd => fd.LeagueFeeId == LeagueFeeId)
+                .Include(fd => fd.League).FirstOrDefaultAsync();
+            if(feedetail == null)
+            {
+                return new DeleteLeagueFeeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-FE-02"
+                };
+            }
+            if(feedetail.League.UserId != UserId)
+            {
+                return new DeleteLeagueFeeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (!feedetail.IsActual && feedetail.League.StartDate.CompareTo(DateTime.Now) < 0)
+            {
+                return new DeleteLeagueFeeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-FE-06"
+                };
+            }
+            LeagueFee result = await feeRepository.DeleteAsync(feedetail);
+            if (result != null)
+            {
+                return new DeleteLeagueFeeResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-FE-02"
+                };
+            }
+            return new DeleteLeagueFeeResponse { Success = false, MessageCode = "ER-FE-08" };
+        }
     }
 }
