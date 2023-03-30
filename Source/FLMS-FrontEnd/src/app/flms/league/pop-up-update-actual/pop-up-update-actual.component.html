@@ -1,18 +1,17 @@
+<p>pop-up-update-actual works!</p>
+
 <mat-card-content>
     <div class="col-xl-12">
 
         <div class="card mb-4">
             <div class="card-header">Edit Cost Plan</div>
             <div class="card-body">
-                <form [formGroup]="form">
+                <!-- <form [formGroup]="form"> -->
                     <div class="mb-3">
                         <mat-form-field class="example-full-width">
                             <mat-label>Name</mat-label>
-                            <input matInput formControlName="expenseName">
-                            <mat-error
-                                *ngIf="!form.controls['expenseName'].valid && form.controls['expenseName'].touched">
-                                {{ getErrorexpenseName() }}
-                            </mat-error>
+                            <input matInput >
+                      
                         </mat-form-field>
                     </div>
 
@@ -22,12 +21,10 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Cost</mat-label>
 
-                                <input type="tel" matInput formControlName="cost">
+                                <input type="tel" matInput >
                                 <span matSuffix> &nbsp; VND</span>
 
-                                <mat-error *ngIf="!form.controls['cost'].valid && form.controls['cost'].touched">
-                                    {{ getErrorCost() }}
-                                </mat-error>
+                          
                             </mat-form-field>
                         </div>
 
@@ -35,23 +32,18 @@
                     <div class="mb-3">
                         <mat-form-field appearance="fill">
                             <mat-label>Type</mat-label>
-                            <mat-select matNativeControl required formControlName="feeType">
+                            <mat-select matNativeControl required >
                                 <mat-option value="Prize">Price</mat-option>
                                 <mat-option value="Fee">Fee</mat-option>
                                 <mat-option value="Sponsored">Sponsored</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="mb-3">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Fee key</mat-label>
-                            <input matInput formControlName="feeKey" [disabled]>
-                        </mat-form-field>
-                    </div>
 
-                    <button class="btn btn-primary" type="submit" (click)="onSubmit()">Save changes</button>
-                    <button class="btn btn-warn" style="justify-content: right;" (click)="onNoClick()">Cancel</button>
-                </form>
+
+                    <button class="btn btn-primary" type="submit" >Save changes</button>
+                    <button class="btn btn-warn" style="justify-content: right;" >Cancel</button>
+                <!-- </form> -->
             </div>
         </div>
     </div>

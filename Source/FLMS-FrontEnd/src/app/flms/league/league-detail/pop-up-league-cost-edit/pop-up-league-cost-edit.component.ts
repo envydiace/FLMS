@@ -1,26 +1,25 @@
-
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FeeDetail } from 'src/app/models/fee-detail.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LeagueService } from '../../league.service';
-import { Router } from '@angular/router';
-import { Component, Inject, OnInit } from '@angular/core';
-import { first, map } from 'rxjs/operators';
-import { FeeDetailResponse } from './../../../../models/fee-response.model';
-import { token } from 'src/app/models/token.model';
 import { HttpHeaders } from '@angular/common/http';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { CommonService } from 'src/app/common/common/common.service';
+import { FeeDetail } from 'src/app/models/fee-detail.model';
+import { token } from 'src/app/models/token.model';
+import { LeagueService } from '../../league.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FeeDetailResponse } from 'src/app/models/fee-response.model';
+import { first, map } from 'rxjs/operators';
+
 @Component({
-  selector: 'app-pop-up-league-fee-detail',
-  templateUrl: './pop-up-league-fee-detail.component.html',
-  styleUrls: ['./pop-up-league-fee-detail.component.scss']
+  selector: 'app-pop-up-league-cost-edit',
+  templateUrl: './pop-up-league-cost-edit.component.html',
+  styleUrls: ['./pop-up-league-cost-edit.component.scss']
 })
-export class PopUpLeagueFeeDetailComponent implements OnInit {
+export class PopUpLeagueCostEditComponent implements OnInit {
   feeInfo: FeeDetail = null;
   form: FormGroup;
   loading = false;
   submitted = false;
-
 
   token: token;
   private headers: HttpHeaders;
@@ -30,7 +29,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
     private LeagueService: LeagueService,
     private router: Router,
     public commonService: CommonService,
-    public dialogRef: MatDialogRef<PopUpLeagueFeeDetailComponent>,
+    public dialogRef: MatDialogRef<PopUpLeagueCostEditComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       leagueFeeId: number;
@@ -46,7 +45,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
       feeType: new FormControl(),
       feeKey: new FormControl()
     })
-  }
+   }
 
   ngOnInit(): void {
     this.initDataSource();
@@ -54,7 +53,7 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
     this.form = this.formBuilder.group({
       leagueFeeId: this.data.leagueFeeId,
       expenseName: ['', Validators.required],
-      cost: ['', Validators.required],
+      cost: ['',Validators.required],
       feeType: ['',],
       feeKey: ['',]
     })
@@ -67,11 +66,12 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
     this.LeagueService.getFeeDetail(this.data.leagueFeeId).pipe(
       map((res: FeeDetailResponse) => this.feeInfo = res.feeInfo)
     ).subscribe(response => {
-
+      
       if (response != null) this.bindValueIntoForm(response);
     }
     );
   }
+
   bindValueIntoForm(res: FeeDetail) {
     this.form.controls['expenseName'].patchValue(res.expenseName);
     this.form.controls['cost'].patchValue(res.cost);
@@ -89,16 +89,8 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
       return;
     }
 
-    let tempFee = {
-      expenseName: this.form.controls['expenseName'].value,
-      leagueFeeId: this.data.leagueFeeId,
-      cost: this.form.controls['cost'].value,
-      feeType: this.form.controls['feeType'].value,
-      feeKey: this.form.controls['feeKey'].value
-    }
-
     this.loading = true;
-    this.LeagueService.editLeagueFee(tempFee)
+    this.LeagueService.editLeagueFee(this.form.value)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -106,10 +98,10 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
           this.commonService.sendMessage('Update fee success!', 'success');
         },
         error: error => {
-          this.commonService.sendMessage(error.error.message, 'fail');
+          this.commonService.sendMessage(error.error.message,'fail');
           this.loading = false;
         },
-
+        
       });
 
   }
@@ -124,4 +116,6 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
   getErrorCost() {
     return this.form.get('cost').hasError('required') ? 'Field cost is required' : '';
   }
+
+
 }

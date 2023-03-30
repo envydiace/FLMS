@@ -68,7 +68,11 @@ import { PopUpConfirmDeletePlayerComponent } from './club/pop-up-confirm-delete-
 import { PopupDeleteLeagueComponent } from './league/popup-delete-league/popup-delete-league.component';
 import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { TournamentMatchComponent } from './league/league-detail/league-settings/tournament-match/tournament-match.component';
+import { PopUpAddActualComponent } from './league/pop-up-add-actual/pop-up-add-actual.component';
+import { PopUpUpdateActualComponent } from './league/pop-up-update-actual/pop-up-update-actual.component';
 import { TournamentTreeComponent } from './league/league-detail/league-statistic/tournament-tree/tournament-tree.component';
+import { PopUpAddPlanComponent } from './league/pop-up-add-plan/pop-up-add-plan.component';
+import { PopUpLeagueCostEditComponent } from './league/league-detail/pop-up-league-cost-edit/pop-up-league-cost-edit.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +117,11 @@ import { TournamentTreeComponent } from './league/league-detail/league-statistic
     PopUpDeleteClubComponent,
     PopUpConfirmDeletePlayerComponent,
     TournamentMatchComponent,
-    TournamentTreeComponent
+    PopUpAddActualComponent,
+    PopUpUpdateActualComponent,
+    TournamentTreeComponent,
+    PopUpAddPlanComponent,
+    PopUpLeagueCostEditComponent
   ],
   imports: [
     CommonModule,
