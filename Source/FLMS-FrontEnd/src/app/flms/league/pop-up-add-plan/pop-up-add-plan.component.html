@@ -1,15 +1,14 @@
-<p>pop-up-add-plan works!</p>
 <p>
     <mat-toolbar class="card">
         <span>Add Plan Cost</span>
         <div style="margin: 0 0 0 auto;">
-            <button mat-raised-button type="submit" color="primary"
+            <button mat-raised-button type="submit" color="primary" [mat-dialog-close]="listFees"
              >Save</button>
         </div>
     </mat-toolbar>
 </p>
 <div class="list-fee">
-    <table mat-table class="mat-elevation-z8" >
+    <table mat-table class="mat-elevation-z8" [dataSource] = "listFees">
         <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef> No. </th>
             <td mat-cell *matCellDef="let element; let i = index"></td>
@@ -18,7 +17,7 @@
 
         <ng-container matColumnDef="expenseName">
             <th mat-header-cell *matHeaderCellDef> Fee Name </th>
-            <td mat-cell *matCellDef="let element">  </td>
+            <td mat-cell *matCellDef="let element"> {{element.expenseName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="cost">
@@ -26,7 +25,7 @@
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="fill">
                     <mat-label>Cost</mat-label>
-                    <input matInput type="number"  >
+                    <input matInput type="number"  [(ngModel)] ="element.cost" >
                 </mat-form-field>
             </td>
           
@@ -35,8 +34,8 @@
         <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef> Type </th>
             <td mat-cell *matCellDef="let element;"> 
-                <!-- <button mat-raised-button color="primary" style="margin-right: 10px;">Accept</button> -->
-                
+                {{element.feeType}}
+               
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
@@ -44,7 +43,7 @@
             <th mat-header-cell *matHeaderCellDef> Action </th>
             <td mat-cell *matCellDef="let element; let i = index">
                 <!-- <button mat-raised-button color="primary" style="margin-right: 10px;">Accept</button> -->
-                <button mat-raised-button color="warn" >Delete</button>
+                <button mat-raised-button color="warn" (click)="removePlan(i)">Delete</button>
             </td>
         </ng-container>
 
@@ -57,7 +56,7 @@
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
-                    <input matInput >
+                    <input matInput [(ngModel)]="expenseName">
                 </mat-form-field>
             </th>
         </ng-container>
@@ -66,7 +65,7 @@
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field appearance="outline">
                     <mat-label>Cost</mat-label>
-                    <input matInput type="number">
+                    <input matInput type="number" [(ngModel)]="planCost">
                 </mat-form-field>
             </th>
         </ng-container>
@@ -75,7 +74,7 @@
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field appearance="outline">
                     <mat-label>Type</mat-label>
-                    <mat-select matNativeControl required [(ngModel)]="type" (selectionChange)="onChangeTypeAndTeam($event)">
+                    <mat-select matNativeControl required [(ngModel)]="type" >
                         <mat-option value="Sponsored">Sponsored</mat-option>
                         <mat-option value="Prize">Prize</mat-option>
                         <mat-option value="Fee">Fee</mat-option>
@@ -86,7 +85,7 @@
         </ng-container>
         <ng-container matColumnDef="input-action">
             <th mat-header-cell *matHeaderCellDef>
-                <button mat-raised-button color="primary" >Add</button>
+                <button mat-raised-button color="primary" (click)="addPlanCostToList()" >Add</button>
             </th>
         </ng-container>
 

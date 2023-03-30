@@ -3,13 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { FeeDetail } from './../../../../models/fee-detail.model';
 import { LeagueFeeResponse } from '../../../../models/fee-response.model';
 import { LeagueService } from '../../league.service';
-import { map, tap } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { MatchEvent } from '../../../../models/match-event-detail.model';
 import { PopUpLeagueFeeDetailComponent } from '../pop-up-league-fee-detail/pop-up-league-fee-detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from 'src/app/common/common/common.service';
 import { PopUpAddActualComponent } from '../../pop-up-add-actual/pop-up-add-actual.component';
 import { PopUpAddPlanComponent } from './../../pop-up-add-plan/pop-up-add-plan.component';
+import { PopUpLeagueCostEditComponent } from '../pop-up-league-cost-edit/pop-up-league-cost-edit.component';
 @Component({
   selector: 'app-league-fee',
   templateUrl: './league-fee.component.html',
@@ -24,6 +25,7 @@ export class LeagueFeeComponent implements OnInit {
   actualCostTotal: number = 0;
   leagueFeeId: number;
   isActual: boolean = false;
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,26 +48,30 @@ export class LeagueFeeComponent implements OnInit {
     this.LeagueService.getLeagueFee(this.leagueId).pipe(
       map((res: LeagueFeeResponse) => {
         this.plan = res.plan,
-          this.actual = res.actual
+          this.actual = res.actual,
+          this.planCostTotal = res.totalPlanFee,
+          this.actualCostTotal = res.totalActualFee
+
 
       })
     ).subscribe(res => {
-      this.getTotal();
+      // 
+      
     });
 
 
   }
 
-  getTotal() {
-    this.planCostTotal = 0;
-    this.actualCostTotal = 0;
-    this.plan.forEach(element => {
-      this.planCostTotal += element.cost;
-    });
-    this.actual.forEach(element => {
-      this.actualCostTotal += element.cost;
-    });
-  }
+  // getTotal() {
+  //   this.planCostTotal = 0;
+  //   this.actualCostTotal = 0;
+  //   this.plan.forEach(element => {
+  //     this.planCostTotal += element.cost;
+  //   });
+  //   this.actual.forEach(element => {
+  //     this.actualCostTotal += element.cost;
+  //   });
+  // }
 
   openEditFee(leagueFeeId: number): void {
     const dialogRef = this.dialog.open(PopUpLeagueFeeDetailComponent, {
@@ -75,34 +81,96 @@ export class LeagueFeeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      this.getTotal();
-      console.log('The dialog was closed');
-    });
-  }
-
-
-
-  openAddActual(leagueId: number): void {
-    const dialogRef = this.dialog.open(PopUpAddActualComponent, {
-      width: '50%',
-      data: { leagueId: leagueId }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      // this.initDataSource();
       // this.getTotal();
       console.log('The dialog was closed');
     });
   }
 
-  openAddPlan(leagueId: number): void {
-    const dialogRef = this.dialog.open(PopUpAddPlanComponent, {
+  openEditCost(leagueFeeId: number): void {
+    const dialogRef = this.dialog.open(PopUpLeagueCostEditComponent, {
       width: '50%',
-      data: { leagueId: leagueId }
+      data: { leagueFeeId: leagueFeeId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      // this.getTotal();
+      console.log('The dialog was closed');
+    });
+  }
+
+  openAddActual(leagueId: number): void {
+    this.isActual = true
+    const dialogRef = this.dialog.open(PopUpAddActualComponent, {
+      width: '50%',
+      data: {
+        leagueId: leagueId,
+        isActual: this.isActual,
+        actual: this.actual
+      },
+      disableClose: true
+
     });
 
     dialogRef.afterClosed().subscribe(result => {
       // this.initDataSource();
+      // this.getTotal();
+      if (result != null || result != undefined) {
+        this.loading = true;
+        this.actual = result
+
+        this.LeagueService.editFee(leagueId, this.isActual, this.actual).pipe(first())
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.commonService.sendMessage('Add Actual Fee Success!', 'success');
+          },
+          error: error => {
+            this.loading = false;
+            this.commonService.sendMessage(error.error.message,'fail');
+          }
+        })
+
+      }
+
+      console.log('The dialog was closed');
+    });
+  }
+
+  openAddPlan(leagueId: number): void {
+    this.isActual = false;
+    const dialogRef = this.dialog.open(PopUpAddPlanComponent, {
+      width: '50%',
+      data: {
+        leagueId: leagueId,
+        isActual: this.isActual,
+        plan: this.plan
+      },
+      disableClose: true
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null || result != undefined) {
+        this.loading = true;
+        this.plan = result
+
+        this.LeagueService.editFee(leagueId, this.isActual, this.plan).pipe(first())
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.commonService.sendMessage('Add Plan Fee Success!', 'success');
+          },
+          error: error => {
+            this.loading = false;
+            this.commonService.sendMessage(error.error.message,'fail');
+          }
+        })
+
+      }
+
+
+      //this.initDataSource();
       // this.getTotal();
       console.log('The dialog was closed');
     });

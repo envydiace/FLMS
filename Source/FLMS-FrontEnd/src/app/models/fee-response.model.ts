@@ -6,6 +6,8 @@ export interface LeagueFeeResponse {
     message: string,
     plan: FeeDetail[],
     actual: FeeDetail[],
+    totalPlanFee: number,
+    totalActualFee: number
 }
 
 export class LeagueFeeResponse implements LeagueFeeResponse {
@@ -14,11 +16,15 @@ export class LeagueFeeResponse implements LeagueFeeResponse {
         message: string,
         plan: FeeDetail[],
         actual: FeeDetail[],
+        totalPlanFee: number,
+        totalActualFee: number
     ) {
         this.messageCode = messageCode;
         this.message = message;
         this.plan = plan;
         this.actual = actual;
+        this.totalPlanFee = totalPlanFee;
+        this.totalActualFee = totalActualFee;
     }
 }
 

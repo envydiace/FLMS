@@ -14,21 +14,49 @@ export class PopUpAddActualComponent implements OnInit {
   leagueId: number;
   isActual: boolean;
 
+  expenseName: string;
+  feeCost: number;
+  type: string;
+
   constructor(
     public dialogRef: MatDialogRef<PopUpAddActualComponent>,
 
     @Inject(MAT_DIALOG_DATA)
     public data: {
-     isActual: number;
+     isActual: boolean;
      leagueId: number;
+     actual: ListFees[];
+
     }
 
   ) { 
     
   }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
   ngOnInit(): void {
+    this.listFees = this.data.actual;
 
   }
 
+  addActualFeetoList(){
+    const feeTemp: ListFees ={
+      expenseName: this.expenseName,
+      cost: this.feeCost,
+      feeType: this.type
+    }
+
+    const newUserArray = this.listFees;
+    newUserArray.push(feeTemp);
+    this.listFees = [...newUserArray];
+
+  }
+  removePlan(position: number){
+    const newActualArray = this.listFees;
+    newActualArray.slice(position, 1);
+    this.listFees = [...newActualArray];
+
+  }
 }

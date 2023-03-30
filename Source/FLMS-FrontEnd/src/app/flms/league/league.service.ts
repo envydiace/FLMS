@@ -121,7 +121,6 @@ export class LeagueService {
   }
   editLeagueFee(feeInfo: FeeDetail) {
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
-
   }
 
   removeJoinedClub(leagueId: number, clubId: number): Observable<any> {
@@ -171,5 +170,14 @@ export class LeagueService {
 
   exportLeagueSchedule(leagueId: number): Observable<any> {
     return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
+  }
+
+  editFee(leagueId: number, isActual: boolean, feeInfo: FeeDetail[]) {
+    let body = {
+      leagueId,
+      isActual,
+      feeInfo
+    }
+    return this.http.put(`${environment.apiUrl}/api/Fee/AddFee`, body, { headers: this.headers });
   }
 }
