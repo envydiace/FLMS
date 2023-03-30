@@ -161,8 +161,7 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new PlayerResponse
                 {
-                    Success = false,
-                    MessageCode = "ER-PL-02"
+                    PlayerInfo = null
                 };
             }
             return new PlayerResponse
