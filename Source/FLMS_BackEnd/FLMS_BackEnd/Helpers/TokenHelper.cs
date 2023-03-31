@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace FLMS_BackEnd.Helpers
 {
@@ -57,6 +58,15 @@ namespace FLMS_BackEnd.Helpers
 
             var refreshToken = Convert.ToBase64String(secureRandomBytes);
             return refreshToken;
+        }
+        public async Task<string> HashTokenAsync(string token)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(token);
+            System.IO.Stream stream = new System.IO.MemoryStream(bytes);
+            var hashBytes = await sha256.ComputeHashAsync(stream);
+            var hashString = Convert.ToBase64String(hashBytes);
+            return hashString;
         }
     }
 }
