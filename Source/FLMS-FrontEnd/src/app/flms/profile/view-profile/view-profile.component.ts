@@ -58,9 +58,9 @@ export class ViewProfileComponent implements OnInit {
     this.initDataSource();
 
     this.form = this.formBuilder.group({
-      fullName: ['', Validators.required],
-      phone: ['', Validators.required],
-      address: ['', Validators.required],
+      fullName: [null, [Validators.required,Validators.pattern('^[A-Za-z ]+$')]],
+      phone: ['', Validators.pattern('^[0-9]{1,15}$')],
+      address: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9 .,]+$')]],
       email: ['', Validators.required],
       avatar: [null,],
       role: [null]
@@ -159,15 +159,12 @@ export class ViewProfileComponent implements OnInit {
         });
     }
 
-
-
-
-
-
   }
 
   getErrorName() {
     return this.form.get('fullName').hasError('required') ? 'Field Name is required' : '';
+    // this.form.get('fullName').hasError('requirements') ? 'User full name can not have special characters ' : '';
+  
   }
   getErrorPhone() {
     return this.form.get('phone').hasError('required') ? 'Field Phone is required' : '';

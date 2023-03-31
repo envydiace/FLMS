@@ -43,12 +43,18 @@
                         </div>
                     </section>
                     <div class="container">
-                        <div class="col-xs-8 justify-content-center" style="display: flex;">
-                            <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                    mat-raised-button style="width: 120px;" color="warn"
-                                    (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                        <!-- <div class="col-xs-8 justify-content-center" style="display: flex;"> -->
+                        <div class="row justify-content-center">
+                            <div class="col-xs-4 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
+                                    <button mat-raised-button style="width: 120px;" color="warn"
+                                        (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                                </div>
                             </div>
+
                         </div>
+
+                        <!-- </div> -->
                     </div>
 
                     <div class="row">
@@ -66,7 +72,8 @@
                                 </mat-tab>
                                 <mat-tab label="League Statistic">
                                     <ng-template matTabContent>
-                                        <app-league-statistic [leagueId]="leagueId" [leagueType]="leagueDetail.leagueType"></app-league-statistic>
+                                        <app-league-statistic [leagueId]="leagueId"
+                                            [leagueType]="leagueDetail.leagueType"></app-league-statistic>
 
                                     </ng-template>
                                 </mat-tab>

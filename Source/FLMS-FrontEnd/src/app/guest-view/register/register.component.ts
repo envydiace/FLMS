@@ -44,12 +44,12 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      password: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(32)]],
       confirmPassword: ['', Validators.required],
       fullName: ['', Validators.required],
-      phone: ['', Validators.required],
-      address: ['', Validators.required],
+      phone: ['', Validators.pattern('^[0-9]{1,15}$')],
+      address: [''],
       role: ['', Validators.required]
     });
   }
@@ -61,10 +61,9 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.form.invalid) {
-      return;
-    }
-    if (this.form.get('password').value == this.form.get('confirmPassword').value) {
+    // if (this.form.invalid) {
+    //   return;
+    // }
       this.loading = true;
       this.RegisterService.register(this.form.value)
         .pipe(first())
@@ -79,11 +78,8 @@ export class RegisterComponent implements OnInit {
 
           }
         });
-    } else {
-      this.commonService.sendMessage('Verify Password must match!', 'fail');
-    }
   }
-
+ 
   getErrorEmail() {
     return this.form.get('email').hasError('required') ? 'Field Email is required' : '';
   }
