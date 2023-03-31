@@ -54,10 +54,10 @@ export class CreateClubComponent implements OnInit {
 
   createFrom() {
     this.form = this.formBuilder.group({
-      'clubName': [null, Validators.required],
-      email: [null, [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      phoneNumber: [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
-      socialCont: [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
+      'clubName': [null, [Validators.required,Validators.nullValidator, Validators.pattern('^(\s+\S+\s*)*(?!\s).*$'), this.noWhitespaceValidator]],
+      'email': [null, [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      'phoneNumber': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
+      'socialCont': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
       // 'email': [null, Validators.required,],
       // 'phoneNumber': [null, Validators.required],
       // 'socialCont': [null, Validators.required],
@@ -91,7 +91,7 @@ export class CreateClubComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
       this.selectedImage = event.target.files[0];
     } else {
-      this.imgSrc = './../../../.  ./assets/image/default-logo.png';
+      this.imgSrc = './../../../../assets/image/default-logo.png';
       this.selectedImage = null;
     }
   }
@@ -136,6 +136,12 @@ export class CreateClubComponent implements OnInit {
     ).subscribe();
   }
 
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
+
   getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-yyyy', 'en-US');
   }
@@ -155,4 +161,8 @@ export class CreateClubComponent implements OnInit {
     return this.form.get('socialCont').hasError('required') ? 'Field socialCont is required' : '';
   }
 
+  backButton(){
+    
+   return this.router.navigate(['manager/my-clubs'])
+  }
 }

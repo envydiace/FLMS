@@ -58,9 +58,9 @@ export class ViewProfileComponent implements OnInit {
     this.initDataSource();
 
     this.form = this.formBuilder.group({
-      fullName: [null, [Validators.required,Validators.pattern('^[A-Za-z ]+$')]],
+      fullName: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
       phone: ['', Validators.pattern('^[0-9]{1,15}$')],
-      address: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9 .,]+$')]],
+      address: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9 .,]+$'), this.noWhitespaceValidator]],
       email: ['', Validators.required],
       avatar: [null,],
       role: [null]
@@ -118,8 +118,9 @@ export class ViewProfileComponent implements OnInit {
 
     this.loading = true;
 
-    if (this.selectedImage != null ) {
-      const nameImg = 'profile/' + this.userProfile.fullName + '/avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
+    if (this.selectedImage != null) {
+      const nameImg = 'profile/' + this.userProfile.fullName +
+        '/avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
       const fileRef = this.storage.ref(nameImg);
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
@@ -161,10 +162,16 @@ export class ViewProfileComponent implements OnInit {
 
   }
 
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
+
   getErrorName() {
     return this.form.get('fullName').hasError('required') ? 'Field Name is required' : '';
     // this.form.get('fullName').hasError('requirements') ? 'User full name can not have special characters ' : '';
-  
+
   }
   getErrorPhone() {
     return this.form.get('phone').hasError('required') ? 'Field Phone is required' : '';
