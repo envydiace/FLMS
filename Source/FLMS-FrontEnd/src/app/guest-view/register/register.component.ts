@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]],
       confirmPassword: ['', Validators.required],
-      fullName: ['', Validators.required],
+      fullName: ['', [Validators.required,this.noWhitespaceValidator]],
       phone: ['', Validators.pattern('^[0-9]{1,15}$')],
       address: [''],
       role: ['', Validators.required]
@@ -80,5 +80,11 @@ export class RegisterComponent implements OnInit {
   }
  
   hide = true;
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
 }
 
