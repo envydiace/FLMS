@@ -65,6 +65,7 @@ namespace FLMS_BackEnd.Utils
             public const string ConfirmFee = "ConfirmFee";
             public const string AnnounceMatch = "AnnounceMatch";
             public const string AnnounceSquad = "AnnounceSquad";
+            public const string ForgotPass = "ForgotPass";
         }
         public static class MailSubject
         {
@@ -85,6 +86,8 @@ namespace FLMS_BackEnd.Utils
             public const string Status = "Status";
         }
 
+        public const string FORGOTPASSLINK = "http://localhost:4200/forgot-pass/";
+
         public const string HOME = "Home";
         public const string AWAY = "Away";
 
@@ -97,6 +100,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-US-03","Logout Success" },
             {"MS-US-04","Change password success" },
             {"MS-US-05","Edit profile success" },
+            {"MS-US-06","An email with instructions on how to reset your password has been sent to your email address." },
             {"ER-US-01","Request fail" },
             {"ER-US-02","E-mail is being used" },
             {"ER-US-03","Re-entered password need to be the same with password" },
@@ -114,6 +118,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-US-15","Re-entered password and new password don't match" },
             {"ER-US-16","Incorrrect old password. Please check again" },
             {"ER-US-17","Edit profile fail" },
+            {"ER-US-18","Invalid token" },
+            {"ER-US-19","Token has expired" },
 
             {"ER-CL-01","Cannot remove the club because there's still (a) players in the club" },
             {"ER-CL-02","Club doesn't existed" },
@@ -206,6 +212,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
             {"MS-MAIL-08","ClubManager has canceled their registration request" },
             {"MS-MAIL-09","LeagueManager has removed your club from their league" },
+            {"MS-MAIL-10","Password Reset Request" },
 
             {"MS-SQ-01","Add player to position success" },
             {"MS-SQ-02","Remove player from position success" },

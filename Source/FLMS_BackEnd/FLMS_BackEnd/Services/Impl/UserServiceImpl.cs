@@ -15,12 +15,14 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly UserRepository userRepository;
         private readonly TokenRepository tokenRepository;
         private readonly TokenService tokenService;
+        private readonly TokenHelper tokenHelper;
 
-        public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, TokenService tokenService)
+        public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, TokenService tokenService, TokenHelper tokenHelper)
         {
             this.userRepository = userRepository;
             this.tokenService = tokenService;
             this.tokenRepository = tokenRepository;
+            this.tokenHelper = tokenHelper;
         }
 
         public async Task<ChangePasswordResponse> ChangePass(ChangePasswordRequest changePasswordRequest, int UserId)
@@ -253,6 +255,90 @@ namespace FLMS_BackEnd.Services.Impl
             }
 
             return new LogoutResponse { Success = false, MessageCode = "ER-US-09" };
+        }
+
+        public async Task<ChangeNewPassResponse> ChangeNewPass(ChangeNewPassRequest request)
+        {
+            if (request == null)
+            {
+                return new ChangeNewPassResponse { Success = false, MessageCode = "ER-US-01" };
+            }
+            var user = await userRepository.FindByCondition(u => (u.ResetToken ?? "").Equals(request.Token) == true).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return new ChangeNewPassResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-18"
+                };
+            }
+            if (DateTime.Now.CompareTo(user.TokenExpire) > 0)
+            {
+                return new ChangeNewPassResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-19"
+                };
+            }
+            if (!request.NewPassword.Equals(request.RePassword))
+            {
+                return new ChangeNewPassResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-15"
+                };
+            }
+            var salt = Convert.FromBase64String(user.PasswordSalt);
+            var newPasswordHash = PasswordHelper.HashUsingPbkdf2(request.NewPassword, salt);
+            user.Password = newPasswordHash;
+            var result = await userRepository.UpdateAsync(user);
+            if (result != null)
+            {
+                return new ChangeNewPassResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-US-04"
+                };
+            }
+            return new ChangeNewPassResponse
+            {
+                Success = false,
+                MessageCode = "ER-US-07"
+            };
+        }
+
+
+        public async Task<ForgotPassResponse> ForgotPassword(string email)
+        {
+            var user = await userRepository.FindByCondition(u => u.Email.Equals(email)).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return new ForgotPassResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-US-07"
+                };
+            }
+            var token = await tokenHelper.GenerateRefreshToken();
+            user.ResetToken = await tokenHelper.HashTokenAsync(token);
+            user.TokenExpire = DateTime.Now.AddHours(1);
+            User result = await userRepository.UpdateAsync(user);
+            if (result != null)
+            {
+                return new ForgotPassResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-US-06",
+                    MessageMailCode = "MS-MAIL-10",
+                    MailData = new MailDTO
+                    {
+                        UserName = user.FullName,
+                        ResetLink = Constants.FORGOTPASSLINK + user.ResetToken,
+                        Email = email,
+                    },
+                };
+            }
+            return new ForgotPassResponse { Success = false, MessageCode = "ER-CO-01" };
         }
     }
 }
