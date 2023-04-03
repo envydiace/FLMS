@@ -1,4 +1,6 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.Listeners;
+using FLMS_BackEnd.Listeners.Events;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Utils;
@@ -14,10 +16,21 @@ namespace FLMS_BackEnd.Controllers
     {
         private readonly UserService userService;
         private readonly TokenService tokenService;
-        public UserController(UserService userService, TokenService tokenService)
+        private readonly SendMailEventHandler sendMailEventHandler;
+        public UserController(UserService userService, TokenService tokenService, SendMailEventHandler sendMailEventHandler, IMailService mailService)
         {
             this.userService = userService;
             this.tokenService = tokenService;
+            this.sendMailEventHandler = sendMailEventHandler;
+
+            sendMailEventHandler.SendMailEventArgs += async (sender, args) =>
+            {
+                bool sendResult = await mailService.SendEmailAsync(args.MailRequest, new CancellationToken());
+                if (!sendResult)
+                {
+                    Console.WriteLine("Failed to send email: {EmailRequest}", args.MailRequest);
+                }
+            };
         }
         [HttpPut("[action]")]
         [Authorize]
@@ -155,6 +168,45 @@ namespace FLMS_BackEnd.Controllers
             var response = await userService.GetUserProfile(UserID);
             if (response.Success)
             {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<ForgotPassResponse>> ForgotPass(string email)
+        {
+            var response = await userService.ForgotPassword(email);
+            if (response.Success)
+            {
+                MailRequest mailRequest = new MailRequest
+                {
+                    To = new List<string> {
+                       response.MailData.Email
+                    },
+                    Subject = response.MailMessage,
+                    MailType = Constants.MailType.ForgotPass,
+                    MailData = response.MailData
+                };
+                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<ChangeNewPassResponse>> ChangeNewPass(ChangeNewPassRequest request)
+        {
+            var response = await userService.ChangeNewPass(request);
+            if (response.Success)
+            {
+
                 return Ok(response);
             }
             else
