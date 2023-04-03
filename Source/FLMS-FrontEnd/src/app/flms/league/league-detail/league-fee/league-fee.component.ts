@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/common/common/common.service';
 import { PopUpAddActualComponent } from '../../pop-up-add-actual/pop-up-add-actual.component';
 import { PopUpAddPlanComponent } from './../../pop-up-add-plan/pop-up-add-plan.component';
 import { PopUpLeagueCostEditComponent } from '../pop-up-league-cost-edit/pop-up-league-cost-edit.component';
+import { PopUpConfirmDeleteLeagueFeeComponent } from '../../pop-up-confirm-delete-league-fee/pop-up-confirm-delete-league-fee.component';
 @Component({
   selector: 'app-league-fee',
   templateUrl: './league-fee.component.html',
@@ -179,19 +180,20 @@ export class LeagueFeeComponent implements OnInit {
           })
 
       }
-
-
       //this.initDataSource();
       // this.getTotal();
       console.log('The dialog was closed');
     });
   }
 
-  // OpenEditIfActual(isActual: boolean):void{
-  //   if(isActual == false){
-  //     this.openAddPlan()
-  //   }else{
+  openConfirmedDeleteFee(leagueFeeId: number): void {
+    const dialogRef = this.dialog.open(PopUpConfirmDeleteLeagueFeeComponent, {
+      width: '40%',
+      data: { leagueFeeId: leagueFeeId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+    });
+  }
 
-  //   }
-  // }
 }

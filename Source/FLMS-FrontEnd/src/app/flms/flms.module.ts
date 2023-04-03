@@ -73,6 +73,7 @@ import { PopUpUpdateActualComponent } from './league/pop-up-update-actual/pop-up
 import { TournamentTreeComponent } from './league/league-detail/league-statistic/tournament-tree/tournament-tree.component';
 import { PopUpAddPlanComponent } from './league/pop-up-add-plan/pop-up-add-plan.component';
 import { PopUpLeagueCostEditComponent } from './league/league-detail/pop-up-league-cost-edit/pop-up-league-cost-edit.component';
+import { PopUpConfirmDeleteLeagueFeeComponent } from './league/pop-up-confirm-delete-league-fee/pop-up-confirm-delete-league-fee.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { PopUpLeagueCostEditComponent } from './league/league-detail/pop-up-leag
     PopUpUpdateActualComponent,
     TournamentTreeComponent,
     PopUpAddPlanComponent,
-    PopUpLeagueCostEditComponent
+    PopUpLeagueCostEditComponent,
+    PopUpConfirmDeleteLeagueFeeComponent
   ],
   imports: [
     CommonModule,

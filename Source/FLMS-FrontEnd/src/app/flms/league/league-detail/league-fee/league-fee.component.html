@@ -41,6 +41,11 @@
                         (click)="openEditFee(element.leagueFeeId)">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    <button mat-icon-button color="primary" aria-label="Example icon button with a home icon"
+                    (click)="openConfirmedDeleteFee(element.leagueFeeId)">
+                        <mat-icon>delete </mat-icon>
+                    </button>
+
                 </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
@@ -85,6 +90,10 @@
                         (click)="openEditCost(element.leagueFeeId)">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    <button mat-icon-button color="primary" aria-label="Example icon button with a home icon"
+                    (click)="openConfirmedDeleteFee(element.leagueFeeId)" >
+                     <mat-icon>delete </mat-icon>
+                 </button>
                 </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>

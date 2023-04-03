@@ -48,8 +48,6 @@ export class PopUpAddActualComponent implements OnInit {
     //   this.listFees = [...newUserArray];
 
     // });
-
-
   }
 
   addActualFeetoList() {
@@ -62,7 +60,6 @@ export class PopUpAddActualComponent implements OnInit {
     const newUserArray = this.listFees;
     newUserArray.push(feeTemp);
     this.listFees = [...newUserArray];
-
   }
   removePlan(position: number) {
     const newActualArray = this.listFees;

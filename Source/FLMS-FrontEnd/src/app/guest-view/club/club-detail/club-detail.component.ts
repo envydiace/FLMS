@@ -53,10 +53,10 @@ export class ClubDetailComponent implements OnInit {
 
   }
 
-  openSendInvitation(): void{
+  openSendInvitation(): void {
     const dialogRef = this.dialog.open(PopUpSendInvitationComponent, {
       width: '100%',
-      data: { clubId: this.clubId}
+      data: { clubId: this.clubId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
