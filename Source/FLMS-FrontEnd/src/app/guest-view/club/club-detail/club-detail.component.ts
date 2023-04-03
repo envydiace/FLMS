@@ -6,6 +6,8 @@ import { ClubDetail } from 'src/app/models/club-detail.model';
 import { ActivatedRoute } from '@angular/router';
 import { PopUpSendInvitationComponent } from './pop-up-send-invitation/pop-up-send-invitation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CommonService } from 'src/app/common/common/common.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -17,11 +19,12 @@ export class ClubDetailComponent implements OnInit {
   clubId: number;
   clubdetail: ClubDetail = null;
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
-
+  userRole: string;
 
   constructor(
     private clubService: ClubService,
     private route: ActivatedRoute,
+    private authService: AuthService,
     public dialog: MatDialog
   ) { 
     this.route.queryParams.subscribe(params => {
@@ -30,6 +33,7 @@ export class ClubDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userRole = this.authService.getUserRole();
     this.initDataSource();
   }
   tabLoadTimes: Date[] = [];

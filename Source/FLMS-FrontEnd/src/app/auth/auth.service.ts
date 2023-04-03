@@ -63,10 +63,14 @@ export class AuthService {
   }
 
   getUserRole() {
-    this.token = JSON.parse(localStorage.getItem('user'));
-    const decodedToken = jwt_decode(this.token.accessToken);
-    const role = (decodedToken as {role: string}).role;
-    return role;
+    if(this.token != null) {
+      this.token = JSON.parse(localStorage.getItem('user'));
+      const decodedToken = jwt_decode(this.token.accessToken);
+      const role = (decodedToken as {role: string}).role;
+      return role;
+    } else {
+      return null;
+    }
   }
 
   public getAccessToken(): string {
