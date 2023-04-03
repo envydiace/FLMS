@@ -6,6 +6,7 @@ import { ClubDetail } from 'src/app/models/club-detail.model';
 import { ActivatedRoute } from '@angular/router';
 import { PopUpSendInvitationComponent } from './pop-up-send-invitation/pop-up-send-invitation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -18,13 +19,14 @@ export class ClubDetailComponent implements OnInit {
   clubId: number;
   clubdetail: ClubDetail = null;
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
-
+  role: string;
 
   constructor(
     private clubService: ClubService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
-  ) { 
+    public dialog: MatDialog,
+    public authen: AuthService,
+  ) {
     this.route.queryParams.subscribe(params => {
       this.clubId = params['clubId'];
     });
@@ -32,6 +34,7 @@ export class ClubDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.role = this.authen.getUserRole();
   }
   tabLoadTimes: Date[] = [];
 
@@ -50,10 +53,10 @@ export class ClubDetailComponent implements OnInit {
 
   }
 
-  openSendInvitation(): void{
+  openSendInvitation(): void {
     const dialogRef = this.dialog.open(PopUpSendInvitationComponent, {
       width: '100%',
-      data: { clubId: this.clubId}
+      data: { clubId: this.clubId }
     });
 
     dialogRef.afterClosed().subscribe(result => {

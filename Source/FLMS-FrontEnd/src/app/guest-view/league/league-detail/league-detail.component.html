@@ -16,7 +16,8 @@
                     <br>
                     <section class="league-detail-container">
                         <div class="left-detail" style="text-align: center;">
-                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}</p>
+                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}
+                            </p>
                             <p class="league-detail-content">Number of teams: {{leagueDetail.noParticipate}}</p>
                             <p class="league-detail-content">Tournament type: {{leagueDetail.leagueType}}</p>
                             <p class="league-detail-content">League manager: {{leagueDetail.managerName}}</p>
@@ -31,10 +32,16 @@
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
-                    <div>
-                        <button mat-raised-button color="primary" (click)="openSendRegistation()">
-                            Join
-                        </button>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div *ngIf="role == 'CLUB_MANAGER'">
+                                <div class="col-xs-4 justify-content-center">
+                                    <button mat-raised-button color="primary" (click)="openSendRegistation()">
+                                        Join
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <mat-card-content class="league-detail-content">
