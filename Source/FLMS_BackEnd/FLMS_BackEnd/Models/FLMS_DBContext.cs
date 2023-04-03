@@ -296,7 +296,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEA7CEE0709");
+                    .HasName("PK__RefreshT__658FEEEAA20CC785");
 
                 entity.ToTable("RefreshToken");
 
@@ -372,7 +372,13 @@ namespace FLMS_BackEnd.Models
                     .HasMaxLength(15)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ResetToken)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Role).HasMaxLength(255);
+
+                entity.Property(e => e.TokenExpire).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);
