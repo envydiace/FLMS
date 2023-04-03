@@ -86,7 +86,7 @@ namespace FLMS_BackEnd.Utils
             public const string Status = "Status";
         }
 
-        public const string FORGOTPASSLINK = "http://localhost:4200/forgot-pass/";
+        public const string FORGOTPASSLINK = "forgot-pass/";
 
         public const string HOME = "Home";
         public const string AWAY = "Away";

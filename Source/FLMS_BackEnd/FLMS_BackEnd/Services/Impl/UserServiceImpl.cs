@@ -16,13 +16,15 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly TokenRepository tokenRepository;
         private readonly TokenService tokenService;
         private readonly TokenHelper tokenHelper;
+        private readonly IConfiguration _configuration;
 
-        public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, TokenService tokenService, TokenHelper tokenHelper)
+        public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, TokenService tokenService, TokenHelper tokenHelper, IConfiguration configuration)
         {
             this.userRepository = userRepository;
             this.tokenService = tokenService;
             this.tokenRepository = tokenRepository;
             this.tokenHelper = tokenHelper;
+            _configuration = configuration;
         }
 
         public async Task<ChangePasswordResponse> ChangePass(ChangePasswordRequest changePasswordRequest, int UserId)
@@ -333,7 +335,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MailData = new MailDTO
                     {
                         UserName = user.FullName,
-                        ResetLink = Constants.FORGOTPASSLINK + user.ResetToken,
+                        ResetLink = _configuration["Link:FrontEnd"] + Constants.FORGOTPASSLINK + user.ResetToken,
                         Email = email,
                     },
                 };

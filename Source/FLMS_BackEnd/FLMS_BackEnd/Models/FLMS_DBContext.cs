@@ -38,7 +38,7 @@ namespace FLMS_BackEnd.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=(local); database=FLMS_DB;uid=sa;pwd=bjnbeou123");
+                optionsBuilder.UseSqlServer("server =LAPTOP-0UTUQB0L\\MSSQLSERVER07; database =FLMS_DB;uid=sa;pwd=1234567890;");
             }
         }
 
@@ -62,7 +62,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.Clubs)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Club__UserId__5535A963");
+                    .HasConstraintName("FK__Club__UserId__412EB0B6");
             });
 
             modelBuilder.Entity<ClubClone>(entity =>
@@ -296,7 +296,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEA543AD3AE");
+                    .HasName("PK__RefreshT__658FEEEAA20CC785");
 
                 entity.ToTable("RefreshToken");
 
@@ -312,7 +312,7 @@ namespace FLMS_BackEnd.Models
                     .WithMany(p => p.RefreshTokens)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__RefreshTo__UserI__68487DD7");
+                    .HasConstraintName("FK__RefreshTo__UserI__5441852A");
             });
 
             modelBuilder.Entity<Squad>(entity =>
