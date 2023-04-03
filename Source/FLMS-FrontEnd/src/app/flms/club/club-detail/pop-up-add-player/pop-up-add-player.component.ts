@@ -51,7 +51,7 @@ export class PopUpAddPlayerComponent implements OnInit {
       'playerHeight': [null, [Validators.required]],
       'address': [null, [Validators.required]],
       'email': [null, [Validators.required]],
-      'nickname': [null, [Validators.required]],
+      'nickname': [null, [Validators.required, Validators.minLength(3)]],
       'dob': [null, [Validators.required]],
       'weight': [null, [Validators.required]],
       'phoneNumber': [null, [Validators.required]],
@@ -62,10 +62,16 @@ export class PopUpAddPlayerComponent implements OnInit {
   }
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => this.imgSrc = e.target.result;
-      reader.readAsDataURL(event.target.files[0]);
-      this.selectedImage = event.target.files[0];
+      let file = event.target.files[0];
+      if (file.type == "image/png" || file.type == "image/jpeg" || file.size < 5000000) {
+        console.log('Correct');
+        const reader = new FileReader();
+        reader.onload = (e: any) => this.imgSrc = e.target.result;
+        reader.readAsDataURL(event.target.files[0]);
+        this.selectedImage = event.target.files[0];
+      } else {
+        this.commonService.sendMessage('Invalid Image', 'fail');
+      }
     } else {
       this.imgSrc = './../../../../assets/image/default-avatar-profile-icon.webp';
       this.selectedImage = null;
@@ -152,7 +158,7 @@ export class PopUpAddPlayerComponent implements OnInit {
     this.clubService.getPlayerByNickName(this.getControl('nickname').value.trim())
       .subscribe({
         next: res => {
-          if (res != null && res != undefined) {
+          if (res != null && res != undefined && res.playerInfo != undefined) {
             this.bindPLayerFromNickName(res);
             this.disableFormAfterGetFromNickName();
             this.commonService.sendMessage(res.playerInfo.name, 'success');

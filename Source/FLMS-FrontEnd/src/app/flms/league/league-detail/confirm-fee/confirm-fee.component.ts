@@ -27,6 +27,7 @@ export class ConfirmFeeComponent implements OnInit {
   clubName: string;
   leagueName: string;
   logo: string;
+  imgSrc: string = './../../../../assets/image/default-avatar-profile-icon.webp';
 
   loading = false;
   submitted = false;
@@ -68,7 +69,21 @@ export class ConfirmFeeComponent implements OnInit {
   }
 
   showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      let file = event.target.files[0];
+      if (file.type == "image/png" || file.type == "image/jpeg" || file.size < 5000000) {
+        console.log('Correct');
+        const reader = new FileReader();
+        reader.onload = (e: any) => this.imgSrc = e.target.result;
+        reader.readAsDataURL(event.target.files[0]);
+        this.selectedImage = event.target.files[0];
+      } else {
+        this.commonService.sendMessage('Invalid Image', 'fail');
+      }
+    } else {
+      this.imgSrc = './../../../../assets/image/default-avatar-profile-icon.webp';
+      this.selectedImage = null;
+    }
   }
 
   onSubmit() {
