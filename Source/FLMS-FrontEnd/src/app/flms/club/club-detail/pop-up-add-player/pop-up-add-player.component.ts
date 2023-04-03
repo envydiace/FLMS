@@ -87,7 +87,7 @@ export class PopUpAddPlayerComponent implements OnInit {
       playerId: null,
       name: this.getControl('playerName').value,
       nickName: this.getControl('nickname').value,
-      dob: this.getControl('dob').value,
+      dob: this.commonService.addHoursToDate(this.getControl('dob').value),
       height: this.getControl('playerHeight').value,
       weight: this.getControl('weight').value,
       address: this.getControl('address').value,

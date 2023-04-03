@@ -104,8 +104,8 @@ export class CreateLeagueComponent implements OnInit {
     this.leagueInfo = {
       leagueName: this.getControl('leagueName').value,
       noParticipate: this.getControl('noParticipate').value,
-      startDate: this.getControl('startDate').value,
-      endDate: this.getControl('endDate').value,
+      startDate: this.commonService.addHoursToDate(this.getControl('startDate').value),
+      endDate: this.commonService.addHoursToDate(this.getControl('endDate').value),
       maxNoPlayer: this.getControl('maxNoPlayer').value,
       noPlayerSquad: this.getControl('noPlayerSquad').value,
       location: this.getControl('location').value,
