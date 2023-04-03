@@ -29,7 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -158,6 +158,7 @@ import { PopUpConfirmDeleteLeagueFeeComponent } from './league/pop-up-confirm-de
     CdkTableModule,
     DragDropModule,
     NgTournamentTreeModule
-  ]
+  ],
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'en-GB'}]
 })
 export class FlmsModule { }
