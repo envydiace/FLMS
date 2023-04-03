@@ -3,6 +3,8 @@ import { CommonService } from 'src/app/common/common/common.service';
 import { LeagueService } from '../league.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { first } from 'rxjs/operators';
+import { HttpHeaders } from '@angular/common/http';
+import { token } from 'src/app/models/token.model';
 
 @Component({
   selector: 'app-pop-up-confirm-delete-league-fee',
@@ -11,6 +13,9 @@ import { first } from 'rxjs/operators';
 })
 export class PopUpConfirmDeleteLeagueFeeComponent implements OnInit {
   loading = false;
+  private headers: HttpHeaders;
+  token: token;
+
 
   constructor(
     private commonService: CommonService,
@@ -22,8 +27,10 @@ export class PopUpConfirmDeleteLeagueFeeComponent implements OnInit {
       leagueFeeId: number;
     }
   ) {
+    this.token = JSON.parse(localStorage.getItem('user'));
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
 
-   }
+  }
 
   ngOnInit(): void {
 
@@ -35,20 +42,20 @@ export class PopUpConfirmDeleteLeagueFeeComponent implements OnInit {
 
   onSubmit() {
     // stop here if form is invalid
- 
-     this.loading = true;
-     this.leagueService.removeLeagueFee(this.data.leagueFeeId)
-       .pipe(first())
-       .subscribe({
-         next: () => {
-           this.dialogRef.close();
-           this.commonService.sendMessage('That league fee has been deleted!','success');
-         },
-         error: error => {
-           this.loading = false;
-           this.commonService.sendMessage(error.error.message,'fail');
-         }
-       });
-   }
+
+    this.loading = true;
+    this.leagueService.removeLeagueFee(this.data.leagueFeeId)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.dialogRef.close();
+          this.commonService.sendMessage('That league fee has been deleted!', 'success');
+        },
+        error: error => {
+          this.loading = false;
+          this.commonService.sendMessage(error.error.message, 'fail');
+        }
+      });
+  }
 
 }

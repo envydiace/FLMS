@@ -188,7 +188,7 @@ export class LeagueFeeComponent implements OnInit {
 
   openConfirmedDeleteFee(leagueFeeId: number): void {
     const dialogRef = this.dialog.open(PopUpConfirmDeleteLeagueFeeComponent, {
-      width: '50%',
+      width: '40%',
       data: { leagueFeeId: leagueFeeId }
     });
     dialogRef.afterClosed().subscribe(result => {

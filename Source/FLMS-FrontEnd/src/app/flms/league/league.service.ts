@@ -182,6 +182,6 @@ export class LeagueService {
   }
 
   removeLeagueFee(leagueFeeId: number): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/api/Fee/DeleteLeagueFee/${leagueFeeId}`, { headers: this.headers });
+    return this.http.post<any>(`${environment.apiUrl}/api/Fee/DeleteLeagueFee/${leagueFeeId}`, null, { headers: this.headers });
   }
 }
