@@ -30,8 +30,8 @@
                             <p class="club-content">Phone: {{clubdetail.phoneNumber}}</p>
                         </div>
                         <div class="right-detail" style="text-align: center;">
-                            <p class="club-content">Social Cont: <a href="{{linkFb}}"
-                                    target="_blank">{{clubdetail.socialCont}}</a>
+                            <p class="club-content">Fanpage: <a href="{{clubdetail.facebook}}"
+                                    target="_blank">{{clubdetail.managerName}}</a>
                             </p>
                             <p class="club-content">Email: {{clubdetail.email}}</p>
                         </div>
@@ -48,13 +48,11 @@
                                         mat-raised-button style="width: 120px;" color="warn">Delete</button>
                                 </div>
                             </div> -->
-                            <div *ngIf="role == 'LEAGUE_MANAGER'">
-                                <div class="col-xs-4 justify-content-center">
-                                    <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
-                                        <button mat-raised-button style="width: 120px;" color="accent"
-                                            (click)="openSendInvitation()">
-                                            Invite</button>
-                                    </div>
+                            <div *ngIf="userRole == 'LEAGUE_MANAGER'" class="col-xs-4 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
+                                    <button mat-raised-button style="width: 120px;" color="accent"
+                                        (click)="openSendInvitation()">
+                                        Invite</button>
                                 </div>
                             </div>
                         </div>
