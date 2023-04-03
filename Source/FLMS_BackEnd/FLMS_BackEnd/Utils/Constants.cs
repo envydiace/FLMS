@@ -186,7 +186,8 @@ namespace FLMS_BackEnd.Utils
             {"MS-PA-02","Remove club success" },
             {"MS-PA-03","Add participation to position success" },
 
-            {"MS-FE-01","Add list dee success" },
+            {"MS-FE-01","Add list fee success" },
+            {"MS-FE-02","Delete fee success" },
             {"ER-FE-01","No fees have been announced for this league" },
             {"ER-FE-02","League fee not found!" },
             {"ER-FE-03","Update league fee failed!" },
@@ -194,6 +195,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-FE-05","Can not edit plan fee when the league started" },
             {"ER-FE-06","Can not add plan fee when the league started" },
             {"ER-FE-07","Add list fee failed!" },
+            {"ER-FE-08","Delete fee failed!" },
 
             {"MS-MAIL-01","You got a new invitation!!!" },
             {"MS-MAIL-02","You got a new registration!!!" },
