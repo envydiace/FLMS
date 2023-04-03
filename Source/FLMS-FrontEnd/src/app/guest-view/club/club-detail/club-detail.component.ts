@@ -14,7 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./club-detail.component.scss']
 })
 export class ClubDetailComponent implements OnInit {
-  linkFb: string = 'https://www.facebook.com/profile.php?id=100009422590770';
   clubId: number;
   clubdetail: ClubDetail = null;
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
