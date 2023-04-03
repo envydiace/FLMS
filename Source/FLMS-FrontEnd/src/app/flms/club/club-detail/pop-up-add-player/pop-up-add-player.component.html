@@ -73,7 +73,7 @@
                     <input matInput placeholder="Nick Name" formControlName="nickname" (input)='getPlayerByNickName()'>
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
-                        Required
+                        Player's Nickname must have at least 3 characters
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
