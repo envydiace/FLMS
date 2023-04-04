@@ -133,7 +133,7 @@ export class PopUpAddPlayerComponent implements OnInit {
               .subscribe({
                 next: () => {
                   this.commonService.sendMessage("Add player success", 'success');
-
+                  this.dialogRef.close();
                 },
                 error: error => {
                   this.loading = false;
@@ -144,7 +144,6 @@ export class PopUpAddPlayerComponent implements OnInit {
           });
         })
       ).subscribe(() => {
-        this.dialogRef.close();
       });
     } else {
       this.clubService.addPlayer(this.player)
@@ -152,7 +151,7 @@ export class PopUpAddPlayerComponent implements OnInit {
         .subscribe({
           next: () => {
             this.commonService.sendMessage("Add player success", 'success');
-
+            this.dialogRef.close();
           },
           error: error => {
             this.loading = false;
