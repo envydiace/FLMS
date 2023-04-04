@@ -54,8 +54,8 @@ export class CreateClubComponent implements OnInit {
 
   createFrom() {
     this.form = this.formBuilder.group({
-      'clubName': [null, [Validators.required,Validators.nullValidator, Validators.pattern('^(\s+\S+\s*)*(?!\s).*$'), this.noWhitespaceValidator]],
-      'email': [null, [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      'clubName': [null, [Validators.required, Validators.nullValidator, Validators.pattern('^(\s+\S+\s*)*(?!\s).*$'), this.noWhitespaceValidator]],
+      'email': [null, [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'phoneNumber': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
       'socialCont': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
       // 'email': [null, Validators.required,],
@@ -86,10 +86,16 @@ export class CreateClubComponent implements OnInit {
   showPreview(event: any) {
     // this.selectedImage = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => this.imgSrc = e.target.result;
-      reader.readAsDataURL(event.target.files[0]);
-      this.selectedImage = event.target.files[0];
+      let file = event.target.files[0];
+      if (file.type == "image/png" || file.type == "image/jpeg" || file.size < 5000000) {
+        console.log('Correct');
+        const reader = new FileReader();
+        reader.onload = (e: any) => this.imgSrc = e.target.result;
+        reader.readAsDataURL(event.target.files[0]);
+        this.selectedImage = event.target.files[0];
+      } else {
+        this.commonService.sendMessage('Invalid Image', 'fail');
+      }
     } else {
       this.imgSrc = './../../../../assets/image/default-logo.png';
       this.selectedImage = null;
@@ -112,28 +118,43 @@ export class CreateClubComponent implements OnInit {
     // upload image to firebase
     const nameImg = 'club/' + this.clubInfo.clubName +
       '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
-    const fileRef = this.storage.ref(nameImg);
-    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe((url) => {
+    const fileRef = this.storage.ref(nameImg)
 
-          this.clubInfo.logo = url;
+    if (this.selectedImage != null) {
+      this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
 
-          this.clubService.addClub(this.clubInfo)
-            .pipe(first()).subscribe({
-              next: () => {
-                this.commonService.sendMessage("Create Club success", 'success');
-                this.router.navigate(['/club-list'])
-              },
-              error: error => {
-                this.loading = false;
-                this.commonService.sendMessage(error.error.message, 'fail');
-              }
-            });
+            this.clubInfo.logo = url;
 
+            this.clubService.addClub(this.clubInfo)
+              .pipe(first()).subscribe({
+                next: () => {
+                  this.commonService.sendMessage("Create Club success", 'success');
+                  this.router.navigate(['/club-list']);
+                },
+                error: error => {
+                  this.loading = false;
+                  this.commonService.sendMessage(error.error.message, 'fail');
+                }
+              });
+
+          });
+        })
+      ).subscribe();
+    } else {
+      this.clubService.addClub(this.clubInfo)
+        .pipe(first()).subscribe({
+          next: () => {
+            this.commonService.sendMessage("Create Club success", 'success');
+            this.router.navigate(['/club-list']);
+          },
+          error: error => {
+            this.loading = false;
+            this.commonService.sendMessage(error.error.message, 'fail');
+          }
         });
-      })
-    ).subscribe();
+    }
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -161,8 +182,8 @@ export class CreateClubComponent implements OnInit {
     return this.form.get('socialCont').hasError('required') ? 'Field socialCont is required' : '';
   }
 
-  backButton(){
-    
-   return this.router.navigate(['manager/my-clubs'])
+  backButton() {
+
+    return this.router.navigate(['manager/my-clubs'])
   }
 }

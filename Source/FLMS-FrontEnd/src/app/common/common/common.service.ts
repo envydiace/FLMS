@@ -51,4 +51,10 @@ export class CommonService {
       });
     }
   }
+
+  public addHoursToDate(date: Date): Date {
+    const result = new Date(date);
+    result.setHours(result.getHours() + 7);
+    return result;
+  }
 }

@@ -104,8 +104,8 @@ export class CreateLeagueComponent implements OnInit {
     this.leagueInfo = {
       leagueName: this.getControl('leagueName').value,
       noParticipate: this.getControl('noParticipate').value,
-      startDate: this.getControl('startDate').value,
-      endDate: this.getControl('endDate').value,
+      startDate: this.commonService.addHoursToDate(this.getControl('startDate').value),
+      endDate: this.commonService.addHoursToDate(this.getControl('endDate').value),
       maxNoPlayer: this.getControl('maxNoPlayer').value,
       noPlayerSquad: this.getControl('noPlayerSquad').value,
       location: this.getControl('location').value,
@@ -133,27 +133,43 @@ export class CreateLeagueComponent implements OnInit {
     // upload image to firebase
     const nameImg = 'league/' + this.leagueInfo.leagueName + '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
-    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe((url) => {
 
-          this.leagueInfo.logo = url;
+    if (this.selectedImage != null) {
+      this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
 
-          this.leagueService.createLeague(this.leagueInfo)
-            .pipe(first())
-            .subscribe({
-              next: () => {
-                this.loading = false;
-                this.commonService.sendMessage('Create League Success!', 'success');
-              },
-              error: error => {
-                this.loading = false;
-                this.commonService.sendMessage(error.error.message,'fail');
-              }
-            });
+            this.leagueInfo.logo = url;
+
+            this.leagueService.createLeague(this.leagueInfo)
+              .pipe(first())
+              .subscribe({
+                next: () => {
+                  this.loading = false;
+                  this.commonService.sendMessage('Create League Success!', 'success');
+                },
+                error: error => {
+                  this.loading = false;
+                  this.commonService.sendMessage(error.error.message, 'fail');
+                }
+              });
+          });
+        })
+      ).subscribe();
+    } else {
+      this.leagueService.createLeague(this.leagueInfo)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.commonService.sendMessage('Create League Success!', 'success');
+          },
+          error: error => {
+            this.loading = false;
+            this.commonService.sendMessage(error.error.message, 'fail');
+          }
         });
-      })
-    ).subscribe();
+    }
   }
 
   getCurrentDateTime(): string {
@@ -177,10 +193,16 @@ export class CreateLeagueComponent implements OnInit {
   showPreview(event: any) {
     // this.selectedImage = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => this.imgSrc = e.target.result;
-      reader.readAsDataURL(event.target.files[0]);
-      this.selectedImage = event.target.files[0];
+      let file = event.target.files[0];
+      if (file.type == "image/png" || file.type == "image/jpeg" || file.size < 5000000) {
+        console.log('Correct');
+        const reader = new FileReader();
+        reader.onload = (e: any) => this.imgSrc = e.target.result;
+        reader.readAsDataURL(event.target.files[0]);
+        this.selectedImage = event.target.files[0];
+      } else {
+        this.commonService.sendMessage('Invalid Image', 'fail');
+      }
     } else {
       this.imgSrc = './../../../.  ./assets/image/default-logo.png';
       this.selectedImage = null;

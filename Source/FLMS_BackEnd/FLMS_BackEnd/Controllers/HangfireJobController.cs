@@ -13,11 +13,13 @@ namespace FLMS_BackEnd.Controllers
         private readonly IHangfireService _hangfireService;
         private readonly IBackgroundJobClient _backgroundJobClient;
         private readonly IRecurringJobManager _recurringJobManager;
-        public HangfireJobController(IHangfireService _hangfireService, IBackgroundJobClient backgroundJobClient, IRecurringJobManager _recurringJobManager)
+        private readonly IConfiguration _configuration;
+        public HangfireJobController(IHangfireService _hangfireService, IBackgroundJobClient backgroundJobClient, IRecurringJobManager _recurringJobManager, IConfiguration configuration)
         {
             this._hangfireService = _hangfireService;
             _backgroundJobClient = backgroundJobClient;
             this._recurringJobManager = _recurringJobManager;
+            _configuration = configuration;
         }
 
         [HttpGet("[action]")]
@@ -37,8 +39,8 @@ namespace FLMS_BackEnd.Controllers
         [HttpGet("[action]")]
         public ActionResult AddRecurringJob()
         {
-            _recurringJobManager.AddOrUpdate("AnnounceMatch", () => _hangfireService.AnnouceMatchIncoming(Constants.MailType.AnnounceMatch), "48 0 * * *" , TimeZoneInfo.Local);
-            _recurringJobManager.AddOrUpdate("AnnounceSquad", () => _hangfireService.AnnouceMatchIncoming(Constants.MailType.AnnounceSquad), "48 0 * * *" , TimeZoneInfo.Local);
+            _recurringJobManager.AddOrUpdate("AnnounceMatch", () => _hangfireService.AnnouceMatchIncoming(Constants.MailType.AnnounceMatch), _configuration["CronJob:AnnounceMatch"], TimeZoneInfo.Local);
+            _recurringJobManager.AddOrUpdate("AnnounceSquad", () => _hangfireService.AnnouceMatchIncoming(Constants.MailType.AnnounceSquad), _configuration["CronJob:AnnounceSquad"], TimeZoneInfo.Local);
             return Ok();
         }
     }

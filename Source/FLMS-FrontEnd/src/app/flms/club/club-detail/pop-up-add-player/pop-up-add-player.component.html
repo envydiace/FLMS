@@ -40,7 +40,7 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Number" formControlName="number">
+                    <input matInput placeholder="Number" type="number" formControlName="number">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['number'].valid && addPlayerFormGroup.controls['number'].touched">
                         Required
@@ -50,7 +50,7 @@
                     <input matInput placeholder="Height" formControlName="playerHeight">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['playerHeight'].valid && addPlayerFormGroup.controls['playerHeight'].touched">
-                        Required
+                        Required, example: 1m80
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
@@ -73,31 +73,32 @@
                     <input matInput placeholder="Nick Name" formControlName="nickname" (input)='getPlayerByNickName()'>
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
-                        Required
+                        Player's Nickname must have at least 3 characters
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
                     <mat-label>Date Of Birth </mat-label>
-                    <input matInput [matDatepicker]="from" formControlName="dob">
+                    <input matInput [matDatepicker]="from" formControlName="dob" disabled>
                     <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
-                    <mat-datepicker #from></mat-datepicker>
+                    <mat-datepicker #from disabled="false"></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="form-element">
                     <input matInput placeholder="Weight" formControlName="weight">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['weight'].valid && addPlayerFormGroup.controls['weight'].touched">
-                        Required
+                        Required, example: 80kg
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                    <span matPrefix>+84 &nbsp;</span>
+                    <input matInput type="tel" placeholder="Phone Number" formControlName="phoneNumber">
                     <mat-error
-                        *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
+                        *ngIf="!addPlayerFormGroup.controls['phoneNumber'].valid && addPlayerFormGroup.controls['phoneNumber'].touched">
                         Required
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Social Cont" formControlName="socialCont">
+                    <input matInput type="number" placeholder="Social Cont" formControlName="socialCont">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['socialCont'].valid && addPlayerFormGroup.controls['socialCont'].touched">
                         Required

@@ -7,7 +7,7 @@ import { Player, PLayerInfo } from 'src/app/models/player.model';
 import { CommonService } from 'src/app/common/common/common.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { formatDate } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-pop-up-add-player',
@@ -46,15 +46,15 @@ export class PopUpAddPlayerComponent implements OnInit {
 
   createForm() {
     this.addPlayerFormGroup = this.formBuilder.group({
-      'playerName': [null, [Validators.required]],
+      'playerName': [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
       'number': [null, [Validators.required]],
-      'playerHeight': [null, [Validators.required]],
+      'playerHeight': [null, [Validators.required, Validators.pattern('^[0-9]+[m][0-9]+$')]],
       'address': [null, [Validators.required]],
-      'email': [null, [Validators.required]],
-      'nickname': [null, [Validators.required]],
+      'email': [null, [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      'nickname': [null, [Validators.required, Validators.minLength(3)]],
       'dob': [null, [Validators.required]],
-      'weight': [null, [Validators.required]],
-      'phoneNumber': [null, [Validators.required]],
+      'weight': [null, [Validators.required, Validators.pattern('^[0-9,]+[k][g]$')]],
+      'phoneNumber': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
       'socialCont': [null, [Validators.required]],
       'clubName': [null,],
       'avatar': [null,]
@@ -62,10 +62,16 @@ export class PopUpAddPlayerComponent implements OnInit {
   }
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => this.imgSrc = e.target.result;
-      reader.readAsDataURL(event.target.files[0]);
-      this.selectedImage = event.target.files[0];
+      let file = event.target.files[0];
+      if (file.type == "image/png" || file.type == "image/jpeg" || file.size < 5000000) {
+        console.log('Correct');
+        const reader = new FileReader();
+        reader.onload = (e: any) => this.imgSrc = e.target.result;
+        reader.readAsDataURL(event.target.files[0]);
+        this.selectedImage = event.target.files[0];
+      } else {
+        this.commonService.sendMessage('Invalid Image', 'fail');
+      }
     } else {
       this.imgSrc = './../../../../assets/image/default-avatar-profile-icon.webp';
       this.selectedImage = null;
@@ -81,7 +87,7 @@ export class PopUpAddPlayerComponent implements OnInit {
       playerId: null,
       name: this.getControl('playerName').value,
       nickName: this.getControl('nickname').value,
-      dob: this.getControl('dob').value,
+      dob: this.commonService.addHoursToDate(this.getControl('dob').value),
       height: this.getControl('playerHeight').value,
       weight: this.getControl('weight').value,
       address: this.getControl('address').value,
@@ -115,31 +121,45 @@ export class PopUpAddPlayerComponent implements OnInit {
       + '/playerAva/' + this.getCurrentDateTime();
     const fileRef = this.storage.ref(nameImg);
 
-    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe((url) => {
+    if (this.selectedImage != null) {
+      this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
 
-          this.player.avatar = url;
+            this.player.avatar = url;
 
-          this.clubService.addPlayer(this.player)
-            .pipe(first())
-            .subscribe({
-              next: () => {
-                this.commonService.sendMessage("Add player success", 'success');
+            this.clubService.addPlayer(this.player)
+              .pipe(first())
+              .subscribe({
+                next: () => {
+                  this.commonService.sendMessage("Add player success", 'success');
 
-              },
-              error: error => {
-                this.loading = false;
-                this.commonService.sendMessage(error.error.message, 'fail');
-              }
-            });
+                },
+                error: error => {
+                  this.loading = false;
+                  this.commonService.sendMessage(error.error.message, 'fail');
+                }
+              });
 
+          });
+        })
+      ).subscribe(() => {
+        this.dialogRef.close();
+      });
+    } else {
+      this.clubService.addPlayer(this.player)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.commonService.sendMessage("Add player success", 'success');
+
+          },
+          error: error => {
+            this.loading = false;
+            this.commonService.sendMessage(error.error.message, 'fail');
+          }
         });
-      })
-    ).subscribe(() => {
-      this.dialogRef.close();
-    });
-
+    }
   }
 
   // findByNickName() {
@@ -152,7 +172,7 @@ export class PopUpAddPlayerComponent implements OnInit {
     this.clubService.getPlayerByNickName(this.getControl('nickname').value.trim())
       .subscribe({
         next: res => {
-          if (res != null && res != undefined) {
+          if (res != null && res != undefined && res.playerInfo != undefined) {
             this.bindPLayerFromNickName(res);
             this.disableFormAfterGetFromNickName();
             this.commonService.sendMessage(res.playerInfo.name, 'success');
@@ -203,5 +223,11 @@ export class PopUpAddPlayerComponent implements OnInit {
     this.getControl('phoneNumber').enable();
     this.getControl('email').enable();
     this.getControl('socialCont').enable();
+  }
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
   }
 }

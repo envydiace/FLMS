@@ -6,6 +6,7 @@ using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
+using static FLMS_BackEnd.Utils.Constants;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -438,5 +439,52 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
+        public async Task<TopLeaguePrizeResponse> GetLeagueTopPrize(int size)
+        {
+            var leagueFeesQuery = leagueRepository
+                .FindByCondition(l => l.LeagueFees
+                    .Any(fee => fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
+                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString())))
+                .Include(l => l.LeagueFees)
+                .SelectMany(l => l.LeagueFees
+                    .Where(fee => fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
+                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString()))
+                    .Select(fee => new {
+                        LeagueId = l.LeagueId,
+                        FeeCost = fee.Cost
+                    }));
+
+            var groupedFeesQuery = leagueFeesQuery
+                .GroupBy(x => x.LeagueId)
+                .Select(g => new {
+                    LeagueId = g.Key,
+                    TotalPrize = g.Sum(x => x.FeeCost)
+                });
+
+            var topPrizeQuery = groupedFeesQuery
+                .Where(x => x.TotalPrize > 0)
+                .Join(leagueRepository.FindAll(), x => x.LeagueId, l => l.LeagueId, (x, l) => new {
+                    League = l,
+                    TotalPrize = x.TotalPrize
+                })
+                .OrderByDescending(x => x.TotalPrize)
+                .Take(size);
+
+            var listTopPrize = await topPrizeQuery.Select(x => new LeagueTotalPrizeDTO
+            {
+                League = x.League,
+                TotalPrize = x.TotalPrize
+            }).ToListAsync();
+
+            if (listTopPrize == null)
+            {
+                return new TopLeaguePrizeResponse();
+            }
+            return new TopLeaguePrizeResponse
+            {
+                Success= true,
+                TopLeaguePrizes = mapper.Map<List<TopLeaguePrizeDTO>>(listTopPrize)
+            };
+        }
     }
 }
