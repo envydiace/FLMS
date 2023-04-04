@@ -116,5 +116,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueKnockOutStatisticResponse>> GetTopLeaguePrize(int id)
+        {
+
+            var response = await leagueService.GetLeagueTopPrize(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

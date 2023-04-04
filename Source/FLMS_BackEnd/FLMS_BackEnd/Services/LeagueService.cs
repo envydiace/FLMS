@@ -12,6 +12,7 @@ namespace FLMS_BackEnd.Services
         Task<LeagueInfoResponse> GetLeagueInfo(int leagueId);
         Task<List<LeagueByUserDTO>> GetListLeagueByUser(int userId);
         Task<TopEventResponse> GetLeagueTopEvent(int leagueId);
+        Task<TopLeaguePrizeResponse> GetLeagueTopPrize(int size);
         Task<LeagueLeagueStatisticResponse> GetLeagueStatisticTypeLeague(int leagueId);
         Task<LeagueKnockOutStatisticResponse> GetLeagueStatisticTypeKO(int leagueId);
         Task<DeleteLeagueResponse> DeleteLeague(int leagueId, int userId);
