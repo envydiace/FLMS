@@ -443,12 +443,12 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var leagueFeesQuery = leagueRepository
                 .FindByCondition(l => l.LeagueFees
-                    .Any(fee => fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
-                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString())))
+                    .Any(fee => (fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
+                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString())) && !fee.IsActual))
                 .Include(l => l.LeagueFees)
                 .SelectMany(l => l.LeagueFees
-                    .Where(fee => fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
-                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString()))
+                    .Where(fee => (fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
+                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString())) && !fee.IsActual)
                     .Select(fee => new {
                         LeagueId = l.LeagueId,
                         FeeCost = fee.Cost

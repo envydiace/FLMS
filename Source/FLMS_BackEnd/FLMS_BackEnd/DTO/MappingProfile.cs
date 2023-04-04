@@ -53,7 +53,15 @@ namespace FLMS_BackEnd.DTO
             //Player
             CreateMap<Player, PlayerDTO>();
 
-            CreateMap<PlayerClub, PlayerClubDTO>();
+            CreateMap<PlayerClub, PlayerClubDTO>()
+                .ForMember(dto => dto.ClubName,
+                map => map.MapFrom(
+                    pClub => pClub.Club.ClubName
+                    ))
+                .ForMember(dto => dto.ClubLogo,
+                map => map.MapFrom(
+                    pClub => pClub.Club.Logo
+                    ));
 
             CreateMap<CreatePlayerRequest, Player>();
 
@@ -70,6 +78,8 @@ namespace FLMS_BackEnd.DTO
                 map => map.MapFrom(
                     pclub => pclub.Player.Name
                     ));
+
+            CreateMap<Player, PlayerByManagerDTO>();
 
             //League
             CreateMap<CreateLeagueRequest, League>()
@@ -117,13 +127,16 @@ namespace FLMS_BackEnd.DTO
                     ))
                 .ForMember(dto => dto.TotalPrize,
                 map => map.MapFrom(
-                    league => league.LeagueFees.Sum(fee => fee.Cost)));
+                    league => league.LeagueFees.Where(fee=>(fee.FeeType.Equals(Constants.FeeType.Prize.ToString()) ||
+                    fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString())) && !fee.IsActual).Sum(fee => fee.Cost)));
 
             CreateMap<LeagueFee, LeagueFeeDTO>();
 
             CreateMap<LeagueFee, LeagueFeeClubDTO>();
 
             CreateMap<LeagueFeeDTO, LeagueFeeClubDTO>();
+
+            CreateMap<LeagueFeeClubDTO, LeagueFeeDTO>();
 
             CreateMap<League, LeagueByUserDTO>();
 

@@ -129,5 +129,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<GetPlayerByClubManagerResponse>> GetPlayerByClubManager([FromQuery] GetPlayerByClubManagerRequest request)
+        {
+            var response = await playerService.GetPlayerByClubManager(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
