@@ -19,7 +19,8 @@
                             <div class="card-header">Player's Profile Picture</div>
                             <div class="card-body text-center">
                                 <img class="img-account-profile rounded-circle mb-2"
-                                    src="./../../../../assets/image/Rashford.png" alt="">
+                                [src]="playerInfo.avatar != null ? playerInfo.avatar : defaultLogo" alt="Club's Pic"
+                                >
                                 <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                                 <!-- <button class="btn btn-primary" type="button">Upload new image</button> -->
                             </div>
@@ -55,14 +56,14 @@
 
                                     </mat-form-field>
                                 </div>
-                                <div class="row gx-3 mb-3">
-                                    <div class="col-md-6">
+                                <div class=" mb-3">
+                                    <!-- <div class="col-md-6">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Nick name</mat-label>
                                             <input matInput formControlName="nickName">
                                         </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
+                                    </div> -->
+                                    <!-- <div class="col-md-6"> -->
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Date Of Birth</mat-label>
                                             <input matInput [matDatepicker]="picker" formControlName="dob">
@@ -70,7 +71,7 @@
                                             <mat-datepicker #picker></mat-datepicker>
 
                                         </mat-form-field>
-                                    </div>
+                                    <!-- </div> -->
                                 </div>
                                 <div class="row gx-3 mb-3">
                                     <div class="col-md-6">
