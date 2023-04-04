@@ -5,7 +5,5 @@ namespace FLMS_BackEnd.Response
 {
     public class UpdatePlayerResponse : BaseResponse
     {
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public PlayerDTO PlayerInfo { get; set; }
     }
 }

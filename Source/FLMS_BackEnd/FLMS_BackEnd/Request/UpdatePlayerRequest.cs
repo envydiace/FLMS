@@ -4,12 +4,11 @@ namespace FLMS_BackEnd.Request
 {
     public class UpdatePlayerRequest
     {
-        [Required]
+        public int ClubId { get; set; }
         public int PlayerId { get; set; }
-        [Required]
         public string Name { get; set; } = null!;
-        public string NickName { get; set; } = null!;
-        public int? Number { get; set; }
+        public string? Avatar { get; set; }
+        public int Number { get; set; }
         public DateTime? Dob { get; set; }
         public string? Height { get; set; }
         public string? Weight { get; set; }

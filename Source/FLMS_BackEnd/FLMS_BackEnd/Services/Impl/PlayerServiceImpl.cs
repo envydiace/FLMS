@@ -140,16 +140,40 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<UpdatePlayerResponse> UpdatePlayer(UpdatePlayerRequest request, int UserId)
         {
-            var p = await playerRepository.FindByCondition(player => player.PlayerId == request.PlayerId).FirstOrDefaultAsync();
-            if (p == null)
+            var player = await playerRepository.FindByCondition(p => p.PlayerId == request.PlayerId)
+                    .Include(p => p.PlayerClubs)
+                    .ThenInclude(pc => pc.Club)
+                    .FirstOrDefaultAsync();
+            if (player == null)
             {
                 return new UpdatePlayerResponse { Success = false, MessageCode = "ER-PL-02" };
             }
-            Player player = mapper.Map<Player>(request);
-            Player result = await playerRepository.UpdateAsync(player);
+            var playerClub = player.PlayerClubs.FirstOrDefault(pc => pc.ClubId == request.ClubId);
+            if (playerClub == null)
+            {
+                return new UpdatePlayerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PL-06"
+                };
+            }
+            if (playerClub.Club == null || playerClub.Club.UserId != UserId)
+            {
+                return new UpdatePlayerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-08"
+                };
+            }
+            playerClub.Number = request.Number;
+            Player updatedPlayer = mapper.Map<Player>(request);
+            updatedPlayer.PlayerClubs = player.PlayerClubs;
+            updatedPlayer.NickName = player.NickName;
+            updatedPlayer.Avatar = request.Avatar != null ? request.Avatar : player.Avatar;
+            Player result = await playerRepository.UpdateAsync(updatedPlayer);
             if (result != null)
             {
-                return new UpdatePlayerResponse { Success = true, PlayerInfo = this.GetPlayerById(result.PlayerId).Result.PlayerInfo };
+                return new UpdatePlayerResponse { Success = true, MessageCode = "MS-PL-03" };
             }
             return new UpdatePlayerResponse { Success = false, MessageCode = "ER-PL-03" };
 
