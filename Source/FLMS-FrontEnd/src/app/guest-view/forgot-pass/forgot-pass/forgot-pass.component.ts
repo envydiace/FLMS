@@ -10,11 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./forgot-pass.component.scss']
 })
 export class ForgotPassComponent implements OnInit {
-
   form: FormGroup;
   loading = false;
   submitted = false;
-
+  hide = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +24,7 @@ export class ForgotPassComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]],
+      newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32),Validators.pattern('(?=.*?[A-Z]).*')]],
       rePassword: ['', Validators.required]
     });
   }

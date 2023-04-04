@@ -11,11 +11,10 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./forgot-pass-change.component.scss']
 })
 export class ForgotPassChangeComponent implements OnInit {
-
-
   form: FormGroup;
   loading = false;
   submitted = false;
+  hide = true;
 
   constructor(
     private formBuilder: FormBuilder,
