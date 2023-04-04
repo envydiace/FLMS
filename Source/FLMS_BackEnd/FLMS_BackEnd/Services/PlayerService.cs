@@ -14,5 +14,6 @@ namespace FLMS_BackEnd.Services
         Task<DeletePlayerResponse> DeletePlayer(int id, int UserId);
         Task<UpdatePlayerResponse> UpdatePlayer(UpdatePlayerRequest request, int UserId);
         Task<DeletePlayerClubResponse> DeletePlayerClub(DeletePlayerClubRequest request, int UserId);
+        Task<GetPlayerByClubManagerResponse> GetPlayerByClubManager(GetPlayerByClubManagerRequest request, int UserId);
     }
 }
