@@ -18,10 +18,9 @@ namespace FLMS_BackEnd.Models
         public string ClubName { get; set; } = null!;
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
-        public string? SocialCont { get; set; }
         public DateTime CreateAt { get; set; }
         public string? Logo { get; set; }
-        public string? Kit { get; set; }
+        public string? FanPage { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ClubClone> ClubClones { get; set; }

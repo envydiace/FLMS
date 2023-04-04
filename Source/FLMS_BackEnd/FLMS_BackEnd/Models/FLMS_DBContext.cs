@@ -54,9 +54,9 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.Email).HasMaxLength(200);
 
-                entity.Property(e => e.PhoneNumber).HasMaxLength(15);
+                entity.Property(e => e.FanPage).HasColumnType("text");
 
-                entity.Property(e => e.SocialCont).HasMaxLength(255);
+                entity.Property(e => e.PhoneNumber).HasMaxLength(15);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Clubs)
@@ -296,7 +296,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEAA20CC785");
+                    .HasName("PK__RefreshT__658FEEEA7B9304BD");
 
                 entity.ToTable("RefreshToken");
 
