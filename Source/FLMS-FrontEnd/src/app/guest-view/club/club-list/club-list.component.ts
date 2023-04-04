@@ -4,6 +4,7 @@ import { ClubList } from 'src/app/models/club-list.model';
 import { map, tap } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-club-list',
@@ -16,14 +17,20 @@ export class ClubListComponent implements OnInit {
   clubList: ClubList = null;
   pageEvent: PageEvent;
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  userRole: string;
+
 
   constructor(
     private clubService: ClubService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+
   ) { }
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authService.getUserRole();
+
   }
 
   initDataSource() {

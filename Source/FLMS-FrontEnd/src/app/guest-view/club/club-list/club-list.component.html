@@ -52,7 +52,9 @@
                             [src]="club.logo != null ? club.logo : defaultLogo"
                                 alt="club logo">
                             <mat-card-actions>
-                                <button mat-button>Invite</button>
+                                <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+                                    <button mat-button>Invite</button>
+                                </div>
                             </mat-card-actions>
                         </mat-card>
                     </a>
