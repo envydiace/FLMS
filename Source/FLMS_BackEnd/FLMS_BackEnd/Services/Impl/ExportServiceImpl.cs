@@ -75,7 +75,7 @@ namespace FLMS_BackEnd.Services.Impl
                                             new DataColumn("Weight") });
             foreach (var player in result)
             {
-                dtPlayer.Rows.Add(player.Name, player.NickName, player.Height, player.Weight);
+                dtPlayer.Rows.Add(player.Name, "", player.Height, player.Weight);
             }
 
             return dtPlayer;

@@ -28,7 +28,9 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<PlayerResponse> GetPlayerById(int id)
         {
             var player = await playerRepository.FindByCondition(p => p.PlayerId == id)
-                .Include(player => player.PlayerClubs).FirstOrDefaultAsync();
+                .Include(player => player.PlayerClubs)
+                .ThenInclude(pc => pc.Club)
+                .FirstOrDefaultAsync();
             if (player == null)
             {
                 return new PlayerResponse
