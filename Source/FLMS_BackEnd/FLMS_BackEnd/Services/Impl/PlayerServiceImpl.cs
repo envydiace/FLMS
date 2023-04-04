@@ -51,15 +51,15 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new CreateResponse { Success = false, MessageCode = "ER-CL-02" };
             }
-            if(c.UserId != UserId)
+            if (c.UserId != UserId)
             {
                 return new CreateResponse { Success = false, MessageCode = "ER-CL-08" };
             }
             var p = await GetPlayerByNickname(request.NickName);
-            if (p.Success)
+            if (p.PlayerInfo != null)
             {
                 if (p.PlayerInfo.PlayerClubs.FirstOrDefault(pc => pc.ClubId
-                == request.ClubId ) != null)
+                == request.ClubId) != null)
                 {
                     return new CreateResponse { Success = false, MessageCode = "ER-PL-05" };
                 }
