@@ -6,7 +6,6 @@ namespace FLMS_BackEnd.DTO
     {
         public int PlayerId { get; set; }
         public string Name { get; set; } = null!;
-        public string NickName { get; set; } = null!;
         public DateTime? Dob { get; set; }
         public string? Height { get; set; }
         public string? Weight { get; set; }
