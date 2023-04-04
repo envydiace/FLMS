@@ -213,5 +213,48 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return new DeletePlayerClubResponse { Success = false, MessageCode = "ER-PL-04" };
         }
+
+        public async Task<GetPlayerByClubManagerResponse> GetPlayerByClubManager(GetPlayerByClubManagerRequest request, int UserId)
+        {
+            var player = await playerRepository.FindByCondition(p => p.PlayerId == request.PlayerId)
+                .Include(player => player.PlayerClubs)
+                .ThenInclude(pc => pc.Club)
+                .FirstOrDefaultAsync();
+            if (player == null)
+            {
+                return new GetPlayerByClubManagerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PL-02"
+                };
+            }
+            var playerClub = player.PlayerClubs.FirstOrDefault(pc => pc.ClubId == request.ClubId);
+            if (playerClub == null)
+            {
+                return new GetPlayerByClubManagerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-PL-06"
+                };
+            }
+            if (playerClub.Club == null || playerClub.Club.UserId != UserId)
+            {
+                return new GetPlayerByClubManagerResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-08"
+                };
+            }
+            var playerInfo = mapper.Map<PlayerByManagerDTO>(player);
+            playerInfo.ClubId = playerClub.ClubId;
+            playerInfo.ClubName = playerClub.Club.ClubName;
+            playerInfo.ClubLogo = playerClub.Club.Logo;
+            playerInfo.Number = playerClub.Number;
+            return new GetPlayerByClubManagerResponse
+            {
+                Success = true,
+                PlayerInfo = playerInfo
+            };
+        }
     }
 }

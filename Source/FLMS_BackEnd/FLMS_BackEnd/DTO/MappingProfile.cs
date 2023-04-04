@@ -79,6 +79,8 @@ namespace FLMS_BackEnd.DTO
                     pclub => pclub.Player.Name
                     ));
 
+            CreateMap<Player, PlayerByManagerDTO>();
+
             //League
             CreateMap<CreateLeagueRequest, League>()
                 .ForMember(league => league.CreateAt,
