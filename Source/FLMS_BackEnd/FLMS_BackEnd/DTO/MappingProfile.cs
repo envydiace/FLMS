@@ -117,7 +117,8 @@ namespace FLMS_BackEnd.DTO
                     ))
                 .ForMember(dto => dto.TotalPrize,
                 map => map.MapFrom(
-                    league => league.LeagueFees.Sum(fee => fee.Cost)));
+                    league => league.LeagueFees.Where(fee=>(fee.FeeType.Equals(Constants.FeeType.Prize.ToString()) ||
+                    fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString())) && !fee.IsActual).Sum(fee => fee.Cost)));
 
             CreateMap<LeagueFee, LeagueFeeDTO>();
 
