@@ -9,16 +9,15 @@
         <mat-card-content>
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <input type="text" formControlName="email" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                        <div *ngIf="f.email.errors.required">Email is required</div>
-                    </div>
+                    <input matInput formControlName="email" class="form-control"/>
+                    <mat-error *ngIf="!form.controls['email'].valid && form.controls['email'].touched">
+                        Email is required
+                    </mat-error>
                 </div>
             </form>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary">Send</button>
+            <button mat-raised-button [disabled]="loading" class="button btn-primary" type="submit" (click)="onSubmit()" mat-raised-button color="primary">Send</button>
         </mat-card-actions>
         <mat-card-content>
             <a href="#">Back to login</a>

@@ -1,0 +1,23 @@
+.example-card {
+    // position: absolute;
+    // display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    // position: relative;
+    // display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group input {
+    width: 100%;
+}
+.bg-container{
+    // background: url('./../../../assets/image/cover.jpg');
+    width: 100%;
+    // height: 893px;
+}

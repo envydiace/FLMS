@@ -7,6 +7,7 @@ using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Web;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -322,7 +323,8 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             var token = await tokenHelper.GenerateRefreshToken();
-            user.ResetToken = await tokenHelper.HashTokenAsync(token);
+            var hashedToken = await tokenHelper.HashTokenAsync(token);
+            user.ResetToken = hashedToken.Replace("=", string.Empty);
             user.TokenExpire = DateTime.Now.AddHours(1);
             User result = await userRepository.UpdateAsync(user);
             if (result != null)
@@ -335,7 +337,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MailData = new MailDTO
                     {
                         UserName = user.FullName,
-                        ResetLink = _configuration["Link:FrontEnd"] + Constants.FORGOTPASSLINK + user.ResetToken,
+                        ResetLink = _configuration["Link:FrontEnd"] + Constants.FORGOTPASSLINK + HttpUtility.UrlEncode(user.ResetToken),
                         Email = email,
                     },
                 };
