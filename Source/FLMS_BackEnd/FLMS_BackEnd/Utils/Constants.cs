@@ -155,6 +155,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-PL-03","Update player failed!" },
             {"ER-PL-04","Delete player failled!" },
             {"ER-PL-05","This player was already added in this club!" },
+            {"ER-PL-06","This player not in this club!" },
 
             {"ER-RE-01","This club already in the league" },
             {"ER-RE-02","This club has request to regist the league" },
