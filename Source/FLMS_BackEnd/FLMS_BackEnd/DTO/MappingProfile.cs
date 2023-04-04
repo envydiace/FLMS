@@ -126,6 +126,8 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<LeagueFeeDTO, LeagueFeeClubDTO>();
 
+            CreateMap<LeagueFeeClubDTO, LeagueFeeDTO>();
+
             CreateMap<League, LeagueByUserDTO>();
 
             CreateMap<ClubClone, LeagueStandingDTO>()
