@@ -3,6 +3,7 @@
         <span>Player's info</span>
     </mat-toolbar>
 </p>
+<div *ngIf="playerInfo">
 <form [formGroup]="form">
     <div class="club-detail-container container">
         <mat-card class="example-card">
@@ -18,10 +19,9 @@
                         <div class="card mb-4 mb-xl-0">
                             <div class="card-header">Player's Profile Picture</div>
                             <div class="card-body text-center">
-                                <img class="img-account-profile rounded-circle mb-2"
-                                [src]="playerInfo.avatar != null ? playerInfo.avatar : defaultLogo" alt="Club's Pic"
+                                <img class="img-account-profile rounded-circle mb-2" 
+                                [src]="playerInfo.avatar != null ? playerInfo.avatar : defaultAvatar" alt="Player's Pic"
                                 >
-                                <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                                 <!-- <button class="btn btn-primary" type="button">Upload new image</button> -->
                             </div>
                         </div>
@@ -34,9 +34,14 @@
                                 <div class="player-list">
                                     <mat-card class="player-box" *ngFor="let item of playerClub">
                                         <mat-card-header>
-                                            <div mat-card-avatar class="avatar-header-image"></div>
+                                            <div mat-card-avatar class="avatar-header-image">
+                                                <img class="avatar-header-image rounded-circle mb-2" 
+                                                [src]="item.clubLogo != null ? item.clubLogo : defaultLogo" alt="Club's Pic"
+                                                >
+                                            </div>
                                             <mat-card-title
-                                                style="line-height: 37px; margin-bottom: 0;" > {{item.clubId}} - {{item.number}}</mat-card-title>
+                                                style="line-height: 37px; margin-bottom: 0;" > 
+                                                {{item.clubName}} - {{item.number}}</mat-card-title>
                                         </mat-card-header>
                                     </mat-card>
                                 </div>
@@ -66,9 +71,9 @@
                                     <!-- <div class="col-md-6"> -->
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Date Of Birth</mat-label>
-                                            <input matInput [matDatepicker]="picker" formControlName="dob">
+                                            <input matInput [matDatepicker]="picker" formControlName="dob" disabled>
                                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker></mat-datepicker>
+                                            <mat-datepicker #picker disabled="false"></mat-datepicker>
 
                                         </mat-form-field>
                                     <!-- </div> -->
@@ -98,7 +103,7 @@
                                             <span matPrefix>+84 &nbsp;</span>
                                             <input type="tel" matInput formControlName="phoneNumber"
                                                 placeholder="0912345678">
-                                            <mat-icon matSuffix>mode_edit</mat-icon>
+                                            <!-- <mat-icon matSuffix>mode_edit</mat-icon> -->
 
                                         </mat-form-field>
                                     </div>
@@ -138,3 +143,4 @@
         </mat-card>
     </div>
 </form>
+</div>

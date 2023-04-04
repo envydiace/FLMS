@@ -13,8 +13,8 @@ import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { ClubIncomingMatches } from 'src/app/models/club-incoming-matches.model';
-import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
-import { ClubListPlayer } from 'src/app/models/club-list-player.model';
+import { ClubPlayerInfoResponse, PlayerInfobyClubManaResponse } from 'src/app/models/player-info-response.model';
+import { ClubListPlayer, PlayerbyClubMana } from 'src/app/models/club-list-player.model';
 import { ClubLeagueHistory } from 'src/app/models/club-league-history.model';
 import { ClubMatchHistoryResponse } from './../../models/club-match-history-response.model';
 
@@ -131,9 +131,20 @@ export class ClubService {
         catchError(err => throwError(err)))
   }
 
-  editPlayer(player: ClubListPlayer) {
+  getPlayerInfobyClubMana(playerId: number, clubId: number): Observable<PlayerInfobyClubManaResponse> {
+    let params = new HttpParams();
+
+    params = params.append('playerId' , '' + playerId);
+    params = params.append('clubId', '' + clubId);
+    return this.http.get<any>(`${environment.apiUrl}/api/Player/GetPlayerByClubManager`,{params, headers: this.headers} )
+      .pipe(map((res: PlayerInfobyClubManaResponse) => res),
+        catchError(err => throwError(err)))
+  }
+
+  editPlayer(player: PlayerbyClubMana) {
     return this.http.put(`${environment.apiUrl}/api/Player/UpdatePlayer`, player, { headers: this.headers });
   }
+  
   removePlayerfromClub(playerId: number, clubId: number): Observable<any> {
     const options = {
       headers: this.headers,

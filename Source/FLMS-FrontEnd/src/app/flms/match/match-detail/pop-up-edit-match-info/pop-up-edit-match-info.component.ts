@@ -53,7 +53,7 @@ export class PopUpEditMatchInfoComponent implements OnInit {
     this.form = this.formBuilder.group({
       matchId: this.data.matchId,
       matchDate: [null, Validators.required],
-      matchTime: [null, Validators.required],
+      matchTime: [null, [Validators.required, Validators.pattern('^[0-9]{1,2}:+[0-9]{1,2}$')]],
       stadium: [null, Validators.required]
     })
   }

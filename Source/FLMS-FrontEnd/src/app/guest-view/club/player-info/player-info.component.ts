@@ -7,6 +7,8 @@ import { ClubListPlayer } from 'src/app/models/club-list-player.model';
 import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
 import { ClubService } from '../club.service';
 import { ClubListPlayerClub } from './../../../models/club-list-player-club.model'
+import { ClubDetailResponse } from 'src/app/models/club-detail-response.model';
+import { ClubDetail } from 'src/app/models/club-detail.model';
 
 @Component({
   selector: 'app-player-info',
@@ -20,8 +22,8 @@ export class PlayerInfoComponent implements OnInit {
   loading = false;
   submitted = false;
   playerId: number;
-  defaultLogo: string = './../../../../assets/image/Default_pfp.svg.png';
-
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  defaultAvatar: string = './../../../../assets/image/Default_pfp.svg.png';
 
 
   playerNum: number;
@@ -52,8 +54,8 @@ export class PlayerInfoComponent implements OnInit {
       phoneNumber: [null, Validators.required],
       address: [null, Validators.required],
       email: [null, Validators.required],
-      socialCont: [null,Validators.required],
-      avatar: [null, ]
+      socialCont: [null, Validators.required],
+      avatar: [null,]
     })
 
   }
@@ -78,6 +80,7 @@ export class PlayerInfoComponent implements OnInit {
     }
     );
   }
+
 
   bindValueIntoForm(res: ClubListPlayer) {
     this.playerClub = res.playerClubs
