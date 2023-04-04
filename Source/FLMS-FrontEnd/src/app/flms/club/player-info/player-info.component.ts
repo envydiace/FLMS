@@ -54,6 +54,7 @@ export class PlayerInfoComponent implements OnInit {
   ngOnInit(): void {
     this.initDataSource();
 
+
     this.form = this.formBuilder.group({
       clubId: this.clubId,
       playerId: this.playerId,
@@ -111,10 +112,12 @@ export class PlayerInfoComponent implements OnInit {
     this.form.controls['socialCont'].patchValue(res.socialCont);
 
     this.form.controls['nickName'].disable();
-    this.defaultAvatar = res.avatar;
+   
     this.form.controls['clubName'].patchValue(res.clubName);
     this.form.controls['clubName'].disable();
-
+    if(res.avatar!=null ){
+      this.defaultAvatar = res.avatar;
+    }
   }
 
   // bindingDataIntoPlayer() {
