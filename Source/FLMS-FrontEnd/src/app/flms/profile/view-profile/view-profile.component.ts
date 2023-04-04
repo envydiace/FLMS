@@ -177,8 +177,6 @@ export class ViewProfileComponent implements OnInit {
 
   getErrorName() {
     return this.form.get('fullName').hasError('required') ? 'Field Name is required' : '';
-    // this.form.get('fullName').hasError('requirements') ? 'User full name can not have special characters ' : '';
-
   }
   getErrorPhone() {
     return this.form.get('phone').hasError('required') ? 'Field Phone is required' : '';
