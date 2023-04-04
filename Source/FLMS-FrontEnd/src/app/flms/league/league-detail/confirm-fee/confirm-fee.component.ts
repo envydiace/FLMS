@@ -27,7 +27,7 @@ export class ConfirmFeeComponent implements OnInit {
   clubName: string;
   leagueName: string;
   logo: string;
-  imgSrc: string = './../../../../assets/image/default-avatar-profile-icon.webp';
+  imgSrc: string = './../../../../../assets/image/default-logo.png';
 
   loading = false;
   submitted = false;
@@ -81,7 +81,7 @@ export class ConfirmFeeComponent implements OnInit {
         this.commonService.sendMessage('Invalid Image', 'fail');
       }
     } else {
-      this.imgSrc = './../../../../assets/image/default-avatar-profile-icon.webp';
+      this.imgSrc = './../../../../../assets/image/default-logo.png';
       this.selectedImage = null;
     }
   }

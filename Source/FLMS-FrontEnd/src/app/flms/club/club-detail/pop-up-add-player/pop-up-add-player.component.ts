@@ -55,7 +55,7 @@ export class PopUpAddPlayerComponent implements OnInit {
       'dob': [null, [Validators.required]],
       'weight': [null, [Validators.required, Validators.pattern('^[0-9,]+[k][g]$')]],
       'phoneNumber': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
-      'socialCont': [null, [Validators.required]],
+      'socialCont': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
       'clubName': [null,],
       'avatar': [null,]
     });
@@ -133,7 +133,7 @@ export class PopUpAddPlayerComponent implements OnInit {
               .subscribe({
                 next: () => {
                   this.commonService.sendMessage("Add player success", 'success');
-
+                  this.dialogRef.close();
                 },
                 error: error => {
                   this.loading = false;
@@ -144,7 +144,6 @@ export class PopUpAddPlayerComponent implements OnInit {
           });
         })
       ).subscribe(() => {
-        this.dialogRef.close();
       });
     } else {
       this.clubService.addPlayer(this.player)
@@ -152,7 +151,7 @@ export class PopUpAddPlayerComponent implements OnInit {
         .subscribe({
           next: () => {
             this.commonService.sendMessage("Add player success", 'success');
-
+            this.dialogRef.close();
           },
           error: error => {
             this.loading = false;
