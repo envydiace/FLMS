@@ -78,12 +78,14 @@ export class ViewProfileComponent implements OnInit {
   }
 
   initDataSource() {
+
     this.profileService.getuserprofile().pipe(
       map((res: UserProfileResponse) => this.userProfile = res.userProfile)
     ).subscribe(response => {
       if (response != null) this.bindValueIntoForm(response);
     }
     );
+
   }
 
   bindValueIntoForm(res: UserProfile) {
@@ -92,11 +94,15 @@ export class ViewProfileComponent implements OnInit {
     this.form.controls['address'].patchValue(res.address);
     this.form.controls['email'].patchValue(res.email);
     this.form.controls['email'].disable();
-    this.imgSrc = res.avatar;
+
     this.form.controls['role'].patchValue(res.role);
     this.form.controls['role'].disable();
+    if (res.avatar != null) {
+     this.imgSrc = res.avatar;
+    }
 
   }
+
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
       let file = event.target.files[0];
