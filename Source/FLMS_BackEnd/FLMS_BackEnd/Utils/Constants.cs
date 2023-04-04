@@ -150,6 +150,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
+            {"MS-PL-03","Update player successfully"},
             {"ER-PL-01","Add player failed!" },
             {"ER-PL-02","Player does not exist!" },
             {"ER-PL-03","Update player failed!" },
