@@ -1,68 +1,114 @@
 <div class="home-container">
     <div class="home-background">
-        <div class="home-layer">
-        </div>
-        <div class="row justify-content-center">
-            <div class="home-title col-8 ">
-                <p>Welcome,</p>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="home-content col-8 ">
-                <p>For league managers, our website focus on creating and customizing football leagues, helping to
-                    manage the league with
-                    some proposal suggestions, and manage the list of football clubs participating in the league. For
-                    club managers, the system supports managing the football club with players information, team’s
-                    tactical line up and also the leagues information that help registration easier.
-                    <!-- And for all other
-                    users, FLMS will bring the tournament’s information and statistics as soon as possible. Football
-                    League Management System wishes to support the teams manager work process easily, less time
-                    consuming, ensure accurate info for users as well as increase operational efficiency of the league
-                    manager. -->
-                </p>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="home-cover-action row col-8 ">
-                <div class="col-3">
-                    <button mat-raised-button color="warn">Create League</button>
+        <!-- <div class="home-layer">
+        </div> -->
+        <div class="home-welcome row justify-content-center">
+            <div class="col-8">
+                <div class="home-welcome-content">
+                    <div class="home-title">
+                        <h3>Welcome,</h3>
+                    </div>
+                    <div class="home-content">
+                        <p>For league managers, our website focus on creating and customizing football leagues, helping
+                            to
+                            manage the league with
+                            some proposal suggestions, and manage the list of football clubs participating in the
+                            league.
+                            For
+                            club managers, the system supports managing the football club with players information,
+                            team’s
+                            tactical line up and also the leagues information that help registration easier.
+                        </p>
+                    </div>
+                    <div class="home-cover-action">
+                        <div class="">
+                            <a routerLink="/manager/create-league"><button mat-raised-button color="primary">Create
+                                    League</button></a>
+                        </div>
+                        <div class="" style="margin-left: 24px;">
+                            <a routerLink="/manager/create-club"><button mat-raised-button color="">Create
+                                    Club</button></a>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="col-2">
-                    <a routerLink="/manager/create-club"><button mat-raised-button color="">Create Club</button></a>
+
+                <div class="home-cover-list">
+                    <div class="home-advantage">
+                        <div class="free-to-use">
+                            <h5>Free To Use</h5>
+                            <div class="line"></div>
+                            <p>Lorem ipsum dolor
+                                sit amet, consectetur</p>
+                        </div>
+                        <div class="easy-interaction">
+                            <h5>Easy Interaction</h5>
+                            <div class="line"></div>
+                            <p>Lorem ipsum dolor
+                                sit amet, consectetur</p>
+                        </div>
+                        <div class="effective-interaction">
+                            <h5>Effective Interaction</h5>
+                            <div class="line"></div>
+                            <p>Lorem ipsum dolor
+                                sit amet, consectetur</p>
+                        </div>
+                        <div class="update-information">
+                            <h5>Update Information</h5>
+                            <div class="line"></div>
+                            <p>Lorem ipsum dolor
+                                sit amet, consectetur</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="home-cover-list row col-8 ">
-                <mat-list role="list">
-                    <mat-list-item role="listitem"><mat-icon>task_alt</mat-icon>&nbsp;&nbsp;<span>Free To
-                            Use</span></mat-list-item>
-                    <mat-list-item role="listitem"><mat-icon>task_alt</mat-icon>&nbsp;&nbsp;<span>Easy And Effective
-                            Interaction</span></mat-list-item>
-                    <mat-list-item role="listitem"><mat-icon>task_alt</mat-icon>&nbsp;&nbsp;<span>Update Information
-                            Quickly</span></mat-list-item>
-                </mat-list>
             </div>
         </div>
     </div>
+    <div class="home-content-container row justify-content-center">
+        <div class="col-8">
+            <h4>Most Winning Clubs</h4>
 
-    <div class="container">
-        <div class="row">
+            <div class="most-win-clubs row">
+                <div *ngFor="let club of clubs">
+                    <div class="club-detail-container">
+                        <mat-card class="club-detail-card col-sm-4">
+                            <img mat-card-avatar class="club-header-image"
+                                [src]="club.logo != null ? club.logo : defaultLogo">
+                            <mat-card-title>{{ club.clubName.length > 16 ? club.clubName.substring(0,16)+"..." :
+                                club.clubName }}</mat-card-title>
+                            <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
 
-            <div *ngFor="let club of clubs" class="col-sm-3">
-                <div class="list-container">
-                    <mat-card class="league-list-card">
-                        <mat-card-title>{{club.clubName}}</mat-card-title>
-                        <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
-                        <img mat-card-avatar class="league-header-image"
-                            src="./../../../assets/image/Manchester_United_FC_crest.svg.png">
-                        <mat-card-actions>
-                            <button mat-button>Invite</button>
-                        </mat-card-actions>
-                    </mat-card>
+                            <!-- <mat-card-actions>
+                                <button mat-button>Invite</button>
+                            </mat-card-actions> -->
+                        </mat-card>
+                    </div>
                 </div>
             </div>
 
+            <h4>Highest Prize Leagues</h4>
+
+            <div class="highest-prize-leagues row">
+                <div *ngFor="let league of topLeaguePrizes">
+                    <div class="league-detail-container">
+                        <mat-card class="league-detail-card col-sm-4">
+                            <img mat-card-avatar class="league-header-image"
+                                [src]="league.logo != null ? league.logo : defaultLogo">
+                            <mat-card-title>{{ league.leagueName.length > 16 ? league.leagueName.substring(0,16)+"..." :
+                                league.leagueName }}</mat-card-title>
+                            <mat-card-subtitle>{{league.startDate | date : 'dd/MM/yyyy'}} - {{league.endDate | date :
+                                'dd/MM/yyyy'}}</mat-card-subtitle>
+                            <mat-chip-list style="text-align: center;">
+                                <mat-chip style="background-color: #7bae37;margin: 0 auto;"
+                                    selected>{{league.totalPrize | currency:'VND':''}}đ</mat-chip>
+                            </mat-chip-list>
+                            <!-- <mat-card-actions>
+                                <button mat-button>Invite</button>
+                            </mat-card-actions> -->
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
