@@ -19,6 +19,7 @@ export class LeagueDetailComponent implements OnInit {
   leagueId: number;
   private headers: HttpHeaders;
   token: token;
+  // defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   defaultLogo: string = './../../../../assets/image/default-logo.png';
 
 

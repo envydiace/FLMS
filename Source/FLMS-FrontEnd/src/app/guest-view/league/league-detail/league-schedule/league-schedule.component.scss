@@ -8,9 +8,36 @@ mat-row.example-element-row:hover {
     width: 35px;
     margin: 2px 0px 0px 2px;
 }
-.score-col{
+
+.mat-column-time{
     width: 10px;
 }
-.time-col{
-    width: 10px;
+.time-header,
+.time-content {
+  max-width: 120px;
+}
+.date-header,
+.date-cell {
+  max-width: 150px;
+}
+.score-header,
+.score-cell {
+  max-width: 90px;
+}
+
+.club-header,
+.club-cell {
+  max-width: 300px;
+}
+
+.round-header,
+.round-cell{
+    max-width: 120px;
+}
+.stadium-header,
+.stadium-cell{
+    max-width: 120px;
+}
+.club-name{
+    margin-left: 15px;
 }

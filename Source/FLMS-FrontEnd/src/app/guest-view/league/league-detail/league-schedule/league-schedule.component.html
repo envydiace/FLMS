@@ -44,40 +44,45 @@
 <div>
     <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
          <!-- Name Column -->
-         <ng-container matColumnDef="time" class="time-col">
-            <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.matchTime}} </mat-cell>
+         <ng-container matColumnDef="time" >
+            <mat-header-cell *matHeaderCellDef class="time-header"> Time </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="time-content">{{element.matchTime}} </mat-cell>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.matchDate}}</mat-cell>
+            <mat-header-cell *matHeaderCellDef class="date-header"> Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="date-cell">{{element.matchDate}}</mat-cell>
         </ng-container>
         <!-- clubA Column -->
         <ng-container matColumnDef="home">
-            <mat-header-cell *matHeaderCellDef> Home </mat-header-cell>
-            <mat-cell *matCellDef="let element"> 
-                {{element.home.name}} 
+            <mat-header-cell *matHeaderCellDef class="club-header"> Home </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="club-cell"> 
                 <div mat-card-avatar class="avatar-header-image">
                     <img mat-card-avatar class="avatar-detail-logo"
                         [src]="element.home.logo != null ? element.home.logo : defaultLogo" alt="Club's Pic">
+                </div>
+                <div class="club-name">
+                    {{element.home.name}} 
                 </div>
             </mat-cell>
         </ng-container>
         <!-- clubB Column -->
         <ng-container matColumnDef="away">
-            <mat-header-cell *matHeaderCellDef> Away </mat-header-cell>
-            <mat-cell *matCellDef="let element">
+            <mat-header-cell *matHeaderCellDef class="club-header"> Away </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="club-cell">
                 <div mat-card-avatar class="avatar-header-image">
                     <img mat-card-avatar class="avatar-detail-logo"
                         [src]="element.away.logo != null ? element.away.logo : defaultLogo" alt="Club's Pic">
                 </div>
-                {{element.away.name}}
+                <div class="club-name">
+                    {{element.away.name}}
+                </div>
+               
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="vs" style="width: 10px;" class="score-col">
-            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-            <mat-cell *matCellDef="let element">
+            <mat-header-cell *matHeaderCellDef class="score-header"> </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="score-cell">
                 <div *ngIf="element.isFinish == true">
                     {{element.home.score}} - {{element.away.score}}
                 </div>
@@ -89,12 +94,12 @@
         </ng-container>
         <!-- Symbol Column -->
         <ng-container matColumnDef="group">
-            <mat-header-cell *matHeaderCellDef> Round </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.round}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef class="round-header"> Round </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="round-cell"> {{element.round}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="stadium">
-            <mat-header-cell *matHeaderCellDef> Stadium </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.stadium}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef class="stadium-header"> Stadium </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="stadium-cell"> {{element.stadium}} </mat-cell>
         </ng-container>
         
 
