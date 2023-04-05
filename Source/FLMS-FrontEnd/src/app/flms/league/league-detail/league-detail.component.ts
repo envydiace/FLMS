@@ -19,7 +19,9 @@ export class LeagueDetailComponent implements OnInit {
   leagueId: number;
   private headers: HttpHeaders;
   token: token;
-  defaultLogo: string = './../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png';
+  // defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
+
 
 
   constructor(

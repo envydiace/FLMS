@@ -1,8 +1,19 @@
+<div *ngIf = "clubdetail">
+<p>
+    <mat-toolbar class="card">
+        <span>Club</span>
+        <div class="club-delete-button">
+            <button mat-raised-button style="width: 120px;" color="warn"
+            (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
+        </div>
+    </mat-toolbar>
+</p>
 <div class="club-detail-container">
-    <div class="club-detail-cover">
+    <!-- <div class="club-detail-cover">
 
-    </div>
-    <div *ngIf = "clubdetail">
+    </div> -->
+
+
         <div class="club-detail-info row justify-content-center">
             <div class="col-10">
                 <mat-card class="club-detail-card">
@@ -41,17 +52,17 @@
                                         mat-raised-button style="width: 120px;" color="primary">Edit</button>
                                 </div>
                             </div>
-                            <div class="col-xs-4 justify-content-center">
+                            <!-- <div class="col-xs-4 justify-content-center">
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
                                         mat-raised-button style="width: 120px;" color="warn" (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
                                 </div>
-                            </div>
-                            <div class="col-xs-4 justify-content-center">
+                            </div> -->
+                            <!-- <div class="col-xs-4 justify-content-center">
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
                                         mat-raised-button style="width: 120px;" color="accent" (click)="openSendInvitation()">
                                         Invite</button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <br>

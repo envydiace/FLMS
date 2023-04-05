@@ -20,6 +20,7 @@ export class LeagueScheduleComponent implements OnInit {
   leagueId: number;
   matchId: number;
   listMatch: MatchSchedule[] = [];
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
   constructor(
     private route: ActivatedRoute,

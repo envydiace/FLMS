@@ -16,6 +16,8 @@ export class MatchDetailComponent implements OnInit {
   matchDetail: MatchDetail = null;
   matchId: number;
 
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
+
   constructor(
     private MatchService: MatchService,
     private route: ActivatedRoute,
