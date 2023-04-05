@@ -19,6 +19,7 @@ export class JoinedClubsComponent implements OnInit {
   leagueId: string;
   @Input() clubName: string;
   listClubByLeague: ClubListByLeague[] = [];
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   
   constructor(
     private route: ActivatedRoute,

@@ -2,3 +2,15 @@ mat-row.example-element-row:hover {
     background: whitesmoke;
     cursor: pointer;
 }
+.avatar-header-image {
+    background-size: cover;
+    height: 35px;
+    width: 35px;
+    margin: 2px 0px 0px 2px;
+}
+.score-col{
+    width: 10px;
+}
+.time-col{
+    width: 10px;
+}

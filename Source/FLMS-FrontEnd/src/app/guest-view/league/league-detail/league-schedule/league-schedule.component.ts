@@ -15,6 +15,7 @@ export class LeagueScheduleComponent implements OnInit {
   displayedColumns: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium'];
   leagueId: number;
   listMatch: MatchSchedule[] = [];
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
   constructor(
     private route: ActivatedRoute,

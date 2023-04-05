@@ -17,6 +17,7 @@ export class LeagueDetailComponent implements OnInit {
   leagueDetail: LeagueDetail = null;
   leagueId: number;
   role: string;
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
 
   constructor(
     private LeagueService: LeagueService,
