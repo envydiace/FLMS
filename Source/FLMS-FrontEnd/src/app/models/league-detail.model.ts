@@ -66,8 +66,6 @@ export interface LeagueListbyUser {
     leagueId: number,
     userId: number,
     leagueName: string,
-
-
 }
 
 export class LeagueListbyUser implements LeagueListbyUser {
@@ -75,14 +73,13 @@ export class LeagueListbyUser implements LeagueListbyUser {
         leagueId: number,
         userId: number,
         leagueName: string,
-
-
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
         this.leagueName = leagueName;
-
-
-
     }
+}
+
+export class TopLeaguePrizes {
+    topLeaguePrizes: LeagueDetail[];
 }
