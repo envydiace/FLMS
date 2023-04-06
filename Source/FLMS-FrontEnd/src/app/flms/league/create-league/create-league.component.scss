@@ -4,6 +4,7 @@
 
 .create-league-containner {
     margin: 0;
+    padding: 0px 90px;
 
     .img-account-profile {
         height: 10rem;
@@ -19,6 +20,7 @@
 
     .card .card-header {
         font-weight: 500;
+        color: #3F51B5;
     }
 
     .card-header:first-child {
@@ -29,7 +31,7 @@
         padding: 1rem 1.35rem;
         margin-bottom: 0;
         background-color: rgba(33, 40, 50, 0.03);
-        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        border-bottom: none;
     }
 
     .form-control,
@@ -52,11 +54,16 @@
     }
 
     .create-league-input {
-        width: 550px;
+        width: 100%;
     }
 
     .league-input-number {
         margin: 0 40px 0 0;
+        width: 245px;
+
+        mat-form-field {
+            width: 100%;
+        }
     }
 
     .league-card {

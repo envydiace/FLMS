@@ -1,0 +1,11 @@
+drop table HangFire.AggregatedCounter;
+drop table HangFire.Counter;
+drop table HangFire.Hash;
+drop table HangFire.JobQueue;
+drop table HangFire.JobParameter;
+drop table HangFire.List;
+drop table HangFire.[Schema];
+drop table HangFire.Server;
+drop table HangFire.[Set];
+drop table HangFire.State;
+drop table HangFire.Job;
