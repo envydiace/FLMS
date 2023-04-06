@@ -6,10 +6,14 @@ import { createLeagueInfo } from '../../../models/create-league-info.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LeagueService } from 'src/app/guest-view/league/league.service';
 import { CommonService } from 'src/app/common/common/common.service';
-import { finalize, first } from 'rxjs/operators';
+import { finalize, first, map } from 'rxjs/operators';
 import { PopUpUpdatePrizeComponent } from '../pop-up-update-prize/pop-up-update-prize.component';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { formatDate } from '@angular/common';
+import { UserProfile } from 'src/app/models/user-profile.model';
+import { token } from 'src/app/models/token.model';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserProfileResponse } from 'src/app/models/user-profile-response.model';
 
 @Component({
   selector: 'app-create-league',
@@ -24,6 +28,9 @@ export class CreateLeagueComponent implements OnInit {
   prizeCostTotal: number = 0;
   selectedImage: any = null;
   imgSrc: string = './../../../../assets/image/default-logo.png';
+  user: UserProfile;
+  token: token;
+  registrationFee: number = 0;
 
   listPrize: leaguePrize[] = [
     { expenseKey: 'F1', expenseName: 'Gold Medal', cost: 0 },
@@ -39,15 +46,20 @@ export class CreateLeagueComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private authService: AuthService,
     private leagueService: LeagueService,
     private commonService: CommonService,
     public dialog: MatDialog,
     @Inject(AngularFireStorage) private storage: AngularFireStorage
   ) {
+    this.token = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
     this.createForm();
+    if(this.token != null) {
+      this.getCurrentUser();
+    }
   }
 
   openDialogUpdateFee(): void {
@@ -188,6 +200,8 @@ export class CreateLeagueComponent implements OnInit {
     this.listPrize.forEach(element => {
       this.prizeCostTotal += element.cost;
     });
+
+    this.registrationFee = (this.prizeCostTotal + this.feeCostTotal - this.getControl('sponsored').value) / this.getControl('noParticipate').value
   }
 
   showPreview(event: any) {
@@ -209,5 +223,9 @@ export class CreateLeagueComponent implements OnInit {
     }
   }
 
-
+  getCurrentUser() {
+    this.authService.getCurrentUser().pipe(
+      map((res: UserProfileResponse) => this.user = res.userProfile)
+    ).subscribe();
+  }
 }

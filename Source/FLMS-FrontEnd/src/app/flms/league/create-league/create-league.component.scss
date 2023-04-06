@@ -4,7 +4,7 @@
 
 .create-league-containner {
     margin: 0;
-    padding: 0px 90px;
+    padding: 15px 90px;
 
     .img-account-profile {
         height: 10rem;
@@ -29,7 +29,7 @@
 
     .card-header {
         padding: 1rem 1.35rem;
-        margin-bottom: 0;
+        margin-bottom: 10px;
         background-color: rgba(33, 40, 50, 0.03);
         border-bottom: none;
     }
@@ -59,10 +59,38 @@
 
     .league-input-number {
         margin: 0 40px 0 0;
-        width: 245px;
 
         mat-form-field {
             width: 100%;
+        }
+    }
+
+    .fee-header {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        display: flex;
+
+        img {
+            height: 20px;
+            margin: 0 5px;
+        }
+
+        .fee-title {
+            width: 150px;
+        }
+    }
+
+    .fee-total-header {
+        width: 400px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        display: flex;
+        font-weight: 500;
+        color: #3F51B5;
+        background-color: rgba(33, 40, 50, 0.03);
+
+        .prize-title {
+            width: 180px;
         }
     }
 
@@ -76,11 +104,53 @@
 
         .create-league-card {
             height: 100%;
-            text-align: center;
+
+            .league-logo {
+                background-color: rgba(63, 81, 181, 0.5);
+                border-radius: 8px;
+                height: 400px;
+                padding: 38px 12px;
+                text-align: center;
+
+                p {
+                    font-weight: 500;
+                    font-size: 20px;
+                    color: #293477;
+                }
+
+                img {
+                    margin-bottom: 20px;
+                }
+            }
+
+            .prize-info-content {
+                padding: 10px 15px;
+                display: flex;
+
+                img {
+                    height: 20px;
+                    margin: 0 5px;
+                }
+
+                .prize-title {
+                    width: 120px;
+                }
+            }
+
+            .card-header {
+                padding: 10px 15px;
+                display: flex;
+
+                .prize-title {
+                    width: 150px;
+                }
+            }
 
             .league-header-image {
-                height: 200px;
-                width: 200px;
+                background-color: white;
+                height: 265px;
+                width: 265px;
+                border: 3px solid #4f66e3;
             }
 
             mat-card-title,
