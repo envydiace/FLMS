@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { token } from 'src/app/models/token.model';
@@ -17,6 +18,7 @@ export class NavbarComponent implements OnInit {
   defaultLogo: string = './../../../assets/image/default-avatar-profile-icon.webp';
 
   constructor(
+    public router: Router,
     private authService: AuthService
   ) { 
     this.token = JSON.parse(localStorage.getItem('user'));
