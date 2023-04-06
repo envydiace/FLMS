@@ -84,12 +84,5 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
-        [HttpGet("[action]")]
-        public async Task<ActionResult<List<PlayerSquadPositionDTO>>> GetListPlayerJoinMatch([FromQuery] ListPlayerJoinMatchRequest request)
-        {
-            var result = await matchService.GetListPlayerJoinMatch(request);
-            return Ok(result);
-        }
-
     }
 }
