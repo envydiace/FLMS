@@ -28,7 +28,7 @@ namespace FLMS_BackEnd.Controllers
                 bool sendResult = await mailService.SendEmailAsync(args.MailRequest, new CancellationToken());
                 if (!sendResult)
                 {
-                    Console.WriteLine("Failed to send email: {EmailRequest}", args.MailRequest);
+                    Console.WriteLine($"Failed to send email: {args.MailRequest}" );
                 }
             };
         }
