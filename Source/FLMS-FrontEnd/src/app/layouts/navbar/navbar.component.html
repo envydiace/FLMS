@@ -8,15 +8,15 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav text-uppercase" routerLinkActive="active">
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/home']">Home</a>
+                <a [class.active]="router.url==='/home'" class="nav-link" [routerLink]="['/home']">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/club-list']">CLubs</a>
+                <a [class.active]="router.url==='/club-list'" class="nav-link" [routerLink]="['/club-list']">CLubs</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/league-list']">Leagues</a>
+                <a [class.active]="router.url==='/league-list'" class="nav-link" [routerLink]="['/league-list']">Leagues</a>
             </li>
             <!-- <li class="nav-item">
                 <a class="nav-link" href="#">Finished's League</a>
