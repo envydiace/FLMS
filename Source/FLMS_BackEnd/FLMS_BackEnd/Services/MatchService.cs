@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Request;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 namespace FLMS_BackEnd.Services
 {
@@ -9,5 +10,6 @@ namespace FLMS_BackEnd.Services
         Task<MatchInfoResponse> GetMatchInfo(int matchId);
         Task<FinishMatchResponse> FinishMatch(int matchId, int userId);
         Task<UpdateMatchInfoResponse> UpdateMatchInfo(UpdateMatchInfoRequest request,int UserId);
+        Task<List<PlayerSquadPositionDTO>> GetListPlayerJoinMatch(ListPlayerJoinMatchRequest request);
     }
 }

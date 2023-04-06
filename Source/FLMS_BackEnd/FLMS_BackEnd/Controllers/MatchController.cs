@@ -4,6 +4,7 @@ using FLMS_BackEnd.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using FLMS_BackEnd.DTO;
 
 namespace FLMS_BackEnd.Controllers
 {
@@ -83,5 +84,12 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<PlayerSquadPositionDTO>>> GetListPlayerJoinMatch([FromQuery] ListPlayerJoinMatchRequest request)
+        {
+            var result = await matchService.GetListPlayerJoinMatch(request);
+            return Ok(result);
+        }
+
     }
 }

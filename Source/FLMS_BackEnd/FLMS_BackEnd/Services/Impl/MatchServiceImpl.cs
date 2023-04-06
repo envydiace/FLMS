@@ -17,12 +17,14 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly MatchRepository matchRepository;
         private readonly MatchEventRepository matchEventRepository;
         private readonly ParticipateNodeRepository participateNodeRepository;
+        private readonly SquadRepository squadRepository;
 
-        public MatchServiceImpl(MatchRepository matchRepository, MatchEventRepository matchEventRepository, ParticipateNodeRepository participateNodeRepository)
+        public MatchServiceImpl(MatchRepository matchRepository, MatchEventRepository matchEventRepository, ParticipateNodeRepository participateNodeRepository, SquadRepository squadRepository)
         {
             this.matchRepository = matchRepository;
             this.matchEventRepository = matchEventRepository;
             this.participateNodeRepository = participateNodeRepository;
+            this.squadRepository = squadRepository;
         }
         public async Task<ClubScheduleResponse> GetClubSchedule(int ClubId)
         {
@@ -437,6 +439,30 @@ namespace FLMS_BackEnd.Services.Impl
                 return new UpdateMatchInfoResponse { Success = true, MessageCode = "MS-MA-02" };
             }
             return new UpdateMatchInfoResponse { Success = false, MessageCode = "ER-MA-11" };
+        }
+
+        public async Task<List<PlayerSquadPositionDTO>> GetListPlayerJoinMatch(ListPlayerJoinMatchRequest request)
+        {
+            var result = new List<PlayerSquadPositionDTO>();
+            var squad = await squadRepository.FindByCondition(s =>
+                        s.MatchId == request.MatchId &&
+                        (
+                            (s.IsHome && s.Match.Home.ClubClone != null && s.Match.Home.ClubClone.ClubId == request.ClubId) ||
+                            (!s.IsHome && s.Match.Away.ClubClone != null && s.Match.Away.ClubClone.ClubId == request.ClubId)
+                        ))
+                    .Include(s => s.Match).ThenInclude(m => m.Home).ThenInclude(h => h.ClubClone)
+                    .Include(s => s.Match).ThenInclude(m => m.Away).ThenInclude(h => h.ClubClone)
+                    .Include(s => s.SquadPositions).ThenInclude(sp => sp.Player)
+                    .FirstOrDefaultAsync();
+            if (squad != null)
+            {
+                var players = squad.SquadPositions.Where(sp => sp.Player != null).Select(sp => sp.Player).ToList();
+                if (players != null && players.Count > 0)
+                {
+                    result = mapper.Map<List<PlayerSquadPositionDTO>>(players);
+                }
+            }
+            return result;
         }
     }
 }
