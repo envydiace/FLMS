@@ -23,7 +23,7 @@ export class ClubDetailComponent implements OnInit {
     private clubService: ClubService,
     private route: ActivatedRoute,
     public dialog: MatDialog
-  ) { 
+  ) {
     this.route.queryParams.subscribe(params => {
       this.clubId = params['clubId'];
     });
@@ -58,10 +58,11 @@ export class ClubDetailComponent implements OnInit {
     });
   }
 
-  openEditClub(): void {
+  openEditClub(clubId: number): void {
     const dialogRef = this.dialog.open(PopUpEditClubComponent, {
       width: '80%',
-      data: { }
+      data: { clubId: clubId },
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();

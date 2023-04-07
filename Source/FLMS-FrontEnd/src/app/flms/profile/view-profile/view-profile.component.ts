@@ -61,7 +61,7 @@ export class ViewProfileComponent implements OnInit {
     this.form = this.formBuilder.group({
       fullName: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
       phone: ['', Validators.pattern('^[0-9]{1,15}$')],
-      address: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9 .,]+$'), this.noWhitespaceValidator]],
+      address: ['', [Validators.pattern('^[A-Za-z0-9 .,]+$'), this.noWhitespaceValidator]],
       email: ['', Validators.required],
       avatar: [null,],
       role: [null]
