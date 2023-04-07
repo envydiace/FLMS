@@ -293,6 +293,7 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 club.Logo = null;
             }
+            club.Logo = request.Logo;
             club.FanPage = request.FanPage;
             club.Email = request.Email;
             club.PhoneNumber = request.PhoneNumber;
