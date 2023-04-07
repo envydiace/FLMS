@@ -20,7 +20,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./pop-up-edit-club.component.scss']
 })
 export class PopUpEditClubComponent implements OnInit {
-  clubDetail: GetUpdateClubDetail
+  clubDetail: GetUpdateClubDetail;
   form: FormGroup;
   loading = false;
   submitted = false;
@@ -36,7 +36,6 @@ export class PopUpEditClubComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    public commonService: CommonService,
     public authSer: AuthService,
     public common: CommonService,
     public clubService: ClubService,
@@ -117,10 +116,10 @@ export class PopUpEditClubComponent implements OnInit {
         reader.readAsDataURL(event.target.files[0]);
         this.selectedImage = event.target.files[0];
       } else {
-        this.commonService.sendMessage('Invalid Image', 'fail');
+        this.common.sendMessage('Invalid Image', 'fail');
       }
     } else {
-      this.defaultLogo = './../../../../assets/image/default-avatar-profile-icon.webp';
+      this.defaultLogo = './../../../../assets/image/clubDefaultLogo.png';
       this.selectedImage = null;
     }
   }

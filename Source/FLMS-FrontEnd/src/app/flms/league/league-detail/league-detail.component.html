@@ -3,7 +3,24 @@
         <span>League</span>
         <div class="league-delete-button">
             <button mat-raised-button style="width: 120px;" color="warn"
-            (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete
+            </button>
+
+            <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+
+                <button mat-menu-item>
+                    <button mat-raised-button style="width: 120px;" color="primary"
+                        (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
+                </button>
+                <button mat-menu-item>
+                    <button mat-raised-button style="width: 120px;" color="warn"
+                        (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                </button>
+            </mat-menu> -->
+
         </div>
     </mat-toolbar>
 </p>
@@ -49,21 +66,12 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-xs-4 justify-content-center">
-                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="primary" >Edit</button>
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
+                                    <button mat-raised-button style="width: 120px;" color="primary"
+                                        (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
+
                                 </div>
                             </div>
-                            <!-- <div class="col-xs-4 justify-content-center">
-                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="warn" (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
-                                </div>
-                            </div> -->
-                            <!-- <div class="col-xs-4 justify-content-center">
-                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="accent" (click)="openSendInvitation()">
-                                        Invite</button>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
 
