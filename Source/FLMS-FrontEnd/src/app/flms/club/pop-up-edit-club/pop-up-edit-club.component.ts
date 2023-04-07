@@ -149,7 +149,7 @@ export class PopUpEditClubComponent implements OnInit {
                 next: () => {
                   this.dialogRef.close();
                   // this.initDataSource();
-                  this.common.sendMessage('Info Updated!', 'success')
+                  this.common.sendMessage('Club Info Updated!', 'success')
                 },
                 error: error => {
                   this.loading = false;
@@ -168,7 +168,7 @@ export class PopUpEditClubComponent implements OnInit {
           next: () => {
             this.dialogRef.close();
             // this.initDataSource();
-            this.common.sendMessage('Info Updated!', 'success')
+            this.common.sendMessage('Club Info Updated!', 'success')
           },
           error: error => {
             this.loading = false;

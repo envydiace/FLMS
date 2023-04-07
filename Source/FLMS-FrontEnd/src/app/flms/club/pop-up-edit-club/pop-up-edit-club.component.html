@@ -20,18 +20,7 @@
 
         <mat-card-content>
             <div class="row">
-                <div class="col-xl-3">
-                    <div class="card mb-4 mb-xl-0">
-                        <div class="card-header">Club Logo</div>
-                        <div class="card-body text-center">
-                            <img class="img-account-profile rounded-circle mb-2" [src]="defaultLogo" alt="profile's Pic">
-                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                            <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
-                        </div>
-                    </div>
-
-                    <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
-                </div>
+             
                 <div class="col-xl-9">
 
                     <div class="card mb-4">
@@ -76,6 +65,18 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-xl-3">
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Club Logo</div>
+                        <div class="card-body text-center">
+                            <img class="img-account-profile rounded-circle mb-2" [src]="defaultLogo" alt="profile's Pic">
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
+                        </div>
+                    </div>
+
+                    <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
                 </div>
             </div>
         </mat-card-content>
