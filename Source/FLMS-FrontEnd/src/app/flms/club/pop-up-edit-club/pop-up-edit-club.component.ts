@@ -132,16 +132,17 @@ export class PopUpEditClubComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    
-    const nameImg = 'club/' + this.data.clubId +
-    '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
-    const fileRef = this.storage.ref(nameImg);
+    this.loading = true;
+
     if (this.selectedImage != null) {
+      const nameImg = 'club/' + this.data.clubId +
+        '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
+      const fileRef = this.storage.ref(nameImg);
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
 
-          this.form.get('logo').patchValue(url);
+            this.form.get('logo').patchValue(url);
 
             this.clubService.updateClub(this.form.value)
               .pipe(first())
@@ -162,6 +163,8 @@ export class PopUpEditClubComponent implements OnInit {
       ).subscribe();
 
     } else {
+      this.form.get('logo').patchValue(this.clubDetail.logo);
+
       this.clubService.updateClub(this.form.value)
         .pipe(first())
         .subscribe({
