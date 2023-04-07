@@ -39,9 +39,11 @@ namespace FLMS_BackEnd.DTO
                                 p.ClubId == clubClone.ClubId &&
                                 p.LeagueId == clubClone.LeagueId)
                         .Select(p => p.JoinDate)
-                            .FirstOrDefault()))
-                ;
+                            .FirstOrDefault()));
+
             CreateMap<Club, ClubBasicInfoDTO>();
+
+            CreateMap<Club, ClubUpdateInfoDTO>();
 
             //User
             CreateMap<User, UserProfileDTO>()

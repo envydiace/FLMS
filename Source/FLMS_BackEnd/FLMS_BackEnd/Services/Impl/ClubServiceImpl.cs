@@ -251,5 +251,62 @@ namespace FLMS_BackEnd.Services.Impl
                 listMatch = listMatch
             };
         }
+
+        public async Task<ClubUpdateInfoResponse> GetClubUpdateInfo(int clubId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).FirstOrDefaultAsync();
+            if(club == null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            return new ClubUpdateInfoResponse
+            {
+                Success = true,
+                Info = mapper.Map<ClubUpdateInfoDTO>(club),
+            };
+        }
+
+        public async Task<ClubUpdateInfoResponse> UpdateClubInfo(UpdateClubInfoRequest request, int UserId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            if (club.UserId != UserId)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-08"
+                };
+            }
+            if(request.Logo == null || request.Logo.Equals(""))
+            {
+                club.Logo = null;
+            }
+            club.FanPage = request.FanPage;
+            club.Email = request.Email;
+            club.PhoneNumber = request.PhoneNumber;
+            var result = await clubRepository.UpdateAsync(club);
+            if (result != null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-CL-03",
+                    Info = mapper.Map<ClubUpdateInfoDTO>(result)
+                };
+            }
+            return new ClubUpdateInfoResponse { Success = false, MessageCode = "ER-CL-06" };
+        }
     }
 }
