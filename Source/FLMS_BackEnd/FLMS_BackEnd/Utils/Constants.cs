@@ -137,6 +137,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-LE-01","Create league success" },
             {"MS-LE-02","Delete league success" },
+            {"MS-LE-03","Update league info success" },
             {"ER-LE-01","Create league fail" },
             {"ER-LE-02","League name existed" },
             {"ER-LE-03","Not enough date between start date and end date" },
@@ -147,6 +148,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-08","Delete league fail" },
             {"ER-LE-09","Unable to delete a league that already has participation" },
             {"ER-LE-10","Wrong league type" },
+            {"ER-LE-11","Update league info failed" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},

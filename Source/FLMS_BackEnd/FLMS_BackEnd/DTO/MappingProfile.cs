@@ -159,6 +159,8 @@ namespace FLMS_BackEnd.DTO
             .ForMember(dest => dest.EndDate, opt =>
                 opt.MapFrom(src => src.League.EndDate));
 
+            CreateMap<League, LeagueUpdateInfoDTO>();
+
             //ParticipagteNode
             CreateMap<ParticipateNodeDTO, ParticipateNode>();
 

@@ -16,5 +16,7 @@ namespace FLMS_BackEnd.Services
         Task<LeagueLeagueStatisticResponse> GetLeagueStatisticTypeLeague(int leagueId);
         Task<LeagueKnockOutStatisticResponse> GetLeagueStatisticTypeKO(int leagueId);
         Task<DeleteLeagueResponse> DeleteLeague(int leagueId, int userId);
+        Task<LeagueUpdateInfoResponse> GetLeagueUpdateInfo(int leagueId);
+        Task<LeagueUpdateInfoResponse> UpdateLeagueInfo(LeagueUpdateInfoRequest request, int UserId);
     }
 }

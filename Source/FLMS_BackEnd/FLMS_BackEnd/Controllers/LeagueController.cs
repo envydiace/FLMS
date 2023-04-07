@@ -130,5 +130,33 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueUpdateInfoResponse>> GetLeagueUpdateInfo(int id)
+        {
+            var response = await leagueService.GetLeagueUpdateInfo(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<LeagueUpdateInfoResponse>> UpdateClubInfo(LeagueUpdateInfoRequest request)
+        {
+            var response = await leagueService.UpdateLeagueInfo(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
