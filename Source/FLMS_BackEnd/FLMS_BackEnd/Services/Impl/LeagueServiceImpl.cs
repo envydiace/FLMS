@@ -486,5 +486,66 @@ namespace FLMS_BackEnd.Services.Impl
                 TopLeaguePrizes = mapper.Map<List<TopLeaguePrizeDTO>>(listTopPrize)
             };
         }
+
+        public async Task<LeagueUpdateInfoResponse> GetLeagueUpdateInfo(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId).FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            return new LeagueUpdateInfoResponse
+            {
+                Success = true,
+                Info = mapper.Map<LeagueUpdateInfoDTO>(league),
+            };
+        }
+
+        public async Task<LeagueUpdateInfoResponse> UpdateLeagueInfo(LeagueUpdateInfoRequest request, int UserId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != UserId)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (request.Logo == null || request.Logo.Equals(""))
+            {
+                league.Logo = null;
+            }
+            else
+            {
+                league.Logo = request.Logo;
+            }
+            league.LeagueName = request.LeagueName;
+            league.Fanpage = request.Fanpage;
+            league.Location = request.Location;
+            var result = await leagueRepository.UpdateAsync(league);
+            if (result != null)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-LE-03",
+                    Info = mapper.Map<LeagueUpdateInfoDTO>(result)
+                };
+            }
+            return new LeagueUpdateInfoResponse { Success = false, MessageCode = "ER-LE-11" };
+        }
     }
 }
