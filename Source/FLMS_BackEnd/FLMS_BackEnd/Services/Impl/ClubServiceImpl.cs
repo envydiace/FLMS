@@ -289,11 +289,14 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-CL-08"
                 };
             }
-            Club c = mapper.Map<Club>(request);
-            c.UserId = UserId;
-            c.ClubName = club.ClubName;
-            c.CreateAt = club.CreateAt;
-            Club result = await clubRepository.UpdateAsync(c);
+            if(request.Logo == null || request.Logo.Equals(""))
+            {
+                club.Logo = null;
+            }
+            club.FanPage = request.FanPage;
+            club.Email = request.Email;
+            club.PhoneNumber = request.PhoneNumber;
+            var result = await clubRepository.UpdateAsync(club);
             if (result != null)
             {
                 return new ClubUpdateInfoResponse

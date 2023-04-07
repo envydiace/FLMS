@@ -45,7 +45,6 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<Club, ClubUpdateInfoDTO>();
 
-            CreateMap<UpdateClubInfoRequest,Club>();
             //User
             CreateMap<User, UserProfileDTO>()
                 .ForMember(dto => dto.Role,
