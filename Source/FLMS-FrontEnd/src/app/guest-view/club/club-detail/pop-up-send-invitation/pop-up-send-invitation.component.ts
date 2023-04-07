@@ -32,6 +32,7 @@ export class PopUpSendInvitationComponent implements OnInit {
   endDate: string = null;
   leagueListByUser: LeagueListbyUser[] = [];
   pageEvent: PageEvent;
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
 
   constructor(
     private leagueService: LeagueService,

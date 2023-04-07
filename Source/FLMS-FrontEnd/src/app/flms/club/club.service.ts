@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AddClub } from '../../models/club-detail.model';
+import { AddClub, GetUpdateClubDetail } from '../../models/club-detail.model';
 import { token } from '../../models/token.model';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ClubList } from './../../models/club-list.model';
 import { Player, PLayerInfo } from 'src/app/models/player.model';
-import { ClubDetailResponse } from './../../models/club-detail-response.model';
+import { ClubDetailResponse, UpdateClubDetailResponse } from './../../models/club-detail-response.model';
 import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
@@ -184,4 +184,16 @@ export class ClubService {
       catchError(err => throwError(err))
     );
   }
+
+  getUpdateClubInfo(clubId: number): Observable<UpdateClubDetailResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubUpdateInfo/${clubId}`,{ headers: this.headers }).pipe(
+      map((res: UpdateClubDetailResponse) => res),
+      catchError(err => throwError(err))
+    );
+  }
+
+  updateClub(club: GetUpdateClubDetail) {
+    return this.http.put(`${environment.apiUrl}/api/Club/UpdateClubInfo`, club, { headers: this.headers });
+  }
+
 }

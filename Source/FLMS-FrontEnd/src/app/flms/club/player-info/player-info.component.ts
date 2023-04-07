@@ -63,12 +63,12 @@ export class PlayerInfoComponent implements OnInit {
       avatar: [null,],
       number: [null, Validators.pattern('^[0-9]{1,2}$')],
       dob: [null, Validators.required],
-      height: [null, [Validators.required, Validators.pattern('^[0-9]+[m][0-9]+$')]],
-      weight: [null, [Validators.required, Validators.pattern('^[0-9,]+[k][g]$')]],
-      address: [null, Validators.required],
-      phoneNumber: [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
-      email: [null, [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      socialCont: [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
+      height: [null, [Validators.pattern('^[0-9]+[m][0-9]+$')]],
+      weight: [null, [Validators.pattern('^[0-9,]+[k][g]$')]],
+      address: [null,],
+      phoneNumber: [null, [Validators.pattern('^[0-9]{1,15}$')]],
+      email: [null, [Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      socialCont: [null, [Validators.pattern('^[0-9]{1,15}$')]],
       clubName: [null,]
 
     })
@@ -112,10 +112,10 @@ export class PlayerInfoComponent implements OnInit {
     this.form.controls['socialCont'].patchValue(res.socialCont);
 
     this.form.controls['nickName'].disable();
-   
+
     this.form.controls['clubName'].patchValue(res.clubName);
     this.form.controls['clubName'].disable();
-    if(res.avatar!=null ){
+    if (res.avatar != null) {
       this.defaultAvatar = res.avatar;
     }
   }
@@ -190,6 +190,7 @@ export class PlayerInfoComponent implements OnInit {
                 next: () => {
                   this.initDataSource();
                   this.commonService.sendMessage('Update player s info success!', 'success');
+                  this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);  
                 },
                 error: error => {
                   this.loading = false;
@@ -207,6 +208,8 @@ export class PlayerInfoComponent implements OnInit {
           next: () => {
             this.initDataSource();
             this.commonService.sendMessage('Update player s info success!', 'success');
+            // this.router.navigate(['/manager/club-detail?clubId=' + this.clubId]);  
+            this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);
           },
           error: error => {
             this.loading = false;
@@ -235,6 +238,8 @@ export class PlayerInfoComponent implements OnInit {
     return isValid ? null : { 'whitespace': true };
   }
 
+  backClicked() {
 
+  }
 
 }

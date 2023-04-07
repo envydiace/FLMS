@@ -87,3 +87,26 @@ export class ClubListbyUser implements ClubListbyUser{
 }
 
 
+export interface GetUpdateClubDetail{
+    clubName: string,
+    logo: string,
+    fanPage: string,
+    email: string,
+    phoneNumber: string
+}
+
+export class GetUpdateClubDetail implements GetUpdateClubDetail{
+    constructor(
+        clubName: string,
+        logo: string,
+        fanPage: string,
+        email: string,
+        phoneNumber: string
+    ){
+        this.clubName = clubName;
+        this.logo = logo;
+        this.fanPage = fanPage;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+}
