@@ -251,5 +251,59 @@ namespace FLMS_BackEnd.Services.Impl
                 listMatch = listMatch
             };
         }
+
+        public async Task<ClubUpdateInfoResponse> GetClubUpdateInfo(int clubId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).FirstOrDefaultAsync();
+            if(club == null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            return new ClubUpdateInfoResponse
+            {
+                Success = true,
+                Info = mapper.Map<ClubUpdateInfoDTO>(club),
+            };
+        }
+
+        public async Task<ClubUpdateInfoResponse> UpdateClubInfo(UpdateClubInfoRequest request, int UserId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            if (club.UserId != UserId)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-08"
+                };
+            }
+            Club c = mapper.Map<Club>(request);
+            c.UserId = UserId;
+            c.ClubName = club.ClubName;
+            c.CreateAt = club.CreateAt;
+            Club result = await clubRepository.UpdateAsync(c);
+            if (result != null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-CL-03",
+                    Info = mapper.Map<ClubUpdateInfoDTO>(result)
+                };
+            }
+            return new ClubUpdateInfoResponse { Success = false, MessageCode = "ER-CL-06" };
+        }
     }
 }
