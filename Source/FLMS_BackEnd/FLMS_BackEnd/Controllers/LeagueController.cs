@@ -146,7 +146,7 @@ namespace FLMS_BackEnd.Controllers
         }
         [HttpPut("[action]")]
         [Authorize(Roles = "LEAGUE_MANAGER")]
-        public async Task<ActionResult<LeagueUpdateInfoResponse>> UpdateClubInfo(LeagueUpdateInfoRequest request)
+        public async Task<ActionResult<LeagueUpdateInfoResponse>> UpdateLeagueBasicInfo(LeagueUpdateInfoRequest request)
         {
             var response = await leagueService.UpdateLeagueInfo(request, UserID);
             if (response.Success)
