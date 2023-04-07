@@ -31,6 +31,7 @@ export class PopUpSendRegistrationComponent implements OnInit {
   managerName: string = null;
   clubListByUser: ClubListbyUser[] = [];
   pageEvent: PageEvent;
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
 
   constructor(

@@ -60,9 +60,10 @@
                                         <app-joined-clubs></app-joined-clubs>
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab label="League Statistic">
+                                <mat-tab label="Statistic">
                                     <ng-template matTabContent>
-                                        <app-league-statistic></app-league-statistic>
+                                        <app-league-statistic [leagueId]="leagueId"
+                                        [leagueType]="leagueDetail.leagueType"></app-league-statistic>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Fee">
@@ -70,11 +71,11 @@
                                         <app-league-fee></app-league-fee>
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab label="League Settings">
+                                <!-- <mat-tab label="League Settings">
                                     <ng-template matTabContent>
                                         <app-league-settings></app-league-settings>
                                     </ng-template>
-                                </mat-tab>
+                                </mat-tab> -->
                             </mat-tab-group>
                         </mat-card-content>
                     </div>

@@ -42,7 +42,7 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       oldpassword: ['', Validators.required],
-      newpassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]],
+      newpassword: ['', [Validators.required, Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,32}$')]],
       cfpassword: ['', Validators.required]
     },
       {
@@ -61,24 +61,23 @@ export class ChangePasswordComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    if (this.form.get('newpassword').value == this.form.get('cfpassword').value) {
-      let passValue = {
-        oldPassword: this.form.get('oldpassword').value,
-        newPassword: this.form.get('newpassword').value,
-        rePassword: this.form.get('cfpassword').value,
-      }
-      this.profileService.changePassword(passValue).pipe(first())
-        .subscribe({
-          next: () => {
-            this.router.navigate(['/manager/view-profile']);
-            this.commonService.sendMessage('Change Password Success!', 'success');
-          },
-          error: error => {
-            this.loading = false;
-            this.commonService.sendMessage(error.error.message, 'fail');
-          }
-        });
+
+    let passValue = {
+      oldPassword: this.form.get('oldpassword').value,
+      newPassword: this.form.get('newpassword').value,
+      rePassword: this.form.get('cfpassword').value,
     }
+    this.profileService.changePassword(passValue).pipe(first())
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/manager/view-profile']);
+          this.commonService.sendMessage('Change Password Success!', 'success');
+        },
+        error: error => {
+          this.loading = false;
+          this.commonService.sendMessage(error.error.message, 'fail');
+        }
+      });
   }
 
   hide = true;

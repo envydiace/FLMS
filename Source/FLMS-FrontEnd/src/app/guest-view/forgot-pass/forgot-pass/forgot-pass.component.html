@@ -11,7 +11,7 @@
                     <div class="form-group">
                         <input matInput [type]="hide ? 'password' :'text'" formControlName="newPassword" class="form-control" />
                         <mat-error *ngIf="!form.controls['newPassword'].valid && form.controls['newPassword'].touched">
-                           Must between 6 to 32 charactes with 1 uppercase letter ! 
+                           Must between 6 to 32 charactes with one uppercase letter and one number ! 
                         </mat-error>
                     </div>
                     <div class="form-group">
