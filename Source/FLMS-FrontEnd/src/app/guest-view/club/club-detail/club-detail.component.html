@@ -30,8 +30,8 @@
                             <p class="club-content">Phone: {{clubdetail.phoneNumber}}</p>
                         </div>
                         <div class="right-detail" style="text-align: center;">
-                            <p class="club-content">Fanpage: <a href="{{clubdetail.facebook}}"
-                                    target="_blank">{{clubdetail.managerName}}</a>
+                            <p class="club-content">Fanpage: <a *ngIf="clubdetail.facebook != null" href="{{clubdetail.facebook}}"
+                                    target="_blank">{{clubdetail.clubName}}</a>
                             </p>
                             <p class="club-content">Email: {{clubdetail.email}}</p>
                         </div>
@@ -91,3 +91,5 @@
     </div>
 
 </div>
+
+<app-footer></app-footer>
