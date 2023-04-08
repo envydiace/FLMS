@@ -4,7 +4,7 @@
         <span>Edit</span>
         <div class="edit-submit-button">
             <button mat-raised-button style="width: 120px;" color="primary"
-           >Save Change</button>
+           >Update</button>
         </div>
     </mat-toolbar>
 </p>
@@ -84,8 +84,16 @@
         <mat-card-actions>
 
             <!-- <a routerLink="../../change-password" class="btn btn-primary right" type="button">Change Pass</a> -->
-            <button mat-raised-button color="warn"  (click)="onNoClick()" >Cancel</button>
         </mat-card-actions>
 
     </mat-card>
 </form>
+<p>
+    <mat-toolbar class="card"> 
+        <div class="back-submit-button">
+            <button mat-raised-button style="width: 120px;" color="warn"
+            (click)="onNoClick()"
+           >Cancel</button>
+        </div>
+    </mat-toolbar>
+</p>
