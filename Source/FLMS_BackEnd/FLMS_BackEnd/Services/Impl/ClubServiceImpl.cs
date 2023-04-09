@@ -158,7 +158,8 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new List<ClubHistoryDTO>();
             }
-            var result = mapper.Map<List<ClubHistoryDTO>>(club.ClubClones.ToList());
+            var result = mapper.Map<ICollection<ClubHistoryDTO>>(club.ClubClones).OrderByDescending(ch => ch.JoinedDate).ToList();
+            
             return result;
         }
 
@@ -232,7 +233,7 @@ namespace FLMS_BackEnd.Services.Impl
                     lmatches.AddRange(matches);
                 }
             }
-            var listMatch = mapper.Map<List<MatchDTO>>(lmatches.OrderBy(m => m.MatchDate));
+            var listMatch = mapper.Map<List<MatchDTO>>(lmatches.OrderByDescending(m => m.MatchDate));
             listMatch.ForEach(m =>
             {
                 var match = lmatches.Where(x => x.MatchId == m.MatchId).FirstOrDefault();
