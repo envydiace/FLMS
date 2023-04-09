@@ -233,12 +233,12 @@ namespace FLMS_BackEnd.Services.Impl
                 var awayScore = listGoals.Where(e => !e.IsHome).Count();
 
                 var homeClubClone = match.Home.ClubClone;
-                homeClubClone.GoalsFor = homeScore;
-                homeClubClone.GoalsAgainst = awayScore;
+                homeClubClone.GoalsFor += homeScore;
+                homeClubClone.GoalsAgainst += awayScore;
 
                 var awayClubClone = match.Away.ClubClone;
-                awayClubClone.GoalsFor = awayScore;
-                awayClubClone.GoalsAgainst = homeScore;
+                awayClubClone.GoalsFor += awayScore;
+                awayClubClone.GoalsAgainst += homeScore;
                 switch (MethodUtils.GetLeagueTypeByName(match.League.LeagueType))
                 {
                     case Constants.LeagueType.KO:
