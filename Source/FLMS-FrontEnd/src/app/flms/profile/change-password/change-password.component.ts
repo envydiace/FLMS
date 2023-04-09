@@ -69,9 +69,9 @@ export class ChangePasswordComponent implements OnInit {
     }
     this.profileService.changePassword(passValue).pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.router.navigate(['/manager/view-profile']);
-          this.commonService.sendMessage('Change Password Success!', 'success');
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
           this.loading = false;

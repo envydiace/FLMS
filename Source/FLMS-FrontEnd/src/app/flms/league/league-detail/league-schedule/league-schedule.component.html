@@ -50,17 +50,13 @@
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.matchDate}}</mat-cell>
+            <mat-header-cell *matHeaderCellDef class="date-header"> Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="date-content">{{element.matchDate}}</mat-cell>
         </ng-container>
         <!-- clubA Column -->
         <ng-container matColumnDef="home">
-            <mat-header-cell *matHeaderCellDef> Home </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <div mat-card-avatar class="avatar-header-image">
-                    <img mat-card-avatar class="avatar-detail-logo"
-                        [src]="element.home.logo != null ? element.home.logo : defaultLogo" alt="Club's Pic">
-                </div>
+            <mat-header-cell *matHeaderCellDef class="club-header"> Home </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="club-cell">
                 <div class="club-name">
                     {{element.home.name}}
                 </div>
@@ -68,26 +64,30 @@
         </ng-container>
         <!-- clubB Column -->
         <ng-container matColumnDef="away">
-            <mat-header-cell *matHeaderCellDef> Away </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <div mat-card-avatar class="avatar-header-image">
-                    <img mat-card-avatar class="avatar-detail-logo"
-                        [src]="element.away.logo != null ? element.away.logo : defaultLogo" alt="Club's Pic">
-                </div>
+            <mat-header-cell *matHeaderCellDef class="club-header"> Away </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="club-cell">
                 <div class="club-name">
                     {{element.away.name}}
                 </div>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="vs" style="width: 10px;" class="score-col">
+        <ng-container matColumnDef="vs" style="width: 60px;" class="score-col">
             <mat-header-cell *matHeaderCellDef class="score-header"> </mat-header-cell>
             <mat-cell *matCellDef="let element" class="score-cell">
+                <div mat-card-avatar class="avatar-header-image">
+                    <img mat-card-avatar class="avatar-detail-logo"
+                        [src]="element.home.logo != null ? element.home.logo : defaultLogo" alt="Club's Pic">
+                </div>
                 <div *ngIf="element.isFinish == true">
                     {{element.home.score}} - {{element.away.score}}
                 </div>
 
                 <div *ngIf="element.isFinish != true">
                     - vs -
+                </div>
+                <div mat-card-avatar class="avatar-header-image">
+                    <img mat-card-avatar class="avatar-detail-logo"
+                        [src]="element.away.logo != null ? element.away.logo : defaultLogo" alt="Club's Pic">
                 </div>
             </mat-cell>
         </ng-container>
@@ -101,7 +101,7 @@
             <mat-cell *matCellDef="let element" class="stadium-cell"> {{element.stadium}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="action-header"> Action </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <div *ngIf="element.isFinish != true">
                     <button mat-raised-button color="warn" style="margin-left: 10px;"

@@ -187,14 +187,14 @@ export class PlayerInfoComponent implements OnInit {
             this.clubService.editPlayer(this.form.value)
               .pipe(first())
               .subscribe({
-                next: () => {
+                next: response => {
                   this.initDataSource();
-                  this.commonService.sendMessage('Update player s info success!', 'success');
+                  this.commonService.sendMessage(response.message, 'success');
                   this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);  
                 },
                 error: error => {
                   this.loading = false;
-                  this.commonService.sendMessage('Update fail!.', 'fail');
+                  this.commonService.sendMessage(error.error.message, 'fail');
                 }
               });
 
@@ -205,15 +205,15 @@ export class PlayerInfoComponent implements OnInit {
       this.clubService.editPlayer(this.form.value)
         .pipe(first())
         .subscribe({
-          next: () => {
+          next: response => {
             this.initDataSource();
-            this.commonService.sendMessage('Update player s info success!', 'success');
+            this.commonService.sendMessage(response.message, 'success');
             // this.router.navigate(['/manager/club-detail?clubId=' + this.clubId]);  
             this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);
           },
           error: error => {
             this.loading = false;
-            this.commonService.sendMessage('Update fail!.', 'fail');
+            this.commonService.sendMessage(error.error.message, 'fail');
           }
         });
     }

@@ -16,7 +16,7 @@ export class RegisterService {
     private router: Router,
     private http: HttpClient
   ) { }
-  register(user: UserRegister) {
+  register(user: UserRegister):Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/Signup`, user)
   }
 

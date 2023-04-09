@@ -156,9 +156,9 @@ export class CreateLeagueComponent implements OnInit {
             this.leagueService.createLeague(this.leagueInfo)
               .pipe(first())
               .subscribe({
-                next: () => {
+                next: response => {
                   this.loading = false;
-                  this.commonService.sendMessage('Create League Success!', 'success');
+                  this.commonService.sendMessage(response.message, 'success');
                 },
                 error: error => {
                   this.loading = false;
@@ -172,9 +172,9 @@ export class CreateLeagueComponent implements OnInit {
       this.leagueService.createLeague(this.leagueInfo)
         .pipe(first())
         .subscribe({
-          next: () => {
+          next: response => {
             this.loading = false;
-            this.commonService.sendMessage('Create League Success!', 'success');
+            this.commonService.sendMessage(response.message, 'success');
           },
           error: error => {
             this.loading = false;

@@ -143,7 +143,7 @@ export class LeagueService {
     )
   }
 
-  createLeague(league: createLeagueInfo) {
+  createLeague(league: createLeagueInfo):Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/League/CreateLeague`, league, { headers: this.headers });
   }
 

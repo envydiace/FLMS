@@ -48,9 +48,9 @@ export class ForgotPassComponent implements OnInit {
     this.loading = true;
     this.forgotPassService.ChangePassword(changepass).pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.router.navigate(['/login']);
-          this.commonService.sendMessage('Change password success', 'success');
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
           this.loading = false;

@@ -174,9 +174,9 @@ export class PopUpEditMatchStatsComponent implements OnInit {
     this.MatchService.updateMatchStats(UpdateStats)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.dialogRef.close();
-          this.commonService.sendMessage('Update Successfully!', 'success');
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
           this.loading = false;

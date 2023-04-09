@@ -40,9 +40,9 @@ export class PopUpConfirmDeletePlayerComponent implements OnInit {
      this.clubService.removePlayerfromClub(this.data.playerId, this.data.clubId)
        .pipe(first())
        .subscribe({
-         next: () => {
+         next: response => {
            this.dialogRef.close();
-           this.commonService.sendMessage('player is deleted!','success')
+           this.commonService.sendMessage(response.message,'success')
          },
          error: error => {
            this.loading = false;
