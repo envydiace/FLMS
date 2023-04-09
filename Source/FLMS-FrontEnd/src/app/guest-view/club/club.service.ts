@@ -91,7 +91,7 @@ export class ClubService {
     )
   }
 
-  sendInvitation(leagueId: number, clubId: number) {
+  sendInvitation(leagueId: number, clubId: number): Observable<any> {
     let body = {
       leagueId,
       clubId

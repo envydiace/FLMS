@@ -6,6 +6,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-club-list',
@@ -27,16 +28,16 @@ export class ClubListComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
 
-  ) { }
+  ) {
+    this.createForm();
+  }
 
   ngOnInit(): void {
     this.initDataSource();
-    this.createForm();
 
     this.userRole = this.authService.getUserRole();
 
-    this.onChangeClubNameFilter();
-    this.onChangeManagerNameFilter();
+    this.onChangeFilter();
   }
 
   getControl(name: string) {
@@ -45,41 +46,26 @@ export class ClubListComponent implements OnInit {
 
   createForm() {
     this.filterForm = this.formBuilder.group({
-      'clubName': [null],
-      'managerName': [null],
+      'clubName': [''],
+      'managerName': [''],
     });
   }
 
-  onChangeClubNameFilter() {
-    let clubName = this.getControl('clubName').value;
-    let managerName = this.getControl('managerName').value;
+  onChangeFilter() {
 
-    if (clubName == null) clubName = '';
-    if (managerName == null) managerName = '';
+    this.filterForm.valueChanges.pipe(
+      debounceTime(500), distinctUntilChanged()
+    ).subscribe((values: any) => {
+      let clubName = values.clubName;
+      let managerName = values.managerName;
 
-    this.getControl('clubName').valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((term) => {
-        this.clubService.getListClubFilter(term, managerName, 1, 8).pipe(
-          map((clubList: ClubList) => this.clubList = clubList)
-        ).subscribe()
-      });
-  }
+      if (clubName == null) clubName = '';
+      if (managerName == null) managerName = '';
 
-  onChangeManagerNameFilter() {
-    let clubName = this.getControl('clubName').value;
-    let managerName = this.getControl('managerName').value;
-
-    if (clubName == null) clubName = '';
-    if (managerName == null) managerName = '';
-
-    this.getControl('managerName').valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((term) => {
-        this.clubService.getListClubFilter(clubName, term, 1, 8).pipe(
-          map((clubList: ClubList) => this.clubList = clubList)
-        ).subscribe()
-      });
+      this.clubService.getListClubFilter(clubName, managerName, 1, 8).pipe(
+        map((clubList: ClubList) => this.clubList = clubList)
+      ).subscribe()
+    });
   }
 
   initDataSource() {
@@ -108,7 +94,7 @@ export class ClubListComponent implements OnInit {
     }
 
   }
-  
+
   navigateToClubDetail(id: number) {
     this.router.navigate(['/club-info'], { queryParams: { clubId: id } });
   }

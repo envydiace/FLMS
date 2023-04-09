@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { GuestViewRoutingModule } from './guest-view-routing.module';
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
@@ -111,6 +111,9 @@ import { FooterComponent } from '../layouts/footer/footer.component';
     MatPaginatorModule,
     FormsModule,
     MatDialogModule
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class GuestViewModule { }

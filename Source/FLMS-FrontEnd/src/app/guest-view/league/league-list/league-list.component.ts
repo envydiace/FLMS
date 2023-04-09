@@ -8,6 +8,8 @@ import { LeagueList } from 'src/app/models/league-list.model';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { CommonService } from 'src/app/common/common/common.service';
 
 @Component({
   selector: 'app-league-list',
@@ -20,10 +22,10 @@ export class LeagueListComponent implements OnInit {
   defaultLogo: string = './../../../../assets/image/default-logo.png';
   filterForm: FormGroup;
 
-
   constructor(
     private leagueService: LeagueService,
     private formBuilder: FormBuilder,
+    private commonService: CommonService,
     private router: Router
   ) { }
 
@@ -33,8 +35,6 @@ export class LeagueListComponent implements OnInit {
     this.createForm();
 
     this.onChangeLeagueNameFilter();
-    // this.onChangeFromFilter();
-    // this.onChangeToFilter();
   }
 
   initDataSource() {
@@ -49,63 +49,35 @@ export class LeagueListComponent implements OnInit {
     this.filterForm = this.formBuilder.group({
       'leagueName': [null],
       'from': [null],
-      'to': [null],
+      'to': [null]
     });
   }
 
   onChangeLeagueNameFilter() {
-    let leagueName = this.getControl('leagueName').value;
-    let from = this.getControl('from').value;
-    let to = this.getControl('to').value;
+    this.filterForm.valueChanges.pipe(
+      debounceTime(500), distinctUntilChanged()
+    ).subscribe((values: any) => {
+      let leagueName = values.leagueName;
+      let from = values.from;
+      let to = values.to;
 
-    if (leagueName == null) leagueName = '';
-    if (from == null) from = '';
-    if (to == null) to = '';
+      if (leagueName == null) leagueName = '';
+      if (from != null) {
+        from = this.commonService.addHoursToDate(from).toISOString();
+      } else {
+        from = '';
+      }
+      if (to != null) {
+        to = this.commonService.addHoursToDate(to).toISOString();
+      } else {
+        to = '';
+      }
 
-    this.getControl('leagueName').valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((term) => {
-        this.leagueService.findListLeagueFilter(term, 1, 8, from, to).pipe(
-          map((leagueList: LeagueList) => this.leagueList = leagueList)
-        ).subscribe()
-      });
+      this.leagueService.findListLeagueFilter(leagueName, 1, 8, from, to).pipe(
+        map((leagueList: LeagueList) => this.leagueList = leagueList)
+      ).subscribe();
+    });
   }
-
-  // onChangeFromFilter() {
-  //   let leagueName = this.getControl('leagueName').value;
-  //   let from = this.getControl('from').value;
-  //   let to = this.getControl('to').value;
-
-  //   if (leagueName == null) leagueName = '';
-  //   if (from == null) from = '';
-  //   if (to == null) to = '';
-
-  //   this.getControl('from').valueChanges
-  //     .pipe(debounceTime(500), distinctUntilChanged())
-  //     .subscribe((term) => {
-  //       this.leagueService.findListLeagueFilter(leagueName, 1, 8, term, to).pipe(
-  //         map((leagueList: LeagueList) => this.leagueList = leagueList)
-  //       ).subscribe()
-  //     });
-  // }
-
-  // onChangeToFilter() {
-  //   let leagueName = this.getControl('leagueName').value;
-  //   let from = this.getControl('from').value;
-  //   let to = this.getControl('to').value;
-
-  //   if (leagueName == null) leagueName = '';
-  //   if (from == null) from = '';
-  //   if (to == null) to = '';
-
-  //   this.getControl('to').valueChanges
-  //     .pipe(debounceTime(500), distinctUntilChanged())
-  //     .subscribe((term) => {
-  //       this.leagueService.findListLeagueFilter(term, 1, 8, from, term).pipe(
-  //         map((leagueList: LeagueList) => this.leagueList = leagueList)
-  //       ).subscribe()
-  //     });
-  // }
 
   getLeague() {
     this.leagueService.findAll(1, 8).pipe(
@@ -118,18 +90,36 @@ export class LeagueListComponent implements OnInit {
   onPaginateChange(event: PageEvent) {
     let page = event.pageIndex;
     let size = event.pageSize;
-    // if (this.leagueName == null) {
-    //   page = page + 1;
-    //   this.leagueService.findAll(page, size).pipe(map((leagueList: LeagueList) => this.leagueList = leagueList)).subscribe();
-    // } else {
-    //   page = page + 1;
-    //   if (this.leagueName == null) this.leagueName = '';
-    //   this.leagueService.findListLeagueFilter(this.leagueName, page, size).pipe(map((leagueList: LeagueList) => this.leagueList = leagueList)).subscribe();
-    // }
+    let leagueName = this.getControl('leagueName').value;
+    let from = this.getControl('from').value;
+    let to = this.getControl('to').value;
+
+    if (leagueName == null && from == null && to == null) {
+      page = page + 1;
+      this.leagueService.findAll(page, size).pipe(map((leagueList: LeagueList) => this.leagueList = leagueList)).subscribe();
+    } else {
+      page = page + 1;
+      if (leagueName == null) leagueName = '';
+
+      if (from != null) {
+        from = this.commonService.addHoursToDate(from).toISOString();
+      } else {
+        from = '';
+      }
+
+      if (to != null) {
+        to = this.commonService.addHoursToDate(to).toISOString();
+      } else {
+        to = '';
+      }
+      this.leagueService.findListLeagueFilter(leagueName, page, size, from, to).pipe(
+        map((leagueList: LeagueList) => this.leagueList = leagueList))
+        .subscribe();
+    }
   }
 
   navigateToLeagueDetail(id: number) {
-    this.router.navigate(['/league-info'], { queryParams: { leagueId: id }});
+    this.router.navigate(['/league-info'], { queryParams: { leagueId: id } });
   }
 }
 
