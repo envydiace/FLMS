@@ -5,7 +5,7 @@ export interface ClubDetail {
     clubName: string;
     managerName: string;
     phone: number;
-    facebook: string;
+    fanPage: string;
     email: string;
     win: number;
     lose: number;
@@ -20,7 +20,7 @@ export class ClubDetail implements ClubDetail {
         clubName: string,
         managerName: string,
         phone: number,
-        facebook: string,
+        fanPage: string,
         email: string,
         win: number,
         lose: number,
@@ -30,7 +30,7 @@ export class ClubDetail implements ClubDetail {
         this.clubName = clubName;
         this.managerName = managerName;
         this.phone = phone;
-        this.facebook = facebook;
+        this.fanPage = fanPage;
         this.email = email;
         this.win = win;
         this.lose = lose;

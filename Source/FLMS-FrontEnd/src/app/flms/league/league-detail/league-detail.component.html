@@ -52,7 +52,10 @@
                             <p class="league-detail-content">Number of teams: {{leagueDetail.noParticipate}}</p>
                             <p class="league-detail-content">Tournament type: {{leagueDetail.leagueType}}</p>
                             <p class="league-detail-content">League manager: {{leagueDetail.managerName}}</p>
-                            <p class="league-detail-content">Fanpage: {{leagueDetail.fanpage}}</p>
+                            <p class="league-detail-content">Fanpage:
+                                <a *ngIf="leagueDetail.fanpage != null" href="{{leagueDetail.fanpage}}"
+                                    target="_blank">{{leagueDetail.leagueName}}</a>
+                            </p>
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>

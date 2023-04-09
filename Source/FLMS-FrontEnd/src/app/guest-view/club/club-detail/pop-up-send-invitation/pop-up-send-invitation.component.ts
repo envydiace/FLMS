@@ -15,6 +15,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { CommonService } from 'src/app/common/common/common.service';
 
 
 
@@ -40,6 +41,7 @@ export class PopUpSendInvitationComponent implements OnInit {
     private http: HttpClient,
     public dialogRef: MatDialogRef<PopUpSendInvitationComponent>,
     private clubService: ClubService,
+    private commonService: CommonService,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -63,18 +65,13 @@ export class PopUpSendInvitationComponent implements OnInit {
     this.clubService.sendInvitation(leagueId, this.data.clubId)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.openSnackBar();
+        next: response => {
+          this.commonService.sendMessage(response.message, 'success');
+        },
+        error: error => {
+          this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
-  }
-
-  openSnackBar() {
-    this._snackBar.open('Success!!', 'CLOSE', {
-      duration: 3500,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-    });
   }
 
 }
