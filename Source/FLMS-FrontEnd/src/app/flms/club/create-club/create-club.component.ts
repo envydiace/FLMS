@@ -129,8 +129,8 @@ export class CreateClubComponent implements OnInit {
 
             this.clubService.addClub(this.clubInfo)
               .pipe(first()).subscribe({
-                next: () => {
-                  this.commonService.sendMessage("Create Club success", 'success');
+                next: response => {
+                  this.commonService.sendMessage(response.message, 'success');
                   this.router.navigate(['manager/my-clubs']);
                 },
                 error: error => {
@@ -147,8 +147,8 @@ export class CreateClubComponent implements OnInit {
 
       this.clubService.addClub(this.clubInfo)
         .pipe(first()).subscribe({
-          next: () => {
-            this.commonService.sendMessage("Create Club success", 'success');
+          next: response => {
+            this.commonService.sendMessage(response.message, 'success');
             this.router.navigate(['manager/my-clubs']);
           },
           error: error => {

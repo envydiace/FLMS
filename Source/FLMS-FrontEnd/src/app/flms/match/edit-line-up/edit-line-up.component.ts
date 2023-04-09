@@ -113,8 +113,8 @@ export class EditLineUpComponent implements OnInit {
     this.MatchService.updateSquad(updateSquadModel)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.commonService.sendMessage('Update success!', 'success')
+        next: repsonse => {
+          this.commonService.sendMessage(repsonse.message, 'success')
         },
         error: error => {
           this.commonService.sendMessage(error.error.message, 'fail')

@@ -122,7 +122,7 @@ export class LeagueFeeComponent implements OnInit {
 
         this.LeagueService.editFee(leagueId, this.isActual, result).pipe(first())
           .subscribe({
-            next: () => {
+            next: response => {
               this.loading = false;
 
               const newUserArray = this.actual;

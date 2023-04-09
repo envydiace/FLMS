@@ -71,7 +71,7 @@ export class JoinedClubsComponent implements OnInit {
   RemoveJoinedClub(clubId: number) {
     let idTemp = +this.leagueId;
     this.leagueService.removeJoinedClub(idTemp, clubId).subscribe(res => {
-      this.commonService.sendMessage('delete success!', 'success');
+      this.commonService.sendMessage(res.message, 'success');
       this.initDataSource();
     });
   }

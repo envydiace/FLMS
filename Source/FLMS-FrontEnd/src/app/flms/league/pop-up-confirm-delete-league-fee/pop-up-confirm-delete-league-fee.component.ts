@@ -47,9 +47,9 @@ export class PopUpConfirmDeleteLeagueFeeComponent implements OnInit {
     this.leagueService.removeLeagueFee(this.data.leagueFeeId)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.dialogRef.close();
-          this.commonService.sendMessage('That league fee has been deleted!', 'success');
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
           this.loading = false;

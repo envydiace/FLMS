@@ -161,8 +161,8 @@ export class LeagueSettingsComponent implements OnInit {
     this.leagueService.updateLeagueTree(tree)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.commonService.sendMessage('Update success!', 'success')
+        next: response => {
+          this.commonService.sendMessage(response.message, 'success')
         },
         error: error => {
           this.commonService.sendMessage(error.error.message, 'fail')

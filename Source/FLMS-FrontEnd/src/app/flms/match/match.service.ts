@@ -55,7 +55,7 @@ export class MatchService {
     );
   }
 
-  updateMatchStats(body: MatchStatisticsResponse) {
+  updateMatchStats(body: MatchStatisticsResponse):Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body, { headers: this.headers })
   }
 
@@ -68,7 +68,7 @@ export class MatchService {
     );
   }
 
-  editMatchInfo(body: MatchDetail) {
+  editMatchInfo(body: MatchDetail):Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Match/UpdateMatch`, body, { headers: this.headers });
 
   }
@@ -92,7 +92,7 @@ export class MatchService {
     return this.http.post(`${environment.apiUrl}/api/Event/AddMultipleMatchEvent`, events, { headers: this.headers });
   }
 
-  updateSquad(squad: UpdateSquad) {
+  updateSquad(squad: UpdateSquad): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Squad/UpdateSquad`, squad, { headers: this.headers });
   }
 

@@ -131,8 +131,8 @@ export class PopUpAddPlayerComponent implements OnInit {
             this.clubService.addPlayer(this.player)
               .pipe(first())
               .subscribe({
-                next: () => {
-                  this.commonService.sendMessage("Add player success", 'success');
+                next: response => {
+                  this.commonService.sendMessage(response.message, 'success');
                   this.dialogRef.close();
                 },
                 error: error => {
@@ -149,8 +149,8 @@ export class PopUpAddPlayerComponent implements OnInit {
       this.clubService.addPlayer(this.player)
         .pipe(first())
         .subscribe({
-          next: () => {
-            this.commonService.sendMessage("Add player success", 'success');
+          next: response => {
+            this.commonService.sendMessage(response.message, 'success');
             this.dialogRef.close();
           },
           error: error => {
@@ -190,7 +190,6 @@ export class PopUpAddPlayerComponent implements OnInit {
       playerHeight: player.playerInfo.height,
       address: player.playerInfo.address,
       email: player.playerInfo.email,
-      nickname: player.playerInfo.nickName,
       dob: player.playerInfo.dob,
       weight: player.playerInfo.weight,
       phoneNumber: player.playerInfo.phoneNumber,
