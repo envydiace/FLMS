@@ -75,6 +75,7 @@ import { PopUpAddPlanComponent } from './league/pop-up-add-plan/pop-up-add-plan.
 import { PopUpLeagueCostEditComponent } from './league/league-detail/pop-up-league-cost-edit/pop-up-league-cost-edit.component';
 import { PopUpConfirmDeleteLeagueFeeComponent } from './league/pop-up-confirm-delete-league-fee/pop-up-confirm-delete-league-fee.component';
 import { PopUpEditClubComponent } from './club/pop-up-edit-club/pop-up-edit-club.component';
+import { PopUpEditLeagueComponent } from './league/pop-up-edit-league/pop-up-edit-league.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { PopUpEditClubComponent } from './club/pop-up-edit-club/pop-up-edit-club
     PopUpAddPlanComponent,
     PopUpLeagueCostEditComponent,
     PopUpConfirmDeleteLeagueFeeComponent,
-    PopUpEditClubComponent
+    PopUpEditClubComponent,
+    PopUpEditLeagueComponent
   ],
   imports: [
     CommonModule,

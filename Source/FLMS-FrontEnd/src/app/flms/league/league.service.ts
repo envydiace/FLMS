@@ -3,10 +3,10 @@ import { token } from '../../models/token.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { LeagueListbyUser, LeagueDetail } from '../../models/league-detail.model';
+import { LeagueListbyUser, LeagueDetail, GetUpdateLeagueDetail } from '../../models/league-detail.model';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
+import { LeagueDetailResponse, UpdateLeagueDetailResponse } from 'src/app/models/league-detail-response.model';
 import { ClubListByLeagueResponse } from 'src/app/models/club-list-by-league-response.model';
 import { MatchEvent } from 'src/app/models/match-event-detail.model';
 import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
@@ -184,4 +184,16 @@ export class LeagueService {
   removeLeagueFee(leagueFeeId: number): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/api/Fee/DeleteLeagueFee/${leagueFeeId}`, null, { headers: this.headers });
   }
+
+  getUpdateLeagueInfo(leagueId: number): Observable<UpdateLeagueDetailResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetLeagueUpdateInfo/${leagueId}`,{ headers: this.headers }).pipe(
+      map((res: UpdateLeagueDetailResponse) => res),
+      catchError(err => throwError(err))
+    );
+  }
+  updateLeague(league: GetUpdateLeagueDetail) {
+    return this.http.put(`${environment.apiUrl}/api/League/UpdateLeagueBasicInfo`, league, { headers: this.headers });
+  }
+
+
 }

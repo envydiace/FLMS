@@ -8,6 +8,7 @@ import { token } from 'src/app/models/token.model';
 import { MatDialog } from '@angular/material/dialog';
 import { LeagueService } from '../league.service';
 import { PopupDeleteLeagueComponent } from '../popup-delete-league/popup-delete-league.component';
+import { PopUpEditLeagueComponent } from '../pop-up-edit-league/pop-up-edit-league.component';
 
 @Component({
   selector: 'app-league-detail',
@@ -54,12 +55,24 @@ export class LeagueDetailComponent implements OnInit {
     ).subscribe();
   }
 
-  openDeleteLeaguePopup(clubId: number): void {
+  openDeleteLeaguePopup(leagueId: number): void {
     const dialogRef = this.dialog.open(PopupDeleteLeagueComponent, {
       width: '50%',
       data: { leagueId: this.leagueId }
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openEditLeague(leagueId: number): void {
+    const dialogRef = this.dialog.open(PopUpEditLeagueComponent, {
+      width: '80%',
+      data: { leagueId: this.leagueId },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
     });
   }

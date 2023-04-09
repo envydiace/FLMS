@@ -83,3 +83,30 @@ export class LeagueListbyUser implements LeagueListbyUser {
 export class TopLeaguePrizes {
     topLeaguePrizes: LeagueDetail[];
 }
+
+
+export interface GetUpdateLeagueDetail{
+    leagueId:number;
+    leagueName: string;
+    location: string;
+    fanpage: string;
+    logo: string;
+
+}
+
+export class GetUpdateLeagueDetail implements GetUpdateLeagueDetail{
+    constructor(
+        leagueId:number,
+        leagueName: string,
+        location: string,
+        fanpage: string,
+        logo: string,
+    
+    ){
+        this.leagueId = leagueId;
+        this.leagueName = leagueName;
+        this.location = location;
+        this.fanpage =fanpage;
+        this.logo = logo
+    }
+}

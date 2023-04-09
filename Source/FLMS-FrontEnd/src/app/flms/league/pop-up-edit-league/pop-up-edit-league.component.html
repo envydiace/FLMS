@@ -1,0 +1,79 @@
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" >   
+    <mat-toolbar class="card">
+        <span style="color: #3F51B5; text-transform: uppercase;">Edit League</span>
+        <div class="create-league-action">
+            <button mat-raised-button type="submit" type="submit" color="primary">Update</button>
+        </div>
+    </mat-toolbar>
+    <div class="create-league-containner row">
+        <div class="col-xl-9">
+            <div class="card mb-4">
+                <div class="card-body ">
+                    <div class="card-header">Your League's Basic Infomation</div>
+                    <div class="" style="margin: 0 15px;">
+                        <label class="create-league-label">Your League Name: </label>
+                        <div>
+                            <mat-form-field appearance="" class="create-league-input">
+                                <mat-label>League Name</mat-label>
+                                <input matInput formControlName="leagueName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="" style="margin: 0 15px;">
+                        <label class="create-league-label">Location: </label>
+                        <div>
+                            <mat-form-field appearance="" class="create-league-input">
+                                <mat-label>Enter Location</mat-label>
+                                <input matInput formControlName="location">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row gx-3 mb-3" style="margin: 0;">
+
+                        <div class="league-input-number col-md-5">
+                            <label class="create-league-label">Fanpage: </label>
+                            <div>
+                                <mat-form-field appearance="" class="create-league-input">
+                                    <mat-label>Enter Fanpage</mat-label>
+                                    <input matInput formControlName="fanpage">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3">
+            <div class="card mb-4 mb-xl-0 league-card">
+                <mat-card class="create-league-card">
+                    <div class="league-logo">
+                        <img mat-card-avatar class="league-header-image border-gradient" 
+                        [src]="defaultLogo"
+                        ><br>
+                        <p>Upload League logo</p>
+                        <input type="file" (change)="showPreview($event)">
+                    </div>
+                    <!-- <div style="text-align: center; margin: 30px 0;">
+                    <mat-card-title>{{getControl('leagueName').value != null ? getControl('leagueName').value :
+                        'Your League Name'}}</mat-card-title>
+                    <mat-card-subtitle>{{user != undefined ? user.fullName : ''}}</mat-card-subtitle>
+                </div> -->
+                    <!-- <div class="card-content">Total Prize - {{prizeCostTotal | currency:'VND':''}} VND</div> -->
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</form>
+<p>
+    <mat-toolbar class="card"> 
+        <div class="back-submit-button">
+            <button mat-raised-button style="width: 120px;" color="warn"
+            (click)="onNoClick()"
+           >Cancel</button>
+        </div>
+    </mat-toolbar>
+</p>

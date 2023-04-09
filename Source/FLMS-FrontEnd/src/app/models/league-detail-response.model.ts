@@ -1,4 +1,4 @@
-import { LeagueDetail } from './league-detail.model';
+import { GetUpdateLeagueDetail, LeagueDetail } from './league-detail.model';
 
 export interface LeagueDetailResponse {
     messageCode: string;
@@ -15,5 +15,24 @@ export class LeagueDetailResponse implements LeagueDetailResponse {
         this.messageCode = messageCode;
         this.message = message;
         this.leagueInfo = leagueInfo
+    }
+}
+
+export interface UpdateLeagueDetailResponse {
+    messageCode: string,
+    message: string,
+    info: GetUpdateLeagueDetail,
+
+}
+
+export class UpdateLeagueDetailResponse implements UpdateLeagueDetailResponse{
+    constructor(
+        messageCode: string,
+        message: string,
+        info: GetUpdateLeagueDetail,
+    ){
+        this.messageCode = messageCode;
+        this.message = message;
+        this.info = info;
     }
 }
