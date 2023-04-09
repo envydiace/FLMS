@@ -44,7 +44,7 @@ export interface AddClub {
     clubName: string,
     email: string,
     phoneNumber: number,
-    socialCont: number,
+    fanPage: number,
     logo: string,
     kit: string
 }
@@ -54,14 +54,14 @@ export class AddClub implements AddClub{
         clubName: string,
         email: string,
         phoneNumber: number,
-        socialCont: number,
+        fanPage: number,
         logo: string,
         kit: string
     ){
         this.clubName = clubName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.socialCont = socialCont;
+        this.fanPage = fanPage;
         this.logo = logo;
         this.kit = kit;
     }
@@ -71,18 +71,21 @@ export class AddClub implements AddClub{
 export interface ClubListbyUser{
     clubId: number,
     userId: number,
-    clubName: string
+    clubName: string, 
+    logo:string,
 }
 
 export class ClubListbyUser implements ClubListbyUser{
     constructor(
         clubId: number,
         userId: number,
-        clubName: string
+        clubName: string,
+        logo:string,
     ){
-        this.clubId = clubId,
-        this.userId = userId,
-        this.clubName = clubName
+        this.clubId = clubId;
+        this.userId = userId;
+        this.clubName = clubName;
+        this.logo = logo;
     }
 }
 

@@ -91,9 +91,9 @@ export class PopUpEditMatchInfoComponent implements OnInit {
     this.MatchService.editMatchInfo(this.form.value)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.initDataSource();
-          this.commonService.sendMessage('Update match success', 'success');
+          this.commonService.sendMessage(response.message, 'success');
 
           this.dialogRef.close()
         },

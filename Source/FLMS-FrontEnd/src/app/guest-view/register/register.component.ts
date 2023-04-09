@@ -68,9 +68,9 @@ export class RegisterComponent implements OnInit {
     this.RegisterService.register(this.form.value)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.router.navigate(['/login']);
-          this.commonService.sendMessage('Register success!', 'success');
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
           this.loading = false;

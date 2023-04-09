@@ -25,6 +25,7 @@ export class EditLineUpComponent implements OnInit {
   unsquadPlayers: SquadPosition[] = [];
   updateSquadModel: UpdateSquad;
   position = ['ST', 'LM', 'RM', 'LB', 'RB', 'CB', 'GK'];
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
   constructor(
     private MatchService: MatchService,
@@ -112,8 +113,8 @@ export class EditLineUpComponent implements OnInit {
     this.MatchService.updateSquad(updateSquadModel)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.commonService.sendMessage('Update success!', 'success')
+        next: repsonse => {
+          this.commonService.sendMessage(repsonse.message, 'success')
         },
         error: error => {
           this.commonService.sendMessage(error.error.message, 'fail')

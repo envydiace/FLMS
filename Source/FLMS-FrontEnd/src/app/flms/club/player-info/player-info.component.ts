@@ -58,7 +58,7 @@ export class PlayerInfoComponent implements OnInit {
     this.form = this.formBuilder.group({
       clubId: this.clubId,
       playerId: this.playerId,
-      name: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
+      name: [null, [Validators.required, this.noWhitespaceValidator]],
       nickName: [null,],
       avatar: [null,],
       number: [null, Validators.pattern('^[0-9]{1,2}$')],
@@ -187,14 +187,14 @@ export class PlayerInfoComponent implements OnInit {
             this.clubService.editPlayer(this.form.value)
               .pipe(first())
               .subscribe({
-                next: () => {
+                next: response => {
                   this.initDataSource();
-                  this.commonService.sendMessage('Update player s info success!', 'success');
+                  this.commonService.sendMessage(response.message, 'success');
                   this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);  
                 },
                 error: error => {
                   this.loading = false;
-                  this.commonService.sendMessage('Update fail!.', 'fail');
+                  this.commonService.sendMessage(error.error.message, 'fail');
                 }
               });
 
@@ -205,15 +205,15 @@ export class PlayerInfoComponent implements OnInit {
       this.clubService.editPlayer(this.form.value)
         .pipe(first())
         .subscribe({
-          next: () => {
+          next: response => {
             this.initDataSource();
-            this.commonService.sendMessage('Update player s info success!', 'success');
+            this.commonService.sendMessage(response.message, 'success');
             // this.router.navigate(['/manager/club-detail?clubId=' + this.clubId]);  
             this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);
           },
           error: error => {
             this.loading = false;
-            this.commonService.sendMessage('Update fail!.', 'fail');
+            this.commonService.sendMessage(error.error.message, 'fail');
           }
         });
     }

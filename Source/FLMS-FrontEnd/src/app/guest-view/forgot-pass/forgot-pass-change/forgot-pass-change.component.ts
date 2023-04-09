@@ -43,8 +43,8 @@ export class ForgotPassChangeComponent implements OnInit {
     this.loading = true;
     this.forgotPassService.getEmailForgotPassword(email).pipe(first())
       .subscribe({
-        next: () => {
-          this.commonService.sendMessage('An email with instructions on how to reset your password has been sent to your email address.', 'success');
+        next: response => {
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
           this.loading = false;

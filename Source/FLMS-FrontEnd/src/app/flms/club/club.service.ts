@@ -34,7 +34,7 @@ export class ClubService {
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
   }
 
-  addClub(club: AddClub) {
+  addClub(club: AddClub):Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/Club/CreateClub`, club, { headers: this.headers });
   }
 
@@ -81,7 +81,7 @@ export class ClubService {
     );
   }
 
-  public addPlayer(player: Player) {
+  public addPlayer(player: Player):Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/Player/CreatePlayer`, player, { headers: this.headers });
   }
 
@@ -141,7 +141,7 @@ export class ClubService {
         catchError(err => throwError(err)))
   }
 
-  editPlayer(player: PlayerbyClubMana) {
+  editPlayer(player: PlayerbyClubMana):Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Player/UpdatePlayer`, player, { headers: this.headers });
   }
   

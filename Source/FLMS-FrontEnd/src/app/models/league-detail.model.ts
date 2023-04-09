@@ -66,6 +66,7 @@ export interface LeagueListbyUser {
     leagueId: number,
     userId: number,
     leagueName: string,
+    logo: string,
 }
 
 export class LeagueListbyUser implements LeagueListbyUser {
@@ -73,10 +74,14 @@ export class LeagueListbyUser implements LeagueListbyUser {
         leagueId: number,
         userId: number,
         leagueName: string,
+        logo: string,
+
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
         this.leagueName = leagueName;
+        this.logo = logo;
+
     }
 }
 
@@ -85,8 +90,8 @@ export class TopLeaguePrizes {
 }
 
 
-export interface GetUpdateLeagueDetail{
-    leagueId:number;
+export interface GetUpdateLeagueDetail {
+    leagueId: number;
     leagueName: string;
     location: string;
     fanpage: string;
@@ -94,19 +99,19 @@ export interface GetUpdateLeagueDetail{
 
 }
 
-export class GetUpdateLeagueDetail implements GetUpdateLeagueDetail{
+export class GetUpdateLeagueDetail implements GetUpdateLeagueDetail {
     constructor(
-        leagueId:number,
+        leagueId: number,
         leagueName: string,
         location: string,
         fanpage: string,
         logo: string,
-    
-    ){
+
+    ) {
         this.leagueId = leagueId;
         this.leagueName = leagueName;
         this.location = location;
-        this.fanpage =fanpage;
+        this.fanpage = fanpage;
         this.logo = logo
     }
 }

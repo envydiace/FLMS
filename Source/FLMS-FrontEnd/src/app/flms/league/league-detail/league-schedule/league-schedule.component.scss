@@ -6,38 +6,41 @@ mat-row.example-element-row:hover {
     background-size: cover;
     height: 35px;
     width: 35px;
-    margin: 2px 0px 0px 2px;
+    margin: auto;
 }
 
-.mat-column-time{
-    width: 10px;
-}
 .time-header,
-.time-content {
-  max-width: 120px;
-}
-.date-header,
-.date-cell {
+.time-content{
   max-width: 150px;
+  justify-content: center;
 }
+
+.date-header,
+.date-content{
+  max-width: 400px;
+  justify-content: center;
+}
+
 .score-header,
 .score-cell {
-  max-width: 90px;
+  max-width: 150px;
+  justify-content: center;
 }
-
 .club-header,
 .club-cell {
-  max-width: 300px;
+  max-width: 200px;
+  justify-content: center;
 }
-
 .round-header,
 .round-cell{
-    max-width: 150px;
+    max-width: 80px;
+    justify-content: center;
 }
 .stadium-header,
 .stadium-cell{
-    max-width: 150px;
+    max-width: 300px;
+    justify-content: center;
 }
-.club-name{
-    margin-left: 15px;
+.action-header{
+  justify-content: center;
 }

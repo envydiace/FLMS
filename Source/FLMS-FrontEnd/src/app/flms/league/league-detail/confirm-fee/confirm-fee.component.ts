@@ -109,13 +109,13 @@ export class ConfirmFeeComponent implements OnInit {
 
           this.LeagueService.confirmRegistFee(fee)
             .pipe(first()).subscribe({
-              next: () => {
+              next: response => {
                 this.dialogRef.close();
-                this.commonService.sendMessage('Confirm success!', 'success');
+                this.commonService.sendMessage(response.message, 'success');
               },
               error: error => {
                 this.loading = false;
-                this.commonService.sendMessage('Confirm fail!, please re-check and upload club evidence again.', 'fail');
+                this.commonService.sendMessage(error.error.message, 'fail');
               }
             });
 

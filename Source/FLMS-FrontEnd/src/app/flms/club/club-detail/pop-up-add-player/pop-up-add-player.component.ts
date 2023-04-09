@@ -131,8 +131,8 @@ export class PopUpAddPlayerComponent implements OnInit {
             this.clubService.addPlayer(this.player)
               .pipe(first())
               .subscribe({
-                next: () => {
-                  this.commonService.sendMessage("Add player success", 'success');
+                next: response => {
+                  this.commonService.sendMessage(response.message, 'success');
                   this.dialogRef.close();
                 },
                 error: error => {
@@ -149,8 +149,8 @@ export class PopUpAddPlayerComponent implements OnInit {
       this.clubService.addPlayer(this.player)
         .pipe(first())
         .subscribe({
-          next: () => {
-            this.commonService.sendMessage("Add player success", 'success');
+          next: response => {
+            this.commonService.sendMessage(response.message, 'success');
             this.dialogRef.close();
           },
           error: error => {

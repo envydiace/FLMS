@@ -21,7 +21,7 @@ export class ForgotPassService {
     return this.http.post(`${environment.apiUrl}/api/ForgotPass`, null, { params });
   }
 
-  ChangePassword(body: any) {
+  ChangePassword(body: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/ChangeNewPass`,body );
   }
 
