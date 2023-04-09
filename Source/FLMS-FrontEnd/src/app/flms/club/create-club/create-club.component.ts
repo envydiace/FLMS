@@ -41,7 +41,7 @@ export class CreateClubComponent implements OnInit {
       clubName: new FormControl(),
       email: new FormControl(),
       phoneNumber: new FormControl(),
-      socialCont: new FormControl(),
+      fanPage: new FormControl(),
       logo: new FormControl(),
       kit: new FormControl()
     })
@@ -57,7 +57,7 @@ export class CreateClubComponent implements OnInit {
       'clubName': [null, [Validators.required, Validators.nullValidator, Validators.pattern('^(\s+\S+\s*)*(?!\s).*$'), this.noWhitespaceValidator]],
       'email': [null, [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'phoneNumber': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
-      'socialCont': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
+      'fanPage': [null, [Validators.required]],
       // 'email': [null, Validators.required,],
       // 'phoneNumber': [null, Validators.required],
       // 'socialCont': [null, Validators.required],
@@ -74,7 +74,7 @@ export class CreateClubComponent implements OnInit {
       clubName: this.getControl('clubName').value.trim(),
       email: this.getControl('email').value,
       phoneNumber: this.getControl('phoneNumber').value,
-      socialCont: this.getControl('socialCont').value,
+      fanPage: this.getControl('fanPage').value,
       logo: this.getControl('logo').value,
       kit: null
 
@@ -114,13 +114,13 @@ export class CreateClubComponent implements OnInit {
     }
 
     this.loading = true;
-
+    if (this.selectedImage != null) {
     // upload image to firebase
     const nameImg = 'club/' + this.clubInfo.clubName +
       '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg)
 
-    if (this.selectedImage != null) {
+  
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
@@ -131,7 +131,7 @@ export class CreateClubComponent implements OnInit {
               .pipe(first()).subscribe({
                 next: () => {
                   this.commonService.sendMessage("Create Club success", 'success');
-                  this.router.navigate(['/club-list']);
+                  this.router.navigate(['manager/my-clubs']);
                 },
                 error: error => {
                   this.loading = false;
@@ -143,11 +143,13 @@ export class CreateClubComponent implements OnInit {
         })
       ).subscribe();
     } else {
+  
+
       this.clubService.addClub(this.clubInfo)
         .pipe(first()).subscribe({
           next: () => {
             this.commonService.sendMessage("Create Club success", 'success');
-            this.router.navigate(['/club-list']);
+            this.router.navigate(['manager/my-clubs']);
           },
           error: error => {
             this.loading = false;
@@ -179,7 +181,7 @@ export class CreateClubComponent implements OnInit {
     return this.form.get('phoneNumber').hasError('required') ? 'Field phoneNumber is required' : '';
   }
   getErrorSocialCont() {
-    return this.form.get('socialCont').hasError('required') ? 'Field socialCont is required' : '';
+    return this.form.get('fanPage').hasError('required') ? 'Field fanPage is required' : '';
   }
 
   backButton() {

@@ -68,15 +68,15 @@
                             </div>
                             <div class="mb-3">
                                 <mat-form-field class="example-full-width">
-                                    <mat-label>socialCont</mat-label>
-                                    <input matInput formControlName="socialCont">
+                                    <mat-label>Fan Page</mat-label>
+                                    <input matInput formControlName="fanPage">
                                     <mat-error
-                                    *ngIf="!form.controls['socialCont'].valid && form.controls['socialCont'].touched">
+                                    *ngIf="!form.controls['fanPage'].valid && form.controls['fanPage'].touched">
                                     {{ getErrorSocialCont() }}
                                 </mat-error>
                                 </mat-form-field>
                             </div>
-                            <button class="btn btn-primary" type="submit">Save changes</button>
+                            <button class="btn btn-primary" type="submit">Create</button>
                         </div>
                     </div>
                 </div>

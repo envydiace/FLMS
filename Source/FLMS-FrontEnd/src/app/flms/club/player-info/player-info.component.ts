@@ -58,7 +58,7 @@ export class PlayerInfoComponent implements OnInit {
     this.form = this.formBuilder.group({
       clubId: this.clubId,
       playerId: this.playerId,
-      name: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
+      name: [null, [Validators.required, this.noWhitespaceValidator]],
       nickName: [null,],
       avatar: [null,],
       number: [null, Validators.pattern('^[0-9]{1,2}$')],
