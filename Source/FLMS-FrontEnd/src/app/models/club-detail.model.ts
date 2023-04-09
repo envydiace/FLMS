@@ -71,18 +71,21 @@ export class AddClub implements AddClub{
 export interface ClubListbyUser{
     clubId: number,
     userId: number,
-    clubName: string
+    clubName: string, 
+    logo:string,
 }
 
 export class ClubListbyUser implements ClubListbyUser{
     constructor(
         clubId: number,
         userId: number,
-        clubName: string
+        clubName: string,
+        logo:string,
     ){
-        this.clubId = clubId,
-        this.userId = userId,
-        this.clubName = clubName
+        this.clubId = clubId;
+        this.userId = userId;
+        this.clubName = clubName;
+        this.logo = logo;
     }
 }
 
