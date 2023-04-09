@@ -190,7 +190,6 @@ export class PopUpAddPlayerComponent implements OnInit {
       playerHeight: player.playerInfo.height,
       address: player.playerInfo.address,
       email: player.playerInfo.email,
-      nickname: player.playerInfo.nickName,
       dob: player.playerInfo.dob,
       weight: player.playerInfo.weight,
       phoneNumber: player.playerInfo.phoneNumber,
