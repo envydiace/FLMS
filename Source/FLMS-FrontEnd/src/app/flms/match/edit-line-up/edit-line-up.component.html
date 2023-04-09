@@ -12,7 +12,11 @@
             <mat-card class="match-detail-card">
                 <mat-card class="score-container">
                     <mat-card-header class="team-1">
-                        <div mat-card-avatar class="match-detail-logo"></div>
+                        <div mat-card-avatar class="match-detail-logo">
+                            <img mat-card-avatar class="match-detail-logo"
+                                [src]="matchSquad.ownClub.logo != null ? matchSquad.ownClub.logo : defaultLogo" 
+                                alt="club logo">
+                        </div>
                         <div class="match-detail-title">
                             {{matchSquad.ownClub.clubName}}
                         </div>
@@ -23,7 +27,11 @@
                         </div>
                     </div>
                     <mat-card-header class="team-2">
-                        <div mat-card-avatar class="match-detail-logo"></div>
+                        <div mat-card-avatar class="match-detail-logo">
+                            <img mat-card-avatar class="match-detail-logo"
+                                [src]="matchSquad.against.logo != null ? matchSquad.against.logo : defaultLogo" 
+                                alt="club logo">
+                        </div>
                         <div class="match-detail-title">
                             {{matchSquad.against.clubName}}
                         </div>
