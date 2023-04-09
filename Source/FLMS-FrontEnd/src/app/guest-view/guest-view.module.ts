@@ -49,6 +49,7 @@ import { PlayerInfoComponent } from './club/player-info/player-info.component';
 import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
 import { ForgotPassChangeComponent } from './forgot-pass/forgot-pass-change/forgot-pass-change.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass/forgot-pass.component';
+import { FooterComponent } from '../layouts/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { ForgotPassComponent } from './forgot-pass/forgot-pass/forgot-pass.compo
     PlayerInfoComponent,
     ViewSquadComponent,
     ForgotPassChangeComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,

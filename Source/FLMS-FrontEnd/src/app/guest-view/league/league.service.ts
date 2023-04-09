@@ -95,11 +95,15 @@ export class LeagueService {
     leagueName: string,
     page: number,
     size: number,
+    from: string,
+    to: string
   ): Observable<any> {
     let params = new HttpParams();
     params = params.append('searchLeagueName', leagueName);
     params = params.append('page', String(page));
     params = params.append('size', String(size));
+    params = params.append('from', from);
+    params = params.append('to', to);
 
     return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params })
   }
