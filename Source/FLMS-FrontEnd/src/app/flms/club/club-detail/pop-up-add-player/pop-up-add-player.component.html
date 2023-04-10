@@ -43,7 +43,7 @@
                     <input matInput placeholder="Number" type="number" formControlName="number">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['number'].valid && addPlayerFormGroup.controls['number'].touched">
-                        Required
+                        Required, the valid player's number is from 0 to 999
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
@@ -94,7 +94,7 @@
                     <input matInput type="tel" placeholder="Phone Number" formControlName="phoneNumber">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['phoneNumber'].valid && addPlayerFormGroup.controls['phoneNumber'].touched">
-                        Required
+                        Required, max length is 15
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">

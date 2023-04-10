@@ -59,9 +59,9 @@ export class ViewProfileComponent implements OnInit {
     this.initDataSource();
 
     this.form = this.formBuilder.group({
-      fullName: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
+      fullName: [null, [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
       phone: ['', Validators.pattern('^[0-9]{1,15}$')],
-      address: ['', [Validators.pattern('^[A-Za-z0-9 .,]+$'), this.noWhitespaceValidator]],
+      address: ['', [Validators.pattern('^[A-Za-z0-9 .,]+$')]],
       email: ['', Validators.required],
       avatar: [null,],
       role: [null]
@@ -182,7 +182,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getErrorName() {
-    return this.form.get('fullName').hasError('required') ? 'Field Name is required' : '';
+    return this.form.get('fullName').hasError('required') ? 'Field Name is required and max length is 50' : '';
   }
   getErrorPhone() {
     return this.form.get('phone').hasError('required') ? 'Field Phone is required' : '';

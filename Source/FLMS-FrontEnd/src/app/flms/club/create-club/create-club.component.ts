@@ -55,9 +55,9 @@ export class CreateClubComponent implements OnInit {
   createFrom() {
     this.form = this.formBuilder.group({
       'clubName': [null, [Validators.required, Validators.nullValidator, Validators.pattern('^(\s+\S+\s*)*(?!\s).*$'), this.noWhitespaceValidator]],
-      'email': [null, [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      'phoneNumber': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
-      'fanPage': [null, [Validators.required]],
+      'email': [null, [ Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      'phoneNumber': [null, [ Validators.pattern('^[0-9]{1,15}$')]],
+      'fanPage': [null,],
       // 'email': [null, Validators.required,],
       // 'phoneNumber': [null, Validators.required],
       // 'socialCont': [null, Validators.required],
