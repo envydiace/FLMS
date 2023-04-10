@@ -38,6 +38,8 @@ export class PopUpAddPlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+
+    this.getPlayerByNickName();
   }
 
   onNoClick(): void {
@@ -161,26 +163,27 @@ export class PopUpAddPlayerComponent implements OnInit {
     }
   }
 
-  // findByNickName() {
-  //   this.getControl('nickname').valueChanges
-  //   .pipe(debounceTime(500), distinctUntilChanged())
-  //   .subscribe(value => this.getPlayerByNickName());
-  // }
-
   getPlayerByNickName() {
-    this.clubService.getPlayerByNickName(this.getControl('nickname').value.trim())
-      .subscribe({
-        next: res => {
-          if (res != null && res != undefined && res.playerInfo != undefined) {
-            this.bindPLayerFromNickName(res);
-            this.disableFormAfterGetFromNickName();
-            this.commonService.sendMessage(res.playerInfo.name, 'success');
-          }
-        },
-        error: error => {
-          this.loading = false;
-        }
-      })
+    this.getControl('nickname').valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(res => {
+      if (res.length > 2 && res != null && res != '') {
+        this.clubService.getPlayerByNickName(res)
+          .subscribe({
+            next: res => {
+              if (res != null && res != undefined && res.playerInfo != undefined) {
+                this.bindPLayerFromNickName(res);
+                this.disableFormAfterGetFromNickName();
+                this.commonService.sendMessage(res.playerInfo.name, 'success');
+              }
+            },
+            error: error => {
+              this.loading = false;
+            }
+          })
+      }
+    });
   }
 
   bindPLayerFromNickName(player: PLayerInfo) {
