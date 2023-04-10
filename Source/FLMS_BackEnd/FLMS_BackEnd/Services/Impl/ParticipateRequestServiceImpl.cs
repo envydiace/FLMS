@@ -40,6 +40,7 @@ namespace FLMS_BackEnd.Services.Impl
                     l.UserId == UserId &&
                     l.LeagueId == request.LeagueId)
                         .Include(l => l.User)
+                        .Include(l => l.Participations)
                     .FirstOrDefaultAsync();
                     if (league == null)
                     {
@@ -56,6 +57,14 @@ namespace FLMS_BackEnd.Services.Impl
                         {
                             Success = false,
                             MessageCode = "ER-CL-02"
+                        };
+                    }
+                    if (league.Participations.Count() >= league.NoParticipate)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-RE-14"
                         };
                     }
                     defaultSuccessMessageCode = "MS-RE-01";
@@ -84,13 +93,24 @@ namespace FLMS_BackEnd.Services.Impl
                             MessageCode = "ER-CL-08"
                         };
                     }
-                    var l = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).Include(l => l.User).FirstOrDefaultAsync();
+                    var l = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId)
+                            .Include(l => l.User)
+                            .Include(l => l.Participations)
+                            .FirstOrDefaultAsync();
                     if (l == null)
                     {
                         return new JoinResponse
                         {
                             Success = false,
                             MessageCode = "ER-LE-05"
+                        };
+                    }
+                    if (l.Participations.Count() >= l.NoParticipate)
+                    {
+                        return new JoinResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-RE-14"
                         };
                     }
                     defaultSuccessMessageCode = "MS-RE-02";
@@ -323,7 +343,7 @@ namespace FLMS_BackEnd.Services.Impl
                         };
                     }
                     var participations = await participationRepository.FindByCondition(p => p.LeagueId == request.LeagueId).ToListAsync();
-                    if(request.League.NoParticipate == participations.Count)
+                    if (request.League.NoParticipate == participations.Count)
                     {
                         return new ResponseRequestResponse
                         {
