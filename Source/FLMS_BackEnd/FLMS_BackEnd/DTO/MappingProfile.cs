@@ -53,7 +53,25 @@ namespace FLMS_BackEnd.DTO
                     ));
 
             //Player
-            CreateMap<Player, PlayerDTO>();
+            CreateMap<Player, PlayerInfoDTO>();
+
+            CreateMap<Player, PlayerStatisticInfoDTO>()
+                .ForMember(dto => dto.Number,
+                map => map.MapFrom(
+                    player => player != null && player.PlayerClubs.FirstOrDefault() != null ? player.PlayerClubs.FirstOrDefault().Number : 0))
+                .ForMember(dto => dto.Assistant,
+                map => map.MapFrom(
+                    player => player.MatchEventSubs.Count))
+                .ForMember(dto => dto.Goal,
+                map => map.MapFrom(
+                    player => player.MatchEventMains.Where(ev => ev.EventType.Equals(Constants.MatchEventType.Goal.ToString())).Count()))
+                .ForMember(dto => dto.YellowCard,
+                map => map.MapFrom(
+                    player => player.MatchEventMains.Where(ev => ev.EventType.Equals(Constants.MatchEventType.YellowCard.ToString())).Count()))
+                .ForMember(dto => dto.RedCard,
+                map => map.MapFrom(
+                    player => player.MatchEventMains.Where(ev => ev.EventType.Equals(Constants.MatchEventType.RedCard.ToString())).Count()))
+                ;
 
             CreateMap<PlayerClub, PlayerClubDTO>()
                 .ForMember(dto => dto.ClubName,
@@ -129,7 +147,7 @@ namespace FLMS_BackEnd.DTO
                     ))
                 .ForMember(dto => dto.TotalPrize,
                 map => map.MapFrom(
-                    league => league.LeagueFees.Where(fee=>(fee.FeeType.Equals(Constants.FeeType.Prize.ToString()) ||
+                    league => league.LeagueFees.Where(fee => (fee.FeeType.Equals(Constants.FeeType.Prize.ToString()) ||
                     fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString())) && !fee.IsActual).Sum(fee => fee.Cost)));
 
             CreateMap<LeagueFee, LeagueFeeDTO>();
@@ -230,7 +248,11 @@ namespace FLMS_BackEnd.DTO
                     player => player.Name))
                 .ForMember(dto => dto.PlayerAvatar,
                 map => map.MapFrom(
-                    player => player.Avatar));
+                    player => player.Avatar))
+                .ForMember(dto => dto.Number,
+                map => map.MapFrom(
+                    player => player != null && player.PlayerClubs.FirstOrDefault() != null ? player.PlayerClubs.FirstOrDefault().Number : 0))
+                ;
 
             CreateMap<SquadPosition, SquadPositionDTO>()
                 .ForMember(dto => dto.PlayerName,
@@ -238,7 +260,11 @@ namespace FLMS_BackEnd.DTO
                     squadPosition => squadPosition.Player != null ? squadPosition.Player.Name : null))
                 .ForMember(dto => dto.PlayerAvatar,
                 map => map.MapFrom(
-                    squadPosition => squadPosition.Player != null ? squadPosition.Player.Avatar : null));
+                    squadPosition => squadPosition.Player != null ? squadPosition.Player.Avatar : null))
+                .ForMember(dto => dto.Number,
+                map => map.MapFrom(
+                   SquadPosition => MethodUtils.GetPlayerNumber(SquadPosition)
+                    ));
 
             CreateMap<Squad, SquadDTO>()
                 .ForMember(dto => dto.NoPlayerSquad,
@@ -280,7 +306,12 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.ClubName,
                 map => map.MapFrom(
                     pa => pa.Club.ClubName
-                    ));
+                    ))
+                .ForMember(dto => dto.Logo,
+                map => map.MapFrom(
+                    pa => pa.Club.Logo
+                    ))
+                ;
 
             //MatchEvent
             CreateMap<MatchEvent, MatchEventDTO>();

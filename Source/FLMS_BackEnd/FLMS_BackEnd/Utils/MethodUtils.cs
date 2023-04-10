@@ -288,7 +288,31 @@ namespace FLMS_BackEnd.Utils
                 (from e in leagueFees where e.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) select e.Cost).Sum());
             return totalfee;
         }
-        
+        public static int GetPlayerNumber(SquadPosition squadPosition)
+        {
+            if (squadPosition.Player != null)
+            {
+                int? clubId = null;
+                if (squadPosition.Squad.IsHome && squadPosition.Squad.Match.Home.ClubClone != null && squadPosition.Squad.Match.Home.ClubClone != null)
+                {
+                    clubId = squadPosition.Squad.Match.Home.ClubClone.ClubId;
+                }
+                else if (!squadPosition.Squad.IsHome && squadPosition.Squad.Match.Away.ClubClone != null && squadPosition.Squad.Match.Away.ClubClone != null)
+                {
+                    clubId = squadPosition.Squad.Match.Away.ClubClone.ClubId;
+                }
+                if (clubId != null)
+                {
+                    var playerClub = squadPosition.Player.PlayerClubs.FirstOrDefault(pc => pc.ClubId == clubId);
+                    if (playerClub != null)
+                    {
+                        return playerClub.Number;
+                    }
+                }
+            }
+            return 0;
+        }
+
         public static void SetColumnWidths(IXLWorksheet worksheet)
         {
             worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Time]).Width = 12;

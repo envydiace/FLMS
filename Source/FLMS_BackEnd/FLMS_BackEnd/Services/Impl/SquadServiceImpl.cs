@@ -389,6 +389,7 @@ namespace FLMS_BackEnd.Services.Impl
                                         .ThenInclude(cl => cl != null ? cl.Club : null)
                             .Include(s => s.SquadPositions)
                                 .ThenInclude(sp => sp.Player)
+                                    .ThenInclude(p => p.PlayerClubs)
                             .FirstOrDefaultAsync();
             if (squad == null)
             {
@@ -399,7 +400,7 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             if (squad.Match.Home.ClubClone == null ||
-                squad.Match.Home.ClubClone.Club==null ||
+                squad.Match.Home.ClubClone.Club == null ||
                 squad.Match.Away.ClubClone == null ||
                 squad.Match.Away.ClubClone.Club == null)
             {
@@ -412,11 +413,10 @@ namespace FLMS_BackEnd.Services.Impl
             List<Player> players = await playerRepository.FindByCondition(p =>
                             p.SquadPositions.FirstOrDefault(sp => sp.SquadId == squadId) == null &&
                             p.PlayerClubs.FirstOrDefault(pc =>
-                                (squad.IsHome ? squad.Match.Home : squad.Match.Away).ClubClone != null ?
-                                pc.ClubId == (squad.IsHome ? squad.Match.Home : squad.Match.Away).ClubClone.ClubId :
-                                false
-                            ) != null
-                            ).ToListAsync();
+                                (squad.IsHome ? squad.Match.Home : squad.Match.Away).ClubClone != null && pc.ClubId == (squad.IsHome ? squad.Match.Home : squad.Match.Away).ClubClone.ClubId
+                            ) != null)
+                            .Include(p => p.PlayerClubs.Where(pc => pc.ClubId == (squad.IsHome ? squad.Match.Home : squad.Match.Away).ClubClone.ClubId))
+                            .ToListAsync();
             UnsquadPlayers = mapper.Map<List<SquadPositionDTO>>(players);
             Match match = squad.Match;
             return new ManagerSquadResponse
@@ -430,7 +430,7 @@ namespace FLMS_BackEnd.Services.Impl
                 MatchDate = match.MatchDate.ToString(Constants.DATE_FORMAT),
                 MatchTime = match.MatchDate.ToString(Constants.TIME_FORMAT),
                 UnSquadPositions = UnsquadPlayers,
-                SquadPositions = squad.SquadPositions!=null? mapper.Map<List<SquadPositionDTO>> (squad.SquadPositions):new List<SquadPositionDTO>(),
+                SquadPositions = squad.SquadPositions != null ? mapper.Map<List<SquadPositionDTO>>(squad.SquadPositions) : new List<SquadPositionDTO>(),
                 Round = match.Round,
                 Stadium = match.Stadium,
                 NoPlayerSquad = squad.NoPlayerSquad,

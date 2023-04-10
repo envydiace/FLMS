@@ -8,6 +8,7 @@
         public int? PlayerId { get; set; }
         public string? PlayerName { get; set; }
         public string? PlayerAvatar { get; set; }
+        public int Number { get; set; }
         public float XAxis { get; set; } = 0f;
         public float YAxis { get; set; } = 0f;
     }
