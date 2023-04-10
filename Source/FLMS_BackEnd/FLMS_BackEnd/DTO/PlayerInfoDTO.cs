@@ -2,7 +2,7 @@
 
 namespace FLMS_BackEnd.DTO
 {
-    public class PlayerDTO
+    public class PlayerInfoDTO
     {
         public int PlayerId { get; set; }
         public string Name { get; set; } = null!;

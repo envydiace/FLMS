@@ -42,7 +42,7 @@ namespace FLMS_BackEnd.Services.Impl
             return new PlayerResponse
             {
                 Success = true,
-                PlayerInfo = mapper.Map<PlayerDTO>(player)
+                PlayerInfo = mapper.Map<PlayerInfoDTO>(player)
             };
         }
 
@@ -95,9 +95,13 @@ namespace FLMS_BackEnd.Services.Impl
             ((request.searchPlayerName == null || request.searchPlayerName == "" || player.Name.StartsWith(request.searchPlayerName)
             || player.NickName.StartsWith(request.searchPlayerName))
             && (player.PlayerClubs.FirstOrDefault(playerClub => playerClub.ClubId == request.clubId) != null))
-            ).Include(player => player.PlayerClubs).ToListAsync();
+            )
+                .Include(player => player.PlayerClubs.Where(pc => pc.ClubId == request.clubId))
+                .Include(player => player.MatchEventMains)
+                .Include(player => player.MatchEventSubs)
+            .ToListAsync();
             int total = players.Count;
-            var result = mapper.Map<List<PlayerDTO>>(players.ToList());
+            var result = mapper.Map<List<PlayerStatisticInfoDTO>>(players.ToList());
             return new ListPlayerResponse
             {
                 Success = true,
@@ -132,7 +136,7 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     Success = true,
                     MessageCode = "MS-PL-02",
-                    Player = mapper.Map<PlayerDTO>(result)
+                    Player = mapper.Map<PlayerInfoDTO>(result)
                 };
             }
             return new DeletePlayerResponse { Success = false, MessageCode = "ER-PL-04" };
@@ -194,7 +198,7 @@ namespace FLMS_BackEnd.Services.Impl
             return new PlayerResponse
             {
                 Success = true,
-                PlayerInfo = mapper.Map<PlayerDTO>(player)
+                PlayerInfo = mapper.Map<PlayerInfoDTO>(player)
             };
         }
 
