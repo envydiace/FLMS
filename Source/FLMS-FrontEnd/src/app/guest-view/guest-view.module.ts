@@ -50,6 +50,8 @@ import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.c
 import { ForgotPassChangeComponent } from './forgot-pass/forgot-pass-change/forgot-pass-change.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass/forgot-pass.component';
 import { FooterComponent } from '../layouts/footer/footer.component';
+import { TournamentTreeGvComponent } from './league/league-detail/league-statistic/tournament-tree-gv/tournament-tree-gv.component';
+import { NgTournamentTreeModule } from 'ng-tournament-tree';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,8 @@ import { FooterComponent } from '../layouts/footer/footer.component';
     ViewSquadComponent,
     ForgotPassChangeComponent,
     ForgotPassComponent,
-    FooterComponent
+    FooterComponent,
+    TournamentTreeGvComponent
   ],
   imports: [
     CommonModule,
@@ -110,7 +113,8 @@ import { FooterComponent } from '../layouts/footer/footer.component';
     MatSelectModule,
     MatPaginatorModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgTournamentTreeModule
   ],
   providers: [
     DatePipe

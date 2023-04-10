@@ -16,6 +16,7 @@ import { MatchEvent } from './../../models/match-event-detail.model';
 import { leagueFee } from 'src/app/models/league-prize.model';
 import { createLeagueInfo } from 'src/app/models/create-league-info.model';
 import { LeagueStatisticResponse } from '../../models/league-statistics-response.model';
+import { LeagueStatisticTypeKO } from 'src/app/models/league-statistic-type-ko.model';
 
 @Injectable({
   providedIn: 'root'
@@ -154,5 +155,10 @@ export class LeagueService {
 
   exportLeagueSchedule(leagueId: number): Observable<any> {
     return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
+  }
+
+  getLeagueStatisticTypeKO(leagueId: number): Observable<LeagueStatisticTypeKO> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetKnockOutStatistic/${leagueId}`).pipe(map((res: LeagueStatisticTypeKO) => res),
+      catchError(err => throwError(err)));
   }
 }

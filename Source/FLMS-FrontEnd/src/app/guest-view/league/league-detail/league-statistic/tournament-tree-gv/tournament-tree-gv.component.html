@@ -1,0 +1,9 @@
+<div *ngIf="match.participation != null" class="ngtt__match-wrapper">
+    <ng-container *ngFor="let team of match.participation">
+        <div class="ngtt__team-wrapper" style="background-color: #466582; border-radius: 6px;">
+            <div class="ngtt__team-avatar"></div>
+            <span class="ngtt__team-title">{{ team.clubBasicInfo != null ? team.clubBasicInfo.clubName : '_' }}</span>
+            <div class="ngtt__team-score">{{ team.score }}</div>
+        </div>
+    </ng-container>
+</div>
