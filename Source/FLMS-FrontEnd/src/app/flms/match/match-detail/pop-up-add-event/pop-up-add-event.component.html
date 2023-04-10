@@ -10,125 +10,125 @@
 
 
 <div class="list-fee">
-    <!-- <form [formGroup]="matchEvent"> -->
+    <form [formGroup]="matchDetailForm">
 
-    <table mat-table class="mat-elevation-z8" [dataSource]="matchEvent">
-        <ng-container matColumnDef="time">
-            <th mat-header-cell *matHeaderCellDef> Time </th>
-            <td mat-cell *matCellDef="let element;"> {{element.eventTime}} </td>
-        </ng-container>
+        <table mat-table [dataSource]="matchEvent" class="mat-elevation-z8">
+            <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef> Time </th>
+                <td mat-cell *matCellDef="let element;"> {{element.eventTime}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef> Type </th>
-            <td mat-cell *matCellDef="let element">
-                {{element.eventType}}
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.eventType}}
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="team">
-            <th mat-header-cell *matHeaderCellDef> Team </th>
-            <td mat-cell *matCellDef="let element">
-                {{element.isHome == true ? matchDetail.home.name : matchDetail.away.name}}
-            </td>
+            <ng-container matColumnDef="team">
+                <th mat-header-cell *matHeaderCellDef> Team </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.isHome == true ? matchDetail.home.name : matchDetail.away.name}}
+                </td>
 
-        </ng-container>
-        <ng-container matColumnDef="player">
-            <th mat-header-cell *matHeaderCellDef> Player </th>
-            <td mat-cell *matCellDef="let element">
-                {{element.main.name}}
-            </td>
+            </ng-container>
+            <ng-container matColumnDef="player">
+                <th mat-header-cell *matHeaderCellDef> Player </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.main.name}}
+                </td>
 
-        </ng-container>
-        <ng-container matColumnDef="assist">
-            <th mat-header-cell *matHeaderCellDef> Assist </th>
-            <td mat-cell *matCellDef="let element">
-                {{element.sub != null ? element.sub.name : ''}}
-            </td>
-        </ng-container>
+            </ng-container>
+            <ng-container matColumnDef="assist">
+                <th mat-header-cell *matHeaderCellDef> Assist </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.sub != null ? element.sub.name : ''}}
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef> Action </th>
-            <td mat-cell *matCellDef="let element; let i = index">
-                <!-- <button mat-raised-button color="primary" style="margin-right: 10px;">Accept</button> -->
-                <button mat-raised-button color="warn"
-                    (click)="openConfirmedRemoveEvent(element.matchEventId)">Delete</button>
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <!-- <button mat-raised-button color="primary" style="margin-right: 10px;">Accept</button> -->
+                    <button mat-raised-button color="warn"
+                        (click)="openConfirmedRemoveEvent(element.matchEventId)">Delete</button>
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="input-time">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-form-field appearance="outline">
-                    <mat-label>Time</mat-label>
-                    <input matInput type="number" minlength="0" maxlength="120" required [(ngModel)]="time">
-                </mat-form-field>
-            </th>
-        </ng-container>
+            <ng-container matColumnDef="input-time">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Time</mat-label>
+                        <input matInput type="number" formControlName="eventTime">
+                    </mat-form-field>
+                </th>
+            </ng-container>
 
-        <ng-container matColumnDef="input-type">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-form-field appearance="outline">
-                    <mat-label>Type</mat-label>
-                    <mat-select matNativeControl required (selectionChange)="onChangeTypeAndTeam($event)"
-                        [(ngModel)]="type">
-                        <mat-option value="Goal">Goal</mat-option>
-                        <mat-option value="OwnGoal">Own Goal</mat-option>
-                        <mat-option value="YellowCard">Yellow Card</mat-option>
-                        <mat-option value="RedCard">Red Card</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </th>
-        </ng-container>
+            <ng-container matColumnDef="input-type">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Type</mat-label>
+                        <mat-select matNativeControl (selectionChange)="onChangeTypeAndTeam($event)"
+                            formControlName="eventType">
+                            <mat-option value="Goal">Goal</mat-option>
+                            <mat-option value="OwnGoal">Own Goal</mat-option>
+                            <mat-option value="YellowCard">Yellow Card</mat-option>
+                            <mat-option value="RedCard">Red Card</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </th>
+            </ng-container>
 
-        <ng-container matColumnDef="input-team">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-form-field appearance="outline">
-                    <mat-label>Team</mat-label>
-                    <mat-select matNativeControl required [(ngModel)]="clubId"
-                        (selectionChange)="onChangeTypeAndTeam($event)">
-                        <mat-option value="{{matchDetail.home.clubId}}">{{matchDetail.home.name}}</mat-option>
-                        <mat-option value="{{matchDetail.away.clubId}}">{{matchDetail.away.name}}</mat-option>
+            <ng-container matColumnDef="input-team">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Team</mat-label>
+                        <mat-select matNativeControl formControlName="clubId"
+                            (selectionChange)="onChangeTypeAndTeam($event)">
+                            <mat-option value="{{matchDetail.home.clubId}}">{{matchDetail.home.name}}</mat-option>
+                            <mat-option value="{{matchDetail.away.clubId}}">{{matchDetail.away.name}}</mat-option>
 
-                    </mat-select>
-                </mat-form-field>
-            </th>
-        </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </th>
+            </ng-container>
 
-        <ng-container matColumnDef="input-player">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-form-field appearance="outline">
-                    <mat-label>Player</mat-label>
-                    <mat-select matNativeControl required [(ngModel)]="selectedPlayer">
-                        <mat-option *ngFor="let player of listPlayer" [value]="player">{{player.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </th>
-        </ng-container>
+            <ng-container matColumnDef="input-player">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Player</mat-label>
+                        <mat-select matNativeControl formControlName="main">
+                            <mat-option *ngFor="let player of listPlayer" [value]="player">{{player.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </th>
+            </ng-container>
 
-        <ng-container matColumnDef="input-assist">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-form-field appearance="outline">
-                    <mat-label>Assist</mat-label>
-                    <mat-select matNativeControl [(ngModel)]="selectedAssist">
-                        <mat-option *ngFor="let player of listPlayer" [value]="player">{{player.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </th>
-        </ng-container>
+            <ng-container matColumnDef="input-assist">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Assist</mat-label>
+                        <mat-select matNativeControl formControlName="sub">
+                            <mat-option *ngFor="let player of listPlayer" [value]="player">{{player.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </th>
+            </ng-container>
 
-        <ng-container matColumnDef="input-action">
-            <th mat-header-cell *matHeaderCellDef>
-                <button mat-raised-button color="primary" (click)="addEventIntoList()">Add</button>
-            </th>
-        </ng-container>
+            <ng-container matColumnDef="input-action">
+                <th mat-header-cell *matHeaderCellDef>
+                    <button mat-raised-button color="primary" (click)="addEventIntoList()">Add</button>
+                </th>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-header-row
-            *matHeaderRowDef="['input-time', 'input-type', 'input-team', 'input-player','input-assist' ,'input-action']; sticky: true">
-        </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-header-row
+                *matHeaderRowDef="['input-time', 'input-type', 'input-team', 'input-player','input-assist' ,'input-action']; sticky: true">
+            </tr>
 
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <!-- </form> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </form>
 
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">

@@ -18,17 +18,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./pop-up-add-event.component.scss']
 })
 export class PopUpAddEventComponent implements OnInit {
-  displayedColumns: string[] = ['time', 'type', 'team', 'player', 'assist', 'action']
+  displayedColumns: any[] = ['time', 'type', 'team', 'player', 'assist', 'action']
   matchId: number;
   matchDetail: MatchDetail;
   addmatchEvent: AddMatchEvent[] = [];
-  type: string = '';
-  clubId: number;
-  selectedPlayer: getListPlayerJoinMatch;
-  selectedAssist: getListPlayerJoinMatch;
+
   listPlayer: getListPlayerJoinMatch[] = [];
   matchEvent: MatchEvent[] = [];
-  time: number = 0;
+
   tempClubId: number;
 
   eventTime: number;
@@ -54,6 +51,7 @@ export class PopUpAddEventComponent implements OnInit {
     this.matchId = this.data.matchId;
     this.matchDetail = this.data.matchDetail;
 
+    this.createForm();
     this.initDataSource();
 
   }
@@ -70,15 +68,11 @@ export class PopUpAddEventComponent implements OnInit {
 
   createForm() {
     this.matchDetailForm = this.formBuilder.group({
-      'matchId': [null,],
-      'eventTime': [null, [Validators.max(120), Validators.min(0)]],
-      'eventType': [null,],
-      'clubId': [null,],
-      'mainId': [null,],
-      'subId': [null,],
-      'mainName': [null,],
-      'subName': [null,],
-      'clubName': [null,],
+      'eventTime': [null, [Validators.required, Validators.max(120), Validators.min(0)]],
+      'eventType': [null, [Validators.required]],
+      'clubId': [null, [Validators.required]],
+      'main': [null, [Validators.required]],
+      'sub': [null,]
     });
   }
 
@@ -88,13 +82,13 @@ export class PopUpAddEventComponent implements OnInit {
 
   onChangeTypeAndTeam($event: any) {
     // alert(this.type + this.clubId);
-    if (this.type != null && this.type != undefined
-      && this.clubId != null && this.clubId != undefined) {
-      if (this.type == 'OwnGoal') {
-        if (this.matchDetail.home.clubId == this.clubId) this.tempClubId = this.matchDetail.away.clubId;
-        if (this.matchDetail.away.clubId == this.clubId) this.tempClubId = this.matchDetail.home.clubId;
+    if (this.getControl('eventType').value != null && this.getControl('eventType').value != undefined
+      && this.getControl('clubId').value != null && this.getControl('clubId').value != undefined) {
+      if (this.getControl('eventType').value == 'OwnGoal') {
+        if (this.matchDetail.home.clubId == this.getControl('clubId').value) this.tempClubId = this.matchDetail.away.clubId;
+        if (this.matchDetail.away.clubId == this.getControl('clubId').value) this.tempClubId = this.matchDetail.home.clubId;
       } else {
-        this.tempClubId = this.clubId;
+        this.tempClubId = this.getControl('clubId').value;
       }
 
       this.matchService.getListPlayerJoinMatch(this.tempClubId, this.data.matchId).pipe(map((res: getListPlayerJoinMatch[]) => {
@@ -104,30 +98,36 @@ export class PopUpAddEventComponent implements OnInit {
 
       })
     }
-
   }
 
+
+
   addEventIntoList() {
-    let eventTime: number = +this.time
+    // stop here if form is invalid
+    if (this.matchDetailForm.invalid) {
+      return;
+    }
+
+    let eventTime: number = +this.getControl('eventTime').value;
     // if (eventTime >= 0 || eventTime <= 90) {
     //   eventTime = eventTime;
 
-      const MatchEvent: AddMatchEvent = {
-        matchId: this.matchId,
-        eventTime: eventTime,
-        eventType: this.type,
-        clubId: this.clubId,
-        mainId: this.selectedPlayer.playerId,
-        subId: this.selectedAssist == null ? null : this.selectedAssist.playerId,
-        mainName: this.selectedPlayer.name,
-        subName: this.selectedAssist == null ? null : this.selectedAssist.name,
-        clubName: this.matchDetail.home.clubId == this.clubId ? this.matchDetail.home.name : this.matchDetail.away.name
-      }
-      // this.addmatchEvent.push(MatchEvent);
+    const MatchEvent: AddMatchEvent = {
+      matchId: this.matchId,
+      eventTime: eventTime,
+      eventType: this.getControl('eventType').value,
+      clubId: this.getControl('clubId').value,
+      mainId: this.getControl('main').value.playerId,
+      subId: this.getControl('sub').value == null ? null : this.getControl('sub').value.playerId,
+      mainName: this.getControl('main').value.name,
+      subName: this.getControl('sub').value == null ? null : this.getControl('sub').value.name,
+      clubName: this.matchDetail.home.clubId == this.getControl('clubId').value ? this.matchDetail.home.name : this.matchDetail.away.name
+    }
+    // this.addmatchEvent.push(MatchEvent);
 
-      const newUsersArray = this.addmatchEvent;
-      newUsersArray.push(MatchEvent);
-      this.addmatchEvent = [...newUsersArray];
+    const newUsersArray = this.addmatchEvent;
+    newUsersArray.push(MatchEvent);
+    this.addmatchEvent = [...newUsersArray];
     // }else{
 
     // }
