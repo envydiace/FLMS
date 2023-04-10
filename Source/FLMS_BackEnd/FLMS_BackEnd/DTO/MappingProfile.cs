@@ -306,7 +306,12 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.ClubName,
                 map => map.MapFrom(
                     pa => pa.Club.ClubName
-                    ));
+                    ))
+                .ForMember(dto => dto.Logo,
+                map => map.MapFrom(
+                    pa => pa.Club.Logo
+                    ))
+                ;
 
             //MatchEvent
             CreateMap<MatchEvent, MatchEventDTO>();
