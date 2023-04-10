@@ -19,6 +19,7 @@ namespace FLMS_BackEnd.DTO
         public int RedCard { get; set; }
         public int YellowCard { get; set; }
         public string? Avatar { get; set; }
+        public int Number { get; set; }
 
     }
 }
