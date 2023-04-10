@@ -53,7 +53,25 @@ namespace FLMS_BackEnd.DTO
                     ));
 
             //Player
-            CreateMap<Player, PlayerDTO>();
+            CreateMap<Player, PlayerInfoDTO>();
+
+            CreateMap<Player, PlayerStatisticInfoDTO>()
+                .ForMember(dto => dto.Number,
+                map => map.MapFrom(
+                    player => player != null && player.PlayerClubs.FirstOrDefault() != null ? player.PlayerClubs.FirstOrDefault().Number : 0))
+                .ForMember(dto => dto.Assistant,
+                map => map.MapFrom(
+                    player => player.MatchEventSubs.Count))
+                .ForMember(dto => dto.Goal,
+                map => map.MapFrom(
+                    player => player.MatchEventMains.Where(ev => ev.EventType.Equals(Constants.MatchEventType.Goal.ToString())).Count()))
+                .ForMember(dto => dto.YellowCard,
+                map => map.MapFrom(
+                    player => player.MatchEventMains.Where(ev => ev.EventType.Equals(Constants.MatchEventType.YellowCard.ToString())).Count()))
+                .ForMember(dto => dto.RedCard,
+                map => map.MapFrom(
+                    player => player.MatchEventMains.Where(ev => ev.EventType.Equals(Constants.MatchEventType.RedCard.ToString())).Count()))
+                ;
 
             CreateMap<PlayerClub, PlayerClubDTO>()
                 .ForMember(dto => dto.ClubName,
