@@ -7,9 +7,10 @@ import { PlayerForEvent } from 'src/app/models/player-for-event.model';
 import { MatchService } from 'src/app/flms/match/match.service';
 import { first, map } from 'rxjs/operators';
 import { ClubListPlayerResponse } from 'src/app/models/club-list-player-response.model';
-import { ClubListPlayer } from 'src/app/models/club-list-player.model';
+import { ClubListPlayer, getListPlayerJoinMatch } from 'src/app/models/club-list-player.model';
 import { CommonService } from 'src/app/common/common/common.service';
 import { PopUpRemoveEvemtComponent } from '../pop-up-remove-evemt/pop-up-remove-event.component'
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pop-up-add-event',
@@ -23,11 +24,11 @@ export class PopUpAddEventComponent implements OnInit {
   addmatchEvent: AddMatchEvent[] = [];
   type: string = '';
   clubId: number;
-  selectedPlayer: ClubListPlayer;
-  selectedAssist: ClubListPlayer;
-  listPlayer: ClubListPlayer[] = [];
+  selectedPlayer: getListPlayerJoinMatch;
+  selectedAssist: getListPlayerJoinMatch;
+  listPlayer: getListPlayerJoinMatch[] = [];
   matchEvent: MatchEvent[] = [];
-  time: string;
+  time: number = 0;
   tempClubId: number;
 
   eventTime: number;
@@ -45,7 +46,6 @@ export class PopUpAddEventComponent implements OnInit {
       matchDetail: MatchDetail;
     }
   ) {
-
   }
 
   ngOnInit(): void {
@@ -77,8 +77,8 @@ export class PopUpAddEventComponent implements OnInit {
         this.tempClubId = this.clubId;
       }
 
-      this.matchService.getPlayerForEvent(this.tempClubId).pipe(map((res: ClubListPlayerResponse) => {
-        this.listPlayer = res.players
+      this.matchService.getListPlayerJoinMatch(this.tempClubId, this.data.matchId).pipe(map((res: getListPlayerJoinMatch[]) => {
+        this.listPlayer = res
       })
       ).subscribe(res => {
 
@@ -101,7 +101,11 @@ export class PopUpAddEventComponent implements OnInit {
 
   addEventIntoList() {
     let eventTime: number = +this.time
+    // if (eventTime >= 0 || eventTime <= 90) {
+    //   eventTime = eventTime;
+    // } else {
 
+    // }
     const MatchEvent: AddMatchEvent = {
       matchId: this.matchId,
       eventTime: eventTime,

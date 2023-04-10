@@ -50,14 +50,14 @@ export class PopUpAddPlayerComponent implements OnInit {
     this.addPlayerFormGroup = this.formBuilder.group({
       'playerName': [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
       'number': [null, [Validators.required]],
-      'playerHeight': [null, [Validators.required, Validators.pattern('^[0-9]+[m][0-9]+$')]],
-      'address': [null, [Validators.required]],
-      'email': [null, [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      'playerHeight': [null, [ Validators.pattern('^[0-9]+[m][0-9]+$')]],
+      'address': [null,],
+      'email': [null, [ Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'nickname': [null, [Validators.required, Validators.minLength(3)]],
       'dob': [null, [Validators.required]],
-      'weight': [null, [Validators.required, Validators.pattern('^[0-9,]+[k][g]$')]],
-      'phoneNumber': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
-      'socialCont': [null, [Validators.required, Validators.pattern('^[0-9]{1,15}$')]],
+      'weight': [null, [ Validators.pattern('^[0-9,]+[k][g]$')]],
+      'phoneNumber': [null, [ Validators.pattern('^[0-9]{1,15}$')]],
+      'socialCont': [null, [ Validators.pattern('^[0-9]{1,15}$')]],
       'clubName': [null,],
       'avatar': [null,]
     });
@@ -117,8 +117,7 @@ export class PopUpAddPlayerComponent implements OnInit {
 
     this.loading = true;
 
-    const nameImg = 'club/' + this.data.clubName
-      + '/player/' + this.player.name
+    const nameImg = 'player/' + this.player.name
       + '/playerNickName/' + this.player.nickName
       + '/playerAva/' + this.getCurrentDateTime();
     const fileRef = this.storage.ref(nameImg);

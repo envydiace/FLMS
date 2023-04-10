@@ -124,3 +124,22 @@ export class PlayerbyClubMana implements PlayerbyClubMana {
     }
 }
 
+export interface getListPlayerJoinMatch{
+    playerId: number,
+    name: string,
+    avatar: string,
+}
+
+export class getListPlayerJoinMatch implements getListPlayerJoinMatch{
+    constructor(
+        playerId: number,
+        name: string,
+        avatar: string,
+    ){
+        this.playerId = playerId;
+        this.name = name;
+        this.avatar = avatar;
+    }
+}
+
+

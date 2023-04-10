@@ -14,6 +14,7 @@ import { Player } from 'src/app/models/player.model';
 import { PlayerForEvent } from './../../models/player-for-event.model'
 import { ClubListPlayerResponse } from 'src/app/models/club-list-player-response.model';
 import { MatchSquad, UpdateSquad, ViewMatchSquad } from './../../models/match-squad.model';
+import { getListPlayerJoinMatch } from 'src/app/models/club-list-player.model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +80,17 @@ export class MatchService {
 
     return this.http.get<any>(`${environment.apiUrl}/api/Player/GetListPlayerByClubId`, { params, headers: this.headers })
       .pipe(map((res: ClubListPlayerResponse) => res),
+        catchError(err => throwError(err)))
+  }
+
+  getListPlayerJoinMatch(ClubId: number, matchId: number): Observable<getListPlayerJoinMatch[]> {
+    let params = new HttpParams();
+
+    params = params.append("ClubId", String(ClubId));
+    params = params.append("MatchId", String(matchId));
+
+    return this.http.get<any>(`${environment.apiUrl}/api/Squad/GetListPlayerJoinMatch`, { params, headers: this.headers })
+      .pipe(map((res: getListPlayerJoinMatch[]) => res),
         catchError(err => throwError(err)))
   }
 
