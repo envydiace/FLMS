@@ -24,6 +24,7 @@ export class PopUpEditLeagueComponent implements OnInit {
   loading = false;
   submitted = false;
   defaultLogo: string = './../../../../assets/image/default-logo.png';
+  leagueInfo: GetUpdateLeagueDetail;
 
   selectedImage: any = null;
 
@@ -98,6 +99,7 @@ export class PopUpEditLeagueComponent implements OnInit {
 
     if (res.logo != null) {
       this.defaultLogo = res.logo;
+      this.form.controls['logo'].patchValue(res.logo);
     }
 
   }
@@ -124,9 +126,20 @@ export class PopUpEditLeagueComponent implements OnInit {
     return formatDate(new Date(), 'dd-MM-yyyy', 'en-US');
   }
 
+  bindDataIntoLeague() {
+    this.leagueInfo = {
+      leagueId: this.leagueDetail.leagueId,
+      leagueName: this.leagueDetail.leagueName,
+      location: this.form.get('location').value,
+      fanpage: this.form.get('fanpage').value,
+      logo: this.form.get('logo').value
+    }
+  }
+
 
   public onSubmit() {
     this.submitted = true;
+    this.bindDataIntoLeague();
 
     // stop here if form is invalid
     if (this.form.invalid) {
@@ -142,9 +155,9 @@ export class PopUpEditLeagueComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
 
-            this.form.get('logo').patchValue(url);
+            this.leagueInfo.logo = url;
 
-            this.leagueService.updateLeague(this.form.value)
+            this.leagueService.updateLeague(this.leagueInfo)
               .pipe(first())
               .subscribe({
                 next: () => {
@@ -163,9 +176,7 @@ export class PopUpEditLeagueComponent implements OnInit {
       ).subscribe();
 
     } else {
-      this.form.get('logo').patchValue(this.leagueDetail.logo);
-
-      this.leagueService.updateLeague(this.form.value)
+      this.leagueService.updateLeague(this.leagueInfo)
         .pipe(first())
         .subscribe({
           next: () => {

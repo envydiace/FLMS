@@ -9,7 +9,7 @@
         <p>
             <mat-toolbar class="card">
                 <span>Cost Plan</span>
-                <div style="margin: 0 0 0 auto;">
+                <div style="margin: 0 0 0 auto;" *ngIf="userRole == 'LEAGUE_MANAGER'">
                     <button mat-raised-button color="primary" (click)="openAddPlan(leagueId)">Add</button>
                 </div>
             </mat-toolbar>
@@ -59,7 +59,7 @@
         <p>
             <mat-toolbar class="card">
                 <span>Actual Cost</span>
-                <div style="margin: 0 0 0 auto;">
+                <div style="margin: 0 0 0 auto;" *ngIf="userRole == 'LEAGUE_MANAGER'">
                     <button mat-raised-button color="primary" (click)="openAddActual(leagueId)">Add</button>
                 </div>
             </mat-toolbar>
