@@ -12,7 +12,7 @@
                         <mat-card class="player-box" *ngFor="let item of homeSubstitution">
                             <div *ngIf="item != undefined">
                                 <mat-card-header>
-                                    <div mat-card-avatar class="avatar-header-image"></div>
+                                    <img mat-card-avatar class="avatar-header-image" [src]="imgSrc"><br>
                                     <mat-card-title
                                         style="line-height: 36px; font-size: 15px; margin-bottom: 0;">{{item.playerName}}</mat-card-title>
                                 </mat-card-header>

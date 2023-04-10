@@ -81,17 +81,17 @@
 }
 
 .avatar-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
     height: 35px;
     width: 35px;
     margin: 2px 0px 0px 2px;
+    background-color: white;
 }
 
 .player-header-image {
     height: 40px;
     width: 40px;
     margin: 0 auto;
+    background-color: white;
 }
 
 .position-title {
