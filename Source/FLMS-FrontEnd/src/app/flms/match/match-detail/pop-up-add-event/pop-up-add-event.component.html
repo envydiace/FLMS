@@ -58,7 +58,7 @@
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field appearance="outline">
                     <mat-label>Time</mat-label>
-                    <input matInput [(ngModel)]="time">
+                    <input matInput type="number" [(ngModel)]="time" minlength="0" maxlength="120" required>
                 </mat-form-field>
             </th>
         </ng-container>
