@@ -10,7 +10,7 @@ import { ClubListPlayerResponse } from 'src/app/models/club-list-player-response
 import { ClubListPlayer, getListPlayerJoinMatch } from 'src/app/models/club-list-player.model';
 import { CommonService } from 'src/app/common/common/common.service';
 import { PopUpRemoveEvemtComponent } from '../pop-up-remove-evemt/pop-up-remove-event.component'
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pop-up-add-event',
@@ -34,8 +34,10 @@ export class PopUpAddEventComponent implements OnInit {
   eventTime: number;
   eventType: string;
 
+  matchDetailForm: FormGroup;
 
   constructor(
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<PopUpAddEventComponent>,
     public matchService: MatchService,
     public commonService: CommonService,
@@ -66,6 +68,12 @@ export class PopUpAddEventComponent implements OnInit {
     ).subscribe();
   }
 
+  createForm(){
+    this.matchDetailForm = this.formBuilder.group({
+      
+    });
+  }
+
   onChangeTypeAndTeam($event: any) {
     // alert(this.type + this.clubId);
     if (this.type != null && this.type != undefined
@@ -86,18 +94,6 @@ export class PopUpAddEventComponent implements OnInit {
     }
 
   }
-
-  // public addlistMatchEvent() {
-  //   this.matchService.addListEvent(this.addmatchEvent)
-  //     .pipe(first())
-  //     .subscribe({
-  //       next: () => {
-  //         this.initDataSource();
-  //       },
-  //       error: error => {
-  //       }
-  //     });
-  // }
 
   addEventIntoList() {
     let eventTime: number = +this.time
