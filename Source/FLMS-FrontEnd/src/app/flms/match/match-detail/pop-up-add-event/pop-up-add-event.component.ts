@@ -68,10 +68,22 @@ export class PopUpAddEventComponent implements OnInit {
     ).subscribe();
   }
 
-  createForm(){
+  createForm() {
     this.matchDetailForm = this.formBuilder.group({
-      
+      'matchId': [null,],
+      'eventTime': [null, [Validators.max(120), Validators.min(0)]],
+      'eventType': [null,],
+      'clubId': [null,],
+      'mainId': [null,],
+      'subId': [null,],
+      'mainName': [null,],
+      'subName': [null,],
+      'clubName': [null,],
     });
+  }
+
+  getControl(name: string) {
+    return this.matchDetailForm.get(name) as FormControl;
   }
 
   onChangeTypeAndTeam($event: any) {
@@ -99,25 +111,26 @@ export class PopUpAddEventComponent implements OnInit {
     let eventTime: number = +this.time
     // if (eventTime >= 0 || eventTime <= 90) {
     //   eventTime = eventTime;
-    // } else {
+
+      const MatchEvent: AddMatchEvent = {
+        matchId: this.matchId,
+        eventTime: eventTime,
+        eventType: this.type,
+        clubId: this.clubId,
+        mainId: this.selectedPlayer.playerId,
+        subId: this.selectedAssist == null ? null : this.selectedAssist.playerId,
+        mainName: this.selectedPlayer.name,
+        subName: this.selectedAssist == null ? null : this.selectedAssist.name,
+        clubName: this.matchDetail.home.clubId == this.clubId ? this.matchDetail.home.name : this.matchDetail.away.name
+      }
+      // this.addmatchEvent.push(MatchEvent);
+
+      const newUsersArray = this.addmatchEvent;
+      newUsersArray.push(MatchEvent);
+      this.addmatchEvent = [...newUsersArray];
+    // }else{
 
     // }
-    const MatchEvent: AddMatchEvent = {
-      matchId: this.matchId,
-      eventTime: eventTime,
-      eventType: this.type,
-      clubId: this.clubId,
-      mainId: this.selectedPlayer.playerId,
-      subId: this.selectedAssist == null ? null : this.selectedAssist.playerId,
-      mainName: this.selectedPlayer.name,
-      subName: this.selectedAssist == null ? null : this.selectedAssist.name,
-      clubName: this.matchDetail.home.clubId == this.clubId ? this.matchDetail.home.name : this.matchDetail.away.name
-    }
-    // this.addmatchEvent.push(MatchEvent);
-
-    const newUsersArray = this.addmatchEvent;
-    newUsersArray.push(MatchEvent);
-    this.addmatchEvent = [...newUsersArray];
   }
 
   openConfirmedRemoveEvent(eventId: number): void {
@@ -130,6 +143,12 @@ export class PopUpAddEventComponent implements OnInit {
       this.initDataSource();
       console.log('The dialog was closed');
     });
+  }
+
+  removeNewEvent(position: number) {
+    const newUsersArray = this.addmatchEvent;
+    newUsersArray.splice(position, 1);
+    this.addmatchEvent = [...newUsersArray];
   }
 }
 

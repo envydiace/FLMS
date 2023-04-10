@@ -6,6 +6,7 @@ import { MatchService } from './../../match.service';
 import { ClubStats, MatchStats } from '../../../../models/match-statistics.model';
 import { MatchStatisticsResponse } from '../../../../models/match-statistic-response.model';
 import { PopUpEditMatchStatsComponent } from '../../pop-up-edit-match-stats/pop-up-edit-match-stats.component';
+import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-match-statistic',
   templateUrl: './match-statistic.component.html',
@@ -16,6 +17,7 @@ export class MatchStatisticComponent implements OnInit {
   matchId: number;
   home: ClubStats;
   away: ClubStats;
+  userRole: any;
 
   displayedColumns: string[] = ['home', 'type', 'away'];
   dataSource = ELEMENT_DATA;
@@ -24,6 +26,8 @@ export class MatchStatisticComponent implements OnInit {
     private MatchService: MatchService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    public authen: AuthService,
+
   ) {
     this.route.queryParams.subscribe(params => {
       this.matchId = params['matchId'];
@@ -32,6 +36,8 @@ export class MatchStatisticComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
+
   }
 
   initDataSource() {

@@ -57,7 +57,7 @@ export class CreateLeagueComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    if(this.token != null) {
+    if (this.token != null) {
       this.getCurrentUser();
     }
   }
@@ -98,11 +98,11 @@ export class CreateLeagueComponent implements OnInit {
       'endDate': [null, [Validators.required]],
       'maxNoPlayer': [null, [Validators.required, Validators.min(7), Validators.max(30)]],
       'noPlayerSquad': [null, [Validators.required, Validators.min(5), Validators.max(11)]],
-      'location': [null, [Validators.required]],
-      'fanpage': [null, [Validators.required]],
+      'location': [null, []],
+      'fanpage': [null, []],
       'leagueType': [null, [Validators.required]],
       'noRound': [null],
-      'description': [null, [Validators.required]],
+      'description': [null, []],
       'logo': [null],
       'sponsored': [0, [Validators.required]]
     });
@@ -142,11 +142,10 @@ export class CreateLeagueComponent implements OnInit {
 
     this.loading = true;
 
-    // upload image to firebase
-    const nameImg = 'league/' + this.leagueInfo.leagueName + '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
-    const fileRef = this.storage.ref(nameImg);
-
     if (this.selectedImage != null) {
+      // upload image to firebase
+      const nameImg = 'league/' + this.leagueInfo.leagueName + '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
+      const fileRef = this.storage.ref(nameImg);
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {

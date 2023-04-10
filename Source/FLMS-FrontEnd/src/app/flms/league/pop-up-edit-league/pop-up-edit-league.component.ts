@@ -92,7 +92,7 @@ export class PopUpEditLeagueComponent implements OnInit {
   bindValueIntoForm(res: GetUpdateLeagueDetail) {
     res.leagueId = this.data.leagueId;
     this.form.controls['leagueName'].patchValue(res.leagueName);
- 
+    this.form.controls['leagueName'].disable();
    
     this.form.controls['location'].patchValue(res.location);
     this.form.controls['fanpage'].patchValue(res.fanpage);

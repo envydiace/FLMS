@@ -32,9 +32,9 @@
             <div class="row justify-content-right">
                 <div class=" justify-content-right" style="display: inline block; ">
                     <button mat-raised-button color="primary" (click)="exportLeagueSchedule()">Export</button>
-                    <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+                    <span *ngIf="userRole == 'LEAGUE_MANAGER'">
                         <button mat-raised-button>Add</button>
-                    </div>
+                    </span>
                 </div>
             </div>
         </div>
