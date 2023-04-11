@@ -193,6 +193,9 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.ClubBasicInfo,
                 map => map.MapFrom(
                     node => node.ClubClone != null && node.ClubClone.Club != null ? node.ClubClone.Club : null))
+                .ForMember(dto => dto.Score,
+                map => map.MapFrom(
+                    node => MethodUtils.GetNodeScore(node)))
                 ;
 
             CreateMap<ParticipateTreeNodeDTO, ParticipationNodeTreeDTO>();
