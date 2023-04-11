@@ -62,8 +62,43 @@ namespace FLMS_BackEnd.Services.Impl
                 IsActual = false,
                 FeeType = Constants.FeeType.Sponsored.ToString()
             });
-            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Prizes));
-            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Fees));
+            leagueFees.Add(new LeagueFee
+            {
+                ExpenseName = Constants.Fee.SponsoredName,
+                ExpenseKey = Constants.Fee.SponsoredKey,
+                Cost = 0,
+                IsActual = true,
+                FeeType = Constants.FeeType.Sponsored.ToString()
+            });
+            var listPrizes = mapper.Map<List<LeagueFee>>(request.Prizes);
+            leagueFees.AddRange(listPrizes);
+            var listFees = mapper.Map<List<LeagueFee>>(request.Fees);
+            leagueFees.AddRange(listFees);
+            listPrizes.ForEach(prize =>
+            {
+                leagueFees.Add(new LeagueFee
+                {
+                    Cost = 0,
+                    ExpenseKey = prize.ExpenseKey,
+                    ExpenseName = prize.ExpenseName,
+                    FeeType = prize.FeeType,
+                    IsActual = true,
+                    LeagueId = prize.LeagueId
+                });
+            });
+            listFees.ForEach(fee =>
+            {
+                leagueFees.Add(new LeagueFee
+                {
+                    Cost = 0,
+                    ExpenseKey = fee.ExpenseKey,
+                    ExpenseName = fee.ExpenseName,
+                    FeeType = fee.FeeType,
+                    IsActual = true,
+                    LeagueId = fee.LeagueId
+                });
+            });
+
             league.LeagueFees = leagueFees;
 
             league.UserId = userId;
