@@ -34,7 +34,7 @@ export class LeagueListComponent implements OnInit {
     this.initDataSource();
     this.createForm();
 
-    this.onChangeLeagueNameFilter();
+    this.onChangeFilter();
   }
 
   initDataSource() {
@@ -53,7 +53,7 @@ export class LeagueListComponent implements OnInit {
     });
   }
 
-  onChangeLeagueNameFilter() {
+  onChangeFilter() {
     this.filterForm.valueChanges.pipe(
       debounceTime(500), distinctUntilChanged()
     ).subscribe((values: any) => {
