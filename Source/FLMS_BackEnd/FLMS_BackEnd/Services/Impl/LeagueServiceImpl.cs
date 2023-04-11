@@ -214,7 +214,7 @@ namespace FLMS_BackEnd.Services.Impl
             var leagues = await leagueRepository.FindByCondition(league =>
             (request.searchLeagueName == null
                 || request.searchLeagueName == ""
-                || league.LeagueName.StartsWith(request.searchLeagueName))
+                || league.LeagueName.ToLower().Contains(request.searchLeagueName.ToLower()))
             &&
             (request.from == null
                 || request.from.GetValueOrDefault().CompareTo(league.StartDate) <= 0)
