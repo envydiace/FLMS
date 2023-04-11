@@ -97,7 +97,7 @@ export class ConfirmFeeComponent implements OnInit {
     // }
 
     this.loading = true;
-    const nameImg = 'league/' + this.leagueName + '/evidence/' + this.clubName + '/' + this.getCurrentDateTime() + this.selectedImage.name;
+    const nameImg = 'league/' + this.data.leagueId + '/evidence/' + this.clubName + '/' + this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
 
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
