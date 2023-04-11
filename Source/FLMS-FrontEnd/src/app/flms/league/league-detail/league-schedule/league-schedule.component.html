@@ -100,20 +100,28 @@
             <mat-cell *matCellDef="let element" class="stadium-cell" (click)="navigateToMatchDetail(element.matchId)">
                 {{element.stadium}} </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef class="action-header"> Action </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <div *ngIf="element.isFinish != true" style="width: 100%; text-align: center;">
-                    <button mat-raised-button color="warn" style="margin-left: 10px;"
-                        (click)="openDialogConfirmIsFinished(element.matchId)">Finish</button> -
-                    <button mat-raised-button color="primary" (click)="openEditMatchInfo(element.matchId)">Edit</button>
-                </div>
+        <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+            <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef class="action-header"> Action </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <div *ngIf="element.isFinish != true" style="width: 100%; text-align: center;">
+                        <button mat-raised-button color="warn" style="margin-left: 10px;"
+                            (click)="openDialogConfirmIsFinished(element.matchId)">Finish</button> -
+                        <button mat-raised-button color="primary"
+                            (click)="openEditMatchInfo(element.matchId)">Edit</button>
+                    </div>
+                </mat-cell>
+            </ng-container>
+        </div>
 
-            </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"></mat-row>
+        <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"></mat-row>
+        </div>
+        <div *ngIf="userRole == 'CLUB_MANAGER'">
+            <mat-header-row *matHeaderRowDef="displayedColumnsC"></mat-header-row>
+        <mat-row *matRowDef="let element; columns: displayedColumnsC;" class="example-element-row"></mat-row>
+        </div>
     </mat-table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

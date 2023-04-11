@@ -8,7 +8,7 @@
                         <mat-card-title>{{league.leagueName}}</mat-card-title>
 
                         <img mat-card-avatar class="league-header-image"
-                            [src]="leagueListByUser.logo != null ? leagueListByUser.logo : defaultLogo"
+                            [src]="league.logo != null ? league.logo : defaultLogo"
                              alt="League logo">
                         <mat-card-actions>
                             <button mat-button (click)="sendInvitation(league.leagueId)">Join</button>

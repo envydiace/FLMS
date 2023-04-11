@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-league-schedule',
@@ -21,11 +22,15 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 })
 export class LeagueScheduleComponent implements OnInit {
   displayedColumns: string[] = ['time', 'matchDate', 'home.name', 'vs', 'away.name', 'round', 'stadium', 'action'];
+
+  displayedColumns: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium', 'action'];
+  displayedColumnsC: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium'];
   leagueId: number;
   matchId: number;
   listMatch = new MatTableDataSource<MatchSchedule>();
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   filterForm: FormGroup;
+  userRole: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -37,6 +42,7 @@ export class LeagueScheduleComponent implements OnInit {
     private commonService: CommonService,
     private router: Router,
     public dialog: MatDialog,
+    public authen: AuthService,
   ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
@@ -45,6 +51,7 @@ export class LeagueScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
     this.createForm();
     this.onChangeFilter();
   }
