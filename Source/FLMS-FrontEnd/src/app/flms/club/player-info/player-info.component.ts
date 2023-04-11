@@ -61,7 +61,7 @@ export class PlayerInfoComponent implements OnInit {
       name: [null, [Validators.required, this.noWhitespaceValidator]],
       nickName: [null,],
       avatar: [null,],
-      number: [null, Validators.pattern('^[0-9]{1,2}$')],
+      number: [null, [Validators.required,Validators.pattern('^[0-9]{1,2}$')]],
       dob: [null, Validators.required],
       height: [null, [Validators.pattern('^[0-9]+[m][0-9]+$')]],
       weight: [null, [Validators.pattern('^[0-9,]+[k][g]$')]],
