@@ -313,6 +313,32 @@ namespace FLMS_BackEnd.Utils
             return 0;
         }
 
+        public static int GetNodeScore(ParticipateNode node)
+        {
+            bool isHome;
+            var match = node.MatchHomes.FirstOrDefault();
+            if (match != null)
+            {
+                isHome = true;
+            }
+            else
+            {
+                match = node.MatchAways.FirstOrDefault();
+                if(match != null)
+                {
+                    isHome = false;
+                }
+                else
+                {
+                    return 0;
+                }
+            } 
+            return match.MatchEvents.Where(ev => ev.IsHome == isHome &&
+                (ev.EventType.Equals(Constants.MatchEventType.Goal.ToString()) ||
+                ev.EventType.Equals(Constants.MatchEventType.OwnGoal.ToString()))
+                ).Count();
+        }
+
         public static void SetColumnWidths(IXLWorksheet worksheet)
         {
             worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Time]).Width = 12;
