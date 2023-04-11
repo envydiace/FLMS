@@ -64,8 +64,8 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request)
         {
             var clubs = await clubRepository.FindByCondition(club =>
-            (request.searchClubName == null || request.searchClubName == "" || club.ClubName.StartsWith(request.searchClubName))
-                && (request.searchManagerName == null || request.searchManagerName == "" || club.User.FullName.StartsWith(request.searchManagerName))
+            (request.searchClubName == null || request.searchClubName == "" || club.ClubName.ToLower().Contains(request.searchClubName.ToLower()))
+                && (request.searchManagerName == null || request.searchManagerName == "" || club.User.FullName.ToLower().Contains(request.searchManagerName.ToLower()))
             ).Include(club => club.User).ToListAsync();
             int total = clubs.Count;
             var result = mapper.Map<List<ClubDTO>>(clubs.Skip((request.page - 1) * request.pageSize).Take(request.pageSize).ToList());
