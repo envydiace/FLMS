@@ -9,6 +9,9 @@ import { ListFees } from 'src/app/models/fee-detail.model';
 })
 export class PopUpAddActualComponent implements OnInit {
   displayedColumns: string[] = ['no', 'expenseName', 'cost', 'type', 'action']
+  isErrorEn = false;
+  isErrorC = false;
+  isErrorT = false;
 
   listFees: ListFees[] = [];
   leagueId: number;
@@ -51,15 +54,27 @@ export class PopUpAddActualComponent implements OnInit {
   }
 
   addActualFeetoList() {
-    const feeTemp: ListFees = {
-      expenseName: this.expenseName,
-      cost: this.feeCost,
-      feeType: this.type
+    if (this.expenseName == null || this.feeCost == null || this.type == null) {
+      if (this.expenseName == null) { this.isErrorEn = true } else this.isErrorEn = false;
+      if (this.feeCost == null) { this.isErrorC = true } else this.isErrorC = false;
+      if (this.type == null) { this.isErrorT = true } else this.isErrorT = false;
+    } else {
+      this.isErrorEn = false;
+      this.isErrorC = false;
+      this.isErrorT = false;
+      const feeTemp: ListFees = {
+        expenseName: this.expenseName,
+        cost: this.feeCost,
+        feeType: this.type
+      }
+
+      const newUserArray = this.listFees;
+      newUserArray.push(feeTemp);
+      this.listFees = [...newUserArray];
     }
 
-    const newUserArray = this.listFees;
-    newUserArray.push(feeTemp);
-    this.listFees = [...newUserArray];
+
+
   }
   removePlan(position: number) {
     const newActualArray = this.listFees;
