@@ -23,9 +23,14 @@
 .avatar-header-image {
     // background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
-    height: 35px;
-    width: 35px;
+    height: 37px;
+    width: 37px;
     margin: 2px 0px 0px 2px;
+
+    .mat-card-avatar {
+        height: 37px;
+        width: 37px;
+    }
 }
 
 #navbarNav li>a {
@@ -77,4 +82,3 @@
     -ms-transform-origin: left center;
     transform-origin: left center;
 }
-

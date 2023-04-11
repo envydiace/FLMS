@@ -96,18 +96,26 @@ export class LeagueService {
     )
   }
 
-  getmatch(leagueId: number): Observable<MatchScheduleResponse> {
+  getmatch(
+    leagueId: number,
+    from: string,
+    to: string,
+    clubName: string
+  ): Observable<MatchScheduleResponse> {
     let params = new HttpParams();
 
-    params = params.append("leagueId", String(leagueId))
+    params = params.append("leagueId", String(leagueId));
+    params = params.append('from', from);
+    params = params.append('to', to);
+    params = params.append('searchClubName', clubName);
 
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetLeagueSchedule`, { params }).pipe(
       map((res: MatchScheduleResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
 
-  confirmRegistFee(fee: LeagueClubFee):Observable<any> {
+  confirmRegistFee(fee: LeagueClubFee): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Participation/ConfirmRegistFee`, fee, { headers: this.headers })
 
   }
@@ -117,9 +125,9 @@ export class LeagueService {
     return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetFeeDetail/${leagueFeeId}`).pipe(
       map((res: FeeDetailResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
-  editLeagueFee(feeInfo: any):Observable<any> {
+  editLeagueFee(feeInfo: any): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
   }
 
@@ -159,7 +167,7 @@ export class LeagueService {
         catchError(err => throwError(err)));
   }
 
-  updateLeagueTree(tree: UpdateTreeModel):Observable<any> {
+  updateLeagueTree(tree: UpdateTreeModel): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Participation/ManageLeagueSettingKO`, tree, { headers: this.headers });
   }
 
@@ -172,7 +180,7 @@ export class LeagueService {
     return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
   }
 
-  editFee(leagueId: number, isActual: boolean, listFees: FeeDetail[]):Observable<any> {
+  editFee(leagueId: number, isActual: boolean, listFees: FeeDetail[]): Observable<any> {
     let body = {
       leagueId,
       isActual,
