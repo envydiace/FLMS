@@ -92,8 +92,8 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<ListPlayerResponse> GetListPlayerFilter(ListPlayerFilterRequest request)
         {
             var players = await playerRepository.FindByCondition(player =>
-            ((request.searchPlayerName == null || request.searchPlayerName == "" || player.Name.StartsWith(request.searchPlayerName)
-            || player.NickName.StartsWith(request.searchPlayerName))
+            ((request.searchPlayerName == null || request.searchPlayerName == "" || player.Name.ToLower().Contains(request.searchPlayerName.ToLower())
+            || player.NickName.ToLower().Contains(request.searchPlayerName.ToLower()))
             && (player.PlayerClubs.FirstOrDefault(playerClub => playerClub.ClubId == request.clubId) != null))
             )
                 .Include(player => player.PlayerClubs.Where(pc => pc.ClubId == request.clubId))
@@ -199,21 +199,6 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 Success = true,
                 PlayerInfo = mapper.Map<PlayerInfoDTO>(player)
-            };
-        }
-
-        public async Task<ListPlayerSearchResponse> GetListPlayerByClubIdWithSearch(ListPlayerByClubRequest request)
-        {
-            var players = await playerClubRepository.FindByCondition(playerClub => (request.searchPlayerName == null || request.searchPlayerName == ""
-            || playerClub.Player.Name.ToLower().Contains(request.searchPlayerName.ToLower()))
-            && (playerClub.ClubId == request.clubId))
-                .Include(p => p.Player).ToListAsync();
-            int total = players.Count;
-            var result = mapper.Map<List<PlayerSearchDTO>>(players.ToList());
-            return new ListPlayerSearchResponse
-            {
-                Success = true,
-                Players = result
             };
         }
 
