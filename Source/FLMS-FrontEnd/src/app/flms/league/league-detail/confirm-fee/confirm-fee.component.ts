@@ -28,6 +28,7 @@ export class ConfirmFeeComponent implements OnInit {
   leagueName: string;
   logo: string;
   imgSrc: string = './../../../../../assets/image/default-logo.png';
+  
 
   loading = false;
   submitted = false;
@@ -61,7 +62,8 @@ export class ConfirmFeeComponent implements OnInit {
           this.noParticipate = res.noParticipate,
           this.total = res.total,
           this.clubName = res.clubName,
-          this.leagueName = res.leagueName
+          this.leagueName = res.leagueName,
+          this.logo = res.logo
       })
     ).subscribe(res => {
 
