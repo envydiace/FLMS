@@ -23,8 +23,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class LeagueScheduleComponent implements OnInit {
   displayedColumns: string[] = ['time', 'matchDate', 'home.name', 'vs', 'away.name', 'round', 'stadium', 'action'];
 
-  displayedColumns: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium', 'action'];
-  displayedColumnsC: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium'];
+  displayedColumnsC: string[] = ['time', 'matchDate', 'home.name', 'vs', 'away.name', 'round', 'stadium'];
   leagueId: number;
   matchId: number;
   listMatch = new MatTableDataSource<MatchSchedule>();
