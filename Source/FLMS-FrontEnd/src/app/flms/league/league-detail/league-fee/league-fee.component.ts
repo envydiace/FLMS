@@ -12,6 +12,7 @@ import { PopUpAddActualComponent } from '../../pop-up-add-actual/pop-up-add-actu
 import { PopUpAddPlanComponent } from './../../pop-up-add-plan/pop-up-add-plan.component';
 import { PopUpLeagueCostEditComponent } from '../pop-up-league-cost-edit/pop-up-league-cost-edit.component';
 import { PopUpConfirmDeleteLeagueFeeComponent } from '../../pop-up-confirm-delete-league-fee/pop-up-confirm-delete-league-fee.component';
+import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-league-fee',
   templateUrl: './league-fee.component.html',
@@ -27,12 +28,16 @@ export class LeagueFeeComponent implements OnInit {
   leagueFeeId: number;
   isActual: boolean = false;
   loading = false;
+  userRole: any;
+
 
   constructor(
     private route: ActivatedRoute,
     private LeagueService: LeagueService,
     public dialog: MatDialog,
-    public commonService: CommonService
+    public commonService: CommonService,
+    public authen: AuthService,
+
 
   ) {
     this.route.queryParams.subscribe(params => {
@@ -42,6 +47,7 @@ export class LeagueFeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
 
   }
 

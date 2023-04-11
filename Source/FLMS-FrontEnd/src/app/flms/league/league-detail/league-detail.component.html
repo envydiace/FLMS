@@ -2,10 +2,11 @@
     <mat-toolbar class="card">
         <span>League</span>
         <div class="league-delete-button">
-            <button mat-raised-button style="width: 120px;" color="warn"
-                (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete
-            </button>
-
+            <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+                <button mat-raised-button style="width: 120px;" color="warn"
+                    (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete
+                </button>
+            </div>
             <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
             </button>
@@ -70,9 +71,10 @@
                         <div class="row justify-content-center">
                             <div class="col-xs-4 justify-content-center">
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
-                                    <button mat-raised-button style="width: 120px;" color="primary"
-                                        (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
-
+                                    <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+                                        <button mat-raised-button style="width: 120px;" color="primary"
+                                            (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

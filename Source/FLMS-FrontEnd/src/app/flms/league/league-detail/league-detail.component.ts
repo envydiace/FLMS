@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LeagueService } from '../league.service';
 import { PopupDeleteLeagueComponent } from '../popup-delete-league/popup-delete-league.component';
 import { PopUpEditLeagueComponent } from '../pop-up-edit-league/pop-up-edit-league.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-league-detail',
@@ -22,7 +23,7 @@ export class LeagueDetailComponent implements OnInit {
   token: token;
   // defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   defaultLogo: string = './../../../../assets/image/default-logo.png';
-
+  userRole: any;
 
 
   constructor(
@@ -30,7 +31,8 @@ export class LeagueDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public authen: AuthService,
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
@@ -47,6 +49,7 @@ export class LeagueDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
   }
 
   initDataSource() {

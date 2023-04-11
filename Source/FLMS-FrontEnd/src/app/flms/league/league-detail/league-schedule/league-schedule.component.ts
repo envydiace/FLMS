@@ -9,6 +9,7 @@ import { PopUpEditMatchInfoComponent } from 'src/app/flms/match/match-detail/pop
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmIsFinishComponent } from '../../pop-up-confirm-is-finish/pop-up-confirm-is-finish.component';
 import { CommonService } from 'src/app/common/common/common.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-league-schedule',
@@ -16,18 +17,23 @@ import { CommonService } from 'src/app/common/common/common.service';
   styleUrls: ['./league-schedule.component.scss']
 })
 export class LeagueScheduleComponent implements OnInit {
+ 
   displayedColumns: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium', 'action'];
+  displayedColumnsC: string[] = ['time', 'date', 'home', 'vs', 'away', 'group', 'stadium'];
   leagueId: number;
   matchId: number;
   listMatch: MatchSchedule[] = [];
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  userRole: any;
 
+  
   constructor(
     private route: ActivatedRoute,
     private LeagueService: LeagueService,
     private commnonService: CommonService,
     private router: Router,
     public dialog: MatDialog,
+    public authen: AuthService,
   ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
@@ -36,6 +42,7 @@ export class LeagueScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
   }
 
   initDataSource() {

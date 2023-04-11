@@ -51,7 +51,7 @@
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
-                    <input matInput [(ngModel)]="feeName">
+                    <input matInput [(ngModel)]="feeName" required>
                 </mat-form-field>
             </th>
         </ng-container>
@@ -60,7 +60,7 @@
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field appearance="outline">
                     <mat-label>Cost</mat-label>
-                    <input matInput type="number" [(ngModel)]="feeCost">
+                    <input matInput type="number" [(ngModel)]="feeCost" required>
                 </mat-form-field>
             </th>
         </ng-container>
