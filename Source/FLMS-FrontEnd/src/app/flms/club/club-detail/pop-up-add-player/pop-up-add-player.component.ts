@@ -48,8 +48,8 @@ export class PopUpAddPlayerComponent implements OnInit {
 
   createForm() {
     this.addPlayerFormGroup = this.formBuilder.group({
-      'playerName': [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$'), this.noWhitespaceValidator]],
-      'number': [null, [Validators.required, Validators.max(1000), Validators.min(0)]],
+      'playerName': [null, [Validators.required, this.noWhitespaceValidator]],
+      'number': [null, [Validators.required, Validators.max(999), Validators.min(0)]],
       'playerHeight': [null, [ Validators.pattern('^[0-9]+[m][0-9]+$')]],
       'address': [null,],
       'email': [null, [ Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
