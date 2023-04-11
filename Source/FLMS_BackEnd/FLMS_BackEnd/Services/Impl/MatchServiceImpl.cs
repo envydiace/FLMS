@@ -262,11 +262,6 @@ namespace FLMS_BackEnd.Services.Impl
                                 MessageCode = "ER-MA-13"
                             };
                         }
-                        var clubCloneId = match.Home.ClubCloneId;
-                        if (homeScore < awayScore)
-                        {
-                            clubCloneId = match.Away.ClubCloneId;
-                        }
                         var node = listNode.FirstOrDefault(n => n.ParticipateId == match.Home.ParentId);
                         if (node == null)
                         {
@@ -276,7 +271,7 @@ namespace FLMS_BackEnd.Services.Impl
                                 MessageCode = "ER-MA-08"
                             };
                         }
-                        node.ClubCloneId = clubCloneId;
+                        node.ClubCloneId = homeScore > awayScore ? match.Home.ClubCloneId : match.Away.ClubCloneId;
                         var r = await participateNodeRepository.UpdateAsync(node);
                         if (r == null)
                         {
