@@ -210,7 +210,7 @@ export class CreateLeagueComponent implements OnInit {
     // this.selectedImage = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
       let file = event.target.files[0];
-      if (file.type == "image/png" || file.type == "image/jpeg" || file.size < 5000000) {
+      if (file.type == "image/png" || file.type == "image/jpeg" && file.size < 5000000) {
         console.log('Correct');
         const reader = new FileReader();
         reader.onload = (e: any) => this.imgSrc = e.target.result;
