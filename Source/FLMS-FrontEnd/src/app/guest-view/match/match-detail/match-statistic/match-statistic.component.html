@@ -37,7 +37,7 @@
           <mat-progress-bar mode="determinate" color="warn" class="example-margin"
             value="{{element.percentAway | number: '1.2-2'}}"></mat-progress-bar>
           <span *ngIf="element.percentAway != 100" style="position: absolute;"
-            [ngStyle]="{'left': (element.percentAway + 1 | number: '1.2-2' )+ '%'}">{{element.percentAway | number:
+            [ngStyle]="{'left': (element.percentAway + 3 | number: '1.2-2' )+ '%'}">{{element.percentAway | number:
             '1.2-2'}} %</span>
           <span *ngIf="element.percentAway == 100" style="position: absolute; color: white;"
             [ngStyle]="{'left': (element.percentAway - 17 | number: '1.2-2' )+ '%'}">{{element.percentAway |
