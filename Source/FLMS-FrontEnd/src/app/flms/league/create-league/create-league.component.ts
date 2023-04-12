@@ -14,6 +14,7 @@ import { UserProfile } from 'src/app/models/user-profile.model';
 import { token } from 'src/app/models/token.model';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserProfileResponse } from 'src/app/models/user-profile-response.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-league',
@@ -47,6 +48,7 @@ export class CreateLeagueComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private router: Router,
     private leagueService: LeagueService,
     private commonService: CommonService,
     public dialog: MatDialog,
@@ -158,6 +160,7 @@ export class CreateLeagueComponent implements OnInit {
                 next: response => {
                   this.loading = false;
                   this.commonService.sendMessage(response.message, 'success');
+                  this.router.navigate(['manager/my-league']);
                 },
                 error: error => {
                   this.loading = false;

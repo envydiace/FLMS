@@ -53,6 +53,7 @@ import { FooterComponent } from '../layouts/footer/footer.component';
 import { TournamentTreeGvComponent } from './league/league-detail/league-statistic/tournament-tree-gv/tournament-tree-gv.component';
 import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { MatSortModule } from '@angular/material/sort';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatListModule,
     MatSortModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
     MatFormFieldModule,
     MatTableModule,
     MatSnackBarModule,

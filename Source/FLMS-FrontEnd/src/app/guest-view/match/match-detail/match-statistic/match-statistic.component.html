@@ -1,24 +1,59 @@
 <div>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
-      
-        <ng-container matColumnDef="home">
-          <th mat-header-cell *matHeaderCellDef> Home </th>
-          <td mat-cell *matCellDef="let element"> {{element.home}} </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef>  </th>
-          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="away">
-          <th mat-header-cell *matHeaderCellDef> Away </th>
-          <td mat-cell *matCellDef="let element"> {{element.away}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+
+    <ng-container matColumnDef="home">
+      <th mat-header-cell *matHeaderCellDef> Home </th>
+      <td mat-cell *matCellDef="let element"> {{element.home}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="percentHome">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <div class="home-section">
+          <mat-progress-bar mode="determinate" class="example-margin"
+            value="{{element.percentHome | number: '1.2-2'}}"></mat-progress-bar>
+          <span *ngIf="element.percentHome != 100" style="position: absolute;"
+            [ngStyle]="{'left': (100 - element.percentHome - 15 | number: '1.2-2' )+ '%'}">{{element.percentHome |
+            number:
+            '1.2-2'}} %</span>
+          <span *ngIf="element.percentHome == 100" style="position: absolute; color: white;"
+            [ngStyle]="{'left': (100 - element.percentHome + 1 | number: '1.2-2' )+ '%'}">{{element.percentHome |
+            number:
+            '1.2-2'}} %</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="percentAway">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <div class="example-section">
+          <mat-progress-bar mode="determinate" color="warn" class="example-margin"
+            value="{{element.percentAway | number: '1.2-2'}}"></mat-progress-bar>
+          <span *ngIf="element.percentAway != 100" style="position: absolute;"
+            [ngStyle]="{'left': (element.percentAway + 1 | number: '1.2-2' )+ '%'}">{{element.percentAway | number:
+            '1.2-2'}} %</span>
+          <span *ngIf="element.percentAway == 100" style="position: absolute; color: white;"
+            [ngStyle]="{'left': (element.percentAway - 17 | number: '1.2-2' )+ '%'}">{{element.percentAway |
+            number:
+            '1.2-2'}} %</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="away">
+      <th mat-header-cell *matHeaderCellDef> Away </th>
+      <td mat-cell *matCellDef="let element"> {{element.away}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
 </div>

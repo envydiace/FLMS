@@ -19,8 +19,18 @@ export class MatchStatisticComponent implements OnInit {
   away: ClubStats;
   userRole: any;
 
-  displayedColumns: string[] = ['home', 'type', 'away'];
-  dataSource = ELEMENT_DATA;
+  ELEMENT_DATA: PeriodicElement[] = [
+    { home: 0, percentHome: 0, type: 'Shots', percentAway: 0, away: 0 },
+    { home: 0, percentHome: 0, type: 'Shots On Target', percentAway: 0, away: 0 },
+    { home: 0, percentHome: 0, type: 'Conner', percentAway: 0, away: 0 },
+    { home: 0, percentHome: 0, type: 'Foul', percentAway: 0, away: 0 },
+    { home: 0, percentHome: 0, type: 'Offside', percentAway: 0, away: 0 },
+    { home: 0, percentHome: 0, type: 'Yellow Card', percentAway: 0, away: 0 },
+    { home: 0, percentHome: 0, type: 'Red Card', percentAway: 0, away: 0 }
+  ];
+
+  displayedColumns: string[] = ['home', 'percentHome', 'type', 'percentAway', 'away'];
+  dataSource = this.ELEMENT_DATA;
 
   constructor(
     private MatchService: MatchService,
@@ -47,27 +57,41 @@ export class MatchStatisticComponent implements OnInit {
     })).subscribe(() => {
       this.bindDataIntoHome(this.home);
       this.bindDataIntoAway(this.away);
+      this.calculatePercentage();
     });
   }
 
   bindDataIntoHome (home: ClubStats) {
-    ELEMENT_DATA[0].home = home.shot;
-    ELEMENT_DATA[1].home = home.shotOnTarget;
-    ELEMENT_DATA[2].home = home.conner;
-    ELEMENT_DATA[3].home = home.foul;
-    ELEMENT_DATA[4].home = home.offside;
-    ELEMENT_DATA[5].home = home.yellowCard;
-    ELEMENT_DATA[6].home = home.redCard;
+    this.ELEMENT_DATA[0].home = home.shot;
+    this.ELEMENT_DATA[1].home = home.shotOnTarget;
+    this.ELEMENT_DATA[2].home = home.conner;
+    this.ELEMENT_DATA[3].home = home.foul;
+    this.ELEMENT_DATA[4].home = home.offside;
+    this.ELEMENT_DATA[5].home = home.yellowCard;
+    this.ELEMENT_DATA[6].home = home.redCard;
   }
 
   bindDataIntoAway (away: ClubStats) {
-    ELEMENT_DATA[0].away = away.shot;
-    ELEMENT_DATA[1].away = away.shotOnTarget;
-    ELEMENT_DATA[2].away = away.conner;
-    ELEMENT_DATA[3].away = away.foul;
-    ELEMENT_DATA[4].away = away.offside;
-    ELEMENT_DATA[5].away = away.yellowCard;
-    ELEMENT_DATA[6].away = away.redCard;
+    this.ELEMENT_DATA[0].away = away.shot;
+    this.ELEMENT_DATA[1].away = away.shotOnTarget;
+    this.ELEMENT_DATA[2].away = away.conner;
+    this.ELEMENT_DATA[3].away = away.foul;
+    this.ELEMENT_DATA[4].away = away.offside;
+    this.ELEMENT_DATA[5].away = away.yellowCard;
+    this.ELEMENT_DATA[6].away = away.redCard;
+  }
+
+  calculatePercentage() {
+    for (let index = 0; index < 7; index++) {
+      let sum = this.ELEMENT_DATA[index].home + this.ELEMENT_DATA[index].away;
+      if (sum == 0) {
+        this.ELEMENT_DATA[index].home = 0;
+        this.ELEMENT_DATA[index].away = 0;
+      } else {
+        this.ELEMENT_DATA[index].percentHome = this.ELEMENT_DATA[index].home / sum * 100;
+        this.ELEMENT_DATA[index].percentAway = this.ELEMENT_DATA[index].away / sum * 100;
+      }
+    }
   }
 
   openDialogUpdateStats(): void {
@@ -88,18 +112,10 @@ export class MatchStatisticComponent implements OnInit {
 
 export interface PeriodicElement {
   home: number;
+  percentHome: number;
   type: string;
+  percentAway: number;
   away: number;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {home: 0, type: 'Shots', away: 0},
-  {home: 0, type: 'Shots On Target', away: 0},
-  {home: 0, type: 'Conner', away: 0},
-  {home: 0, type: 'Foul', away: 0},
-  {home: 0, type: 'Offside', away: 0},
-  {home: 0, type: 'Yellow Card', away: 0},
-  {home: 0, type: 'Red Card', away: 0}
-];
 
 
