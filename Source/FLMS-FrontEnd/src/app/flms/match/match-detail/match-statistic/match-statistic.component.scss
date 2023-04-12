@@ -10,3 +10,33 @@ table.mat-elevation-z8{
 th.mat-header-cell{
     text-align: center;
 }
+
+.mat-column-percentHome,
+.mat-column-percentAway {
+    width: 30%;
+}
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+    position: relative;
+}
+
+.example-margin {
+    height: 24px;
+    border-radius: 4px;
+}
+
+.home-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+    position: relative;
+
+    ::ng-deep .mat-progress-bar .mat-progress-bar-fill {
+        transform-origin: top right !important;
+    }
+}
