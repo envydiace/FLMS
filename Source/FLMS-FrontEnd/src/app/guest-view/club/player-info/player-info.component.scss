@@ -1,6 +1,8 @@
 .club-detail-container {
     .img-account-profile {
-        height: 10rem;
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
     }
 
     .rounded-circle {
@@ -69,6 +71,7 @@
         height: 35px;
         width: 35px;
         margin: 2px 0px 0px 2px;
+        object-fit: cover;
     }
 }
 

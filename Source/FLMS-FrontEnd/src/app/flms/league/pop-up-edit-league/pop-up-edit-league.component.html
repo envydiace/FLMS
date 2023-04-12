@@ -1,5 +1,4 @@
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()" >   
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-toolbar class="card">
         <span style="color: #3F51B5; text-transform: uppercase;">Edit League</span>
         <div class="create-league-action">
@@ -16,7 +15,7 @@
                         <div>
                             <mat-form-field appearance="" class="create-league-input">
                                 <mat-label>League Name</mat-label>
-                                <input matInput formControlName="leagueName" >
+                                <input matInput formControlName="leagueName">
                             </mat-form-field>
                         </div>
                     </div>
@@ -51,29 +50,21 @@
             <div class="card mb-4 mb-xl-0 league-card">
                 <mat-card class="create-league-card">
                     <div class="league-logo">
-                        <img mat-card-avatar class="league-header-image border-gradient" 
-                        [src]="defaultLogo"
-                        ><br>
+                        <img mat-card-avatar class="league-header-image border-gradient" [src]="defaultLogo">
+                        <br>
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                         <p>Upload League logo</p>
                         <input type="file" (change)="showPreview($event)">
                     </div>
-                    <!-- <div style="text-align: center; margin: 30px 0;">
-                    <mat-card-title>{{getControl('leagueName').value != null ? getControl('leagueName').value :
-                        'Your League Name'}}</mat-card-title>
-                    <mat-card-subtitle>{{user != undefined ? user.fullName : ''}}</mat-card-subtitle>
-                </div> -->
-                    <!-- <div class="card-content">Total Prize - {{prizeCostTotal | currency:'VND':''}} VND</div> -->
                 </mat-card>
             </div>
         </div>
     </div>
 </form>
 <p>
-    <mat-toolbar class="card"> 
+    <mat-toolbar class="card">
         <div class="back-submit-button">
-            <button mat-raised-button style="width: 120px;" color="warn"
-            (click)="onNoClick()"
-           >Cancel</button>
+            <button mat-raised-button style="width: 120px;" color="warn" (click)="onNoClick()">Cancel</button>
         </div>
     </mat-toolbar>
 </p>
