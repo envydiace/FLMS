@@ -145,4 +145,10 @@ export class LeagueScheduleComponent implements OnInit {
       // this.downLoadFile(res, 'application/octet-stream');
     });
   }
+
+  clearFilter() {
+    this.getControl('clubName').patchValue(null);
+    this.getControl('from').patchValue(null);
+    this.getControl('to').patchValue(null);
+  }
 }
