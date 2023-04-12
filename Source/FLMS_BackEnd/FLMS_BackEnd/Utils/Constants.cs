@@ -100,7 +100,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-US-03","Logout Success" },
             {"MS-US-04","Change password success" },
             {"MS-US-05","Edit profile success" },
-            {"MS-US-06","An email with instructions on how to reset your password has been sent to your email address." },
+            {"MS-US-06","An email with instructions on how to reset your password has been sent to your email address" },
             {"ER-US-01","Request fail" },
             {"ER-US-02","E-mail is being used" },
             {"ER-US-03","Re-entered password need to be the same with password" },

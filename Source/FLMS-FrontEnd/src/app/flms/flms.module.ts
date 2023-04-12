@@ -76,6 +76,7 @@ import { PopUpLeagueCostEditComponent } from './league/league-detail/pop-up-leag
 import { PopUpConfirmDeleteLeagueFeeComponent } from './league/pop-up-confirm-delete-league-fee/pop-up-confirm-delete-league-fee.component';
 import { PopUpEditClubComponent } from './club/pop-up-edit-club/pop-up-edit-club.component';
 import { PopUpEditLeagueComponent } from './league/pop-up-edit-league/pop-up-edit-league.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { PopUpEditLeagueComponent } from './league/pop-up-edit-league/pop-up-edi
     MatFormFieldModule,
     MatIconModule,
     MatToolbarModule,
+    MatProgressBarModule,
     MatMenuModule,
     MatSortModule,
     MatTableModule,

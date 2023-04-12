@@ -54,15 +54,23 @@ export class LeagueService {
     return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`);
   }
 
-  getmatch(leagueId: number): Observable<MatchScheduleResponse> {
+  getmatch(
+    leagueId: number,
+    from: string,
+    to: string,
+    clubName: string
+  ): Observable<MatchScheduleResponse> {
     let params = new HttpParams();
 
-    params = params.append("leagueId", String(leagueId))
+    params = params.append("leagueId", String(leagueId));
+    params = params.append('from', from);
+    params = params.append('to', to);
+    params = params.append('searchClubName', clubName);
 
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetLeagueSchedule`, { params }).pipe(
       map((res: MatchScheduleResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
 
   findbyUserId(): Observable<LeagueListbyUser[]> {
@@ -144,7 +152,7 @@ export class LeagueService {
     )
   }
 
-  createLeague(league: createLeagueInfo):Observable<any> {
+  createLeague(league: createLeagueInfo): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/League/CreateLeague`, league, { headers: this.headers });
   }
 

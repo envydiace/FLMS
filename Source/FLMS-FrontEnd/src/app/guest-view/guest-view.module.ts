@@ -52,6 +52,8 @@ import { ForgotPassComponent } from './forgot-pass/forgot-pass/forgot-pass.compo
 import { FooterComponent } from '../layouts/footer/footer.component';
 import { TournamentTreeGvComponent } from './league/league-detail/league-statistic/tournament-tree-gv/tournament-tree-gv.component';
 import { NgTournamentTreeModule } from 'ng-tournament-tree';
+import { MatSortModule } from '@angular/material/sort';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,9 @@ import { NgTournamentTreeModule } from 'ng-tournament-tree';
     MatIconModule,
     MatToolbarModule,
     MatListModule,
+    MatSortModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
     MatFormFieldModule,
     MatTableModule,
     MatSnackBarModule,
