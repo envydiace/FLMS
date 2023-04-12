@@ -54,8 +54,8 @@ export class PopUpAddActualComponent implements OnInit {
   }
 
   addActualFeetoList() {
-    if (this.expenseName == null || this.feeCost == null || this.type == null) {
-      if (this.expenseName == null) { this.isErrorEn = true } else this.isErrorEn = false;
+    if (this.expenseName.trim() == null || this.expenseName.trim() == '' || this.feeCost == null || this.type == null) {
+      if (this.expenseName.trim() == null || this.expenseName.trim() == '') { this.isErrorEn = true } else this.isErrorEn = false;
       if (this.feeCost == null) { this.isErrorC = true } else this.isErrorC = false;
       if (this.type == null) { this.isErrorT = true } else this.isErrorT = false;
     } else {
@@ -73,13 +73,10 @@ export class PopUpAddActualComponent implements OnInit {
       this.listFees = [...newUserArray];
     }
 
-
-
   }
-  removePlan(position: number) {
-    const newActualArray = this.listFees;
-    newActualArray.slice(position, 1);
-    this.listFees = [...newActualArray];
-
+  removeActual(position: number) {
+    const newUsersArray = this.listFees;
+    newUsersArray.splice(position, 1);
+    this.listFees = [...newUsersArray];
   }
 }
