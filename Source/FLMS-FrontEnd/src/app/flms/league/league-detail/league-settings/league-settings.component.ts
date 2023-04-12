@@ -16,7 +16,7 @@ import { CommonService } from 'src/app/common/common/common.service';
 })
 export class LeagueSettingsComponent implements OnInit {
   leagueId: number;
-  imgSrc: string = './../../../../../assets/image/clubDefaultLogo.png';
+  imgSrc: string = './../../../../../assets/image/default-logo.png';
   leagueTree: LeagueTree;
   listAvailNode: TreeNode[];
   winner: TreeNode;

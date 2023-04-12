@@ -3,7 +3,7 @@
   <ng-container *ngFor="let team of match.participation">
     <div [cdkDragDisabled]="team.hasChild == true" class="ngtt__team-wrapper"
       style="background-color: #466582; border-radius: 6px;cursor: move;" cdkDrag>
-      <div class="ngtt__team-avatar"></div>
+      <img class="ngtt__team-avatar" [src]="team.clubBasicInfo != null ? team.clubBasicInfo.logo : imgSrc">
       <span class="ngtt__team-title">{{ team.clubBasicInfo != null ? team.clubBasicInfo.clubName : '_' }}</span>
       <div class="ngtt__team-score">{{ team.nodeId }}</div>
     </div>
