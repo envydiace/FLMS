@@ -71,12 +71,14 @@
                                     <mat-label>Fan Page</mat-label>
                                     <input matInput formControlName="fanPage">
                                     <mat-error
-                                    *ngIf="!form.controls['fanPage'].valid && form.controls['fanPage'].touched">
-                                    {{ getErrorSocialCont() }}
-                                </mat-error>
+                                        *ngIf="!form.controls['fanPage'].valid && form.controls['fanPage'].touched">
+                                        {{ getErrorSocialCont() }}
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
-                            <button class="btn btn-primary" type="submit">Create</button>
+                            <button mat-raised-button type="submit" color="primary">Create</button>
+
+                            <!-- <button class="btn btn-primary" type="submit"></button> -->
                         </div>
                     </div>
                 </div>
