@@ -9,7 +9,12 @@
                     (cdkDropListDropped)="drop($event)">
                     <mat-card class="player-box" *ngFor="let item of listAvailNode" cdkDrag>
                         <mat-card-header>
-                            <div mat-card-avatar class="avatar-header-image"></div>
+                            <div mat-card-avatar class="avatar-header-image">
+                                <img mat-card-avatar class="avatar-detail-logo"
+                                    [src]="item.clubBasicInfo != null ? item.clubBasicInfo.logo : imgSrc" alt="Club's Pic">
+                            </div>
+                            <!-- <img mat-card-avatar class="avatar-header-image"
+                                [src]="item.clubBasicInfo != null ? item.clubBasicInfo.logo : imgSrc"><br> -->
                             <mat-card-title style="line-height: 37px; margin-bottom: 0;font-size: 15px;">{{
                                 item.clubBasicInfo != null ? item.clubBasicInfo.clubName : '_' }}</mat-card-title>
                         </mat-card-header>
@@ -17,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" >Save</button>
+        <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
     </div>
     <div class="col-xl-9 league-tree-container">
         <ng-container *ngIf="singleEliminationTournament">
