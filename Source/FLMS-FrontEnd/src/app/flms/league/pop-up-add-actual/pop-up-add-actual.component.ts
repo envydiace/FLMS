@@ -87,4 +87,6 @@ export class PopUpAddActualComponent implements OnInit {
     newUsersArray.splice(position, 1);
     this.listFees = [...newUsersArray];
   }
+
+
 }

@@ -95,3 +95,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
+<p>
+    <mat-toolbar class="card">
+        <div style="margin: 0 0 0 auto;">
+            <button mat-raised-button color="warn" (click)="onNoClick()">Close</button>
+        </div>
+    </mat-toolbar>
+</p>
