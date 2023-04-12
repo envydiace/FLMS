@@ -140,7 +140,7 @@ export class PlayerInfoComponent implements OnInit {
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
       let file = event.target.files[0];
-      if (file.type == "image/png" || file.type == "image/jpeg" || file.size < 5000000) {
+      if (file.type == "image/png" || file.type == "image/jpeg" && file.size < 5000000) {
         console.log('Correct');
         const reader = new FileReader();
         reader.onload = (e: any) => this.defaultAvatar = e.target.result;
