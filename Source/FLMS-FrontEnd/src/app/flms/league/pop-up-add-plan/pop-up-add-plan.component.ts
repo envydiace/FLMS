@@ -55,8 +55,8 @@ export class PopUpAddPlanComponent implements OnInit {
   }
 
   addPlanCostToList() {
-    if (this.expenseName == null || this.expenseName.trim() == '' || this.planCost == null || this.type == null) {
-      if (this.expenseName == null || this.expenseName.trim() == '') { this.isErrorEn = true } else this.isErrorEn = false;
+    if (this.expenseName.trim() == null || this.expenseName.trim() == '' || this.planCost == null || this.type == null) {
+      if (this.expenseName.trim() == null || this.expenseName.trim() == '') { this.isErrorEn = true } else this.isErrorEn = false;
       if (this.planCost == null) { this.isErrorC = true } else this.isErrorC = false;
       if (this.type == null) { this.isErrorT = true } else this.isErrorT = false;
     } else {
