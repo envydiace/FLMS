@@ -81,6 +81,4 @@ export class PopUpAddPlanComponent implements OnInit {
 
   }
 
-
-
 }

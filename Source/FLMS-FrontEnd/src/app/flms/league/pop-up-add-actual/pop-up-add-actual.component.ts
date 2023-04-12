@@ -73,8 +73,6 @@ export class PopUpAddActualComponent implements OnInit {
       this.listFees = [...newUserArray];
     }
 
-
-
   }
   removeActual(position: number) {
     const newUsersArray = this.listFees;
