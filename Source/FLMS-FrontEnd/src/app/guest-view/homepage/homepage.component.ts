@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { ClubDetail } from 'src/app/models/club-detail.model';
 import { ClubList } from 'src/app/models/club-list.model';
 import { LeagueDetail } from 'src/app/models/league-detail.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -17,6 +18,7 @@ export class HomepageComponent implements OnInit {
   topLeaguePrizes: LeagueDetail[];
 
   constructor(
+    private router: Router,
     private homeService: HomepageService
   ) { }
 
@@ -44,5 +46,13 @@ export class HomepageComponent implements OnInit {
         this.topLeaguePrizes = res.topLeaguePrizes;
       }
     );
+  }
+
+  navigateToClubDetail(id: number) {
+    this.router.navigate(['/club-info'], { queryParams: { clubId: id } });
+  }
+
+  navigateToLeagueDetail(id: number) {
+    this.router.navigate(['/league-info'], { queryParams: { leagueId: id } });
   }
 }

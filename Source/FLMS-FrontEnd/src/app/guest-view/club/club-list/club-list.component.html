@@ -51,12 +51,13 @@
                             <img mat-card-avatar class="league-header-image"
                                 [src]="club.logo != null ? club.logo : defaultLogo" alt="club logo">
                             <mat-card-actions>
-                                <div *ngIf="userRole == 'LEAGUE_MANAGER'">
-                                    <button mat-button>Invite</button>
-                                </div>
+
                             </mat-card-actions>
                         </mat-card>
                     </a>
+                    <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+                        <button mat-button (click)="openSendInvitation(club.clubId)">Invite</button>
+                    </div>
                 </div>
             </div>
             <div class="club-paginator">
