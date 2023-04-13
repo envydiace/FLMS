@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatchSchedule } from '../../../../models/match-schedule.model';
 import { LeagueService } from '../../league.service';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -30,6 +30,7 @@ export class LeagueScheduleComponent implements OnInit {
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   filterForm: FormGroup;
   userRole: any;
+  @Input() leagueName: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -141,7 +142,8 @@ export class LeagueScheduleComponent implements OnInit {
 
   exportLeagueSchedule() {
     this.LeagueService.exportLeagueSchedule(this.leagueId).subscribe(res => {
-      this.commonService.downLoadFile(res, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      let fileName = this.leagueName + '_League_Schedule';
+      this.commonService.downLoadFile(res, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
       // this.downLoadFile(res, 'application/octet-stream');
     });
   }
