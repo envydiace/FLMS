@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { combineLatest } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { PopUpSendInvitationComponent } from '../club-detail/pop-up-send-invitation/pop-up-send-invitation.component';
 
 @Component({
   selector: 'app-club-list',
@@ -25,6 +27,7 @@ export class ClubListComponent implements OnInit {
   constructor(
     private clubService: ClubService,
     private formBuilder: FormBuilder,
+    public dialog: MatDialog,
     private router: Router,
     private authService: AuthService,
 
@@ -99,5 +102,14 @@ export class ClubListComponent implements OnInit {
     this.router.navigate(['/club-info'], { queryParams: { clubId: id } });
   }
 
+  openSendInvitation(clubId: number): void {
+    const dialogRef = this.dialog.open(PopUpSendInvitationComponent, {
+      width: '100%',
+      data: { clubId: clubId }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 }

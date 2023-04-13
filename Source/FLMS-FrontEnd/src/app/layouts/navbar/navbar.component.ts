@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CommonService } from 'src/app/common/common/common.service';
 import { token } from 'src/app/models/token.model';
 import { User } from 'src/app/models/user';
 import { UserProfileResponse } from 'src/app/models/user-profile-response.model';
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
   defaultLogo: string = './../../../assets/image/default-avatar-profile-icon.webp';
 
   constructor(
+    private commonService: CommonService,
     public router: Router,
     private authService: AuthService
   ) { 
@@ -34,7 +36,16 @@ export class NavbarComponent implements OnInit {
   getCurrentUser() {
     this.authService.getCurrentUser().pipe(
       map((res: UserProfileResponse) => this.user = res.userProfile)
-    ).subscribe();
+    ).subscribe({
+      next: response => {
+      },
+      error: error => {
+        if(error.status == '401') {
+          this.commonService.sendMessage('Unauthorized', 'fail');
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 
   logout(){
