@@ -2,7 +2,7 @@
     <mat-toolbar class="card">
         <span>Line-up</span>
         <div style="margin: 0 0 0 auto;">
-            <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" >Save</button>
+            <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
         </div>
     </mat-toolbar>
 </p>
@@ -14,7 +14,7 @@
                     <mat-card-header class="team-1">
                         <div mat-card-avatar class="match-detail-logo">
                             <img mat-card-avatar class="match-detail-logo"
-                                [src]="matchSquad.ownClub.logo != null ? matchSquad.ownClub.logo : defaultLogo" 
+                                [src]="matchSquad.ownClub.logo != null ? matchSquad.ownClub.logo : defaultLogo"
                                 alt="club logo">
                         </div>
                         <div class="match-detail-title">
@@ -29,7 +29,7 @@
                     <mat-card-header class="team-2">
                         <div mat-card-avatar class="match-detail-logo">
                             <img mat-card-avatar class="match-detail-logo"
-                                [src]="matchSquad.against.logo != null ? matchSquad.against.logo : defaultLogo" 
+                                [src]="matchSquad.against.logo != null ? matchSquad.against.logo : defaultLogo"
                                 alt="club logo">
                         </div>
                         <div class="match-detail-title">
@@ -65,8 +65,10 @@
                     (cdkDropListDropped)="drop($event)">
                     <mat-card class="player-box" *ngFor="let item of unsquadPlayers" cdkDrag>
                         <mat-card-header>
-                            <div mat-card-avatar class="avatar-header-image"></div>
-                            <mat-card-title style="line-height: 37px; margin-bottom: 0;">{{item.playerName}}</mat-card-title>
+                            <img mat-card-avatar class="avatar-header-image"
+                                [src]="item.playerAvatar != null ? item.playerAvatar : defaultAvatar"><br>
+                            <mat-card-title
+                                style="line-height: 37px; margin-bottom: 0;">{{item.playerName}}</mat-card-title>
                         </mat-card-header>
                     </mat-card>
                 </div>
@@ -83,25 +85,31 @@
                 <div class="player-list line-up-field row justify-content-center">
                     <div class="positon-st">
                         <mat-card class="player-box player-position" cdkDrag>
-                            <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
+                            <img mat-card-avatar class="player-header-image"
+                                [src]="startingSquad[6].playerAvatar != null ? startingSquad[6].playerAvatar : defaultAvatar"><br>
                             <mat-card-subtitle
-                                style="line-height: 52px; margin-bottom: 0;">{{startingSquad[6].playerName}}</mat-card-subtitle>
+                                style="line-height: 52px; margin-bottom: 0;">{{startingSquad[6].playerName != null ?
+                                startingSquad[6].playerName : '_'}}</mat-card-subtitle>
                         </mat-card>
                     </div>
                     <div style="display: flex; justify-content: center; margin-top: 20px;">
                         <div class="positon-lm">
                             <mat-card class="player-box player-position" cdkDrag>
-                                <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
+                                <img mat-card-avatar class="player-header-image"
+                                    [src]="startingSquad[5].playerAvatar != null ? startingSquad[5].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
-                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[5].playerName}}</mat-card-subtitle>
+                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[5].playerName != null ?
+                                    startingSquad[5].playerName : '_'}}</mat-card-subtitle>
                             </mat-card>
                         </div>
                         <div style="width: 140px;"></div>
                         <div class="positon-rm">
                             <mat-card class="player-box player-position" cdkDrag>
-                                <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
+                                <img mat-card-avatar class="player-header-image"
+                                    [src]="startingSquad[4].playerAvatar != null ? startingSquad[4].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
-                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[4].playerName}}</mat-card-subtitle>
+                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[4].playerName != null ?
+                                    startingSquad[4].playerName : '_'}}</mat-card-subtitle>
                             </mat-card>
                         </div>
                     </div>
@@ -109,34 +117,42 @@
                     <div style="display: flex; justify-content: center; margin-top: 20px;">
                         <div class="positon-lb">
                             <mat-card class="player-box player-position" cdkDrag>
-                                <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
+                                <img mat-card-avatar class="player-header-image"
+                                    [src]="startingSquad[3].playerAvatar != null ? startingSquad[3].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
-                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[3].playerName}}</mat-card-subtitle>
+                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[3].playerName != null ?
+                                    startingSquad[3].playerName : '_'}}</mat-card-subtitle>
                             </mat-card>
                         </div>
                         <div style="width: 300px;"></div>
                         <div class="positon-rb">
                             <mat-card class="player-box player-position" cdkDrag>
-                                <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
+                                <img mat-card-avatar class="player-header-image"
+                                    [src]="startingSquad[2].playerAvatar != null ? startingSquad[2].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
-                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[2].playerName}}</mat-card-subtitle>
+                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[2].playerName != null ?
+                                    startingSquad[2].playerName : '_'}}</mat-card-subtitle>
                             </mat-card>
                         </div>
                     </div>
 
                     <div class="positon-cb">
                         <mat-card class="player-box player-position" cdkDrag>
-                            <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
+                            <img mat-card-avatar class="player-header-image"
+                                [src]="startingSquad[1].playerAvatar != null ? startingSquad[1].playerAvatar : defaultAvatar"><br>
                             <mat-card-subtitle
-                                style="line-height: 52px; margin-bottom: 0;">{{startingSquad[1].playerName}}</mat-card-subtitle>
+                                style="line-height: 52px; margin-bottom: 0;">{{startingSquad[1].playerName != null ?
+                                startingSquad[1].playerName : '_'}}</mat-card-subtitle>
                         </mat-card>
                     </div>
 
                     <div class="positon-gk">
                         <mat-card class="player-box player-position" cdkDrag>
-                            <img mat-card-avatar class="player-header-image" [src]="imgSrc"><br>
-                            <mat-card-subtitle
-                                style="line-height: 52px; margin-bottom: 0;">{{startingSquad[0].playerName}}</mat-card-subtitle>
+                            <img mat-card-avatar class="player-header-image"
+                                    [src]="startingSquad[0].playerAvatar != null ? startingSquad[0].playerAvatar : defaultAvatar"><br>
+                                <mat-card-subtitle
+                                    style="line-height: 52px; margin-bottom: 0;">{{startingSquad[0].playerName != null ?
+                                    startingSquad[0].playerName : '_'}}</mat-card-subtitle>
                         </mat-card>
                     </div>
 
@@ -162,9 +178,9 @@
                 <div cdkDropList [cdkDropListData]="startingSquad" class="player-list"
                     (cdkDropListDropped)="drop($event)" style="width: 100%;">
                     <mat-card class="player-box" *ngFor="let item of startingSquad" cdkDrag>
-
                         <mat-card-header>
-                            <div mat-card-avatar class="avatar-header-image"></div>
+                            <img mat-card-avatar class="avatar-header-image"
+                                [src]="item.playerAvatar != null ? item.playerAvatar : defaultAvatar"><br>
                             <mat-card-title
                                 style="line-height: 37px; margin-bottom: 0;">{{item.playerName}}</mat-card-title>
                         </mat-card-header>
@@ -184,7 +200,8 @@
                     (cdkDropListDropped)="drop($event)">
                     <mat-card class="player-box" *ngFor="let item of substitution" cdkDrag>
                         <mat-card-header>
-                            <div mat-card-avatar class="avatar-header-image"></div>
+                            <img mat-card-avatar class="avatar-header-image"
+                                [src]="item.playerAvatar != null ? item.playerAvatar : defaultAvatar"><br>
                             <mat-card-title
                                 style="line-height: 37px; margin-bottom: 0;">{{item.playerName}}</mat-card-title>
                         </mat-card-header>

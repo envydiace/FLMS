@@ -26,6 +26,7 @@ export class EditLineUpComponent implements OnInit {
   updateSquadModel: UpdateSquad;
   position = ['ST', 'LM', 'RM', 'LB', 'RB', 'CB', 'GK'];
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  defaultAvatar: string = './../../../../assets/image/default-avatar-profile-icon.webp';
 
   constructor(
     private MatchService: MatchService,
