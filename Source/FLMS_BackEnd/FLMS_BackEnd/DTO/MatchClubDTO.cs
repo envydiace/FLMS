@@ -14,7 +14,6 @@ namespace FLMS_BackEnd.DTO
         [JsonIgnore]
         public int AwayId { get; set; }
         public string? Logo { get; set; }
-        public string? AgainstLogo { get; set; }
         public string MatchDate { get; set; } = null!;
         public string MatchTime { get; set; } = null!;
         public bool IsFinish { get; set; }
