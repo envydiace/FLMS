@@ -58,11 +58,14 @@ namespace FLMS_BackEnd.Services.Impl
                     if (matchClub.HomeId == node.ParticipateNodeId)
                     {
                         matchClub.HA = "Home";
-                        if (match != null && match.Away != null && match.Away.ClubClone != null)
+                        if (match != null && match.Away != null && match.Away.ClubClone != null
+                             && match.Home != null && match.Home.ClubClone != null)
                         {
-                            if (match.Away.ClubClone.Club != null)
+                            if (match.Away.ClubClone.Club != null && match.Home.ClubClone.Club != null)
                             {
                                 matchClub.Against = match.Away.ClubClone.Club.ClubName.Trim();
+                                matchClub.Logo = match.Home.ClubClone.Club.Logo;
+                                matchClub.AgainstLogo = match.Away.ClubClone.Club.Logo;
                             }
                             else
                             {
@@ -73,11 +76,14 @@ namespace FLMS_BackEnd.Services.Impl
                     else
                     {
                         matchClub.HA = "Away";
-                        if (match != null && match.Home != null && match.Home.ClubClone != null)
+                        if (match != null && match.Home != null && match.Home.ClubClone != null
+                            && match.Away != null && match.Away.ClubClone != null)
                         {
-                            if (match.Home.ClubClone.Club != null)
+                            if (match.Home.ClubClone.Club != null && match.Away.ClubClone.Club != null)
                             {
                                 matchClub.Against = match.Home.ClubClone.Club.ClubName.Trim();
+                                matchClub.Logo = match.Away.ClubClone.Club.Logo;
+                                matchClub.AgainstLogo = match.Home.ClubClone.Club.Logo;
                             }
                             else
                             {
