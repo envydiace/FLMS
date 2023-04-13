@@ -177,6 +177,7 @@ export class CreateLeagueComponent implements OnInit {
           next: response => {
             this.loading = false;
             this.commonService.sendMessage(response.message, 'success');
+            this.router.navigate(['manager/my-league']);
           },
           error: error => {
             this.loading = false;
