@@ -168,6 +168,8 @@ namespace FLMS_BackEnd.DTO
             CreateMap<League, JoinedLeagueDTO>();
 
             CreateMap<LeagueTotalPrizeDTO, TopLeaguePrizeDTO>()
+            .ForMember(dest => dest.LeagueId, opt =>
+                opt.MapFrom(src => src.League.LeagueId))
             .ForMember(dest => dest.LeagueName, opt =>
                 opt.MapFrom(src => src.League.LeagueName))
             .ForMember(dest => dest.Logo, opt =>
