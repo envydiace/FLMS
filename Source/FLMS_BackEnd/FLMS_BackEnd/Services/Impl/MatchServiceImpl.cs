@@ -46,7 +46,7 @@ namespace FLMS_BackEnd.Services.Impl
                 }
             }
 
-            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m => m.MatchId));
+            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m => m.MatchDate));
             foreach (MatchClubDTO matchClub in listmatches)
             {
                 var match = await matchRepository.FindByCondition(m => m.MatchId == matchClub.MatchId)
@@ -60,9 +60,10 @@ namespace FLMS_BackEnd.Services.Impl
                         matchClub.HA = "Home";
                         if (match != null && match.Away != null && match.Away.ClubClone != null)
                         {
-                            if (match.Away.ClubClone.Club != null)
+                            if (match.Away.ClubClone.Club != null )
                             {
                                 matchClub.Against = match.Away.ClubClone.Club.ClubName.Trim();
+                                matchClub.Logo = match.Away.ClubClone.Club.Logo;
                             }
                             else
                             {
@@ -78,6 +79,7 @@ namespace FLMS_BackEnd.Services.Impl
                             if (match.Home.ClubClone.Club != null)
                             {
                                 matchClub.Against = match.Home.ClubClone.Club.ClubName.Trim();
+                                matchClub.Logo = match.Home.ClubClone.Club.Logo;
                             }
                             else
                             {
@@ -86,8 +88,6 @@ namespace FLMS_BackEnd.Services.Impl
                         }
                     }
                 }
-                matchClub.Stadium = null;
-                matchClub.Round = null;
             }
             return new ClubScheduleResponse
             {
