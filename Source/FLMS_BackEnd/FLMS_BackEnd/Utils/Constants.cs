@@ -11,6 +11,9 @@ namespace FLMS_BackEnd.Utils
 
         public const string DATE_FORMAT = "yyyy-MM-dd";
         public const string TIME_FORMAT = "HH:mm";
+
+        public const int TOP_EVENT_NUMBER = 3;
+
         public static class Role
         {
             public const string CLUB_MANAGER = "CLUB_MANAGER";
