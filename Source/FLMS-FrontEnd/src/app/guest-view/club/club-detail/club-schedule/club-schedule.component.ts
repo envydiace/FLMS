@@ -12,9 +12,10 @@ import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-respons
 })
 export class ClubScheduleComponent implements OnInit {
 
-  displayedColumns: string[] = [ 'leagueName','matchDate', 'matchTime', 'against', 'stadium', 'ha'];
+  displayedColumns: string[] = [ 'leagueName','matchDate', 'matchTime', 'against', 'round','stadium', 'ha'];
   clubId: number;
   listMatch: ClubMatchSchedule[] = []
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
   constructor(
     private route: ActivatedRoute,
