@@ -2,6 +2,7 @@
 {
     public class TopLeaguePrizeDTO
     {
+        public int LeagueId { get; set; }
         public string LeagueName { get; set; } = null!;
         public string? Logo { get; set; }
         public decimal? TotalPrize { get; set; }
