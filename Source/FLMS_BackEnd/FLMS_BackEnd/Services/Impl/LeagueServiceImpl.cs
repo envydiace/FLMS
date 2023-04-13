@@ -286,6 +286,7 @@ namespace FLMS_BackEnd.Services.Impl
                     })
                     .OrderByDescending(x => x.Record)
                     .ThenBy(x => x.PlayerName)
+                    .Take(Constants.TOP_EVENT_NUMBER)
                         .ToList();
 
                 var topAssist = listevent.Where(e => e.SubId != null).GroupBy(
@@ -300,6 +301,7 @@ namespace FLMS_BackEnd.Services.Impl
                     })
                     .OrderByDescending(x => x.Record)
                     .ThenBy(x => x.PlayerName)
+                    .Take(Constants.TOP_EVENT_NUMBER)
                         .ToList();
                 return new TopEventResponse
                 {
