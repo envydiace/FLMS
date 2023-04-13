@@ -81,7 +81,7 @@ export class LeagueService {
     )
   }
 
-  sendRegistration(leagueId: number, clubId: number) {
+  sendRegistration(leagueId: number, clubId: number): Observable<any> {
     let body = {
       leagueId,
       clubId

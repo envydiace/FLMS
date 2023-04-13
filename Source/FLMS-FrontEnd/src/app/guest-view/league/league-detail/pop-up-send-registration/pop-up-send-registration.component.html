@@ -1,4 +1,8 @@
-
+<p>
+    <mat-toolbar class="card">
+        <span> Your Clubs</span>
+    </mat-toolbar>
+</p>
 <div *ngIf="clubListByUser">
     <div class="container">
         <div class="row">
@@ -6,7 +10,6 @@
                 <div class="list-container">
                     <a  style="cursor: pointer;">
                         <mat-card class="league-list-card">
-
                             <mat-card-title>{{club.clubName}}</mat-card-title>
                             <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
                             <img mat-card-avatar class="league-header-image"
