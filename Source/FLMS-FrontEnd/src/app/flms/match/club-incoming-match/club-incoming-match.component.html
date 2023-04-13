@@ -7,42 +7,42 @@
     <div>
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-            <ng-container matColumnDef="Club">
+            <ng-container matColumnDef="clubName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Club </th>
                 <td mat-cell *matCellDef="let element"> {{element.clubName}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Against">
+            <ng-container matColumnDef="against">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Against </th>
                 <td mat-cell *matCellDef="let element"> {{element.against}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="League">
+            <ng-container matColumnDef="leagueName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> League </th>
                 <td mat-cell *matCellDef="let element"> {{element.leagueName}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Match Date">
+            <ng-container matColumnDef="matchDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Match Date </th>
                 <td mat-cell *matCellDef="let element"> {{element.matchDate}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Time">
+            <ng-container matColumnDef="matchTime">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
                 <td mat-cell *matCellDef="let element"> {{element.matchTime}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Round">
+            <ng-container matColumnDef="round">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Round </th>
                 <td mat-cell *matCellDef="let element"> {{element.round}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Stadium">
+            <ng-container matColumnDef="stadium">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Stadium </th>
                 <td mat-cell *matCellDef="let element"> {{element.stadium}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Home/Away">
+            <ng-container matColumnDef="ha">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Home / Away </th>
                 <td mat-cell *matCellDef="let element"> {{element.ha}} </td>
             </ng-container>
