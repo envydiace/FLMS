@@ -52,7 +52,7 @@
                                         <mat-label>Telephone</mat-label>
                                         <span matPrefix>+84 &nbsp;</span>
                                         <input type="tel" matInput formControlName="phone" placeholder="0912345678">
-                                        <mat-icon matSuffix>mode_edit</mat-icon>
+                                        
                                         <mat-error
                                             *ngIf="!form.controls['phone'].valid && form.controls['phone'].touched">
                                             {{ getErrorPhone() }}
