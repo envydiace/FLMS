@@ -8,7 +8,8 @@ export interface ClubIncomingMatches {
     round: string,
     stadium: string,
     ha: string,
-    squadId: number
+    squadId: number,
+    
 }
 
 export class ClubIncomingMatches {
@@ -21,7 +22,8 @@ export class ClubIncomingMatches {
         round: string,
         stadium: string,
         ha: string,
-        squadId: number
+        squadId: number,
+        
     ) {
        this.matchDate = matchDate;
        this.matchTime = matchTime;
@@ -32,5 +34,6 @@ export class ClubIncomingMatches {
        this.stadium = stadium;
        this.ha = ha;
        this.squadId = squadId; 
+      
     }
 }

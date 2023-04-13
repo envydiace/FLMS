@@ -21,6 +21,8 @@ export class PopUpEditMatchInfoComponent implements OnInit {
   loading = false;
   submitted = false;
 
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
+
   token: token;
   private headers: HttpHeaders;
 
