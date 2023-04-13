@@ -16,6 +16,7 @@ namespace FLMS_BackEnd.DTO
         public int NoPlayerSquad { get; set; }
         public string? Location { get; set; }
         public string? Fanpage { get; set; }
+        public string? Description { get; set; }
         public DateTime CreateAt { get; set; }
         public string LeagueType { get; set; } = null!;
         public string? Logo { get; set; }
