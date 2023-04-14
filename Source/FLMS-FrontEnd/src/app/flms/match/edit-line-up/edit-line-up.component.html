@@ -84,7 +84,7 @@
                 <!-- <div class="line-up-field"> -->
                 <div class="player-list line-up-field row justify-content-center">
                     <div class="positon-st">
-                        <mat-card class="player-box player-position" cdkDrag>
+                        <mat-card *ngIf="startingSquad[6] != undefined" class="player-box player-position" cdkDrag>
                             <img mat-card-avatar class="player-header-image"
                                 [src]="startingSquad[6].playerAvatar != null ? startingSquad[6].playerAvatar : defaultAvatar"><br>
                             <mat-card-subtitle
@@ -94,7 +94,7 @@
                     </div>
                     <div style="display: flex; justify-content: center; margin-top: 20px;">
                         <div class="positon-lm">
-                            <mat-card class="player-box player-position" cdkDrag>
+                            <mat-card *ngIf="startingSquad[5] != undefined" class="player-box player-position" cdkDrag>
                                 <img mat-card-avatar class="player-header-image"
                                     [src]="startingSquad[5].playerAvatar != null ? startingSquad[5].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
@@ -104,7 +104,7 @@
                         </div>
                         <div style="width: 140px;"></div>
                         <div class="positon-rm">
-                            <mat-card class="player-box player-position" cdkDrag>
+                            <mat-card *ngIf="startingSquad[4] != undefined" class="player-box player-position" cdkDrag>
                                 <img mat-card-avatar class="player-header-image"
                                     [src]="startingSquad[4].playerAvatar != null ? startingSquad[4].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
@@ -116,7 +116,7 @@
 
                     <div style="display: flex; justify-content: center; margin-top: 20px;">
                         <div class="positon-lb">
-                            <mat-card class="player-box player-position" cdkDrag>
+                            <mat-card *ngIf="startingSquad[3] != undefined" class="player-box player-position" cdkDrag>
                                 <img mat-card-avatar class="player-header-image"
                                     [src]="startingSquad[3].playerAvatar != null ? startingSquad[3].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
@@ -126,7 +126,7 @@
                         </div>
                         <div style="width: 300px;"></div>
                         <div class="positon-rb">
-                            <mat-card class="player-box player-position" cdkDrag>
+                            <mat-card *ngIf="startingSquad[2] != undefined" class="player-box player-position" cdkDrag>
                                 <img mat-card-avatar class="player-header-image"
                                     [src]="startingSquad[2].playerAvatar != null ? startingSquad[2].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
@@ -137,7 +137,7 @@
                     </div>
 
                     <div class="positon-cb">
-                        <mat-card class="player-box player-position" cdkDrag>
+                        <mat-card *ngIf="startingSquad[1] != undefined" class="player-box player-position" cdkDrag>
                             <img mat-card-avatar class="player-header-image"
                                 [src]="startingSquad[1].playerAvatar != null ? startingSquad[1].playerAvatar : defaultAvatar"><br>
                             <mat-card-subtitle
@@ -147,7 +147,7 @@
                     </div>
 
                     <div class="positon-gk">
-                        <mat-card class="player-box player-position" cdkDrag>
+                        <mat-card *ngIf="startingSquad[0] != undefined" class="player-box player-position" cdkDrag>
                             <img mat-card-avatar class="player-header-image"
                                     [src]="startingSquad[0].playerAvatar != null ? startingSquad[0].playerAvatar : defaultAvatar"><br>
                                 <mat-card-subtitle
