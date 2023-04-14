@@ -78,6 +78,7 @@ import { PopUpEditClubComponent } from './club/pop-up-edit-club/pop-up-edit-club
 import { PopUpEditLeagueComponent } from './league/pop-up-edit-league/pop-up-edit-league.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { PopUpRemoveJoinedClubComponent } from './league/league-detail/pop-up-remove-joined-club/pop-up-remove-joined-club.component';
+import { PopUpReuestConfirmationComponent } from './request-list/pop-up-reuest-confirmation/pop-up-reuest-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -130,7 +131,8 @@ import { PopUpRemoveJoinedClubComponent } from './league/league-detail/pop-up-re
     PopUpConfirmDeleteLeagueFeeComponent,
     PopUpEditClubComponent,
     PopUpEditLeagueComponent,
-    PopUpRemoveJoinedClubComponent
+    PopUpRemoveJoinedClubComponent,
+    PopUpReuestConfirmationComponent
   ],
   imports: [
     CommonModule,

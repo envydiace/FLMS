@@ -7,6 +7,8 @@ import { RequestListResponse } from 'src/app/models/request-list-response.model'
 import { Request } from 'src/app/models/request.model';
 import { MatSort } from '@angular/material/sort';
 import { token } from 'src/app/models/token.model';
+import { PopUpReuestConfirmationComponent } from './pop-up-reuest-confirmation/pop-up-reuest-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-request-list',
@@ -27,7 +29,9 @@ export class RequestListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private requestService: RequestService
+    private requestService: RequestService,
+    public dialog: MatDialog,
+
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
   }
@@ -60,5 +64,18 @@ export class RequestListComponent implements OnInit, AfterViewInit {
 
         }
       });
+  }
+
+
+  openRequestConfirmation(requestId: number, action: string): void {
+    const dialogRef = this.dialog.open(PopUpReuestConfirmationComponent, {
+      width: '60%',
+      data: { requestId:  requestId, action: action},
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
   }
 }
