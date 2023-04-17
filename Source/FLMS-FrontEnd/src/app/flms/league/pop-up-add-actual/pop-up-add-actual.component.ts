@@ -56,7 +56,7 @@ export class PopUpAddActualComponent implements OnInit {
   addActualFeetoList() {
     if (this.expenseName == null || this.expenseName == '' || this.feeCost == null || this.type == null) {
       if (this.expenseName == null || this.expenseName == '') {
-        this.isErrorEn = true
+        this.isErrorEn = true;
       } else {
         if (this.expenseName.trim() == '') {
           this.isErrorEn = true;

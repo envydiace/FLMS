@@ -60,6 +60,8 @@ export class MatchEventComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) this.addlistMatchEvent(result);
+     
+
       this.initDataSource();
       console.log('The dialog was closed');
     });
@@ -70,6 +72,7 @@ export class MatchEventComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
+          
           this.initDataSource();
 
         },

@@ -14,6 +14,9 @@ export class PopUpUpdatePrizeComponent implements OnInit {
   prizeName: string;
   prizeCost: number;
 
+  isErrorEn = false;
+  isErrorC = false;
+
   constructor(
     public dialogRef: MatDialogRef<PopUpUpdatePrizeComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -40,6 +43,21 @@ export class PopUpUpdatePrizeComponent implements OnInit {
   }
 
   addPrizeIntoList() {
+
+    // if (this.prizeName == null || this.prizeName == '' || this.prizeCost) {
+    //   if (this.prizeName == null || this.prizeName == '') {
+    //     this.isErrorEn = true;
+    //   } else {
+    //     if (this.prizeName.trim() == '') {
+    //       this.isErrorEn = true;
+    //     } else {
+    //       this.isErrorEn = false;
+    //     }
+    //   }
+    //   if (this.prizeCost == null) { this.isErrorC = true; } else this.isErrorC = false;
+
+
+    // }
     const prizeTemp: leaguePrize = {
       expenseKey: 'Fx',
       expenseName: this.prizeName,
