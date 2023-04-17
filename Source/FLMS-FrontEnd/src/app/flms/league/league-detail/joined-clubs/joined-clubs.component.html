@@ -19,8 +19,7 @@
                     <mat-card-header>
                         <div mat-card-avatar class="profile-image">
                             <img mat-card-avatar class="profile-image"
-                            [src]="club.logo != null ? club.logo : defaultLogo"
-                                alt="club logo">
+                                [src]="club.logo != null ? club.logo : defaultLogo" alt="club logo">
                         </div>
                         <mat-card-title style="line-height: 85px;">{{club.clubName}}</mat-card-title>
                         <div>
@@ -29,20 +28,14 @@
                                 position:absolute; right:10px; top: 40px; display: inline;">
                                 <div class="button-container">
                                     <div *ngIf="club.confirmed != true">
-                                        <button mat-icon-button color="primary"
-                                            (click)="openLeagueClubFee(club.clubId)">
-                                            <mat-icon>check_circle_outline</mat-icon>
+                                        <button mat-mini-fab color="primary" style="margin-right: 10px;" (click)="openLeagueClubFee(club.clubId)">
+                                            <mat-icon>check</mat-icon>
                                         </button>
-                                        <button mat-icon-button color="warn" (click)="openRemoveJoinedClub(club.leagueId ,club.clubId)">
-                                            <mat-icon>remove_circle_outline</mat-icon>
+                                        <button mat-mini-fab color="warn"
+                                            (click)="openRemoveJoinedClub(club.leagueId ,club.clubId)">
+                                            <mat-icon>remove</mat-icon>
                                         </button>
                                     </div>
-                                    <!-- <div *ngIf="club.confirmed == true">
-                                        <button mat-icon-button color="primary">
-                                            <mat-icon></mat-icon>
-                                        </button>
-                                    </div> -->
-                                  
                                 </div>
                             </div>
                         </div>
