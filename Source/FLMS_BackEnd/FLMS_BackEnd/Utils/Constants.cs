@@ -201,6 +201,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-FE-01","Add list fee success" },
             {"MS-FE-02","Delete fee success" },
+            {"MS-FE-03","Update fee success" },
             {"ER-FE-01","No fees have been announced for this league" },
             {"ER-FE-02","League fee not found!" },
             {"ER-FE-03","Update league fee failed!" },

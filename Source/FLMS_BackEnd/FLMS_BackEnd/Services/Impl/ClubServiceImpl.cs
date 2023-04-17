@@ -199,7 +199,9 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     SquadId = s.SquadId,
                     ClubName = s.IsHome ? s.Match.Home.ClubClone.Club.ClubName : s.Match.Away.ClubClone.Club.ClubName,
+                    ClubLogo = s.IsHome ? s.Match.Home.ClubClone.Club.Logo : s.Match.Away.ClubClone.Club.Logo,
                     Against = s.IsHome ? s.Match.Away.ClubClone.Club.ClubName : s.Match.Home.ClubClone.Club.ClubName,
+                    AgainstLogo = s.IsHome ? s.Match.Home.ClubClone.Club.Logo : s.Match.Away.ClubClone.Club.Logo,
                     Ha = s.IsHome ? Constants.HOME : Constants.AWAY,
                     LeagueName = s.Match.League.LeagueName,
                     Round = s.Match.Round,
