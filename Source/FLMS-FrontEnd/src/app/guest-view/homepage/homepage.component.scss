@@ -191,7 +191,7 @@
 
     .home-content-container {
         margin: 0 auto;
-        
+
         h4 {
             font-weight: 400;
             font-size: 34px;
@@ -212,6 +212,7 @@
                     background-color: #EEEEEE;
                     padding: 31px 0px 12px 0px;
                     border-radius: 16px;
+                    transition: 0.3s;
 
                     .club-header-image {
                         height: 150px;
@@ -226,6 +227,15 @@
                         font-size: 15px;
                     }
                 }
+
+                .club-detail-card:hover {
+                    background-color: #9CA5D7;
+                    box-shadow: 0px 0px 0px 2px #3F51B5 inset;
+
+                    .club-header-image {
+                        box-shadow: 0px 0px 0px 4px #3F51B5;
+                    }
+                }
             }
         }
 
@@ -235,6 +245,7 @@
             .league-detail-container {
                 text-align: center;
                 width: 100%;
+
                 .league-detail-card {
                     max-width: 197px;
                     background-color: #EEEEEE;
@@ -255,8 +266,15 @@
                         font-size: 15px;
 
                     }
+                }
 
-                    
+                .league-detail-card:hover {
+                    background-color: #9CA5D7;
+                    box-shadow: 0px 0px 0px 2px #3F51B5 inset;
+
+                    .league-header-image {
+                        box-shadow: 0px 0px 0px 4px #3F51B5;
+                    }
                 }
             }
         }

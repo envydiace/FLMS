@@ -1,6 +1,6 @@
 <section class="landing-banner">
     <form [formGroup]="filterForm">
-        <div class="container" style="margin-top: 45px;">
+        <div class="container">
             <div class="col-sm-12 col-xs-12 text-center nav-search" style="display: flex;">
                 <div style="flex: 1;">
                     <mat-form-field class="club-list-full-width">
@@ -21,34 +21,18 @@
     </form>
 </section>
 
-<!-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-xs-6 justify-content-center">
-
-            <form class="manager-search">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Manager</mat-label>
-                    <span matPrefix>+1 &nbsp;</span>
-                    <input type="tel" matInput placeholder="Manager">
-                    <mat-icon matSuffix>mode_edit</mat-icon>
-                </mat-form-field>
-            </form>
-
-        </div>
-    </div>
-</div> -->
-
 <div *ngIf="clubList">
     <div class="container">
         <div class="row">
             <div *ngFor="let club of clubList.clubs" class="col-sm-3">
                 <div class="list-container">
                     <a (click)="navigateToClubDetail(club.clubId)" style="cursor: pointer;">
-                        <mat-card class="league-list-card">
+                        <mat-card class="club-list-card">
 
-                            <mat-card-title>{{club.clubName}}</mat-card-title>
+                            <mat-card-title>{{ club.clubName.length > 18 ? club.clubName.substring(0,18)+"..." :
+                                club.clubName }}</mat-card-title>
                             <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
-                            <img mat-card-avatar class="league-header-image"
+                            <img mat-card-avatar class="club-header-image"
                                 [src]="club.logo != null ? club.logo : defaultLogo" alt="club logo">
                             <mat-card-actions>
 
@@ -56,7 +40,8 @@
                         </mat-card>
                     </a>
                     <div *ngIf="userRole == 'LEAGUE_MANAGER'">
-                        <button mat-button (click)="openSendInvitation(club.clubId)">Invite</button>
+                        <button mat-raised-button class="club-action" (click)="openSendInvitation(club.clubId)"
+                            color="primary">Invite</button>
                     </div>
                 </div>
             </div>
