@@ -64,18 +64,20 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request)
         {
             var clubs = await clubRepository.FindByCondition(club =>
-            (request.searchClubName == null || request.searchClubName == "" || club.ClubName.ToLower().Contains(request.searchClubName.ToLower()))
-                && (request.searchManagerName == null || request.searchManagerName == "" || club.User.FullName.ToLower().Contains(request.searchManagerName.ToLower()))
+                request.Search == null || 
+                request.Search == "" || 
+                club.ClubName.ToLower().Contains(request.Search.ToLower()) || 
+                club.User.FullName.ToLower().Contains(request.Search.ToLower())
             ).Include(club => club.User).ToListAsync();
             int total = clubs.Count;
-            var result = mapper.Map<List<ClubDTO>>(clubs.Skip((request.page - 1) * request.pageSize).Take(request.pageSize).ToList());
+            var result = mapper.Map<List<ClubDTO>>(clubs.Skip((request.Page - 1) * request.PageSize).Take(request.PageSize).ToList());
             return new ListClubResponse
             {
                 Success = true,
                 Clubs = result,
                 Total = total,
-                PageIndex = request.page,
-                PageSize = request.pageSize
+                PageIndex = request.Page,
+                PageSize = request.PageSize
             };
         }
 
@@ -159,7 +161,7 @@ namespace FLMS_BackEnd.Services.Impl
                 return new List<ClubHistoryDTO>();
             }
             var result = mapper.Map<ICollection<ClubHistoryDTO>>(club.ClubClones).OrderByDescending(ch => ch.JoinedDate).ToList();
-            
+
             return result;
         }
 
@@ -258,7 +260,7 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<ClubUpdateInfoResponse> GetClubUpdateInfo(int clubId)
         {
             var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).FirstOrDefaultAsync();
-            if(club == null)
+            if (club == null)
             {
                 return new ClubUpdateInfoResponse
                 {
@@ -292,7 +294,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-CL-08"
                 };
             }
-            if(request.Logo == null || request.Logo.Equals(""))
+            if (request.Logo == null || request.Logo.Equals(""))
             {
                 club.Logo = null;
             }
