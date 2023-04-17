@@ -10,7 +10,7 @@ namespace FLMS_BackEnd.Services
         Task<CreateLeagueResponse> CreateLeague(CreateLeagueRequest request, int userId);
         Task<ListLeagueResponse> GetListLeagueFilters(ListLeagueFilterRequest request);
         Task<LeagueInfoResponse> GetLeagueInfo(int leagueId);
-        Task<List<LeagueByUserDTO>> GetListLeagueByUser(int userId);
+        Task<List<LeagueInfoDTO>> GetListLeagueByUser(int userId);
         Task<TopEventResponse> GetLeagueTopEvent(int leagueId);
         Task<TopLeaguePrizeResponse> GetLeagueTopPrize(int size);
         Task<LeagueLeagueStatisticResponse> GetLeagueStatisticTypeLeague(int leagueId);
