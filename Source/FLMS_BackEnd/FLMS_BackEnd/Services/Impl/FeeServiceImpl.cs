@@ -91,7 +91,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-FE-02"
                 };
             }
-            var total = Math.Round((MethodUtils.SumTotalLeagueFee(mapper.Map<List<LeagueFeeDTO>>(result))/ league.NoParticipate) / 100, 0) * 100;
+            var total = Math.Round((MethodUtils.SumTotalLeagueFee(mapper.Map<List<LeagueFeeDTO>>(result)) / league.NoParticipate) / 100, 0) * 100;
             return new LeagueFeeClubResponse
             {
                 Success = true,
@@ -120,9 +120,13 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new FeeDetailResponse { Success = false, MessageCode = "ER-FE-04" };
             }
-            if (!fd.IsActual && fd.League.StartDate.CompareTo(DateTime.Now) < 0)
+            if (!fd.IsActual && !Constants.LeagueStatus.New.ToString().Equals(fd.League.Status))
             {
                 return new FeeDetailResponse { Success = false, MessageCode = "ER-FE-05" };
+            }
+            if (fd.IsActual && Constants.LeagueStatus.Finished.ToString().Equals(fd.League.Status))
+            {
+                return new FeeDetailResponse { Success = false, MessageCode = "ER-FE-09" };
             }
             if (MethodUtils.CheckEditableFeeKey(request.FeeKey))
             {
@@ -134,7 +138,7 @@ namespace FLMS_BackEnd.Services.Impl
             LeagueFee result = await feeRepository.UpdateAsync(fd);
             if (result != null)
             {
-                return new FeeDetailResponse { Success = true, FeeInfo = this.GetLeagueFeeDetail(result.LeagueFeeId).Result.FeeInfo };
+                return new FeeDetailResponse { Success = true, MessageCode = "MS-FE-03" };
             }
             return new FeeDetailResponse { Success = false, MessageCode = "ER-FE-03" };
         }
@@ -159,12 +163,20 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
-            if (!request.IsActual && league.StartDate.CompareTo(DateTime.Now) < 0)
+            if (!request.IsActual && !Constants.LeagueStatus.New.ToString().Equals(league.Status))
             {
                 return new AddLeagueFeeResponse
                 {
                     Success = false,
                     MessageCode = "ER-FE-06"
+                };
+            }
+            if (request.IsActual && Constants.LeagueStatus.Finished.ToString().Equals(league.Status))
+            {
+                return new AddLeagueFeeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-FE-10"
                 };
             }
             request.ListFees.ForEach(fee =>
@@ -204,7 +216,7 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var feedetail = await feeRepository.FindByCondition(fd => fd.LeagueFeeId == LeagueFeeId)
                 .Include(fd => fd.League).FirstOrDefaultAsync();
-            if(feedetail == null)
+            if (feedetail == null)
             {
                 return new DeleteLeagueFeeResponse
                 {
@@ -212,7 +224,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-FE-02"
                 };
             }
-            if(feedetail.League.UserId != UserId)
+            if (feedetail.League.UserId != UserId)
             {
                 return new DeleteLeagueFeeResponse
                 {
@@ -220,12 +232,20 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
-            if (!feedetail.IsActual && feedetail.League.StartDate.CompareTo(DateTime.Now) < 0)
+            if (!feedetail.IsActual && !Constants.LeagueStatus.New.ToString().Equals(feedetail.League.Status))
             {
                 return new DeleteLeagueFeeResponse
                 {
                     Success = false,
-                    MessageCode = "ER-FE-06"
+                    MessageCode = "ER-FE-11"
+                };
+            }
+            if (feedetail.IsActual && Constants.LeagueStatus.Finished.ToString().Equals(feedetail.League.Status))
+            {
+                return new DeleteLeagueFeeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-FE-12"
                 };
             }
             LeagueFee result = await feeRepository.DeleteAsync(feedetail);
