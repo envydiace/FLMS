@@ -96,7 +96,7 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Fanpage).HasMaxLength(255);
+                entity.Property(e => e.Fanpage).HasColumnType("text");
 
                 entity.Property(e => e.LeagueName).HasMaxLength(100);
 
@@ -296,7 +296,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEA7B9304BD");
+                    .HasName("PK__RefreshT__658FEEEAA9E0B9B8");
 
                 entity.ToTable("RefreshToken");
 
@@ -357,7 +357,7 @@ namespace FLMS_BackEnd.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.FullName)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Password)

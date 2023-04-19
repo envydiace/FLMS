@@ -304,7 +304,15 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.Number,
                 map => map.MapFrom(
                    SquadPosition => MethodUtils.GetPlayerNumber(SquadPosition)
-                    ));
+                   ))
+                .ForMember(dto => dto.Coordinate,
+                map => map.MapFrom(
+                   SquadPosition => new CoordinateDTO
+                   {
+                       X = SquadPosition.CoordinateX != null ? SquadPosition.CoordinateX.Value : 0,
+                       Y = SquadPosition.CoordinateY != null ? SquadPosition.CoordinateY.Value : 0
+                   }
+                   ));
 
             CreateMap<Squad, SquadDTO>()
                 .ForMember(dto => dto.NoPlayerSquad,
