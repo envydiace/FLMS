@@ -141,7 +141,12 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(league => league.LeagueName,
                 map => map.MapFrom(
                     request => request.LeagueName.Trim()
-                    ));
+                    ))
+                .ForMember(league => league.Status,
+                map => map.MapFrom(
+                    request => Constants.LeagueStatus.New.ToString()
+                    ))
+                ;
 
             CreateMap<LeagueFeeRequest, LeagueFee>()
                 .ForMember(fee => fee.IsActual,

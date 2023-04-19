@@ -143,7 +143,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
-            if (participation.League.IsFinished)
+            if (participation.League.Status.Equals(Constants.LeagueStatus.Finished.ToString()))
             {
                 return new RemoveClubResponse
                 {

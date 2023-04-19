@@ -583,6 +583,10 @@ namespace FLMS_BackEnd.Services.Impl
             league.LeagueName = request.LeagueName;
             league.Fanpage = request.Fanpage;
             league.Location = request.Location;
+            if (MethodUtils.CheckLeagueStatus(request.Status))
+            {
+                league.Status = request.Status;
+            }
             var result = await leagueRepository.UpdateAsync(league);
             if (result != null)
             {
