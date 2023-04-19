@@ -239,6 +239,21 @@ namespace FLMS_BackEnd.Services.Impl
                 var awayClubClone = match.Away.ClubClone;
                 awayClubClone.GoalsFor += awayScore;
                 awayClubClone.GoalsAgainst += homeScore;
+                if (homeScore > awayScore)
+                {
+                    homeClubClone.Won++;
+                    awayClubClone.Loss++;
+                }
+                else if (homeScore < awayScore)
+                {
+                    homeClubClone.Loss++;
+                    awayClubClone.Won++;
+                }
+                else
+                {
+                    homeClubClone.Draw++;
+                    awayClubClone.Draw++;
+                }
                 switch (MethodUtils.GetLeagueTypeByName(match.League.LeagueType))
                 {
                     case Constants.LeagueType.KO:
@@ -283,21 +298,6 @@ namespace FLMS_BackEnd.Services.Impl
                         }
                         break;
                     case Constants.LeagueType.LEAGUE:
-                        if (homeScore > awayScore)
-                        {
-                            homeClubClone.Won++;
-                            awayClubClone.Loss++;
-                        }
-                        else if (homeScore < awayScore)
-                        {
-                            homeClubClone.Loss++;
-                            awayClubClone.Won++;
-                        }
-                        else
-                        {
-                            homeClubClone.Draw++;
-                            awayClubClone.Draw++;
-                        }
                         break;
                     default:
                         return new FinishMatchResponse

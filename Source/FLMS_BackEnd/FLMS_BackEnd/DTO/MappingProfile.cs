@@ -45,6 +45,25 @@ namespace FLMS_BackEnd.DTO
 
             CreateMap<Club, ClubUpdateInfoDTO>();
 
+            CreateMap<Club, ClubStatsInfoDTO>()
+                .ForMember(dto => dto.ManagerName,
+                map => map.MapFrom(
+                    club => club.User.FullName
+                    ))
+                .ForMember(dto => dto.Win,
+                map => map.MapFrom(
+                    club => MethodUtils.GetTotalAmountByResult(club, Constants.LeagueStatistic.WinKey)
+                    ))
+                .ForMember(dto => dto.Draw,
+                map => map.MapFrom(
+                    club => MethodUtils.GetTotalAmountByResult(club, Constants.LeagueStatistic.DrawKey)
+                    ))
+                .ForMember(dto => dto.Lose,
+                map => map.MapFrom(
+                    club => MethodUtils.GetTotalAmountByResult(club, Constants.LeagueStatistic.LossKey)
+                    ))
+                ;
+
             //User
             CreateMap<User, UserProfileDTO>()
                 .ForMember(dto => dto.Role,

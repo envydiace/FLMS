@@ -324,7 +324,7 @@ namespace FLMS_BackEnd.Utils
             else
             {
                 match = node.MatchAways.FirstOrDefault();
-                if(match != null)
+                if (match != null)
                 {
                     isHome = false;
                 }
@@ -332,7 +332,7 @@ namespace FLMS_BackEnd.Utils
                 {
                     return 0;
                 }
-            } 
+            }
             return match.MatchEvents.Where(ev => ev.IsHome == isHome &&
                 (ev.EventType.Equals(Constants.MatchEventType.Goal.ToString()) ||
                 ev.EventType.Equals(Constants.MatchEventType.OwnGoal.ToString()))
@@ -350,6 +350,16 @@ namespace FLMS_BackEnd.Utils
             worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Round]).Width = 12;
             worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Stadium]).Width = 36;
             worksheet.Column(Constants.columnMapLeagueSchedule[Constants.DataColumn.Status]).Width = 20;
+        }
+        public static int GetTotalAmountByResult(Club club, string type)
+        {
+            return type switch
+            {
+                Constants.LeagueStatistic.WinKey => club.ClubClones.Sum(cl => cl.Won),
+                Constants.LeagueStatistic.DrawKey => club.ClubClones.Sum(cl => cl.Draw),
+                Constants.LeagueStatistic.LossKey => club.ClubClones.Sum(cl => cl.Loss),
+                _ => 0,
+            };
         }
     }
 }

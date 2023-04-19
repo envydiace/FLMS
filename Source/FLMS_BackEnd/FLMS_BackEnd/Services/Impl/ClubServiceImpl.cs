@@ -64,9 +64,9 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request)
         {
             var clubs = await clubRepository.FindByCondition(club =>
-                request.Search == null || 
-                request.Search == "" || 
-                club.ClubName.ToLower().Contains(request.Search.ToLower()) || 
+                request.Search == null ||
+                request.Search == "" ||
+                club.ClubName.ToLower().Contains(request.Search.ToLower()) ||
                 club.User.FullName.ToLower().Contains(request.Search.ToLower())
             ).Include(club => club.User).ToListAsync();
             int total = clubs.Count;
@@ -316,6 +316,20 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             return new ClubUpdateInfoResponse { Success = false, MessageCode = "ER-CL-06" };
+        }
+
+        public async Task<List<ClubStatsInfoDTO>> GetTopMostWinClubs(int numberOfClub)
+        {
+            var clubs = await clubRepository.FindAll()
+                    .Include(c => c.ClubClones)
+                    .Include(c => c.User)
+                    .OrderByDescending(c => c.ClubClones.Sum(cl => cl.Won))
+                    .ThenByDescending(c => c.ClubClones.Sum(cl => cl.Draw))
+                    .ThenBy(c => c.ClubClones.Sum(cl => cl.Loss))
+                    .ThenBy(c => c.ClubName)
+                    .Take(numberOfClub)
+                    .ToListAsync();
+            return mapper.Map<List<ClubStatsInfoDTO>>(clubs);
         }
     }
 }
