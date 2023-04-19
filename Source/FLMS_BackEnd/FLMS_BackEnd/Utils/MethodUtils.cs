@@ -361,5 +361,37 @@ namespace FLMS_BackEnd.Utils
                 _ => 0,
             };
         }
+        public static List<string> GetClubHistoryInLeagueStatistic(ClubClone clubClone)
+        {
+            var result = new List<string>();
+            var participateNote = clubClone.ParticipateNodes.FirstOrDefault();
+            if (participateNote != null)
+            {
+                var listMatch = participateNote.MatchHomes.Where(m => m.IsFinish).ToList();
+                listMatch.AddRange(participateNote.MatchAways.Where(m => m.IsFinish).ToList());
+                listMatch = listMatch.OrderByDescending(m => m.MatchDate).Take(3).ToList();
+                listMatch.ForEach(m =>
+                {
+                    int goalFor = 0, goalAgainst = 0;
+                    var ms = m.MatchStats.FirstOrDefault(ms => ms.IsHome == m.HomeId.Equals(participateNote.ParticipateNodeId));
+                    goalFor = ms != null ? ms.Score : 0;
+                    ms = m.MatchStats.FirstOrDefault(ms => ms.IsHome != m.HomeId.Equals(participateNote.ParticipateNodeId));
+                    goalAgainst = ms != null ? ms.Score : 0;
+                    if (goalFor > goalAgainst)
+                    {
+                        result.Add(Constants.LeagueStatistic.WinKey);
+                    }
+                    else if (goalFor < goalAgainst)
+                    {
+                        result.Add(Constants.LeagueStatistic.LossKey);
+                    }
+                    else
+                    {
+                        result.Add(Constants.LeagueStatistic.DrawKey);
+                    }
+                });
+            }
+            return result;
+        }
     }
 }

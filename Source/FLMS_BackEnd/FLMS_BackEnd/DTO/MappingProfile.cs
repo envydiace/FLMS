@@ -23,6 +23,18 @@ namespace FLMS_BackEnd.DTO
                 .ForMember(dto => dto.ManagerName,
                 map => map.MapFrom(
                     club => club.User.FullName
+                    ))
+                .ForMember(dto => dto.Win,
+                map => map.MapFrom(
+                    club => MethodUtils.GetTotalAmountByResult(club, Constants.LeagueStatistic.WinKey)
+                    ))
+                .ForMember(dto => dto.Draw,
+                map => map.MapFrom(
+                    club => MethodUtils.GetTotalAmountByResult(club, Constants.LeagueStatistic.DrawKey)
+                    ))
+                .ForMember(dto => dto.Lose,
+                map => map.MapFrom(
+                    club => MethodUtils.GetTotalAmountByResult(club, Constants.LeagueStatistic.LossKey)
                     ));
 
             CreateMap<UpdateClubRequest, Club>();
@@ -182,7 +194,11 @@ namespace FLMS_BackEnd.DTO
             CreateMap<ClubClone, LeagueStandingDTO>()
                 .ForMember(standing => standing.ClubName,
                 map => map.MapFrom(
-                    clubClone => clubClone.Club != null ? clubClone.Club.ClubName : clubClone.ClubCloneKey.Trim()));
+                    clubClone => clubClone.Club != null ? clubClone.Club.ClubName : clubClone.ClubCloneKey.Trim()))
+                .ForMember(standing => standing.History,
+                map => map.MapFrom(
+                    clubClone => MethodUtils.GetClubHistoryInLeagueStatistic(clubClone)))
+                ;
 
             CreateMap<League, JoinedLeagueDTO>();
 
