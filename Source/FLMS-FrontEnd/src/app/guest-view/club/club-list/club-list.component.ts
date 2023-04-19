@@ -49,8 +49,7 @@ export class ClubListComponent implements OnInit {
 
   createForm() {
     this.filterForm = this.formBuilder.group({
-      'clubName': [''],
-      'managerName': [''],
+      'search': [''],
     });
   }
 
@@ -59,13 +58,13 @@ export class ClubListComponent implements OnInit {
     this.filterForm.valueChanges.pipe(
       debounceTime(500), distinctUntilChanged()
     ).subscribe((values: any) => {
-      let clubName = values.clubName;
-      let managerName = values.managerName;
+      let search = values.search;
+      // let managerName = values.managerName;
 
-      if (clubName == null) clubName = '';
-      if (managerName == null) managerName = '';
+      if (search == null) search = '';
+      // if (managerName == null) managerName = '';
 
-      this.clubService.getListClubFilter(clubName, managerName, 1, 8).pipe(
+      this.clubService.getListClubFilter(search, 1, 8).pipe(
         map((clubList: ClubList) => this.clubList = clubList)
       ).subscribe()
     });
@@ -80,18 +79,18 @@ export class ClubListComponent implements OnInit {
   onPaginateChange(event: PageEvent) {
     let page = event.pageIndex;
     let size = event.pageSize;
-    let clubName = this.getControl('clubName').value;
-    let managerName = this.getControl('managerName').value;
-    if (clubName == null && managerName == null) {
+    let search = this.getControl('search').value;
+    // let managerName = this.getControl('managerName').value;
+    if (search == null) {
       page = page + 1;
       this.clubService.findAll(page, size).pipe(
         map((clubList: ClubList) => this.clubList = clubList)
       ).subscribe();
     } else {
       page = page + 1;
-      if (clubName == null || clubName == undefined) clubName.value = '';
-      if (managerName == null || managerName == undefined) managerName = '';
-      this.clubService.getListClubFilter(clubName, managerName, page, size).pipe(
+      if (search == null || search == undefined) search.value = '';
+      // if (managerName == null || managerName == undefined) managerName = '';
+      this.clubService.getListClubFilter(search, page, size).pipe(
         map((clubList: ClubList) => this.clubList = clubList)
       ).subscribe()
     }

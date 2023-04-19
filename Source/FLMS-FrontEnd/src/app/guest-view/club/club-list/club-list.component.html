@@ -1,21 +1,21 @@
 <section class="landing-banner">
     <form [formGroup]="filterForm">
         <div class="container">
-            <div class="col-sm-12 col-xs-12 text-center nav-search" style="display: flex;">
+            <div class="col-sm-8 col-xs-12 text-center nav-search" style="display: flex; margin: 0 auto;">
                 <div style="flex: 1;">
                     <mat-form-field class="club-list-full-width">
                         <mat-label>Search by Club's Name</mat-label>
-                        <input matInput type="text" formControlName="clubName" placeholder="Enter Club Name">
+                        <input matInput type="text" formControlName="search" placeholder="Enter Club Name">
                         <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
                 </div>
-                <div style="flex: 1;">
+                <!-- <div style="flex: 1;">
                     <mat-form-field class="club-list-full-width">
                         <mat-label>Search by Manager</mat-label>
                         <input matInput type="text" formControlName="managerName" placeholder="Enter Manager Name">
                         <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
-                </div>
+                </div> -->
             </div>
         </div>
     </form>
