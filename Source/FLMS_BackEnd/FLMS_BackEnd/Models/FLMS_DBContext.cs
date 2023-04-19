@@ -106,6 +106,8 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Status).HasMaxLength(50);
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Leagues)
                     .HasForeignKey(d => d.UserId)
@@ -296,7 +298,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEAA9E0B9B8");
+                    .HasName("PK__RefreshT__658FEEEA92400388");
 
                 entity.ToTable("RefreshToken");
 
