@@ -1,10 +1,19 @@
+<mat-toolbar class="card">
+    <span style="color: #3F51B5; text-transform: uppercase;">Edit League</span>
+    <div class="create-league-action">
+        <button mat-raised-button 
+        (click)="openConfirmEditLeague(conStatus)"
+        color="primary">Update</button>
+    </div>
+</mat-toolbar>
+<!-- 
+<mat-toolbar class="card">
+    <span style="color: #3F51B5; text-transform: uppercase;">Edit League</span>
+    <div class="create-league-action">
+        <button mat-raised-button type="submit" color="primary">Update</button>
+    </div>
+</mat-toolbar> -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <mat-toolbar class="card">
-        <span style="color: #3F51B5; text-transform: uppercase;">Edit League</span>
-        <div class="create-league-action">
-            <button mat-raised-button type="submit" type="submit" color="primary">Update</button>
-        </div>
-    </mat-toolbar>
     <div class="create-league-containner row">
         <div class="col-xl-9">
             <div class="card mb-4">
@@ -42,6 +51,24 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="" style="margin: 0 15px;">
+
+                        <div class="">
+                            <label class="create-league-label">League Status: </label>
+                            <div>
+                                <mat-form-field appearance="" class="create-league-input">
+                                    <mat-label>Status</mat-label>
+                                    <mat-select matNativeControl formControlName="status">
+                                        <mat-option value="New">New</mat-option>
+                                        <mat-option value="OnGoing">On-going</mat-option>
+                                        <mat-option value="Finished">Finished</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -59,6 +86,7 @@
                 </mat-card>
             </div>
         </div>
+
     </div>
 </form>
 <p>

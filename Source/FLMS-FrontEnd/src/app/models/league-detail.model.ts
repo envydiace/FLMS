@@ -18,6 +18,7 @@ export interface LeagueDetail {
     logo: string;
     totalPrize: number;
     isFinished: boolean;
+    status: string;
 }
 
 export class LeagueDetail implements LeagueDetail {
@@ -39,7 +40,8 @@ export class LeagueDetail implements LeagueDetail {
         noRound: number,
         logo: string,
         totalPrize: number,
-        isFinished: boolean
+        isFinished: boolean,
+        status: string,
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
@@ -59,6 +61,7 @@ export class LeagueDetail implements LeagueDetail {
         this.logo = logo;
         this.totalPrize = totalPrize;
         this.isFinished = isFinished;
+        this.status = status;
     }
 }
 
@@ -96,6 +99,7 @@ export interface GetUpdateLeagueDetail {
     location: string;
     fanpage: string;
     logo: string;
+    status: string;
 
 }
 
@@ -106,12 +110,13 @@ export class GetUpdateLeagueDetail implements GetUpdateLeagueDetail {
         location: string,
         fanpage: string,
         logo: string,
-
+        status: string,
     ) {
         this.leagueId = leagueId;
         this.leagueName = leagueName;
         this.location = location;
         this.fanpage = fanpage;
-        this.logo = logo
+        this.logo = logo;
+        this.status = status;
     }
 }

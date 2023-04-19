@@ -25,7 +25,7 @@ namespace FLMS_BackEnd.Utils
         public static bool CheckLeagueStatus(string status)
         {
             return Enum.GetValues(typeof(Constants.LeagueStatus))
-                .Cast<Constants.SystemRole>()
+                .Cast<Constants.LeagueStatus>()
                 .Select(v => v.ToString())
                 .ToList().Contains(status);
         }

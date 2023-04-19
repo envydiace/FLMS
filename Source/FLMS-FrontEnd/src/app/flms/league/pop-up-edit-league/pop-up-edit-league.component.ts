@@ -7,11 +7,12 @@ import { CommonService } from 'src/app/common/common/common.service';
 import { GetUpdateLeagueDetail } from 'src/app/models/league-detail.model';
 import { token } from 'src/app/models/token.model';
 import { LeagueService } from '../league.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize, first, map } from 'rxjs/operators';
 import { UpdateLeagueDetailResponse } from 'src/app/models/league-detail-response.model';
 import { formatDate } from '@angular/common';
+import { PopUpConfirmEditLeagueComponent } from '../league-detail/pop-up-confirm-edit-league/pop-up-confirm-edit-league.component';
 
 @Component({
   selector: 'app-pop-up-edit-league',
@@ -22,6 +23,7 @@ export class PopUpEditLeagueComponent implements OnInit {
   leagueDetail: GetUpdateLeagueDetail;
   form: FormGroup;
   loading = false;
+  conStatus = false;
   submitted = false;
   defaultLogo: string = './../../../../assets/image/default-logo.png';
   leagueInfo: GetUpdateLeagueDetail;
@@ -37,6 +39,7 @@ export class PopUpEditLeagueComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public common: CommonService,
+    public dialog: MatDialog,
     public leagueService: LeagueService,
     public dialogRef: MatDialogRef<PopUpEditLeagueComponent>,
     @Inject(AngularFireStorage) private storage: AngularFireStorage,
@@ -48,7 +51,7 @@ export class PopUpEditLeagueComponent implements OnInit {
   ) {
 
     this.form = new FormGroup({
-      leagueId:new FormControl(),
+      leagueId: new FormControl(),
       leagueName: new FormControl(),
       logo: new FormControl(),
       location: new FormControl(),
@@ -58,19 +61,23 @@ export class PopUpEditLeagueComponent implements OnInit {
     this.token = JSON.parse(localStorage.getItem('user'));
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
 
-   }
+  }
 
   ngOnInit(): void {
     this.initDataSource();
 
     this.form = this.formBuilder.group({
       leagueId: this.data.leagueId,
-      leagueName: [null, [Validators.required,  this.noWhitespaceValidator]],
+      leagueName: [null, [Validators.required, this.noWhitespaceValidator]],
       logo: [null,],
       fanpage: [null,],
       location: [null, [this.noWhitespaceValidator]],
+      status: [null, ]
 
-    })
+    });
+
+    this.conStatus ;
+
 
   }
 
@@ -93,10 +100,10 @@ export class PopUpEditLeagueComponent implements OnInit {
     res.leagueId = this.data.leagueId;
     this.form.controls['leagueName'].patchValue(res.leagueName);
     this.form.controls['leagueName'].disable();
-   
+
     this.form.controls['location'].patchValue(res.location);
     this.form.controls['fanpage'].patchValue(res.fanpage);
-
+    this.form.controls['status'].patchValue(res.status)
     if (res.logo != null) {
       this.defaultLogo = res.logo;
       this.form.controls['logo'].patchValue(res.logo);
@@ -132,8 +139,26 @@ export class PopUpEditLeagueComponent implements OnInit {
       leagueName: this.leagueDetail.leagueName,
       location: this.form.get('location').value,
       fanpage: this.form.get('fanpage').value,
+      status: this.form.get('status').value,
       logo: this.form.get('logo').value
     }
+  }
+
+  openConfirmEditLeague( conStatus: boolean): void {
+    const dialogRef = this.dialog.open(PopUpConfirmEditLeagueComponent, {
+      width: '60%',
+      data: { conStatus: conStatus },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(conStatus = false){
+        console.log('The dialog was closed');
+      }else{
+        this.initDataSource();
+        this.onSubmit();
+        console.log('The dialog was closed');
+      }
+    });
   }
 
 
@@ -146,6 +171,7 @@ export class PopUpEditLeagueComponent implements OnInit {
       return;
     }
     this.loading = true;
+
 
     if (this.selectedImage != null) {
       const nameImg = 'league/' + this.data.leagueId +

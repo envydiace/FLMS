@@ -29,6 +29,8 @@
                                 <a *ngIf="leagueDetail.fanpage != null" href="{{leagueDetail.fanpage}}"
                                     target="_blank">{{leagueDetail.leagueName}}</a>
                             </p>
+                            <p class="league-detail-content">League Status: {{leagueDetail.status}}</p>
+
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>
@@ -55,7 +57,8 @@
                             <mat-tab-group>
                                 <mat-tab label="Schedule">
                                     <ng-template matTabContent>
-                                        <app-league-schedule [leagueName]="leagueDetail.leagueName"></app-league-schedule>
+                                        <app-league-schedule
+                                            [leagueName]="leagueDetail.leagueName"></app-league-schedule>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Clubs">

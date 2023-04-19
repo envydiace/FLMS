@@ -57,6 +57,8 @@
                                 <a *ngIf="leagueDetail.fanpage != null" href="{{leagueDetail.fanpage}}"
                                     target="_blank">{{leagueDetail.leagueName}}</a>
                             </p>
+                            <p class="league-detail-content">League Status: {{leagueDetail.status}} </p>
+
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>
