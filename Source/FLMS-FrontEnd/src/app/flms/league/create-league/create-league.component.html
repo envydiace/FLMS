@@ -88,12 +88,20 @@
                         <div class="league-input-number col-md-5">
                             <label class="create-league-label">Number of player in squad: </label>
                             <div>
-                                <mat-form-field appearance="">
+                                <!-- <mat-form-field appearance="">
                                     <mat-label>Ex. 11</mat-label>
                                     <input matInput type="number" formControlName="noPlayerSquad">
                                     <mat-error *ngIf="!createLeagueForm.controls['noParticipate'].valid">
                                         Must be between 5 and 11 players.
                                     </mat-error>
+                                </mat-form-field> -->
+
+                                <mat-form-field appearance="" class="create-league-input">
+                                    <mat-label>Select Number</mat-label>
+                                    <mat-select formControlName="noPlayerSquad">
+                                        <mat-option value="7">7</mat-option>
+                                        <mat-option value="11">11</mat-option>
+                                    </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>

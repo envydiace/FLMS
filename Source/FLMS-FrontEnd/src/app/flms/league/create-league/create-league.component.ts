@@ -204,7 +204,7 @@ export class CreateLeagueComponent implements OnInit {
       this.prizeCostTotal += element.cost;
     });
 
-    if (this.getControl('noParticipate').value != null || this.getControl('noParticipate').value != 0 || this.getControl('noParticipate').value != undefined) {
+    if (this.getControl('noParticipate').value != null && this.getControl('noParticipate').value != 0) {
       this.registrationFee = (this.prizeCostTotal + this.feeCostTotal - this.getControl('sponsored').value) / this.getControl('noParticipate').value;
     } else {
       this.registrationFee = 0;

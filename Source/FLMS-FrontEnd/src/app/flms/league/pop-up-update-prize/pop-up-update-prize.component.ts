@@ -43,30 +43,28 @@ export class PopUpUpdatePrizeComponent implements OnInit {
   }
 
   addPrizeIntoList() {
+    if (this.prizeName == null || this.prizeName == '' || this.prizeCost == null) {
+      if (this.prizeName == null || this.prizeName == '') {
+        this.isErrorEn = true;
+      } else {
+        if (this.prizeName.trim() == '') {
+          this.isErrorEn = true;
+        } else {
+          this.isErrorEn = false;
+        }
+      }
+      if (this.prizeCost == null) { this.isErrorC = true; } else this.isErrorC = false;
+    } else {
+      const prizeTemp: leaguePrize = {
+        expenseKey: 'Fx',
+        expenseName: this.prizeName,
+        cost: this.prizeCost
+      }
 
-    // if (this.prizeName == null || this.prizeName == '' || this.prizeCost) {
-    //   if (this.prizeName == null || this.prizeName == '') {
-    //     this.isErrorEn = true;
-    //   } else {
-    //     if (this.prizeName.trim() == '') {
-    //       this.isErrorEn = true;
-    //     } else {
-    //       this.isErrorEn = false;
-    //     }
-    //   }
-    //   if (this.prizeCost == null) { this.isErrorC = true; } else this.isErrorC = false;
-
-
-    // }
-    const prizeTemp: leaguePrize = {
-      expenseKey: 'Fx',
-      expenseName: this.prizeName,
-      cost: this.prizeCost
+      const newUsersArray = this.listLeaguePrize;
+      newUsersArray.push(prizeTemp);
+      this.listLeaguePrize = [...newUsersArray];
     }
-
-    const newUsersArray = this.listLeaguePrize;
-    newUsersArray.push(prizeTemp);
-    this.listLeaguePrize = [...newUsersArray];
     this.getTotal();
   }
 

@@ -44,7 +44,7 @@ export class PopUpUpdateFeeComponent implements OnInit {
   }
 
   addFeeIntoList() {
-    if (this.feeName == null || this.feeName == '' || this.feeCost) {
+    if (this.feeName == null || this.feeName == '' || this.feeCost == null) {
       if (this.feeName == null || this.feeName == '') {
         this.isErrorEn = true;
       } else {
@@ -55,8 +55,6 @@ export class PopUpUpdateFeeComponent implements OnInit {
         }
       }
       if (this.feeCost == null) { this.isErrorC = true; } else this.isErrorC = false;
-
-
     } else {
       this.isErrorEn = false;
       this.isErrorC = false;
@@ -71,8 +69,6 @@ export class PopUpUpdateFeeComponent implements OnInit {
       this.listLeagueFee = [...newUsersArray];
     }
     this.getTotal();
-
-
   }
 
   removeFee(position: number) {
