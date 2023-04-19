@@ -24,6 +24,10 @@ namespace FLMS_BackEnd.Utils
         {
             KO, TABLE, LEAGUE
         }
+        public enum LeagueStatus
+        {
+            New, OnGoing, Finished
+        }
 
         public enum RequestType
         {

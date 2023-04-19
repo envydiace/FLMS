@@ -9,6 +9,6 @@
         public DateTime EndDate { get; set; }
         public string LeagueType { get; set; } = null!;
         public string? Logo { get; set; }
-        public bool IsFinished { get; set; }
+        public string Status { get; set; } = null!;
     }
 }

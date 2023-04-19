@@ -7,5 +7,6 @@
         public string? Location { get; set; }
         public string? Fanpage { get; set; }
         public string? Logo { get; set; }
+        public string Status { get; set; } = null!;
     }
 }
