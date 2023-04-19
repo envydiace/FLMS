@@ -317,6 +317,8 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
                                     .Include(l => l.ClubClones).ThenInclude(cl => cl.Club)
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.ParticipateNodes).ThenInclude(pn => pn.MatchHomes).ThenInclude(m => m.MatchStats)
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.ParticipateNodes).ThenInclude(pn => pn.MatchAways).ThenInclude(m => m.MatchStats)
                                     .FirstOrDefaultAsync();
             if (league == null)
             {

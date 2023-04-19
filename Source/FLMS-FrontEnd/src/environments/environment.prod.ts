@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://192.168.88.170:8000',
+  apiUrl: 'http://192.168.1.16:8000',
   localUrl: 'http://192.168.88.170:8000/flms-fe',
   firebaseConfig: {
     apiKey: "AIzaSyB6F7_KdSFztCPaSkILNt2AW0lIKlQmxCA",

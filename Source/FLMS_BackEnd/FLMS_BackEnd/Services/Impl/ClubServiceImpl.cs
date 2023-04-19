@@ -28,7 +28,10 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<ClubResponse> GetClubById(int id)
         {
-            var club = await clubRepository.FindByCondition(c => c.ClubId == id).Include(c => c.User).FirstOrDefaultAsync();
+            var club = await clubRepository.FindByCondition(c => c.ClubId == id)
+                .Include(c => c.User)
+                .Include(c => c.ClubClones)
+                .FirstOrDefaultAsync();
             if (club == null)
             {
                 return new ClubResponse
