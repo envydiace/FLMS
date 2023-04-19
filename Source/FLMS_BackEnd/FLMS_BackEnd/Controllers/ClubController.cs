@@ -162,5 +162,10 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<ClubStatsInfoDTO>>> GetListMostWinClub(int numberOfClub)
+        {
+            return await clubService.GetTopMostWinClubs(numberOfClub);
+        }
     }
 }

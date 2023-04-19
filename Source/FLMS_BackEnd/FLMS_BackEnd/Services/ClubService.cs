@@ -17,5 +17,6 @@ namespace FLMS_BackEnd.Services
         Task<ClubHistoryResponse> GetClubHistory(int clubId);
         Task<ClubUpdateInfoResponse> GetClubUpdateInfo(int clubId);
         Task<ClubUpdateInfoResponse> UpdateClubInfo(UpdateClubInfoRequest request, int UserId);
+        Task<List<ClubStatsInfoDTO>> GetTopMostWinClubs(int numberOfClub);
     }
 }
