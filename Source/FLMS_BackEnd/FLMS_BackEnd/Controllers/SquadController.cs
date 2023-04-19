@@ -124,9 +124,10 @@ namespace FLMS_BackEnd.Controllers
             }
         }
         [HttpGet("[action]")]
+        [Authorize(Roles ="CLUB_MANAGER")]
         public async Task<ActionResult<ManagerSquadResponse>> GetSquadByManager(int squadId)
         {
-            var response = await squadService.GetSquadByManager(squadId, 0);
+            var response = await squadService.GetSquadByManager(squadId, UserID);
             if (response.Success)
             {
                 return Ok(response);
