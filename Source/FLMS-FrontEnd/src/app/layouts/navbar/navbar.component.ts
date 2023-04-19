@@ -22,15 +22,15 @@ export class NavbarComponent implements OnInit {
     private commonService: CommonService,
     public router: Router,
     private authService: AuthService
-  ) { 
+  ) {
     this.token = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
-    if(this.token != null) {
+    if (this.token != null) {
       this.getCurrentUser();
     }
-    
+
   }
 
   getCurrentUser() {
@@ -40,15 +40,16 @@ export class NavbarComponent implements OnInit {
       next: response => {
       },
       error: error => {
-        if(error.status == '401') {
+        if (error.status == '401') {
           this.commonService.sendMessage('Unauthorized', 'fail');
+          localStorage.removeItem('user');
           this.router.navigate(['/login']);
         }
       }
     });
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
   }
 }
