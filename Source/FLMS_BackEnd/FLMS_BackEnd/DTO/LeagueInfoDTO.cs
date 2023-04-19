@@ -21,5 +21,6 @@ namespace FLMS_BackEnd.DTO
         public string LeagueType { get; set; } = null!;
         public string? Logo { get; set; }
         public decimal TotalPrize { get; set; }
+        public string Status { get; set; } = null!;
     }
 }
