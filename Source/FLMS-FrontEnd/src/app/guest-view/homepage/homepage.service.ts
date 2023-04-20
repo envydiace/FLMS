@@ -20,7 +20,7 @@ export class HomepageService {
   ) { }
 
   public getListClubFilter(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListClubFilter?page=1&pageSize=5`, this.httpOptions);
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetListMostWinClub?numberOfClub=5`, this.httpOptions);
   }
 
   public GetTopLeaguePrize(): Observable<any> {

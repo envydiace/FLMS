@@ -14,8 +14,9 @@
     }
 
     .card-header {
-        padding: 1rem 1.35rem;
+        padding: 10px 1.35rem;
         margin-bottom: 0;
+        font-size: 17px;
         background-color: rgba(33, 40, 50, 0.03);
         border-bottom: 1px solid rgba(33, 40, 50, 0.125);
     }
@@ -23,14 +24,16 @@
     .card-body {
 
         .line-up-field {
-            width: 100%;
-            height: 640px;
-            margin: 0;
+            max-width: 710px;
+            min-width: 710px;
+            max-height: 700px;
+            min-height: 700px;
+            margin: 0 auto;
             background-image: url('../../../../assets/image/Field.png');
             background-color: #cccccc;
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 88%;
+            background-size: 100%;
             position: relative;
         }
     }
@@ -61,10 +64,20 @@
     width: 100%;
 }
 
+.player-box:hover {
+    .player-header-image, mat-card-subtitle {
+        box-shadow: 0px 0px 0px 4px #6173d4;
+    }
+
+    .avatar-header-image {
+        box-shadow: 0px 0px 0px 4px #6173d4;
+    }
+}
+
 .player-position {
     display: block;
     padding: 0;
-    margin: 0 auto;
+    // margin: 0 auto;
     border: none;
     text-align: center;
     cursor: move;
@@ -72,6 +85,15 @@
     font-size: 14px;
     width: 150px;
     box-shadow: none;
+    position: absolute;
+
+    mat-card-subtitle {
+        line-height: 35px;
+        margin-bottom: 0;
+        color: #FFFFFF;
+        background-color: #0000009e;
+        border-radius: 10px;
+    }
 }
 
 .cdk-drag-preview {
@@ -104,15 +126,21 @@
 
 .avatar-header-image {
     background-size: cover;
-    height: 35px;
-    width: 35px;
+    height: 50px;
+    width: 50px;
     margin: 2px 0px 0px 2px;
+    background-color: #EEEEEE;
+    border: 2px solid #c5c5c5;
+    transition: 0.3s;
 }
 
 .player-header-image {
     height: 70px;
     width: 70px;
+    background-color: #FFFFFF;
+    border: 3px solid #EEEEEE;
     margin: 0 auto;
+    transition: 0.3s;
 }
 
 .position-title {
@@ -120,8 +148,6 @@
     margin-top: 28px;
     margin-bottom: 34px;
 }
-
-
 
 .match-detail-cover {
     background-color: #F5F5FA;
@@ -133,51 +159,56 @@
 .match-detail-info {
     background-color: #FFFFFF;
     width: 100%;
+    margin: 0 0 10px;
+    padding: 10px;
 
     .match-detail-card {
         max-width: 100%;
+        padding: 0;
     }
 
     .match-detail-logo {
         background-size: cover;
+        background-color: #EEEEEE;
         height: 130px;
         width: 130px;
+        margin: 0 auto;
         border: 1px solid rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
     }
 
-    .match-detail-content {
-        width: 100%;
-        margin: 0 10px;
+    .match-detail-logo:hover {
+        box-shadow: 0px 0px 0px 4px #6173d4;
     }
-    
+
     .match-detail-container {
         display: flex;
-    
+        height: 60px;
     }
-    
+
     .left-detail {
         flex: 1;
     }
-    
+
     .right-detail {
         flex: 1;
     }
-    
+
     .box-border {
         border-right: 1px solid black;
     }
-    
+
     .match-detail-content {
         font-size: 1.125rem;
         font-weight: 500;
-        margin-bottom: 20px;
     }
-    
-    
+
     .score-container {
         display: flex;
+        background-color: #0B0E1F;
+        color: white;
     }
-    
+
     .team-1 {
         flex: 1;
         align-items: center;
@@ -185,7 +216,7 @@
         position: relative;
         // display: block ;
     }
-    
+
     .team-2 {
         flex: 1;
         align-items: center;
@@ -193,31 +224,29 @@
         position: relative;
         //display: block;
     }
-    
+
     .match-detail-title {
         display: block;
         padding-top: 10px;
         text-align: center;
     }
-    
+
     .mat-card-header {
         display: grid;
     }
-    
+
     .score-content {
-        justify-content: center;
-        width: 100px;
+        width: 200px;
     }
-    
+
     .goal-data {
-        font-size: 3em;
+        font-size: 2em;
         text-align: center;
-        line-height: 120px;
+        margin-bottom: 45px;
     }
-    
+
     .match-status {
         text-align: center;
         line-height: 1.5em;
     }
 }
-

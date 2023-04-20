@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 })
 export class HomepageComponent implements OnInit {
   clubs: ClubDetail[] = [];
-  clubsTotal: number;
   defaultLogo: string = './../../../assets/image/default-logo.png';
   topLeaguePrizes: LeagueDetail[];
 
@@ -29,8 +28,7 @@ export class HomepageComponent implements OnInit {
   getListClubFilter() {
     this.homeService.getListClubFilter().pipe(first()).subscribe(
       clubList => {
-        this.clubs = clubList.clubs,
-          this.clubsTotal = clubList.total
+        this.clubs = clubList
       }
     );
   }

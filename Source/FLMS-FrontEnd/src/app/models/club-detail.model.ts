@@ -2,6 +2,7 @@
 
 export interface ClubDetail {
     id: number;
+    clubId: number;
     clubName: string;
     managerName: string;
     phone: number;
@@ -18,6 +19,7 @@ export class ClubDetail implements ClubDetail {
     constructor(
         id: number,
         clubName: string,
+        clubId: number,
         managerName: string,
         phone: number,
         fanPage: string,
@@ -27,6 +29,7 @@ export class ClubDetail implements ClubDetail {
         draw: number
     ) {
         this.id = id;
+        this.clubId = clubId;
         this.clubName = clubName;
         this.managerName = managerName;
         this.phone = phone;
@@ -49,7 +52,7 @@ export interface AddClub {
     kit: string
 }
 
-export class AddClub implements AddClub{
+export class AddClub implements AddClub {
     constructor(
         clubName: string,
         email: string,
@@ -57,7 +60,7 @@ export class AddClub implements AddClub{
         fanPage: number,
         logo: string,
         kit: string
-    ){
+    ) {
         this.clubName = clubName;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -68,20 +71,20 @@ export class AddClub implements AddClub{
 }
 
 
-export interface ClubListbyUser{
+export interface ClubListbyUser {
     clubId: number,
     userId: number,
-    clubName: string, 
-    logo:string,
+    clubName: string,
+    logo: string,
 }
 
-export class ClubListbyUser implements ClubListbyUser{
+export class ClubListbyUser implements ClubListbyUser {
     constructor(
         clubId: number,
         userId: number,
         clubName: string,
-        logo:string,
-    ){
+        logo: string,
+    ) {
         this.clubId = clubId;
         this.userId = userId;
         this.clubName = clubName;
@@ -90,7 +93,7 @@ export class ClubListbyUser implements ClubListbyUser{
 }
 
 
-export interface GetUpdateClubDetail{
+export interface GetUpdateClubDetail {
     clubName: string,
     logo: string,
     fanPage: string,
@@ -98,14 +101,14 @@ export interface GetUpdateClubDetail{
     phoneNumber: string
 }
 
-export class GetUpdateClubDetail implements GetUpdateClubDetail{
+export class GetUpdateClubDetail implements GetUpdateClubDetail {
     constructor(
         clubName: string,
         logo: string,
         fanPage: string,
         email: string,
         phoneNumber: string
-    ){
+    ) {
         this.clubName = clubName;
         this.logo = logo;
         this.fanPage = fanPage;

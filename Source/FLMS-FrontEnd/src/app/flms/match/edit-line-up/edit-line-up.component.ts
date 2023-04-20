@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { first, map } from 'rxjs/operators';
@@ -27,6 +27,7 @@ export class EditLineUpComponent implements OnInit {
   position = ['ST', 'LM', 'RM', 'LB', 'RB', 'CB', 'GK'];
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   defaultAvatar: string = './../../../../assets/image/default-avatar-profile-icon.webp';
+  temp: any;
 
   constructor(
     private MatchService: MatchService,
@@ -57,33 +58,27 @@ export class EditLineUpComponent implements OnInit {
     ).subscribe();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<SquadPosition[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      console.log(this.startingSquad);
-      console.log(this.substitution);
-      console.log(this.unsquadPlayers);
-
       this.resetPositionKey();
     } else {
-      if (event.previousContainer.data[event.currentIndex] != undefined) {
+      if (event.container.data[event.currentIndex] != undefined) {
+        // swap Coordinate
+        let tempCoordinate = event.previousContainer.data[event.previousIndex].coordinate;
+        event.previousContainer.data[event.previousIndex].coordinate = event.container.data[event.currentIndex].coordinate;
+        event.container.data[event.currentIndex].coordinate = tempCoordinate;
+
         let oldtarget = event.previousContainer.data[event.previousIndex];
         event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
         event.container.data[event.currentIndex] = oldtarget;
-      } else {
-        if (this.startingSquad.length < 7) {
-          transferArrayItem(event.previousContainer.data,
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex);
+
+        this.resetPositionKey();
+
+        if (event.previousContainer.data[event.previousIndex].playerId == null) {
+          event.previousContainer.data.splice(event.previousIndex, 1);
         }
       }
-
-
-      console.log(this.startingSquad);
-      console.log(this.substitution);
-      console.log(this.unsquadPlayers);
-
     }
   }
 
@@ -121,5 +116,9 @@ export class EditLineUpComponent implements OnInit {
           this.commonService.sendMessage(error.error.message, 'fail')
         }
       });
+  }
+
+  dragEnd($event: CdkDragEnd) {
+    console.log($event.source.getFreeDragPosition());
   }
 }

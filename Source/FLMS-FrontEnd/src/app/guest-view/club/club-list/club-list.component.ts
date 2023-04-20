@@ -9,6 +9,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { combineLatest } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PopUpSendInvitationComponent } from '../club-detail/pop-up-send-invitation/pop-up-send-invitation.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-club-list',
@@ -27,6 +28,7 @@ export class ClubListComponent implements OnInit {
   constructor(
     private clubService: ClubService,
     private formBuilder: FormBuilder,
+    private titleService: Title,
     public dialog: MatDialog,
     private router: Router,
     private authService: AuthService,
@@ -36,6 +38,8 @@ export class ClubListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("List Clubs | FLMS");
+
     this.initDataSource();
 
     this.userRole = this.authService.getUserRole();

@@ -66,8 +66,7 @@ export interface SquadPosition {
     playerId: number;
     playerName: string;
     playerAvatar: string;
-    xAxis: number;
-    yAxis: number;
+    coordinate: Coordinate;
 }
 
 export class SquadPosition implements SquadPosition {
@@ -78,8 +77,7 @@ export class SquadPosition implements SquadPosition {
         playerId: number,
         playerName: string,
         playerAvatar: string,
-        xAxis: number,
-        yAxis: number
+        coordinate: Coordinate
     ) {
         this.squadPositionId = squadPositionId;
         this.squadId = squadId;
@@ -87,8 +85,7 @@ export class SquadPosition implements SquadPosition {
         this.playerId = playerId;
         this.playerName = playerName;
         this.playerAvatar = playerAvatar;
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
+        this.coordinate = coordinate;
     }
 }
 
@@ -122,5 +119,18 @@ export class ViewMatchSquad implements ViewMatchSquad {
     ) {
         this.home = home;
         this.away = away;
+    }
+}
+
+export class Coordinate {
+    x: number;
+    y: number;
+
+    constructor(
+        x: number, 
+        y: number
+    ) {
+        this.x = x;
+        this.y = y;
     }
 }
