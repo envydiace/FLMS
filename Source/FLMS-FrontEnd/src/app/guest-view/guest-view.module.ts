@@ -54,6 +54,7 @@ import { TournamentTreeGvComponent } from './league/league-detail/league-statist
 import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Title } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     NgTournamentTreeModule
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    Title
   ]
 })
 export class GuestViewModule { }
