@@ -91,19 +91,35 @@ export class SquadPosition implements SquadPosition {
 
 export interface UpdateSquad {
     squadId: number;
-    mains: number[];
-    subs: number[];
+    mains: UpdateCoordinate[];
+    subs: UpdateCoordinate[];
 }
 
 export class UpdateSquad implements UpdateSquad {
     constructor(
         squadId: number,
-        mains: number[],
-        subs: number[]
+        mains: UpdateCoordinate[],
+        subs: UpdateCoordinate[]
     ) {
         this.squadId = squadId;
         this.mains = mains;
         this.subs = subs;
+    }
+}
+
+export class UpdateCoordinate {
+    playerId: number;
+    x: number;
+    y: number;
+
+    constructor(
+        playerId: number,
+        x: number,
+        y: number
+    ) {
+        this.playerId = playerId;
+        this.x = x;
+        this.y = y;
     }
 }
 
@@ -127,7 +143,7 @@ export class Coordinate {
     y: number;
 
     constructor(
-        x: number, 
+        x: number,
         y: number
     ) {
         this.x = x;

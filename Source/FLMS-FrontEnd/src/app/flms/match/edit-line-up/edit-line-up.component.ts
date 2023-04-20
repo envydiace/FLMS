@@ -5,7 +5,7 @@ import { first, map } from 'rxjs/operators';
 import { CommonService } from 'src/app/common/common/common.service';
 import { MatchDetailResponse } from 'src/app/models/match-detail-response.model';
 import { MatchDetail } from 'src/app/models/match-detail.model';
-import { MatchSquad, SquadPosition, UpdateSquad } from 'src/app/models/match-squad.model';
+import { Coordinate, MatchSquad, SquadPosition, UpdateCoordinate, UpdateSquad } from 'src/app/models/match-squad.model';
 import { Player } from 'src/app/models/player.model';
 import { MatchService } from '../match.service';
 
@@ -89,19 +89,35 @@ export class EditLineUpComponent implements OnInit {
   }
 
   onSubmit() {
-    let mains: number[] = [];
-    let subs: number[] = [];
+    let mains: UpdateCoordinate[] = [];
+    let subs: UpdateCoordinate[] = [];
 
     this.startingSquad.forEach(element => {
-      const newUsersArray = mains;
-      newUsersArray.push(element.playerId);
-      mains = [...newUsersArray];
+      if (element.playerId != null) {
+        let tempCoordinate: UpdateCoordinate = {
+          playerId: element.playerId,
+          x: element.coordinate.x,
+          y: element.coordinate.y
+        }
+
+        const newUsersArray = mains;
+        newUsersArray.push(tempCoordinate);
+        mains = [...newUsersArray];
+      }
     });
 
     this.substitution.forEach(element => {
-      const newUsersArray = subs;
-      newUsersArray.push(element.playerId);
-      subs = [...newUsersArray];
+      if (element.playerId != null) {
+        let tempCoordinate: UpdateCoordinate = {
+          playerId: element.playerId,
+          x: element.coordinate.x,
+          y: element.coordinate.y
+        }
+
+        const newUsersArray = subs;
+        newUsersArray.push(tempCoordinate);
+        subs = [...newUsersArray];
+      }
     });
 
     const updateSquadModel = new UpdateSquad(this.squadId, mains, subs);
@@ -118,7 +134,8 @@ export class EditLineUpComponent implements OnInit {
       });
   }
 
-  dragEnd($event: CdkDragEnd) {
-    console.log($event.source.getFreeDragPosition());
+  dragEnd($event: CdkDragEnd, squadPositionId: number) {
+    const coordinate: Coordinate = $event.source.getFreeDragPosition();
+    this.startingSquad.find(x => x.squadPositionId == squadPositionId).coordinate = coordinate;
   }
 }
