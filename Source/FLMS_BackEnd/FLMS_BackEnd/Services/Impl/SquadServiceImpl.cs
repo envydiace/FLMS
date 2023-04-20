@@ -373,6 +373,76 @@ namespace FLMS_BackEnd.Services.Impl
             }
         }
 
+        public async Task<UpdateSquadResponse> UpdateSquadPosition(UpdateSquadPositionRequest request, int userId)
+        {
+            var squad = await squadRepository.FindByCondition(s => s.SquadId == request.SquadId)
+                                .Include(s => s.Match).ThenInclude(m => m.League)
+                                .Include(s => s.SquadPositions)
+                                .FirstOrDefaultAsync();
+            if (squad == null)
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-01"
+                };
+            }
+            if (request.Mains.Count != squad.Match.League.NoPlayerSquad)
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-10"
+                };
+            }
+            var mainSquadPositions = squad.SquadPositions.Where(sp => !sp.PositionKey.Equals("P0")).OrderBy(sp => sp.PositionKey).ToList();
+            int mainIndex = 0;
+            mainSquadPositions.ForEach(sp =>
+            {
+                var position = request.Mains.ElementAt(mainIndex);
+               
+                if (position != null)
+                {
+                    sp.PlayerId = position.PlayerId;
+                    sp.CoordinateX = position.X;
+                    sp.CoordinateY = position.Y;
+                }
+                else
+                {
+                    sp.PlayerId = null;
+                    sp.CoordinateX = 0;
+                    sp.CoordinateY = 0;
+                }
+                mainIndex++;
+            });
+            int subIndex = 0;
+            var subSquadPositions = squad.SquadPositions.Where(sp => sp.PositionKey.Equals("P0")).ToList();
+            request.Subs.ForEach(s =>
+            {
+                if (s != null && s.PlayerId != 0)
+                {
+                    subSquadPositions.ElementAt(subIndex++).PlayerId = s.PlayerId;
+                }
+            });
+            var result = await squadRepository.UpdateAsync(squad);
+
+            if (result != null)
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-SQ-03"
+                };
+            }
+            else
+            {
+                return new UpdateSquadResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-11"
+                };
+            }
+        }
         public async Task<ManagerSquadResponse> GetSquadByManager(int squadId, int userId)
         {
             var UnsquadPlayers = new List<SquadPositionDTO>();
