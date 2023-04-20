@@ -95,7 +95,7 @@
                     <div *ngFor="let player of startingSquad">
                         <mat-card *ngIf="player != undefined" class="player-box player-position"
                             cdkDragBoundary=".line-up-field" [cdkDragFreeDragPosition]="player.coordinate"
-                            (cdkDragEnded)="dragEnd($event)" cdkDrag cdkDragDisabled="{{player.positionKey == 'P1'}}">
+                            (cdkDragEnded)="dragEnd($event, player.squadPositionId)" cdkDrag cdkDragDisabled="{{player.positionKey == 'P1'}}">
                             <img mat-card-avatar class="player-header-image"
                                 [src]="player.playerAvatar != null ? player.playerAvatar : defaultAvatar"><br>
                             <mat-card-subtitle>{{player.playerName !=

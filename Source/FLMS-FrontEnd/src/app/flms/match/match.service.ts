@@ -105,7 +105,7 @@ export class MatchService {
   }
 
   updateSquad(squad: UpdateSquad): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/api/Squad/UpdateSquad`, squad, { headers: this.headers });
+    return this.http.put(`${environment.apiUrl}/api/Squad/UpdateSquadPosition`, squad, { headers: this.headers });
   }
 
   getMatchSquadByMatch(matchId: number): Observable<ViewMatchSquad> {
