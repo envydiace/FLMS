@@ -101,19 +101,23 @@ namespace FLMS_BackEnd.Controllers
             return Ok(response);
         }
 
-        //TODO: This API not correct yet
-
-        //[HttpGet("[action]")]
-        //public async Task<ActionResult<List<PlayerSquadPositionDTO>>> GetPlayerForEvent([FromQuery] PlayerForEventRequest request)
-        //{
-        //    var response = await squadService.GetPlayerForEvent(request);
-        //    return Ok(response);
-        //}
-
         [HttpPut("[action]")]
         public async Task<ActionResult<UpdateSquadResponse>> UpdateSquad(UpdateSquadRequest request)
         {
             var response = await squadService.UpdateSquad(request, 0);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("[action]")]
+        public async Task<ActionResult<UpdateSquadResponse>> UpdateSquadPosition(UpdateSquadPositionRequest request)
+        {
+            var response = await squadService.UpdateSquadPosition(request, 0);
             if (response.Success)
             {
                 return Ok(response);
