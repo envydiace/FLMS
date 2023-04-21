@@ -28,6 +28,8 @@ export class EditLineUpComponent implements OnInit {
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   defaultAvatar: string = './../../../../assets/image/default-avatar-profile-icon.webp';
   temp: any;
+  panelMainSquadState: boolean = true;
+  panelSubstituteState: boolean = false;
 
   constructor(
     private MatchService: MatchService,
@@ -62,6 +64,8 @@ export class EditLineUpComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.resetPositionKey();
+
+      console.log(this.startingSquad);
     } else {
       if (event.container.data[event.currentIndex] != undefined) {
         // swap Coordinate

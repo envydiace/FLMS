@@ -67,6 +67,7 @@ export interface SquadPosition {
     playerName: string;
     playerAvatar: string;
     coordinate: Coordinate;
+    number: number;
 }
 
 export class SquadPosition implements SquadPosition {
@@ -77,7 +78,8 @@ export class SquadPosition implements SquadPosition {
         playerId: number,
         playerName: string,
         playerAvatar: string,
-        coordinate: Coordinate
+        coordinate: Coordinate,
+        number: number
     ) {
         this.squadPositionId = squadPositionId;
         this.squadId = squadId;
@@ -86,6 +88,7 @@ export class SquadPosition implements SquadPosition {
         this.playerName = playerName;
         this.playerAvatar = playerAvatar;
         this.coordinate = coordinate;
+        this.number = number
     }
 }
 

@@ -38,6 +38,9 @@
         }
     }
 
+    ::ng-deep mat-expansion-panel-header>.mat-expansion-indicator:after {
+        color: black;
+    }
 }
 
 .player-list {
