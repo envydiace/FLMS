@@ -191,7 +191,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.ForgotPass,
                     MailData = response.MailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else

@@ -1,12 +1,26 @@
-﻿namespace FLMS_BackEnd.Listeners.Events
+﻿using FLMS_BackEnd.Services;
+using MailKit;
+using IMailService = FLMS_BackEnd.Services.IMailService;
+
+namespace FLMS_BackEnd.Listeners.Events
 {
     public class SendMailEventHandler
     {
-        public event EventHandler<SendMailEventArgs> SendMailEventArgs;
-
-        public virtual void OnSendMailReached(SendMailEventArgs e)
+        private readonly IMailService mailService;
+        public SendMailEventHandler(IMailService mailService)
         {
-            SendMailEventArgs?.Invoke(this, e);
+            this.mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
+        }
+
+        public event EventHandler<SendMailEventArgs> SendMailEventArgs;
+        public virtual async Task OnSendMailReached(SendMailEventArgs e)
+        {
+            var mailRequest = e.MailRequest;
+            var sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+            if (!sendResult)
+            {
+                Console.WriteLine($"Failed to send email: {mailRequest}");
+            }
         }
     }
 }
