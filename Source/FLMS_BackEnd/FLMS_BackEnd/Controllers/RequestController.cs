@@ -49,7 +49,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Invitation,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest});
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest});
                 return Ok(response);
             }
             else
@@ -73,7 +73,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Registration,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -113,7 +113,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Accept,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -137,7 +137,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Reject,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -161,7 +161,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Cancel,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -185,7 +185,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Accept,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -209,7 +209,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Reject,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -233,7 +233,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.Cancel,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
