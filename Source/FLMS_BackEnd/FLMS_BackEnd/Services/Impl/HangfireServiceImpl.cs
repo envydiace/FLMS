@@ -117,8 +117,8 @@ namespace FLMS_BackEnd.Services.Impl
                         MailData = mailAway,
                     };
 
-                    sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestHome });
-                    sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestAway });
+                    await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestHome });
+                    await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestAway });
                 }
             }
         }
