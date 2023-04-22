@@ -1,12 +1,13 @@
 <p>
     <mat-toolbar class="card">
         <span>League</span>
-        <div class="league-delete-button">
+        <div class="league-delete-button" style="margin-right: 10px;">
             <div *ngIf="userRole == 'LEAGUE_MANAGER'">
                 <button mat-raised-button style="width: 120px;" color="warn"
                     (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete
                 </button>
             </div>
+            
             <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
             </button>
@@ -22,6 +23,10 @@
                 </button>
             </mat-menu> -->
 
+        </div>
+        <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+            <button mat-raised-button style="width: 120px;" color="primary"
+                (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
         </div>
     </mat-toolbar>
 </p>
@@ -65,7 +70,7 @@
                             <p class="league-detail-content">Description: </p>
                             <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
                             </p>
-                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize}}</p>
+                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}} đ</p>
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
@@ -73,10 +78,7 @@
                         <div class="row justify-content-center">
                             <div class="col-xs-4 justify-content-center">
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
-                                    <div *ngIf="userRole == 'LEAGUE_MANAGER'">
-                                        <button mat-raised-button style="width: 120px;" color="primary"
-                                            (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>

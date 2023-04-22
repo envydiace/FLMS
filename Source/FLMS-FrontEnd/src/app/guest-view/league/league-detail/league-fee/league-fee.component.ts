@@ -38,21 +38,24 @@ export class LeagueFeeComponent implements OnInit {
     this.LeagueService.getLeagueFee(this.leagueId).pipe(
       map((res: LeagueFeeResponse) => {
         this.plan = res.plan,
-          this.actual = res.actual
+          this.actual = res.actual,
+          this.planCostTotal = res.totalPlanFee,
+          this.actualCostTotal = res.totalActualFee
+
       })
     ).subscribe(res => {
-      this.getTotal();
+      //this.getTotal();
     });
 
     
   }
 
-  getTotal() {
-    this.plan.forEach(element => {
-      this.planCostTotal += element.cost;
-    });
-    this.actual.forEach(element => {
-      this.actualCostTotal += element.cost;
-    });
-  }
+  // getTotal() {
+  //   this.plan.forEach(element => {
+  //     this.planCostTotal += element.cost;
+  //   });
+  //   this.actual.forEach(element => {
+  //     this.actualCostTotal += element.cost;
+  //   });
+  // }
 }
