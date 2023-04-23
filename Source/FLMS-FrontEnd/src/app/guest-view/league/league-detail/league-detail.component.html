@@ -7,7 +7,11 @@
             <div class="col-8">
                 <mat-card class="league-detail-card">
                     <mat-card-header>
-                        <div mat-card-avatar class="league-detail-logo"></div>
+                        <div mat-card-avatar class="league-detail-logo">
+                            <img mat-card-avatar class="league-detail-logo"
+                                [src]="leagueDetail.logo != null ? leagueDetail.logo : defaultLogo" alt="League's Pic">
+
+                        </div>
                         <div class="league-detail-title">
                             <mat-card-subtitle>COMPETITION</mat-card-subtitle>
                             <mat-card-title>{{leagueDetail.leagueName}}</mat-card-title>
@@ -16,32 +20,45 @@
                     <br>
                     <section class="league-detail-container">
                         <div class="left-detail" style="text-align: center;">
-                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}</p>
+                            <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}
+                            </p>
                             <p class="league-detail-content">Number of teams: {{leagueDetail.noParticipate}}</p>
                             <p class="league-detail-content">Tournament type: {{leagueDetail.leagueType}}</p>
                             <p class="league-detail-content">League manager: {{leagueDetail.managerName}}</p>
-                            <p class="league-detail-content">Fanpage: {{leagueDetail.fanpage}}</p>
+                            <p class="league-detail-content">Fanpage:
+                                <a *ngIf="leagueDetail.fanpage != null" href="{{leagueDetail.fanpage}}"
+                                    target="_blank">{{leagueDetail.leagueName}}</a>
+                            </p>
+                            <p class="league-detail-content">League Status: {{leagueDetail.status}}</p>
+
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>
-                            <p class="league-detail-content">Number of groups: </p>
+                            <p class="league-detail-content">Description: </p>
                             <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
                             </p>
-                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize}}</p>
+                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}} đ</p>
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
-                    <div>
-                        <button mat-raised-button color="primary" (click)="openSendRegistation()">
-                            Join
-                        </button>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div *ngIf="role == 'CLUB_MANAGER'">
+                                <div class="col-xs-4 justify-content-center">
+                                    <button mat-raised-button color="primary" (click)="openSendRegistation()">
+                                        Join
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <mat-card-content class="league-detail-content">
                             <mat-tab-group>
                                 <mat-tab label="Schedule">
                                     <ng-template matTabContent>
-                                        <app-league-schedule></app-league-schedule>
+                                        <app-league-schedule
+                                            [leagueName]="leagueDetail.leagueName"></app-league-schedule>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Clubs">
@@ -49,9 +66,10 @@
                                         <app-joined-clubs></app-joined-clubs>
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab label="League Statistic">
+                                <mat-tab label="Statistic">
                                     <ng-template matTabContent>
-                                        <app-league-statistic></app-league-statistic>
+                                        <app-league-statistic [leagueId]="leagueId"
+                                            [leagueType]="leagueDetail.leagueType"></app-league-statistic>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Fee">
@@ -59,11 +77,11 @@
                                         <app-league-fee></app-league-fee>
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab label="League Settings">
+                                <!-- <mat-tab label="League Settings">
                                     <ng-template matTabContent>
                                         <app-league-settings></app-league-settings>
                                     </ng-template>
-                                </mat-tab>
+                                </mat-tab> -->
                             </mat-tab-group>
                         </mat-card-content>
                     </div>
@@ -72,3 +90,5 @@
         </div>
     </div>
 </div>
+
+<app-footer></app-footer>

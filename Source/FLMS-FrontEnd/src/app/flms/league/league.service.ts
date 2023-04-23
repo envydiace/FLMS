@@ -3,10 +3,10 @@ import { token } from '../../models/token.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { LeagueListbyUser, LeagueDetail } from '../../models/league-detail.model';
+import { LeagueListbyUser, LeagueDetail, GetUpdateLeagueDetail } from '../../models/league-detail.model';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { LeagueDetailResponse } from 'src/app/models/league-detail-response.model';
+import { LeagueDetailResponse, UpdateLeagueDetailResponse } from 'src/app/models/league-detail-response.model';
 import { ClubListByLeagueResponse } from 'src/app/models/club-list-by-league-response.model';
 import { MatchEvent } from 'src/app/models/match-event-detail.model';
 import { FeeDetailResponse, LeagueClubFeeResponse, LeagueFeeResponse } from 'src/app/models/fee-response.model';
@@ -96,18 +96,26 @@ export class LeagueService {
     )
   }
 
-  getmatch(leagueId: number): Observable<MatchScheduleResponse> {
+  getmatch(
+    leagueId: number,
+    from: string,
+    to: string,
+    clubName: string
+  ): Observable<MatchScheduleResponse> {
     let params = new HttpParams();
 
-    params = params.append("leagueId", String(leagueId))
+    params = params.append("leagueId", String(leagueId));
+    params = params.append('from', from);
+    params = params.append('to', to);
+    params = params.append('searchClubName', clubName);
 
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetLeagueSchedule`, { params }).pipe(
       map((res: MatchScheduleResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
 
-  confirmRegistFee(fee: LeagueClubFee) {
+  confirmRegistFee(fee: LeagueClubFee): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Participation/ConfirmRegistFee`, fee, { headers: this.headers })
 
   }
@@ -117,9 +125,9 @@ export class LeagueService {
     return this.http.get<any>(`${environment.apiUrl}/api/Fee/GetFeeDetail/${leagueFeeId}`).pipe(
       map((res: FeeDetailResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
-  editLeagueFee(feeInfo: any) {
+  editLeagueFee(feeInfo: any): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Fee/UpdateFee`, feeInfo, { headers: this.headers });
   }
 
@@ -132,7 +140,7 @@ export class LeagueService {
 
   }
 
-  finishMatchConfirm(matchId: number) {
+  finishMatchConfirm(matchId: number): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Match/FinishMatch/${matchId}`, null, { headers: this.headers });
   }
 
@@ -159,7 +167,7 @@ export class LeagueService {
         catchError(err => throwError(err)));
   }
 
-  updateLeagueTree(tree: UpdateTreeModel) {
+  updateLeagueTree(tree: UpdateTreeModel): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Participation/ManageLeagueSettingKO`, tree, { headers: this.headers });
   }
 
@@ -172,7 +180,7 @@ export class LeagueService {
     return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
   }
 
-  editFee(leagueId: number, isActual: boolean, listFees: FeeDetail[]) {
+  editFee(leagueId: number, isActual: boolean, listFees: FeeDetail[]): Observable<any> {
     let body = {
       leagueId,
       isActual,
@@ -180,4 +188,20 @@ export class LeagueService {
     }
     return this.http.post(`${environment.apiUrl}/api/Fee/AddLeagueFee`, body, { headers: this.headers });
   }
+
+  removeLeagueFee(leagueFeeId: number): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/api/Fee/DeleteLeagueFee/${leagueFeeId}`, null, { headers: this.headers });
+  }
+
+  getUpdateLeagueInfo(leagueId: number): Observable<UpdateLeagueDetailResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetLeagueUpdateInfo/${leagueId}`, { headers: this.headers }).pipe(
+      map((res: UpdateLeagueDetailResponse) => res),
+      catchError(err => throwError(err))
+    );
+  }
+  updateLeague(league: GetUpdateLeagueDetail) {
+    return this.http.put(`${environment.apiUrl}/api/League/UpdateLeagueBasicInfo`, league, { headers: this.headers });
+  }
+
+
 }

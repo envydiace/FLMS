@@ -1,6 +1,33 @@
 <p>
     <mat-toolbar class="card">
         <span>League</span>
+        <div class="league-delete-button" style="margin-right: 10px;">
+            <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+                <button mat-raised-button style="width: 120px;" color="warn"
+                    (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete
+                </button>
+            </div>
+            
+            <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+
+                <button mat-menu-item>
+                    <button mat-raised-button style="width: 120px;" color="primary"
+                        (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
+                </button>
+                <button mat-menu-item>
+                    <button mat-raised-button style="width: 120px;" color="warn"
+                        (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                </button>
+            </mat-menu> -->
+
+        </div>
+        <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+            <button mat-raised-button style="width: 120px;" color="primary"
+                (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
+        </div>
     </mat-toolbar>
 </p>
 
@@ -31,22 +58,28 @@
                             <p class="league-detail-content">Number of teams: {{leagueDetail.noParticipate}}</p>
                             <p class="league-detail-content">Tournament type: {{leagueDetail.leagueType}}</p>
                             <p class="league-detail-content">League manager: {{leagueDetail.managerName}}</p>
-                            <p class="league-detail-content">Fanpage: {{leagueDetail.fanpage}}</p>
+                            <p class="league-detail-content">Fanpage:
+                                <a *ngIf="leagueDetail.fanpage != null" href="{{leagueDetail.fanpage}}"
+                                    target="_blank">{{leagueDetail.leagueName}}</a>
+                            </p>
+                            <p class="league-detail-content">League Status: {{leagueDetail.status}} </p>
+
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>
-                            <p class="league-detail-content">Number of groups: </p>
+                            <p class="league-detail-content">Description: </p>
                             <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
                             </p>
-                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize}}</p>
+                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}} đ</p>
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
                     <div class="container">
-                        <div class="col-xs-8 justify-content-center" style="display: flex;">
-                            <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                    mat-raised-button style="width: 120px;" color="warn"
-                                    (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete</button>
+                        <div class="row justify-content-center">
+                            <div class="col-xs-4 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
+                                   
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -56,7 +89,7 @@
                             <mat-tab-group>
                                 <mat-tab label="Schedule">
                                     <ng-template matTabContent>
-                                        <app-league-schedule></app-league-schedule>
+                                        <app-league-schedule [leagueName]="leagueDetail.leagueName"></app-league-schedule>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Clubs">
@@ -66,7 +99,8 @@
                                 </mat-tab>
                                 <mat-tab label="League Statistic">
                                     <ng-template matTabContent>
-                                        <app-league-statistic [leagueId]="leagueId" [leagueType]="leagueDetail.leagueType"></app-league-statistic>
+                                        <app-league-statistic [leagueId]="leagueId"
+                                            [leagueType]="leagueDetail.leagueType"></app-league-statistic>
 
                                     </ng-template>
                                 </mat-tab>
@@ -76,7 +110,7 @@
 
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab *ngIf="leagueDetail.leagueType == 'KO'" label="League Settings">
+                                <mat-tab *ngIf="leagueDetail.leagueType == 'KO' && userRole == 'LEAGUE_MANAGER'" label="League Settings">
                                     <ng-template matTabContent>
                                         <app-league-settings></app-league-settings>
 

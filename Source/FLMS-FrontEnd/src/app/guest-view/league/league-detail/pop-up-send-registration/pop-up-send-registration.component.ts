@@ -15,6 +15,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { CommonService } from 'src/app/common/common/common.service';
 
 
 
@@ -31,6 +32,7 @@ export class PopUpSendRegistrationComponent implements OnInit {
   managerName: string = null;
   clubListByUser: ClubListbyUser[] = [];
   pageEvent: PageEvent;
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
 
 
   constructor(
@@ -40,6 +42,7 @@ export class PopUpSendRegistrationComponent implements OnInit {
     public dialogRef: MatDialogRef<PopUpSendRegistrationComponent>,
     private LeagueService: LeagueService,
     private _snackBar: MatSnackBar,
+    public commonService: CommonService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       leagueId: number;
@@ -64,18 +67,13 @@ export class PopUpSendRegistrationComponent implements OnInit {
     this.LeagueService.sendRegistration(this.data.leagueId, clubId)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.openSnackBar();
+        next: response => {
+          this.commonService.sendMessage(response.message, 'success');
+        },
+        error: error =>{
+          this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
-  }
-
-  openSnackBar() {
-    this._snackBar.open('Success!!', 'CLOSE', {
-      duration: 3500,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-    });
   }
 
 }

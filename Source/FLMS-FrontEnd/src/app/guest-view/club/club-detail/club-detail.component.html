@@ -30,15 +30,15 @@
                             <p class="club-content">Phone: {{clubdetail.phoneNumber}}</p>
                         </div>
                         <div class="right-detail" style="text-align: center;">
-                            <p class="club-content">Social Cont: <a href="{{linkFb}}"
-                                    target="_blank">{{clubdetail.socialCont}}</a>
+                            <p class="club-content">Fanpage: <a *ngIf="clubdetail.fanPage != null" href="{{clubdetail.fanPage}}"
+                                    target="_blank">{{clubdetail.clubName}}</a>
                             </p>
                             <p class="club-content">Email: {{clubdetail.email}}</p>
                         </div>
                     </section>
                     <div class="container">
                         <div class="row justify-content-center">
-                            <div class="col-xs-4 justify-content-center">
+                            <!-- <div class="col-xs-4 justify-content-center">
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
                                         mat-raised-button style="width: 120px;" color="primary">Edit</button>
                                 </div>
@@ -47,10 +47,10 @@
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
                                         mat-raised-button style="width: 120px;" color="warn">Delete</button>
                                 </div>
-                            </div>
-                            <div class="col-xs-4 justify-content-center">
-                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="accent"
+                            </div> -->
+                            <div *ngIf="userRole == 'LEAGUE_MANAGER'" class="col-xs-4 justify-content-center">
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
+                                    <button mat-raised-button style="width: 120px;" color="accent"
                                         (click)="openSendInvitation()">
                                         Invite</button>
                                 </div>
@@ -91,3 +91,5 @@
     </div>
 
 </div>
+
+<app-footer></app-footer>

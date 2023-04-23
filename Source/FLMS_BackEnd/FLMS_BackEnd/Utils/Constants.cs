@@ -11,6 +11,9 @@ namespace FLMS_BackEnd.Utils
 
         public const string DATE_FORMAT = "yyyy-MM-dd";
         public const string TIME_FORMAT = "HH:mm";
+
+        public const int TOP_EVENT_NUMBER = 3;
+
         public static class Role
         {
             public const string CLUB_MANAGER = "CLUB_MANAGER";
@@ -20,6 +23,10 @@ namespace FLMS_BackEnd.Utils
         public enum LeagueType
         {
             KO, TABLE, LEAGUE
+        }
+        public enum LeagueStatus
+        {
+            New, OnGoing, Finished
         }
 
         public enum RequestType
@@ -65,6 +72,7 @@ namespace FLMS_BackEnd.Utils
             public const string ConfirmFee = "ConfirmFee";
             public const string AnnounceMatch = "AnnounceMatch";
             public const string AnnounceSquad = "AnnounceSquad";
+            public const string ForgotPass = "ForgotPass";
         }
         public static class MailSubject
         {
@@ -85,6 +93,8 @@ namespace FLMS_BackEnd.Utils
             public const string Status = "Status";
         }
 
+        public const string FORGOTPASSLINK = "forgot-pass/";
+
         public const string HOME = "Home";
         public const string AWAY = "Away";
 
@@ -97,6 +107,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-US-03","Logout Success" },
             {"MS-US-04","Change password success" },
             {"MS-US-05","Edit profile success" },
+            {"MS-US-06","An email with instructions on how to reset your password has been sent to your email address" },
             {"ER-US-01","Request fail" },
             {"ER-US-02","E-mail is being used" },
             {"ER-US-03","Re-entered password need to be the same with password" },
@@ -114,6 +125,8 @@ namespace FLMS_BackEnd.Utils
             {"ER-US-15","Re-entered password and new password don't match" },
             {"ER-US-16","Incorrrect old password. Please check again" },
             {"ER-US-17","Edit profile fail" },
+            {"ER-US-18","Invalid token" },
+            {"ER-US-19","Token has expired" },
 
             {"ER-CL-01","Cannot remove the club because there's still (a) players in the club" },
             {"ER-CL-02","Club doesn't existed" },
@@ -131,6 +144,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-LE-01","Create league success" },
             {"MS-LE-02","Delete league success" },
+            {"MS-LE-03","Update league info success" },
             {"ER-LE-01","Create league fail" },
             {"ER-LE-02","League name existed" },
             {"ER-LE-03","Not enough date between start date and end date" },
@@ -141,14 +155,17 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-08","Delete league fail" },
             {"ER-LE-09","Unable to delete a league that already has participation" },
             {"ER-LE-10","Wrong league type" },
+            {"ER-LE-11","Update league info failed" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
+            {"MS-PL-03","Update player successfully"},
             {"ER-PL-01","Add player failed!" },
             {"ER-PL-02","Player does not exist!" },
             {"ER-PL-03","Update player failed!" },
             {"ER-PL-04","Delete player failled!" },
             {"ER-PL-05","This player was already added in this club!" },
+            {"ER-PL-06","This player not in this club!" },
 
             {"ER-RE-01","This club already in the league" },
             {"ER-RE-02","This club has request to regist the league" },
@@ -186,14 +203,21 @@ namespace FLMS_BackEnd.Utils
             {"MS-PA-02","Remove club success" },
             {"MS-PA-03","Add participation to position success" },
 
-            {"MS-FE-01","Add list dee success" },
+            {"MS-FE-01","Add list cost success" },
+            {"MS-FE-02","Delete cost success" },
+            {"MS-FE-03","Update cost success" },
             {"ER-FE-01","No fees have been announced for this league" },
-            {"ER-FE-02","League fee not found!" },
-            {"ER-FE-03","Update league fee failed!" },
-            {"ER-FE-04","Invalid fee type" },
-            {"ER-FE-05","Can not edit plan fee when the league started" },
-            {"ER-FE-06","Can not add plan fee when the league started" },
-            {"ER-FE-07","Add list fee failed!" },
+            {"ER-FE-02","League cost not found!" },
+            {"ER-FE-03","Update league cost failed!" },
+            {"ER-FE-04","Invalid cost type" },
+            {"ER-FE-05","Can not edit plan cost when the league started" },
+            {"ER-FE-06","Can not add plan cost when the league started" },
+            {"ER-FE-07","Add list cost failed!" },
+            {"ER-FE-08","Delete cost failed!" },
+            {"ER-FE-09","Can not edit actual cost when the league finished" },
+            {"ER-FE-10","Can not add actual cost when the league finished" },
+            {"ER-FE-11","Can not delete plan cost when the league started" },
+            {"ER-FE-12","Can not delete actual cost when the league finished" },
 
             {"MS-MAIL-01","You got a new invitation!!!" },
             {"MS-MAIL-02","You got a new registration!!!" },
@@ -204,6 +228,7 @@ namespace FLMS_BackEnd.Utils
             {"MS-MAIL-07","LeagueManager has canceled their invitation request" },
             {"MS-MAIL-08","ClubManager has canceled their registration request" },
             {"MS-MAIL-09","LeagueManager has removed your club from their league" },
+            {"MS-MAIL-10","Password Reset Request" },
 
             {"MS-SQ-01","Add player to position success" },
             {"MS-SQ-02","Remove player from position success" },

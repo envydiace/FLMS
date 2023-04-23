@@ -14,6 +14,7 @@ import { Player } from 'src/app/models/player.model';
 import { PlayerForEvent } from './../../models/player-for-event.model'
 import { ClubListPlayerResponse } from 'src/app/models/club-list-player-response.model';
 import { MatchSquad, UpdateSquad, ViewMatchSquad } from './../../models/match-squad.model';
+import { getListPlayerJoinMatch } from 'src/app/models/club-list-player.model';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,7 @@ export class MatchService {
     );
   }
 
-  updateMatchStats(body: MatchStatisticsResponse) {
+  updateMatchStats(body: MatchStatisticsResponse):Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/MatchStatistic/UpdateMatchStat/`, body, { headers: this.headers })
   }
 
@@ -68,17 +69,28 @@ export class MatchService {
     );
   }
 
-  editMatchInfo(body: MatchDetail) {
+  editMatchInfo(body: MatchDetail):Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Match/UpdateMatch`, body, { headers: this.headers });
 
   }
-  getPlayerForEvent(ClubId: number): Observable<ClubListPlayerResponse> {
+  // getPlayerForEvent(ClubId: number): Observable<ClubListPlayerResponse> {
+  //   let params = new HttpParams();
+
+  //   params = params.append("ClubId", String(ClubId));
+
+  //   return this.http.get<any>(`${environment.apiUrl}/api/Player/GetListPlayerByClubId`, { params, headers: this.headers })
+  //     .pipe(map((res: ClubListPlayerResponse) => res),
+  //       catchError(err => throwError(err)))
+  // }
+
+  getListPlayerJoinMatch(ClubId: number, matchId: number): Observable<getListPlayerJoinMatch[]> {
     let params = new HttpParams();
 
     params = params.append("ClubId", String(ClubId));
+    params = params.append("MatchId", String(matchId));
 
-    return this.http.get<any>(`${environment.apiUrl}/api/Player/GetListPlayerByClubId`, { params, headers: this.headers })
-      .pipe(map((res: ClubListPlayerResponse) => res),
+    return this.http.get<any>(`${environment.apiUrl}/api/Squad/GetListPlayerJoinMatch`, { params, headers: this.headers })
+      .pipe(map((res: getListPlayerJoinMatch[]) => res),
         catchError(err => throwError(err)))
   }
 
@@ -92,8 +104,8 @@ export class MatchService {
     return this.http.post(`${environment.apiUrl}/api/Event/AddMultipleMatchEvent`, events, { headers: this.headers });
   }
 
-  updateSquad(squad: UpdateSquad) {
-    return this.http.put(`${environment.apiUrl}/api/Squad/UpdateSquad`, squad, { headers: this.headers });
+  updateSquad(squad: UpdateSquad): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/api/Squad/UpdateSquadPosition`, squad, { headers: this.headers });
   }
 
   getMatchSquadByMatch(matchId: number): Observable<ViewMatchSquad> {

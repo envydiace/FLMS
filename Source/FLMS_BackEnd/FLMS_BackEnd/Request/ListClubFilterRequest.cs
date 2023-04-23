@@ -4,9 +4,8 @@ namespace FLMS_BackEnd.Request
 {
     public class ListClubFilterRequest
     {
-        public string? searchClubName { get; set; }
-        public string? searchManagerName { get; set; }
-        public int page { get; set; } = Constants.DEFAULT_PAGE;
-        public int pageSize { get; set; } = Constants.DEFAULT_CLUB_PAGE_SIZE;
+        public string? Search { get; set; }
+        public int Page { get; set; } = Constants.DEFAULT_PAGE;
+        public int PageSize { get; set; } = Constants.DEFAULT_CLUB_PAGE_SIZE;
     }
 }

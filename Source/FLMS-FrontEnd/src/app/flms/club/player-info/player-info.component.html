@@ -3,141 +3,191 @@
         <span> Player's info</span>
     </mat-toolbar>
 </p>
-<form [formGroup]="form">
+<div *ngIf="playerInfo">
+
     <div class="club-detail-container container">
         <mat-card class="example-card">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <mat-card-header>
+                    <br />
+                    <mat-card-subtitle> </mat-card-subtitle>
+                </mat-card-header>
 
-            <mat-card-header>
-                <br />
-                <mat-card-subtitle> </mat-card-subtitle>
-            </mat-card-header>
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-xl-3">
+                            <div class="card mb-4 mb-xl-0">
+                                <div class="card-header">Player's Profile Picture</div>
+                                <div class="card-body text-center">
+                                    <img class="img-account-profile rounded-circle mb-2" [src]="defaultAvatar"
+                                        alt="Player's Pic">
+                                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                                    <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
 
-            <mat-card-content>
-                <div class="row">
-                    <div class="col-xl-3">
-                        <div class="card mb-4 mb-xl-0">
-                            <div class="card-header">Player's Profile Picture</div>
-                            <div class="card-body text-center">
-                                <img class="img-account-profile rounded-circle mb-2"
-                                    src="./../../../../assets/image/Rashford.png" alt="">
-                                <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                                <button class="btn btn-primary" type="button">Upload new image</button>
+                                </div>
                             </div>
-                        </div>
-                        <br />
-                        <div class="card mb-4 mb-xl-0 league-card">
+                            <br />
+                            <!-- <div class="card mb-4 mb-xl-0 league-card">
                             <div class="card-header">Joined Club</div>
                             <div class="card-body ">
                                 <div class="player-list">
                                     <mat-card class="player-box" *ngFor="let item of playerClub">
                                         <mat-card-header>
-                                            <div mat-card-avatar class="avatar-header-image"></div>
+                                            <div mat-card-avatar class="avatar-header-image">
+                                                <img class="avatar-header-image rounded-circle mb-2" 
+                                                [src]="item.clubLogo != null ? item.clubLogo : defaultLogo" alt="Club's Pic"
+                                                >
+                                            </div>
                                             <mat-card-title style="line-height: 37px; margin-bottom: 0;">
                                                 {{item.clubId}} - {{item.number}}</mat-card-title>
                                         </mat-card-header>
                                     </mat-card>
                                 </div>
                             </div>
+                        </div> -->
+
+                            <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
                         </div>
+                        <div class="col-xl-9">
 
-                        <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
-                    </div>
-                    <div class="col-xl-9">
+                            <div class="card mb-4">
+                                <div class="card-header">Player Details</div>
+                                <div class="card-body">
 
-                        <div class="card mb-4">
-                            <div class="card-header">Player Details</div>
-                            <div class="card-body">
-
-                                <div class="mb-3">
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Full name</mat-label>
-                                        <input matInput formControlName="name">
-
-                                    </mat-form-field>
-                                </div>
-                                <div class="row gx-3 mb-3">
-                                    <div class="col-md-6">
+                                    <div class="mb-3">
                                         <mat-form-field class="example-full-width">
-                                            <mat-label>Nick name</mat-label>
-                                            <input matInput formControlName="nickName">
+                                            <mat-label>Full name</mat-label>
+                                            <input matInput formControlName="name">
+                                            <mat-error
+                                                *ngIf="!form.controls['name'].valid && form.controls['name'].touched">
+                                                Required
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Nick name</mat-label>
+                                                <input matInput formControlName="nickName">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Date Of Birth</mat-label>
+                                                <input matInput [matDatepicker]="picker" formControlName="dob" disabled>
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker disabled='false'></mat-datepicker>
+
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
+
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Height</mat-label>
+                                                <input matInput formControlName="height">
+                                                <mat-error
+                                                    *ngIf="!form.controls['height'].valid && form.controls['height'].touched">
+                                                    Required, example: 1m80
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Weight</mat-label>
+                                                <input matInput formControlName="weight">
+                                                <mat-error
+                                                    *ngIf="!form.controls['weight'].valid && form.controls['weight'].touched">
+                                                    Required, example: 80kg
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
+
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Telephone</mat-label>
+                                                <span matPrefix>+84 &nbsp;</span>
+                                                <input type="tel" matInput formControlName="phoneNumber"
+                                                    placeholder="0912345678">
+                                                <mat-icon matSuffix>mode_edit</mat-icon>
+                                                <mat-error
+                                                    *ngIf="!form.controls['phoneNumber'].valid && form.controls['phoneNumber'].touched">
+                                                    Required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Address</mat-label>
+                                                <input matInput formControlName="address">
+                                                <mat-error
+                                                    *ngIf="!form.controls['address'].valid && form.controls['address'].touched">
+                                                    Required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <mat-form-field class="example-full-width">
-                                            <mat-label>Date Of Birth</mat-label>
-                                            <input matInput [matDatepicker]="picker" formControlName="dob">
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker></mat-datepicker>
+                                            <mat-label>Email</mat-label>
+                                            <input type="email" formControlName="email" matInput
+                                                placeholder="Ex. pat@example.com">
+                                            <mat-error
+                                                *ngIf="!form.controls['email'].valid && form.controls['email'].touched">
+                                                Required
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
-                                </div>
-                                <div class="row gx-3 mb-3">
-                                    <div class="col-md-6">
-
+                                    <div class="mb-3">
                                         <mat-form-field class="example-full-width">
-                                            <mat-label>Height</mat-label>
-                                            <input matInput formControlName="height">
-
+                                            <mat-label>Social Cont</mat-label>
+                                            <input matInput formControlName="socialCont">
+                                            <mat-error
+                                                *ngIf="!form.controls['socialCont'].valid && form.controls['socialCont'].touched">
+                                                Required
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Weight</mat-label>
-                                            <input matInput formControlName="weight">
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
 
-                                        </mat-form-field>
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Club Name</mat-label>
+                                                <input matInput formControlName="clubName">
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Player's Number</mat-label>
+                                                <input matInput formControlName="number">
+                                                <mat-error
+                                                    *ngIf="!form.controls['number'].valid && form.controls['number'].touched">
+                                                    Required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
                                     </div>
+
+                                    <button mat-raised-button color="primary">Update</button>
+
+
+
                                 </div>
-                                <div class="row gx-3 mb-3">
-                                    <div class="col-md-6">
-
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Telephone</mat-label>
-                                            <span matPrefix>+84 &nbsp;</span>
-                                            <input type="tel" matInput formControlName="phoneNumber"
-                                                placeholder="0912345678">
-                                            <mat-icon matSuffix>mode_edit</mat-icon>
-
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Address</mat-label>
-                                            <input matInput formControlName="address">
-
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Email</mat-label>
-                                        <input type="email" formControlName="email" matInput
-                                            placeholder="Ex. pat@example.com">
-                                    </mat-form-field>
-                                </div>
-                                <div class="mb-3">
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Social Cont</mat-label>
-                                        <input matInput formControlName="socialCont">
-                                    </mat-form-field>
-                                </div>
-
-                                <button class="btn btn-primary" type="submit">Save changes</button>
-
-
                             </div>
                         </div>
                     </div>
-                </div>
-            </mat-card-content>
-
+                </mat-card-content>
+            </form>
             <mat-card-actions>
-                <a routerLink="../../manager/club-detail" class="btn btn-primary right" type="button">Back</a>
-                <button mat-raised-button color="warn" >Delete</button>
-
-
+                <button mat-raised-button>Back</button>
+                <!-- <button mat-raised-button color="warn">Delete</button> -->
             </mat-card-actions>
 
         </mat-card>
     </div>
-</form>
+
+</div>

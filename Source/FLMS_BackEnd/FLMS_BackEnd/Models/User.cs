@@ -23,6 +23,8 @@ namespace FLMS_BackEnd.Models
         public DateTime CreateAt { get; set; }
         public string Role { get; set; } = null!;
         public string? Avatar { get; set; }
+        public string? ResetToken { get; set; }
+        public DateTime? TokenExpire { get; set; }
 
         public virtual ICollection<Club> Clubs { get; set; }
         public virtual ICollection<League> Leagues { get; set; }

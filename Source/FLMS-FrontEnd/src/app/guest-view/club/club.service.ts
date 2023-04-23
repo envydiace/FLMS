@@ -51,15 +51,13 @@ export class ClubService {
   }
 
   public getListClubFilter(
-    clubName: string,
-    managerName: string,
+    search: string,
     page: number,
     size: number
   ): Observable<any> {
     let params = new HttpParams();
 
-    params = params.append('searchClubName', clubName);
-    params = params.append('searchManagerName', managerName);
+    params = params.append('search', search);
     params = params.append('page', String(page));
     params = params.append('pageSize', String(size));
 
@@ -91,7 +89,7 @@ export class ClubService {
     )
   }
 
-  sendInvitation(leagueId: number, clubId: number) {
+  sendInvitation(leagueId: number, clubId: number): Observable<any> {
     let body = {
       leagueId,
       clubId

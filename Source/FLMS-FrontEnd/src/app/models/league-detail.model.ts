@@ -18,6 +18,7 @@ export interface LeagueDetail {
     logo: string;
     totalPrize: number;
     isFinished: boolean;
+    status: string;
 }
 
 export class LeagueDetail implements LeagueDetail {
@@ -39,7 +40,8 @@ export class LeagueDetail implements LeagueDetail {
         noRound: number,
         logo: string,
         totalPrize: number,
-        isFinished: boolean
+        isFinished: boolean,
+        status: string,
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
@@ -59,6 +61,7 @@ export class LeagueDetail implements LeagueDetail {
         this.logo = logo;
         this.totalPrize = totalPrize;
         this.isFinished = isFinished;
+        this.status = status;
     }
 }
 
@@ -66,8 +69,7 @@ export interface LeagueListbyUser {
     leagueId: number,
     userId: number,
     leagueName: string,
-
-
+    logo: string,
 }
 
 export class LeagueListbyUser implements LeagueListbyUser {
@@ -75,14 +77,46 @@ export class LeagueListbyUser implements LeagueListbyUser {
         leagueId: number,
         userId: number,
         leagueName: string,
-
+        logo: string,
 
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
         this.leagueName = leagueName;
+        this.logo = logo;
+
+    }
+}
+
+export class TopLeaguePrizes {
+    topLeaguePrizes: LeagueDetail[];
+}
 
 
+export interface GetUpdateLeagueDetail {
+    leagueId: number;
+    leagueName: string;
+    location: string;
+    fanpage: string;
+    logo: string;
+    status: string;
 
+}
+
+export class GetUpdateLeagueDetail implements GetUpdateLeagueDetail {
+    constructor(
+        leagueId: number,
+        leagueName: string,
+        location: string,
+        fanpage: string,
+        logo: string,
+        status: string,
+    ) {
+        this.leagueId = leagueId;
+        this.leagueName = leagueName;
+        this.location = location;
+        this.fanpage = fanpage;
+        this.logo = logo;
+        this.status = status;
     }
 }

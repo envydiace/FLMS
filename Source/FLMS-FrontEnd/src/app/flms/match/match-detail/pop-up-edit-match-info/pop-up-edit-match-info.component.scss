@@ -1,21 +1,24 @@
 .match-detail-container {
 
-
-
-    .match-detail-content {
+    .match-detail-info {
+        background-color: #FFFFFF;
         width: 100%;
-        margin: 0 10px;
-    }
+        margin: 0;
 
+        .match-detail-card {
+            max-width: 100%;
+        }
 
-    .match-detail-content {
-        width: 100%;
-        margin: 0 10px;
+        .match-detail-logo {
+            background-size: cover;
+            height: 130px;
+            width: 130px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
     }
 
     .match-detail-container {
         display: flex;
-
     }
 
     .left-detail {
@@ -26,24 +29,6 @@
         flex: 1;
     }
 
-
-    .match-detail-content {
-        width: 100%;
-        margin: 0 10px;
-    }
-
-    .match-detail-container {
-        display: flex;
-
-    }
-
-    .left-detail {
-        flex: 1;
-    }
-
-    .right-detail {
-        flex: 1;
-    }
 
     .box-border {
         border-right: 1px solid black;
@@ -65,6 +50,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
+        grid-auto-columns: min-content;
         // display: block ;
     }
 
@@ -73,14 +59,15 @@
         align-items: center;
         justify-content: center;
         position: relative;
+        grid-auto-columns: min-content;
         //display: block;
     }
 
     .match-detail-title {
-        display: block;
         padding-top: 10px;
         text-align: center;
         font-size: 25px;
+
     }
 
     .mat-card-header {

@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TournamentTreeComponent implements OnInit {
 
   @Input() match: any;
+  imgSrc: string = './../../../../../../assets/image/default-logo.png';
 
   constructor() { }
 

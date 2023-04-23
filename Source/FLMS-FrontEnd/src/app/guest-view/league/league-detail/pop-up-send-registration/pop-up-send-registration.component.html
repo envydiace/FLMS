@@ -1,4 +1,8 @@
-
+<p>
+    <mat-toolbar class="card">
+        <span> Your Clubs</span>
+    </mat-toolbar>
+</p>
 <div *ngIf="clubListByUser">
     <div class="container">
         <div class="row">
@@ -6,12 +10,10 @@
                 <div class="list-container">
                     <a  style="cursor: pointer;">
                         <mat-card class="league-list-card">
-
                             <mat-card-title>{{club.clubName}}</mat-card-title>
                             <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
                             <img mat-card-avatar class="league-header-image"
-                                src="./../../../../assets/image/Manchester_United_FC_crest.svg.png"
-                                alt="">
+                            [src]="club.logo != null ? club.logo : defaultLogo" alt="Club's Pic">
                             <mat-card-actions>
                                 <button mat-button (click)="sendRegistration(club.clubId)">Choose</button>
                             </mat-card-actions>

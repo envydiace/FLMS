@@ -12,5 +12,7 @@ namespace FLMS_BackEnd.Services
         Task<UserProfileResponse> GetUserProfile(int userId);
         Task<ChangePasswordResponse> ChangePass(ChangePasswordRequest changePasswordRequest, int UserId);
         Task<EditProfileResponse> EditProfile(EditProfileRequest request, int userId);
+        Task<ForgotPassResponse> ForgotPassword(string email);
+        Task<ChangeNewPassResponse> ChangeNewPass(ChangeNewPassRequest request);
     }
 }

@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <h4 class="modal-title" style="font-size: 20px;">Confirm
+        <h4 style="font-size: 20px; display: contents" *ngIf="stringType == 'AcceptRegistration'">
+            accept registration request
+        </h4>
+        <h4 style="font-size: 20px; display: contents" *ngIf="stringType == 'RejectRegistration'">
+            Reject registration request
+        </h4>
+        <h4 style="font-size: 20px; display: contents" *ngIf="stringType == 'CancelInvitation'">
+            Cancel inivitation request
+        </h4>
+        <h4 style="font-size: 20px; display: contents" *ngIf="stringType == 'AcceptInvitation'">
+            accept Invitation request
+        </h4>
+        <h4 style="font-size: 20px; display: contents" *ngIf="stringType == 'RejectInvitation'">
+            Reject Invitation request
+        </h4>
+        <h4 style="font-size: 20px; display: contents" *ngIf="stringType == 'CancelRegistration'">
+            Cancel Registration request
+        </h4>
+        
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="font-size: 20px">
+    Are you sure you want to
+    <div style="font-size: 20px; display: contents" *ngIf="stringType == 'AcceptRegistration'">
+        accept this club registration request?
+    </div>
+    <div style="font-size: 20px; display: contents" *ngIf="stringType == 'RejectRegistration'">
+        reject this club registration request?
+    </div>
+    <div style="font-size: 20px; display: contents" *ngIf="stringType == 'CancelInvitation'">
+        cancel your's league invitation?
+    </div>
+    <div style="font-size: 20px; display: contents" *ngIf="stringType == 'AcceptInvitation'">
+        accept this league invitation request?
+    </div>
+    <div style="font-size: 20px; display: contents" *ngIf="stringType == 'RejectInvitation'">
+        reject this league invitation request?
+    </div>
+    <div style="font-size: 20px; display: contents" *ngIf="stringType == 'CancelRegistration'">
+        cancel your's club registration?
+    </div>
+
+   
+</div>
+<div class="modal-footer">
+    <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Ok</button>
+</div>

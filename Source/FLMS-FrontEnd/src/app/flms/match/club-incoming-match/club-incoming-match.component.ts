@@ -14,7 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ClubIncomingMatchComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['Club', 'Against', 'League', 'Match Date', 'Time', 'Round', 'Stadium', 'Home/Away'];
+  displayedColumns: string[] = ['clubName', 'against', 'leagueName', 'matchDate', 'matchTime', 'round', 'stadium', 'ha'];
   dataSource = new MatTableDataSource<ClubIncomingMatches>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

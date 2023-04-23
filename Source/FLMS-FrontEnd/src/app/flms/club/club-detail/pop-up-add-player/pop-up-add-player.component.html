@@ -40,17 +40,17 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Number" formControlName="number">
+                    <input matInput placeholder="Number" type="number" formControlName="number">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['number'].valid && addPlayerFormGroup.controls['number'].touched">
-                        Required
+                        Required, the valid player's number is from 0 to 999
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
                     <input matInput placeholder="Height" formControlName="playerHeight">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['playerHeight'].valid && addPlayerFormGroup.controls['playerHeight'].touched">
-                        Required
+                        Required, example: 1m80
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
@@ -70,30 +70,31 @@
             </div>
             <div class="right-content">
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Nick Name" formControlName="nickname" (input)='getPlayerByNickName()'>
+                    <input matInput placeholder="Nick Name" formControlName="nickname">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
-                        Required
+                        Player's Nickname must have at least 3 characters
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
                     <mat-label>Date Of Birth </mat-label>
-                    <input matInput [matDatepicker]="from" formControlName="dob">
+                    <input matInput [matDatepicker]="from" formControlName="dob" disabled>
                     <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
-                    <mat-datepicker #from></mat-datepicker>
+                    <mat-datepicker #from disabled="false"></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="form-element">
                     <input matInput placeholder="Weight" formControlName="weight">
                     <mat-error
                         *ngIf="!addPlayerFormGroup.controls['weight'].valid && addPlayerFormGroup.controls['weight'].touched">
-                        Required
+                        Required, example: 80kg
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
-                    <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                    <span matPrefix>+84 &nbsp;</span>
+                    <input matInput type="tel" placeholder="Phone Number" formControlName="phoneNumber">
                     <mat-error
-                        *ngIf="!addPlayerFormGroup.controls['nickname'].valid && addPlayerFormGroup.controls['nickname'].touched">
-                        Required
+                        *ngIf="!addPlayerFormGroup.controls['phoneNumber'].valid && addPlayerFormGroup.controls['phoneNumber'].touched">
+                        Required, max length is 15
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-element">
@@ -108,7 +109,7 @@
     </div>
     <div mat-dialog-actions>
         <button mat-button (click)="onNoClick()">Cancel</button>
-        <button mat-button [mat-dialog-close]="data.clubName" [disabled]="!addPlayerFormGroup.valid" type="submit" (click)="onSubmit()"
+        <button mat-button [disabled]="!addPlayerFormGroup.valid" type="submit" (click)="onSubmit()"
             cdkFocusInitial>Add</button>
     </div>
 </form>

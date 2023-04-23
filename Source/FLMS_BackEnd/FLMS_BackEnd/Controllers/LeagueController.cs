@@ -62,7 +62,7 @@ namespace FLMS_BackEnd.Controllers
         }
         [HttpGet("[action]")]
         [Authorize(Roles = "LEAGUE_MANAGER")]
-        public async Task<ActionResult<List<LeagueByUserDTO>>> GetListLeagueByUser()
+        public async Task<ActionResult<List<LeagueInfoDTO>>> GetListLeagueByUser()
         {
             try
             {
@@ -107,6 +107,48 @@ namespace FLMS_BackEnd.Controllers
         public async Task<ActionResult<DeleteLeagueResponse>> DeleteLeague(int id)
         {
             var response = await leagueService.DeleteLeague(id, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueKnockOutStatisticResponse>> GetTopLeaguePrize(int id)
+        {
+
+            var response = await leagueService.GetLeagueTopPrize(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<LeagueUpdateInfoResponse>> GetLeagueUpdateInfo(int id)
+        {
+            var response = await leagueService.GetLeagueUpdateInfo(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<LeagueUpdateInfoResponse>> UpdateLeagueBasicInfo(LeagueUpdateInfoRequest request)
+        {
+            var response = await leagueService.UpdateLeagueInfo(request, UserID);
             if (response.Success)
             {
                 return Ok(response);

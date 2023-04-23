@@ -34,6 +34,7 @@ export class ViewProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    public commonService: CommonService,
     public authSer: AuthService,
     public common: CommonService,
     private profileService: ProfileService,
@@ -58,9 +59,9 @@ export class ViewProfileComponent implements OnInit {
     this.initDataSource();
 
     this.form = this.formBuilder.group({
-      fullName: ['', Validators.required],
-      phone: ['', Validators.required],
-      address: ['', Validators.required],
+      fullName: [null, [Validators.required, Validators.maxLength(50), this.noWhitespaceValidator]],
+      phone: ['', Validators.pattern('^[0-9]{1,15}$')],
+      address: ['', [Validators.pattern('^[A-Za-z0-9 .,]+$')]],
       email: ['', Validators.required],
       avatar: [null,],
       role: [null]
@@ -77,12 +78,14 @@ export class ViewProfileComponent implements OnInit {
   }
 
   initDataSource() {
+
     this.profileService.getuserprofile().pipe(
       map((res: UserProfileResponse) => this.userProfile = res.userProfile)
     ).subscribe(response => {
       if (response != null) this.bindValueIntoForm(response);
     }
     );
+
   }
 
   bindValueIntoForm(res: UserProfile) {
@@ -91,17 +94,27 @@ export class ViewProfileComponent implements OnInit {
     this.form.controls['address'].patchValue(res.address);
     this.form.controls['email'].patchValue(res.email);
     this.form.controls['email'].disable();
-    this.imgSrc = res.avatar;
+
     this.form.controls['role'].patchValue(res.role);
     this.form.controls['role'].disable();
+    if (res.avatar != null) {
+     this.imgSrc = res.avatar;
+    }
 
   }
+
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => this.imgSrc = e.target.result;
-      reader.readAsDataURL(event.target.files[0]);
-      this.selectedImage = event.target.files[0];
+      let file = event.target.files[0];
+      if (file.type == "image/png" || file.type == "image/jpeg" && file.size < 5000000) {
+        console.log('Correct');
+        const reader = new FileReader();
+        reader.onload = (e: any) => this.imgSrc = e.target.result;
+        reader.readAsDataURL(event.target.files[0]);
+        this.selectedImage = event.target.files[0];
+      } else {
+        this.commonService.sendMessage('Invalid Image', 'fail');
+      }
     } else {
       this.imgSrc = './../../../../assets/image/default-avatar-profile-icon.webp';
       this.selectedImage = null;
@@ -118,8 +131,9 @@ export class ViewProfileComponent implements OnInit {
 
     this.loading = true;
 
-    if (this.selectedImage != null ) {
-      const nameImg = 'profile/' + this.userProfile.fullName + '/avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
+    if (this.selectedImage != null) {
+      const nameImg = 'profile/' + this.userProfile.fullName +
+        '/avatar/' + this.getCurrentDateTime() + this.selectedImage.name;
       const fileRef = this.storage.ref(nameImg);
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
@@ -159,15 +173,16 @@ export class ViewProfileComponent implements OnInit {
         });
     }
 
+  }
 
-
-
-
-
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
   }
 
   getErrorName() {
-    return this.form.get('fullName').hasError('required') ? 'Field Name is required' : '';
+    return this.form.get('fullName').hasError('required') ? 'Field Name is required and max length is 50' : '';
   }
   getErrorPhone() {
     return this.form.get('phone').hasError('required') ? 'Field Phone is required' : '';

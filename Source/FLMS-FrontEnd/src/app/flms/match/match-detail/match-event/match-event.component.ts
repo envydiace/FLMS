@@ -7,6 +7,7 @@ import { PopUpAddEventComponent } from './../pop-up-add-event/pop-up-add-event.c
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from 'src/app/common/common/common.service';
 import { MatchDetail } from 'src/app/models/match-detail.model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -17,13 +18,17 @@ import { MatchDetail } from 'src/app/models/match-detail.model';
 export class MatchEventComponent implements OnInit {
   matchId: number;
   matchEvent: MatchEvent[] = [];
+  userRole: any;
+
   @Input() matchDetail: MatchDetail;
 
   constructor(
     private route: ActivatedRoute,
     private matchService: MatchService,
     public dialog: MatDialog,
-    public commonService: CommonService
+    public commonService: CommonService,
+    public authen: AuthService,
+
   ) {
     this.route.queryParams.subscribe(params => {
       this.matchId = params['matchId'];
@@ -32,6 +37,8 @@ export class MatchEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
+
   }
 
   initDataSource() {
@@ -53,6 +60,8 @@ export class MatchEventComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) this.addlistMatchEvent(result);
+     
+
       this.initDataSource();
       console.log('The dialog was closed');
     });
@@ -63,6 +72,7 @@ export class MatchEventComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
+          
           this.initDataSource();
 
         },

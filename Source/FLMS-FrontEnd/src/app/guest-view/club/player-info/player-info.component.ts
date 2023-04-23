@@ -7,6 +7,8 @@ import { ClubListPlayer } from 'src/app/models/club-list-player.model';
 import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
 import { ClubService } from '../club.service';
 import { ClubListPlayerClub } from './../../../models/club-list-player-club.model'
+import { ClubDetailResponse } from 'src/app/models/club-detail-response.model';
+import { ClubDetail } from 'src/app/models/club-detail.model';
 
 @Component({
   selector: 'app-player-info',
@@ -20,6 +22,9 @@ export class PlayerInfoComponent implements OnInit {
   loading = false;
   submitted = false;
   playerId: number;
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  defaultAvatar: string = './../../../../assets/image/Default_pfp.svg.png';
+
 
   playerNum: number;
   constructor(
@@ -40,17 +45,17 @@ export class PlayerInfoComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       playerId: this.playerId,
-      name: ['', Validators.required],
-      nickName: ['',],
-      number: ['', Validators.required],
-      dob: ['', Validators.required],
-      height: ['', Validators.required],
-      weight: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      address: ['', Validators.required],
-      email: ['', Validators.required],
-      socialCont: ['',],
-
+      name: [null, Validators.required],
+      nickName: [null,],
+      number: [null, Validators.required],
+      dob: [null, Validators.required],
+      height: [null, Validators.required],
+      weight: [null, Validators.required],
+      phoneNumber: [null, Validators.required],
+      address: [null, Validators.required],
+      email: [null, Validators.required],
+      socialCont: [null, Validators.required],
+      avatar: [null,]
     })
 
   }
@@ -76,6 +81,7 @@ export class PlayerInfoComponent implements OnInit {
     );
   }
 
+
   bindValueIntoForm(res: ClubListPlayer) {
     this.playerClub = res.playerClubs
 
@@ -89,7 +95,7 @@ export class PlayerInfoComponent implements OnInit {
     this.form.controls['address'].patchValue(res.address);
     this.form.controls['email'].patchValue(res.email);
     this.form.controls['socialCont'].patchValue(res.socialCont);
-
+    this.form.controls['avatar'].patchValue(res.avatar);
 
     this.form.controls['name'].disable();
     this.form.controls['nickName'].disable();

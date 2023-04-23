@@ -1,42 +1,25 @@
 <section class="landing-banner">
-    <div class="container" style="margin-top: 45px;">
-        <div class="col-sm-12 col-xs-12 text-center nav-search" style="display: flex;">
-            <div style="flex: 1;">
-                <mat-form-field class="club-list-full-width">
-                    <mat-label>Search by Club's Name</mat-label>
-                    <input matInput type="text" [(ngModel)]="clubName" (input)="findClubsByName(clubName, managerName)"
-                        placeholder="Enter Club Name">
-                    <mat-icon matSuffix>search</mat-icon>
-                </mat-form-field>
-            </div>
-            <div style="flex: 1;">
-                <mat-form-field class="club-list-full-width">
-                    <mat-label>Search by Manager</mat-label>
-                    <input matInput type="text" [(ngModel)]="managerName"
-                        (input)="findClubsByName(clubName, managerName)" placeholder="Enter Manager Name">
-                    <mat-icon matSuffix>search</mat-icon>
-                </mat-form-field>
+    <form [formGroup]="filterForm">
+        <div class="container">
+            <div class="col-sm-8 col-xs-12 text-center nav-search" style="display: flex; margin: 0 auto;">
+                <div style="flex: 1;">
+                    <mat-form-field class="club-list-full-width">
+                        <mat-label>Search by Club's Name</mat-label>
+                        <input matInput type="text" formControlName="search" placeholder="Enter Club Name">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+                <!-- <div style="flex: 1;">
+                    <mat-form-field class="club-list-full-width">
+                        <mat-label>Search by Manager</mat-label>
+                        <input matInput type="text" formControlName="managerName" placeholder="Enter Manager Name">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div> -->
             </div>
         </div>
-    </div>
+    </form>
 </section>
-
-<!-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-xs-6 justify-content-center">
-
-            <form class="manager-search">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Manager</mat-label>
-                    <span matPrefix>+1 &nbsp;</span>
-                    <input type="tel" matInput placeholder="Manager">
-                    <mat-icon matSuffix>mode_edit</mat-icon>
-                </mat-form-field>
-            </form>
-
-        </div>
-    </div>
-</div> -->
 
 <div *ngIf="clubList">
     <div class="container">
@@ -44,24 +27,32 @@
             <div *ngFor="let club of clubList.clubs" class="col-sm-3">
                 <div class="list-container">
                     <a (click)="navigateToClubDetail(club.clubId)" style="cursor: pointer;">
-                        <mat-card class="league-list-card">
+                        <mat-card class="club-list-card">
 
-                            <mat-card-title>{{club.clubName}}</mat-card-title>
+                            <mat-card-title>{{ club.clubName.length > 18 ? club.clubName.substring(0,18)+"..." :
+                                club.clubName }}</mat-card-title>
                             <mat-card-subtitle>{{club.managerName}}</mat-card-subtitle>
-                            <img mat-card-avatar class="league-header-image"
-                            [src]="club.logo != null ? club.logo : defaultLogo"
-                                alt="club logo">
+                            <img mat-card-avatar class="club-header-image"
+                                [src]="club.logo != null ? club.logo : defaultLogo" alt="club logo">
                             <mat-card-actions>
-                                <button mat-button>Invite</button>
+
                             </mat-card-actions>
                         </mat-card>
                     </a>
+                    <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+                        <button mat-raised-button class="club-action" (click)="openSendInvitation(club.clubId)"
+                            color="primary">Invite</button>
+                    </div>
                 </div>
             </div>
-            <mat-paginator class="Club-paginator" [length]="clubList.total" [pageSize]="8"
-                [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent = $event; onPaginateChange($event)"
-                showFirstLastButtons>
-            </mat-paginator>
+            <div class="club-paginator">
+                <mat-paginator class="club-paginator" [length]="clubList.total" [pageSize]="8"
+                    [pageSizeOptions]="[5, 8, 25, 100]" (page)="pageEvent = $event; onPaginateChange($event)"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
         </div>
     </div>
 </div>
+
+<app-footer></app-footer>

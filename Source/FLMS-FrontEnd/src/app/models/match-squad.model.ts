@@ -66,8 +66,8 @@ export interface SquadPosition {
     playerId: number;
     playerName: string;
     playerAvatar: string;
-    xAxis: number;
-    yAxis: number;
+    coordinate: Coordinate;
+    number: number;
 }
 
 export class SquadPosition implements SquadPosition {
@@ -78,8 +78,8 @@ export class SquadPosition implements SquadPosition {
         playerId: number,
         playerName: string,
         playerAvatar: string,
-        xAxis: number,
-        yAxis: number
+        coordinate: Coordinate,
+        number: number
     ) {
         this.squadPositionId = squadPositionId;
         this.squadId = squadId;
@@ -87,26 +87,42 @@ export class SquadPosition implements SquadPosition {
         this.playerId = playerId;
         this.playerName = playerName;
         this.playerAvatar = playerAvatar;
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
+        this.coordinate = coordinate;
+        this.number = number
     }
 }
 
 export interface UpdateSquad {
     squadId: number;
-    mains: number[];
-    subs: number[];
+    mains: UpdateCoordinate[];
+    subs: UpdateCoordinate[];
 }
 
 export class UpdateSquad implements UpdateSquad {
     constructor(
         squadId: number,
-        mains: number[],
-        subs: number[]
+        mains: UpdateCoordinate[],
+        subs: UpdateCoordinate[]
     ) {
         this.squadId = squadId;
         this.mains = mains;
         this.subs = subs;
+    }
+}
+
+export class UpdateCoordinate {
+    playerId: number;
+    x: number;
+    y: number;
+
+    constructor(
+        playerId: number,
+        x: number,
+        y: number
+    ) {
+        this.playerId = playerId;
+        this.x = x;
+        this.y = y;
     }
 }
 
@@ -122,5 +138,18 @@ export class ViewMatchSquad implements ViewMatchSquad {
     ) {
         this.home = home;
         this.away = away;
+    }
+}
+
+export class Coordinate {
+    x: number;
+    y: number;
+
+    constructor(
+        x: number,
+        y: number
+    ) {
+        this.x = x;
+        this.y = y;
     }
 }

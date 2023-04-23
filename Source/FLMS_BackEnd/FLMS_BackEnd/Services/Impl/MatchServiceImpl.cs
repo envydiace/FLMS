@@ -46,7 +46,7 @@ namespace FLMS_BackEnd.Services.Impl
                 }
             }
 
-            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m => m.MatchId));
+            var listmatches = mapper.Map<List<MatchClubDTO>>(lmatches.OrderBy(m => m.MatchDate));
             foreach (MatchClubDTO matchClub in listmatches)
             {
                 var match = await matchRepository.FindByCondition(m => m.MatchId == matchClub.MatchId)
@@ -60,9 +60,10 @@ namespace FLMS_BackEnd.Services.Impl
                         matchClub.HA = "Home";
                         if (match != null && match.Away != null && match.Away.ClubClone != null)
                         {
-                            if (match.Away.ClubClone.Club != null)
+                            if (match.Away.ClubClone.Club != null )
                             {
                                 matchClub.Against = match.Away.ClubClone.Club.ClubName.Trim();
+                                matchClub.Logo = match.Away.ClubClone.Club.Logo;
                             }
                             else
                             {
@@ -78,6 +79,7 @@ namespace FLMS_BackEnd.Services.Impl
                             if (match.Home.ClubClone.Club != null)
                             {
                                 matchClub.Against = match.Home.ClubClone.Club.ClubName.Trim();
+                                matchClub.Logo = match.Home.ClubClone.Club.Logo;
                             }
                             else
                             {
@@ -86,8 +88,6 @@ namespace FLMS_BackEnd.Services.Impl
                         }
                     }
                 }
-                matchClub.Stadium = null;
-                matchClub.Round = null;
             }
             return new ClubScheduleResponse
             {
@@ -233,12 +233,27 @@ namespace FLMS_BackEnd.Services.Impl
                 var awayScore = listGoals.Where(e => !e.IsHome).Count();
 
                 var homeClubClone = match.Home.ClubClone;
-                homeClubClone.GoalsFor = homeScore;
-                homeClubClone.GoalsAgainst = awayScore;
+                homeClubClone.GoalsFor += homeScore;
+                homeClubClone.GoalsAgainst += awayScore;
 
                 var awayClubClone = match.Away.ClubClone;
-                awayClubClone.GoalsFor = awayScore;
-                awayClubClone.GoalsAgainst = homeScore;
+                awayClubClone.GoalsFor += awayScore;
+                awayClubClone.GoalsAgainst += homeScore;
+                if (homeScore > awayScore)
+                {
+                    homeClubClone.Won++;
+                    awayClubClone.Loss++;
+                }
+                else if (homeScore < awayScore)
+                {
+                    homeClubClone.Loss++;
+                    awayClubClone.Won++;
+                }
+                else
+                {
+                    homeClubClone.Draw++;
+                    awayClubClone.Draw++;
+                }
                 switch (MethodUtils.GetLeagueTypeByName(match.League.LeagueType))
                 {
                     case Constants.LeagueType.KO:
@@ -262,11 +277,6 @@ namespace FLMS_BackEnd.Services.Impl
                                 MessageCode = "ER-MA-13"
                             };
                         }
-                        var clubCloneId = match.Home.ClubCloneId;
-                        if (homeScore < awayScore)
-                        {
-                            clubCloneId = match.Away.ClubCloneId;
-                        }
                         var node = listNode.FirstOrDefault(n => n.ParticipateId == match.Home.ParentId);
                         if (node == null)
                         {
@@ -276,7 +286,7 @@ namespace FLMS_BackEnd.Services.Impl
                                 MessageCode = "ER-MA-08"
                             };
                         }
-                        node.ClubCloneId = clubCloneId;
+                        node.ClubCloneId = homeScore > awayScore ? match.Home.ClubCloneId : match.Away.ClubCloneId;
                         var r = await participateNodeRepository.UpdateAsync(node);
                         if (r == null)
                         {
@@ -288,21 +298,6 @@ namespace FLMS_BackEnd.Services.Impl
                         }
                         break;
                     case Constants.LeagueType.LEAGUE:
-                        if (homeScore > awayScore)
-                        {
-                            homeClubClone.Won++;
-                            awayClubClone.Loss++;
-                        }
-                        else if (homeScore < awayScore)
-                        {
-                            homeClubClone.Loss++;
-                            awayClubClone.Won++;
-                        }
-                        else
-                        {
-                            homeClubClone.Draw++;
-                            awayClubClone.Draw++;
-                        }
                         break;
                     default:
                         return new FinishMatchResponse

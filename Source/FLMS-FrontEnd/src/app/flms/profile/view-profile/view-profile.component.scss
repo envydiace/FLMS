@@ -1,5 +1,8 @@
 .img-account-profile {
-    height: 10rem;
+    height: 240px;
+    width: 240px;
+    // border: 3px solid #4f66e3;
+    object-fit: cover;
 }
 
 .rounded-circle {
@@ -49,6 +52,5 @@
 }
 
 .example-form {
-
     width: 100%;
 }

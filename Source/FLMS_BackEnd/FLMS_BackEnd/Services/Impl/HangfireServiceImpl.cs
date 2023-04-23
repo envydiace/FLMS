@@ -25,7 +25,7 @@ namespace FLMS_BackEnd.Services.Impl
                 bool sendResult = await mailService.SendEmailAsync(args.MailRequest, new CancellationToken());
                 if (!sendResult)
                 {
-                    Console.WriteLine("Failed to send email: {EmailRequest}", args.MailRequest);
+                    Console.WriteLine($"Failed to send email: {args.MailRequest}" );
                 }
             };
         }
@@ -117,8 +117,8 @@ namespace FLMS_BackEnd.Services.Impl
                         MailData = mailAway,
                     };
 
-                    sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestHome });
-                    sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestAway });
+                    await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestHome });
+                    await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequestAway });
                 }
             }
         }

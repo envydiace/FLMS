@@ -6,6 +6,7 @@ import { ClubDetail } from 'src/app/models/club-detail.model';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PopUpDeleteClubComponent } from '../pop-up-delete-club/pop-up-delete-club.component';
+import { PopUpEditClubComponent } from '../pop-up-edit-club/pop-up-edit-club.component';
 
 @Component({
   selector: 'app-club-detail',
@@ -22,7 +23,7 @@ export class ClubDetailComponent implements OnInit {
     private clubService: ClubService,
     private route: ActivatedRoute,
     public dialog: MatDialog
-  ) { 
+  ) {
     this.route.queryParams.subscribe(params => {
       this.clubId = params['clubId'];
     });
@@ -53,6 +54,18 @@ export class ClubDetailComponent implements OnInit {
       data: { clubId: clubId }
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openEditClub(clubId: number): void {
+    const dialogRef = this.dialog.open(PopUpEditClubComponent, {
+      width: '80%',
+      data: { clubId: clubId },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
     });
   }

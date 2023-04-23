@@ -1,8 +1,6 @@
-﻿using FLMS_BackEnd.Models;
-
-namespace FLMS_BackEnd.DTO
+﻿namespace FLMS_BackEnd.DTO
 {
-    public class PlayerDTO
+    public class PlayerByManagerDTO
     {
         public int PlayerId { get; set; }
         public string Name { get; set; } = null!;
@@ -14,12 +12,14 @@ namespace FLMS_BackEnd.DTO
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? SocialCont { get; set; }
-        public virtual ICollection<PlayerClubDTO> PlayerClubs { get; set; }
+        public string ClubName { get; set; } = null!;
+        public string? ClubLogo { get; set; }
+        public int ClubId { get; set; }
+        public int Number { get; set; }
         public int Goal { get; set; }
         public int Assistant { get; set; }
         public int RedCard { get; set; }
         public int YellowCard { get; set; }
         public string? Avatar { get; set; }
-
     }
 }

@@ -1,6 +1,8 @@
 .club-detail-container {
     .img-account-profile {
-        height: 10rem;
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
     }
 
     .rounded-circle {
@@ -65,11 +67,11 @@
         display: flex;
     }
     .avatar-header-image {
-        background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
         background-size: cover;
         height: 35px;
         width: 35px;
         margin: 2px 0px 0px 2px;
+        object-fit: cover;
     }
 }
 

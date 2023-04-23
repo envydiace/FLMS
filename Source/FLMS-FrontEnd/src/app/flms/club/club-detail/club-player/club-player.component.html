@@ -19,7 +19,7 @@
             <div class="player-container">
 
                 <mat-card class="player-list-card">
-                    <a (click)="navigateToPlayerInfo(player.playerId)" style="cursor: pointer;">
+                    <a (click)="navigateToPlayerInfo(player.playerId, clubId)" style="cursor: pointer;">
 
                         <mat-card-header>
                             <div mat-card-avatar class="profile-image">
@@ -27,13 +27,14 @@
                                 [src]="player.avatar != null ? player.avatar : defaultLogo"
                                     alt="player profile">
                             </div>
-                            <mat-card-title style="line-height: 85px;">{{player.name}}</mat-card-title>
-                            <mat-card-subtitle></mat-card-subtitle>
+                            <mat-card-title style="margin-top: 30px">{{player.name}}</mat-card-title>
+                            <mat-card-subtitle style="float: left">#{{player.number}}</mat-card-subtitle>
                             <div style="text-align: right; 
                              position:absolute; right:10px; ">
                                 {{player.goal}} - <img class="header-image"
                                     src="../../../../../assets/image/football-goal-icon.png"> <br />
-                                {{player.assistant}} - Assist <br />
+                                {{player.assistant}} - <img class="header-image"
+                                src="../../../../../assets/image/football-assist-icon.png"> <br />
                                 {{player.yellowCard}} - <img class="header-image"
                                     src="../../../../../assets/image/football-yellowCard-icon.svg.png"> <br />
                                 {{player.redCard}} - <img class="header-image"

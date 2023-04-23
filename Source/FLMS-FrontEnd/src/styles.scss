@@ -14,9 +14,9 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$FLMS-FrontEnd-primary: mat-palette($mat-indigo);
+$FLMS-FrontEnd-primary: mat-palette($mat-indigo, 500);
 $FLMS-FrontEnd-accent: mat-palette($mat-gray, A200, A100, A400);
-
+  
 // The warn palette is optional (defaults to red).
 $FLMS-FrontEnd-warn: mat-palette($mat-red);
 
@@ -25,7 +25,7 @@ $FLMS-FrontEnd-warn: mat-palette($mat-red);
 $FLMS-FrontEnd-theme: mat-light-theme((color: (primary: $FLMS-FrontEnd-primary,
         accent: $FLMS-FrontEnd-accent,
         warn: $FLMS-FrontEnd-warn )));
-
+     
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
@@ -140,4 +140,10 @@ mark,
 audio,
 video {
   vertical-align: middle;
+}
+
+.mat-paginator-page-size {
+  div {
+    vertical-align: baseline;
+  }
 }
