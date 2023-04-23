@@ -1,4 +1,5 @@
-﻿using FLMS_BackEnd.Models;
+﻿using FLMS_BackEnd.DTO;
+using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Services;
 using FLMS_BackEnd.Utils;
 using NUnit.Framework;
@@ -22,6 +23,7 @@ namespace FLMS_BackEnd.Test
         }
         [TestCase("LEAGUE_MANAGER", true)]
         [TestCase("LEAGUE MANAGER", false)]
+        ///TODO: more testcase
         public void TestCheckRole(string role, bool expect)
         {
             bool actual = MethodUtils.CheckUserRole(role);
@@ -132,6 +134,110 @@ namespace FLMS_BackEnd.Test
             yield return new object[] { "KO", 8, 5 };
             yield return new object[] { "KO", 9, 7 };
             yield return new object[] { "KO", 16, 7 };
+        }
+
+        [TestCase("Goal", Constants.MatchEventType.Goal)]
+        [TestCase("OwnGoal", Constants.MatchEventType.OwnGoal)]
+        [TestCase("YellowCard", Constants.MatchEventType.YellowCard)]
+        [TestCase("RedCard", Constants.MatchEventType.RedCard)]
+        [TestCase("a", null)]
+        [TestCase("Own Goal", null)]
+        [TestCase("GOAL", null)]
+        public void TestGetMatchEventTypeByName(string type, Constants.MatchEventType? expect)
+        {
+            Constants.MatchEventType? actual = MethodUtils.GetMatchEventTypeByName(type);
+            Assert.AreEqual(expect, actual);
+        }
+        [TestCase("Sponsored", true)]
+        [TestCase("Prize", true)]
+        [TestCase("Fee", true)]
+        [TestCase("SponSored", false)]
+        [TestCase("PRIZE", false)]
+        [TestCase("a", false)]
+        public void TestCheckFeeType(string feeType, bool expect)
+        {
+            bool actual = MethodUtils.CheckFeeType(feeType);
+            Assert.AreEqual(expect, actual);
+        }
+
+        [TestCaseSource(nameof(SourceProviderTestCountNumberOfRound))]
+        public void TestCountNumberOfRound(string type, int numberOfParticipation, int expect)
+        {
+            int actual = MethodUtils.CountNumberOfRound(type, numberOfParticipation);
+            Assert.AreEqual(expect, actual);
+        }
+        public static IEnumerable<object[]> SourceProviderTestCountNumberOfRound()
+        {
+            yield return new object[] { "LEAGUE", 1, 0 };
+            yield return new object[] { "LEAGUE", 2, 1 };
+            yield return new object[] { "LEAGUE", 3, 2 };
+            yield return new object[] { "LEAGUE", 10, 9 };
+            yield return new object[] { "KO", 1, 0 };
+            yield return new object[] { "KO", 2, 1 };
+            yield return new object[] { "KO", 3, 2 };
+            yield return new object[] { "KO", 4, 2 };
+            yield return new object[] { "KO", 8, 3 };
+            yield return new object[] { "KO", 9, 4 };
+            yield return new object[] { "a", 16, 0 };
+            yield return new object[] { "a", 0, 0 };
+        }
+        [TestCaseSource(nameof(SourceProviderTestSumTotalLeagueFee))]
+        public void TestSumTotalLeagueFee(List<LeagueFeeDTO> leagueFees, int expect)
+        {
+            decimal actual = MethodUtils.SumTotalLeagueFee(leagueFees);
+            Assert.AreEqual(expect, actual);
+        }
+        public static IEnumerable<object[]> SourceProviderTestSumTotalLeagueFee()
+        {
+            LeagueFeeDTO sponsored1 = new LeagueFeeDTO { FeeType = Constants.FeeType.Sponsored.ToString(), Cost = 10 };
+            LeagueFeeDTO sponsored2 = new LeagueFeeDTO { FeeType = Constants.FeeType.Sponsored.ToString(), Cost = 20 };
+            LeagueFeeDTO sponsored3 = new LeagueFeeDTO { FeeType = Constants.FeeType.Sponsored.ToString(), Cost = 30 };
+            LeagueFeeDTO prize1 = new LeagueFeeDTO { FeeType = Constants.FeeType.Prize.ToString(), Cost = 10 };
+            LeagueFeeDTO prize2 = new LeagueFeeDTO { FeeType = Constants.FeeType.Prize.ToString(), Cost = 20 };
+            LeagueFeeDTO prize3 = new LeagueFeeDTO { FeeType = Constants.FeeType.Prize.ToString(), Cost = 30 };
+            LeagueFeeDTO fee1 = new LeagueFeeDTO { FeeType = Constants.FeeType.Fee.ToString(), Cost = 10 };
+            LeagueFeeDTO fee2 = new LeagueFeeDTO { FeeType = Constants.FeeType.Fee.ToString(), Cost = 20 };
+            LeagueFeeDTO fee3 = new LeagueFeeDTO { FeeType = Constants.FeeType.Fee.ToString(), Cost = 30 };
+
+            List<LeagueFeeDTO> s1s2s3f1f2 = new List<LeagueFeeDTO> { sponsored1, sponsored2, sponsored3, fee1, fee2 };
+            List<LeagueFeeDTO> s1s3p1p2p3f3 = new List<LeagueFeeDTO> { sponsored1, sponsored3, prize1, prize2, prize3, fee3 };
+            List<LeagueFeeDTO> p1p2p3f1f2f3 = new List<LeagueFeeDTO> {prize1, prize2, prize3, fee1, fee2, fee3 };
+            yield return new object[] { s1s2s3f1f2, -30 };
+            yield return new object[] { s1s3p1p2p3f3, 50 };
+            yield return new object[] { p1p2p3f1f2f3, 120 };
+        }
+        [TestCaseSource(nameof(SourceProviderTestGetTotalAmountByResult))]
+        public void TestGetTotalAmountByResult(Club club, string type, int expect)
+        {
+            int actual = MethodUtils.GetTotalAmountByResult(club, type);
+            Assert.AreEqual(expect, actual);
+        }
+        public static IEnumerable<object[]> SourceProviderTestGetTotalAmountByResult()
+        {
+            Club club1 = new Club { ClubClones = new List<ClubClone> { 
+                new ClubClone
+                {
+                Won = 3, Draw = 3, Loss = 2
+                }, 
+                new ClubClone
+                {
+                Won = 1, Draw = 2, Loss = 4
+                } 
+            } };
+            yield return new object[] { club1, "W", 4 };
+            yield return new object[] { club1, "D", 5 };
+            yield return new object[] { club1, "L", 6 };
+        }
+        [TestCase("New", true)]
+        [TestCase("OnGoing", true)]
+        [TestCase("Finished", true)]
+        [TestCase("NEW", false)]
+        [TestCase("On Going", false)]
+        [TestCase("a", false)]
+        public void TestCheckLeagueStatus(string type, bool expect)
+        {
+            bool actual = MethodUtils.CheckLeagueStatus(type);
+            Assert.AreEqual(expect, actual);
         }
     }
 
