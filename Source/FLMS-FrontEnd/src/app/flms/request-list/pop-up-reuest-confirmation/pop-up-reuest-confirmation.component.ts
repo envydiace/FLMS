@@ -50,25 +50,25 @@ export class PopUpReuestConfirmationComponent implements OnInit {
           this.dialogRef.close();
           if (this.userRole == 'LEAGUE_MANAGER') {
             if (this.data.action = 'AcceptRegistration') {
-              this.commonService.sendMessage('Accept sucess', 'success');
+              this.commonService.sendMessage(response.message, 'success');
             }
             else if (this.data.action = 'RejectRegistration') {
-              this.commonService.sendMessage('Reject sucess', 'success');
+              this.commonService.sendMessage(response.message, 'success');
             }
             else if (this.data.action = 'CancelInvitation') {
-              this.commonService.sendMessage('Cancel sucess', 'success');
+              this.commonService.sendMessage(response.message, 'success');
             }
 
           } 
           else if ( this.userRole == 'CLUB_MANAGER'){
             if (this.data.action = 'AcceptInvitation') {
-              this.commonService.sendMessage('Accept sucess', 'success');
+              this.commonService.sendMessage(response.message, 'success');
             }
             else if (this.data.action = 'RejectInvitation') {
-              this.commonService.sendMessage('Reject sucess', 'success');
+              this.commonService.sendMessage(response.message, 'success');
             }
             else if (this.data.action = 'CancelRegistration') {
-              this.commonService.sendMessage('Cancel sucess', 'success');
+              this.commonService.sendMessage(response.message, 'success');
             }
           }
 
