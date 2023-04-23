@@ -8,14 +8,6 @@ namespace FLMS_BackEnd.Test
     [TestFixture]
     public class TestMethodUtils
     {
-        [TestCase("LEAGUE_MANAGER", true)]
-        [TestCase("LEAGUE MANAGER", false)]
-        public void TestCheckRole(string role, bool expect)
-        {
-            bool actual = MethodUtils.CheckUserRole(role);
-            Assert.AreEqual(expect, actual);
-        }
-
         [TestCase("KO", true)]
         [TestCase("LEAGUE", true)]
         [TestCase("TABLE", true)]
@@ -28,6 +20,13 @@ namespace FLMS_BackEnd.Test
             bool actual = MethodUtils.CheckLeagueType(type);
             Assert.AreEqual(expect, actual);
         }
+        [TestCase("LEAGUE_MANAGER", true)]
+        [TestCase("LEAGUE MANAGER", false)]
+        public void TestCheckRole(string role, bool expect)
+        {
+            bool actual = MethodUtils.CheckUserRole(role);
+            Assert.AreEqual(expect, actual);
+        }
 
         [TestCase("KO", Constants.LeagueType.KO)]
         [TestCase("ko", null)]
@@ -38,6 +37,23 @@ namespace FLMS_BackEnd.Test
         {
             Constants.LeagueType? actual = MethodUtils.GetLeagueTypeByName(type);
             Assert.AreEqual(expect, actual);
+        }
+
+        [TestCaseSource(nameof(SourceProviderTestCheckEditableFeeKey))]
+        public void TestCheckEditableFeeKey(string key, bool expect)
+        {
+            bool actual = MethodUtils.CheckEditableFeeKey(key);
+            Assert.AreEqual(expect, actual);
+        }
+        public static IEnumerable<object[]> SourceProviderTestCheckEditableFeeKey()
+        {
+            yield return new object[] { "Fx", true };
+            yield return new object[] { "F0", true };
+            yield return new object[] { "F1", false };
+            yield return new object[] { "F7", false };
+            yield return new object[] { "f5", false };
+            yield return new object[] { null, true };
+            yield return new object[] { "f9", true };
         }
 
         [TestCaseSource(nameof(SourceProviderTestGenerateMatchSquad))]
@@ -116,23 +132,6 @@ namespace FLMS_BackEnd.Test
             yield return new object[] { "KO", 8, 5 };
             yield return new object[] { "KO", 9, 7 };
             yield return new object[] { "KO", 16, 7 };
-        }
-
-        [TestCaseSource(nameof(SourceProviderTestCheckEditableFeeKey))]
-        public void TestCheckEditableFeeKey(string key, bool expect)
-        {
-            bool actual = MethodUtils.CheckEditableFeeKey(key);
-            Assert.AreEqual(expect, actual);
-        }
-        public static IEnumerable<object[]> SourceProviderTestCheckEditableFeeKey()
-        {
-            yield return new object[] { "Fx", true };
-            yield return new object[] { "F0", true };
-            yield return new object[] { "F1", false };
-            yield return new object[] { "F7", false };
-            yield return new object[] { "f5", false };
-            yield return new object[] { null, true};
-            yield return new object[] { "f9", true };
         }
     }
 
