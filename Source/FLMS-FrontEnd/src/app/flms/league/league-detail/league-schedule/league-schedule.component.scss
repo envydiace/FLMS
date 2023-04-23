@@ -2,14 +2,49 @@ mat-row.example-element-row:hover {
     background: whitesmoke;
     cursor: pointer;
 }
-.mat-header-cell{
-    justify-content: center;
-}
-.mat-cell{
-    justify-content: center;
+.avatar-header-image {
+    background-size: cover;
+    height: 35px;
+    width: 35px;
+    margin: auto;
 }
 
 .time-header,
-.time-content {
+.time-content{
   max-width: 70px;
+  justify-content: center;
+}
+
+.date-header,
+.date-content{
+  max-width: 400px;
+  justify-content: center;
+}
+
+.score-header,
+.score-cell {
+  max-width: 150px;
+  justify-content: center;
+}
+.club-header,
+.club-cell {
+  max-width: 200px;
+  justify-content: center;
+}
+.round-header,
+.round-cell{
+    max-width: 80px;
+    justify-content: center;
+}
+.stadium-header,
+.stadium-cell{
+    max-width: 300px;
+    justify-content: center;
+}
+.action-header{
+  justify-content: center;
+}
+
+mat-table {
+  min-height: 330px;
 }

@@ -37,9 +37,9 @@ export class PopUpDeleteClubComponent implements OnInit {
      this.clubService.deleteClub(this.data.clubId)
        .pipe(first())
        .subscribe({
-         next: () => {
+         next: response => {
            this.dialogRef.close();
-           this.commonService.sendMessage('Delete club success!','success');
+           this.commonService.sendMessage(response.message,'success');
            this.router.navigate(['manager/my-clubs'])
          },
          error: error => {

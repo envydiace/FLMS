@@ -135,5 +135,37 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(new BaseResponse { MessageCode = "ER-CO-01" });
             }
         }
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<ClubUpdateInfoResponse>> GetClubUpdateInfo(int id)
+        {
+            var response = await clubService.GetClubUpdateInfo(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<ClubUpdateInfoResponse>> UpdateClubInfo(UpdateClubInfoRequest request)
+        {
+            var response = await clubService.UpdateClubInfo(request,UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<ClubStatsInfoDTO>>> GetListMostWinClub(int numberOfClub)
+        {
+            return await clubService.GetTopMostWinClubs(numberOfClub);
+        }
     }
 }

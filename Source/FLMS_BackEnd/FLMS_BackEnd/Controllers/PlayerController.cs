@@ -59,19 +59,6 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
-        [HttpGet("[action]")]
-        public async Task<ActionResult<ListPlayerSearchResponse>> GetListPlayerByClubId([FromQuery] ListPlayerByClubRequest request)
-        {
-            var response = await playerService.GetListPlayerByClubIdWithSearch(request);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return BadRequest(response);
-            }
-        }
 
         [HttpDelete("[action]/{id}")]
         [Authorize(Roles = "CLUB_MANAGER")]
@@ -120,6 +107,20 @@ namespace FLMS_BackEnd.Controllers
         public async Task<ActionResult<DeletePlayerClubResponse>> DeletePlayerClub(DeletePlayerClubRequest request)
         {
             var response = await playerService.DeletePlayerClub(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]")]
+        [Authorize(Roles = "CLUB_MANAGER")]
+        public async Task<ActionResult<GetPlayerByClubManagerResponse>> GetPlayerByClubManager([FromQuery] GetPlayerByClubManagerRequest request)
+        {
+            var response = await playerService.GetPlayerByClubManager(request, UserID);
             if (response.Success)
             {
                 return Ok(response);

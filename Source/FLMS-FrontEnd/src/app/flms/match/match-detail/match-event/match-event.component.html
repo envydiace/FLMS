@@ -1,6 +1,8 @@
 <div>
+    <div *ngIf="userRole == 'LEAGUE_MANAGER'">
     <button mat-raised-button color="primary" (click)="openAddMatchEvent(matchId)"
     style="margin-top: 10px; margin-bottom: 10px;">Add</button>
+    </div>
 </div>
 <div style="background-color: #f8f8f8;">
     <div *ngFor="let matchEvent of matchEvent">

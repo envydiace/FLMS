@@ -1,51 +1,43 @@
-<section class="landing-banner">
-    <div class="container" style="    margin-top: 45px;">
-        <div class="col-sm-12 col-xs-12 text-center nav-search">
-            <!-- <form action="" method="">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="key" placeholder="League's Name">
-                    <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+<form [formGroup]="filterForm">
+    <section class="landing-banner">
+        <div class="container" style="    margin-top: 45px;">
+            <div class="col-sm-12 col-xs-12 text-center nav-search">
+                <div class="league-list-form">
+                    <div class="input-group">
+                        <mat-form-field class="league-list-full-width">
+                            <mat-label>Search by League's name</mat-label>
+                            <input matInput type="text" formControlName="leagueName" placeholder="Enter league name">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </div>
                 </div>
-            </form> -->
+            </div>
+        </div>
+    </section>
 
-            <form class="league-list-form">
-                <div class="input-group">
-                    <mat-form-field class="league-list-full-width">
-                        <mat-label>Search by League's name</mat-label>
-                        <input matInput type="text" [(ngModel)]="leagueName" [ngModelOptions]="{standalone: true}"
-                            (input)="findLeagueByName(leagueName)" placeholder="Enter league name">
-                        <mat-icon matSuffix>search</mat-icon>
-                    </mat-form-field>
-                </div>
-            </form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xs-6 justify-content-center">
+
+                <mat-form-field appearance="fill">
+                    <mat-label>From</mat-label>
+                    <input matInput [matDatepicker]="from" disabled formControlName="from">
+                    <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                    <mat-datepicker #from disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" style="margin-left: 20px;">
+                    <mat-label>To</mat-label>
+                    <input matInput [matDatepicker]="to" disabled formControlName="to">
+                    <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                    <mat-datepicker #to disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+
+            </div>
         </div>
     </div>
-</section>
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-xs-6 justify-content-center">
-
-            <mat-form-field appearance="fill">
-                <mat-label>From</mat-label>
-                <input matInput [matDatepicker]="from">
-                <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
-                <mat-datepicker #from></mat-datepicker>
-            </mat-form-field>
-
-
-
-            <mat-form-field appearance="fill" style="margin-left: 20px;">
-                <mat-label>To</mat-label>
-                <input matInput [matDatepicker]="to">
-                <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
-                <mat-datepicker #to></mat-datepicker>
-            </mat-form-field>
-
-
-        </div>
-    </div>
-</div>
+</form>
 
 <div *ngIf="leagueList">
     <div class="container">
@@ -54,23 +46,25 @@
                 <div class="list-container">
                     <a (click)="navigateToLeagueDetail(league.leagueId)" style="cursor: pointer;">
                         <mat-card class="league-list-card">
-                            <mat-card-subtitle>{{league.startDate}} - {{league.endDate}}</mat-card-subtitle>
-                            <mat-card-title>{{league.leagueName}}</mat-card-title>
+                            <mat-card-subtitle>{{league.startDate | date : 'dd/MM/yyyy'}} - {{league.endDate | date :
+                                'dd/MM/yyyy'}}</mat-card-subtitle>
+                            <mat-card-title>
+                                {{ league.leagueName.length > 18 ? league.leagueName.substring(0,18)+"..." :
+                                league.leagueName }}
+                            </mat-card-title>
                             <mat-card-subtitle>{{league.location}}</mat-card-subtitle>
                             <img mat-card-avatar class="league-header-image"
-                            [src]="league.logo != null ? league.logo : defaultLogo"
-                            alt="Club's Pic">
-                            
-                            <!-- <mat-card-actions>
-                            <button mat-button>Join</button>
-                        </mat-card-actions> -->
+                                [src]="league.logo != null ? league.logo : defaultLogo" alt="Club's Pic">
                         </mat-card>
                     </a>
                 </div>
             </div>
         </div>
         <mat-paginator class="league-paginator" [length]="leagueList.total" [pageSize]="8"
-            (page)="pageEvent = $event; onPaginateChange($event)" [pageSizeOptions]=" [5, 8, 25, 100]" showFirstLastButtons>
+            (page)="pageEvent = $event; onPaginateChange($event)" [pageSizeOptions]=" [5, 8, 25, 100]"
+            showFirstLastButtons>
         </mat-paginator>
     </div>
 </div>
+
+<app-footer></app-footer>

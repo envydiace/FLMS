@@ -12,6 +12,7 @@ import { MailDataResponse } from 'src/app/models/mail-data-response.model';
 import { MailData } from 'src/app/models/mail-data.model';
 
 import { CommonService } from './../../../../common/common/common.service';
+import { PopUpRemoveJoinedClubComponent } from '../pop-up-remove-joined-club/pop-up-remove-joined-club.component';
 
 
 @Component({
@@ -68,11 +69,22 @@ export class JoinedClubsComponent implements OnInit {
     });
   }
 
-  RemoveJoinedClub(clubId: number) {
-    let idTemp = +this.leagueId;
-    this.leagueService.removeJoinedClub(idTemp, clubId).subscribe(res => {
-      this.commonService.sendMessage('delete success!', 'success');
+  // RemoveJoinedClub(clubId: number) {
+  //   let idTemp = +this.leagueId;
+  //   this.leagueService.removeJoinedClub(idTemp, clubId).subscribe(res => {
+  //     this.commonService.sendMessage(res.message, 'success');
+  //     this.initDataSource();
+  //   });
+  // }
+
+  openRemoveJoinedClub(leagueId: number, clubId: number): void {
+    const dialogRef = this.dialog.open(PopUpRemoveJoinedClubComponent, {
+      width: '50%',
+      data: { leagueId: this.leagueId, clubId: clubId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
+      console.log('The dialog was closed');
     });
   }
 }

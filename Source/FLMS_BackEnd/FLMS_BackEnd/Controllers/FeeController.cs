@@ -85,5 +85,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpPost("[action]/{LeagueFeeId}")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<DeleteLeagueFeeResponse>> DeleteLeagueFee(int LeagueFeeId)
+        {
+            var response = await feeService.DeleteLeagueFee(LeagueFeeId, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

@@ -38,9 +38,9 @@ export class PopupDeleteLeagueComponent implements OnInit {
     this.leagueService.deleteLeague(this.data.leagueId)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.dialogRef.close();
-          this.commonService.sendMessage('Delete league success!', 'success');
+          this.commonService.sendMessage(response.message, 'success');
           this.router.navigate(['manager/my-league'])
         },
         error: error => {

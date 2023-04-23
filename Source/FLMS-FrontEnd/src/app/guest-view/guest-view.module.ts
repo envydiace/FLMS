@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { GuestViewRoutingModule } from './guest-view-routing.module';
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
@@ -13,13 +13,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -49,6 +47,14 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { MatchEventComponent } from './match/match-detail/match-event/match-event.component';
 import { PlayerInfoComponent } from './club/player-info/player-info.component';
 import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
+import { ForgotPassChangeComponent } from './forgot-pass/forgot-pass-change/forgot-pass-change.component';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass/forgot-pass.component';
+import { FooterComponent } from '../layouts/footer/footer.component';
+import { TournamentTreeGvComponent } from './league/league-detail/league-statistic/tournament-tree-gv/tournament-tree-gv.component';
+import { NgTournamentTreeModule } from 'ng-tournament-tree';
+import { MatSortModule } from '@angular/material/sort';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Title } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -60,9 +66,7 @@ import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.c
     LeagueListComponent,
     LeagueDetailComponent,
     ChangePasswordComponent,
-    ForgotPassComponent,
     LeagueDetailComponent,
-    ForgotPasswordComponent,
     ClubScheduleComponent,
     ClubPlayerComponent,
     LeagueHistoryComponent,
@@ -80,7 +84,11 @@ import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.c
     NotFoundComponent,
     MatchEventComponent,
     PlayerInfoComponent,
-    ViewSquadComponent
+    ViewSquadComponent,
+    ForgotPassChangeComponent,
+    ForgotPassComponent,
+    FooterComponent,
+    TournamentTreeGvComponent
   ],
   imports: [
     CommonModule,
@@ -89,7 +97,9 @@ import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.c
     MatIconModule,
     MatToolbarModule,
     MatListModule,
+    MatSortModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
     MatFormFieldModule,
     MatTableModule,
     MatSnackBarModule,
@@ -108,7 +118,12 @@ import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.c
     MatSelectModule,
     MatPaginatorModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgTournamentTreeModule
+  ],
+  providers: [
+    DatePipe,
+    Title
   ]
 })
 export class GuestViewModule { }

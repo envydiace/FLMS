@@ -9,7 +9,7 @@
         <p>
             <mat-toolbar class="card">
                 <span>Cost Plan</span>
-                <div style="margin: 0 0 0 auto;">
+                <div style="margin: 0 0 0 auto;" *ngIf="userRole == 'LEAGUE_MANAGER'">
                     <button mat-raised-button color="primary" (click)="openAddPlan(leagueId)">Add</button>
                 </div>
             </mat-toolbar>
@@ -23,8 +23,8 @@
 
             <ng-container matColumnDef="cost">
                 <th mat-header-cell *matHeaderCellDef> Cost(VND) </th>
-                <td mat-cell *matCellDef="let element">{{element.cost}} VND</td>
-                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{planCostTotal}} VND
+                <td mat-cell *matCellDef="let element">{{element.cost | currency:'VND':''}} đ</td>
+                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{planCostTotal| currency:'VND':''}} đ
                 </td>
             </ng-container>
 
@@ -41,6 +41,11 @@
                         (click)="openEditFee(element.leagueFeeId)">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    <button mat-icon-button color="primary" aria-label="Example icon button with a home icon"
+                    (click)="openConfirmedDeleteFee(element.leagueFeeId)">
+                        <mat-icon>delete </mat-icon>
+                    </button>
+
                 </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
@@ -54,7 +59,7 @@
         <p>
             <mat-toolbar class="card">
                 <span>Actual Cost</span>
-                <div style="margin: 0 0 0 auto;">
+                <div style="margin: 0 0 0 auto;" *ngIf="userRole == 'LEAGUE_MANAGER'">
                     <button mat-raised-button color="primary" (click)="openAddActual(leagueId)">Add</button>
                 </div>
             </mat-toolbar>
@@ -68,9 +73,9 @@
 
             <ng-container matColumnDef="cost">
                 <th mat-header-cell *matHeaderCellDef> Cost(VND) </th>
-                <td mat-cell *matCellDef="let element"> {{element.cost}}</td>
-                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{actualCostTotal}}
-                    VND</td>
+                <td mat-cell *matCellDef="let element"> {{element.cost| currency:'VND':''}} đ</td>
+                <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{actualCostTotal| currency:'VND':''}} đ
+                    </td>
             </ng-container>
 
             <ng-container matColumnDef="expenseKey">
@@ -85,6 +90,10 @@
                         (click)="openEditCost(element.leagueFeeId)">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    <button mat-icon-button color="primary" aria-label="Example icon button with a home icon"
+                    (click)="openConfirmedDeleteFee(element.leagueFeeId)" >
+                     <mat-icon>delete </mat-icon>
+                 </button>
                 </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>

@@ -100,12 +100,7 @@ namespace FLMS_BackEnd.Controllers
             var response = await squadService.GetMatchPlayers(matchId);
             return Ok(response);
         }
-        [HttpGet("[action]")]
-        public async Task<ActionResult<List<PlayerSquadPositionDTO>>> GetPlayerForEvent([FromQuery]PlayerForEventRequest request)
-        {
-            var response = await squadService.GetPlayerForEvent(request);
-            return Ok(response);
-        }
+
         [HttpPut("[action]")]
         public async Task<ActionResult<UpdateSquadResponse>> UpdateSquad(UpdateSquadRequest request)
         {
@@ -119,10 +114,10 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
-        [HttpGet("[action]")]
-        public async Task<ActionResult<ManagerSquadResponse>> GetSquadByManager(int squadId)
+        [HttpPut("[action]")]
+        public async Task<ActionResult<UpdateSquadResponse>> UpdateSquadPosition(UpdateSquadPositionRequest request)
         {
-            var response = await squadService.GetSquadByManager(squadId, 0);
+            var response = await squadService.UpdateSquadPosition(request, 0);
             if (response.Success)
             {
                 return Ok(response);
@@ -131,6 +126,26 @@ namespace FLMS_BackEnd.Controllers
             {
                 return BadRequest(response);
             }
+        }
+        [HttpGet("[action]")]
+        [Authorize(Roles ="CLUB_MANAGER")]
+        public async Task<ActionResult<ManagerSquadResponse>> GetSquadByManager(int squadId)
+        {
+            var response = await squadService.GetSquadByManager(squadId, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<PlayerSquadPositionDTO>>> GetListPlayerJoinMatch([FromQuery] ListPlayerJoinMatchRequest request)
+        {
+            var result = await squadService.GetListPlayerJoinMatch(request);
+            return Ok(result);
         }
     }
 }

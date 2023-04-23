@@ -29,7 +29,7 @@ namespace FLMS_BackEnd.Controllers
                 bool sendResult = await mailService.SendEmailAsync(args.MailRequest, new CancellationToken());
                 if (!sendResult)
                 {
-                    Console.WriteLine("Failed to send email: {EmailRequest}", args.MailRequest);
+                    Console.WriteLine($"Failed to send email: {args.MailRequest}");
                 }
             };
         }
@@ -50,7 +50,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.ConfirmFee,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else
@@ -87,7 +87,7 @@ namespace FLMS_BackEnd.Controllers
                     MailType = Constants.MailType.RemoveClub,
                     MailData = response.mailData
                 };
-                sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
+                await sendMailEventHandler.OnSendMailReached(new SendMailEventArgs { MailRequest = mailRequest });
                 return Ok(response);
             }
             else

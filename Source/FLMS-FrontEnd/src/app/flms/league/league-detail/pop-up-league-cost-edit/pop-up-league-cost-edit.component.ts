@@ -101,9 +101,9 @@ export class PopUpLeagueCostEditComponent implements OnInit {
     this.LeagueService.editLeagueFee(tempFee)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.dialogRef.close();
-          this.commonService.sendMessage('Update fee success!', 'success');
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
           this.commonService.sendMessage(error.error.message,'fail');

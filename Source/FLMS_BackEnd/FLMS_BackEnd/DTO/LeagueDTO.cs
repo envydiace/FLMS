@@ -17,5 +17,6 @@
         public string LeagueType { get; set; } = null!;
         public int? NoRound { get; set; }
         public string? Logo { get; set; }
+        public string Status { get; set; } = null!;
     }
 }

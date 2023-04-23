@@ -10,6 +10,7 @@ import { TreeNode } from 'src/app/models/league-tree.model';
 export class TournamentMatchComponent implements OnInit {
 
   @Input() match: any;
+  imgSrc: string = './../../../../../../assets/image/default-logo.png';
 
   constructor() { }
 

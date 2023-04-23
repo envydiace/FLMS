@@ -1,102 +1,63 @@
-<!-- <div class="register-card">
-    <h3 class="register-card-header">FLMS</h3>
-    <div class="register-card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <input type="text" formControlName="email" placeholder="Email" class="form-control" maxlength="100" />
-            </div>
-            <div class="form-group">
-                <input type="password" formControlName="password" class="form-control" placeholder="Password" maxlength="100"/>
-            </div>
-            <div class="form-group">
-                <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Re-password" maxlength="100"/>
-            </div>
-            <div class="form-group">
-                <input type="text" formControlName="address" placeholder="Address" class="form-control" maxlength="255"/>
-            </div>
-            <div class="form-group">
-                <input type="text" formControlName="phone" placeholder="Phone-number" class="form-control" maxlength="20"/>
-            </div>
-            <div class="form-group">
-                <mat-form-field appearance="fill">
-                  <mat-label>Select your Role</mat-label>
-                  <mat-select [(ngModel)]="selectedValue" name="role">
-                    <mat-option *ngFor="let role of roles" [value]="role">
-                      {{role}}
-                    </mat-option>
-                  </mat-select> 
-                </mat-form-field>
-            </div>
-            <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Signup
-                </button><br>
-                <a routerLink="../login" class="btn btn-link">Login</a>
-            </div>
-        </form>
-    </div>
-</div>  -->
+
 <div class="card">
     <h4 class="card-header">Register</h4>
     <div class="container">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
 
             <mat-form-field class="form-element">
-                <input matInput placeholder="Email" formControlName="email">
-                <mat-error *ngIf="!form.controls['email'].valid && form.controls['email'].touched">
-                    Required field, must be between 5 and 10 characters.
-                  </mat-error>
+                <input matInput type="email" placeholder="Email" formControlName="email" required>
+                <mat-error *ngIf="!form.controls['email'].valid || form.controls['email'].touched">
+                    Required field, must be in email format
+                </mat-error>
                 <!-- <mat-error *ngIf="!formGroup.controls['email'].valid && formGroup.controls['email'].touched">
                 {{ getErrorEmail() }}
             </mat-error> -->
             </mat-form-field>
 
             <mat-form-field class="form-element">
-                <input type="password" matInput placeholder="Password" formControlName="password">
+                <input matInput [type]="hide ? 'password' :'text'" placeholder="Password" formControlName="password"
+                    required>
                 <mat-hint>Choose a password of at least six characters and one uppercase letter</mat-hint>
-                <mat-error *ngIf="!form.controls['password'].valid && form.controls['password'].touched">
-                {{ getErrorPassword() }}
-            </mat-error>
+                <mat-error *ngIf="!form.controls['password'].valid">
+                    Must have between 6 to 32 characters and one uppercase letter!
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field class="form-element">
-                <input type="password" matInput placeholder="Re-Password" formControlName="confirmPassword">
-                <!-- <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
-            <mat-error *ngIf="!formGroup.controls['password'].valid && formGroup.controls['password'].touched">
-                {{ getErrorPassword() }}
-            </mat-error> -->
+                <input type="password" matInput placeholder="Verify Password" formControlName="confirmPassword" required>
+                <mat-error *ngIf="!form.controls['confirmPassword'].valid">
+                    Must match with inputed password!
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field class="form-element">
-                <input matInput placeholder="Fullname" formControlName="fullName">
-                <mat-error *ngIf="!form.controls['fullName'].valid && form.controls['fullName'].touched">
-                    {{ getErrorName() }}
+                <input matInput placeholder="Fullname" formControlName="fullName" required>
+                <mat-error *ngIf="!form.controls['fullName'].valid">
+                    FieldName is required and max length is 50
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="form-element">
                 <input matInput placeholder="Phone" formControlName="phone">
-                <mat-error *ngIf="!form.controls['phone'].valid && form.controls['phone'].touched">
-                    {{ getErrorPhone() }}
+                <mat-error *ngIf="!form.controls['phone'].valid">
+                    Contains number only and within 15 numbers!
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="form-element">
                 <input matInput placeholder="Address" formControlName="address">
-                <mat-error *ngIf="!form.controls['address'].valid && form.controls['address'].touched">
-                    {{ getErrorAddress() }}
+                <mat-error *ngIf="!form.controls['address'].valid">
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Roles</mat-label>
-                <mat-select formControlName="role">
-                    <mat-option value="CLUB_MANAGER">CLUB_MANAGER</mat-option>
-                    <mat-option value="LEAGUE_MANAGER">LEAGUE_MANAGER</mat-option>
+                <mat-select formControlName="role" required>
+                    <mat-option value="CLUB_MANAGER">CLUB MANAGER</mat-option>
+                    <mat-option value="LEAGUE_MANAGER">LEAGUE MANAGER</mat-option>
                 </mat-select>
-                <mat-error *ngIf="!form.controls['role'].valid && form.controls['role'].touched">
-                    {{ getErrorRole() }}
+                <mat-error *ngIf="!form.controls['role'].valid">
+                    Please select a role!
                 </mat-error>
             </mat-form-field>
 
@@ -104,7 +65,7 @@
                 <button mat-raised-button [disabled]="loading" type="submit" class="button btn-primary">Signup</button>
                 <a routerLink="../login" class="btn btn-link">Login</a>
             </div>
-            
+
         </form>
     </div>
 </div>

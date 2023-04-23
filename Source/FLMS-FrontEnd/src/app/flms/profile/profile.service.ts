@@ -33,13 +33,13 @@ export class ProfileService {
         map((res: UserProfileResponse) => res)
       )
   }
-  editProfile(user: UserProfile) {
+  editProfile(user: UserProfile): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/EditProfile`, user, { headers: this.headers });
   }
 
   changePassword(
     body: any
-  ) {
+  ): Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/ChangePassword`, body, { headers: this.headers });
   }
 

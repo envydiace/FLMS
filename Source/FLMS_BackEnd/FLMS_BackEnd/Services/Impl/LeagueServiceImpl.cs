@@ -6,6 +6,7 @@ using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
+using static FLMS_BackEnd.Utils.Constants;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -61,8 +62,43 @@ namespace FLMS_BackEnd.Services.Impl
                 IsActual = false,
                 FeeType = Constants.FeeType.Sponsored.ToString()
             });
-            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Prizes));
-            leagueFees.AddRange(mapper.Map<List<LeagueFee>>(request.Fees));
+            leagueFees.Add(new LeagueFee
+            {
+                ExpenseName = Constants.Fee.SponsoredName,
+                ExpenseKey = Constants.Fee.SponsoredKey,
+                Cost = 0,
+                IsActual = true,
+                FeeType = Constants.FeeType.Sponsored.ToString()
+            });
+            var listPrizes = mapper.Map<List<LeagueFee>>(request.Prizes);
+            leagueFees.AddRange(listPrizes);
+            var listFees = mapper.Map<List<LeagueFee>>(request.Fees);
+            leagueFees.AddRange(listFees);
+            listPrizes.ForEach(prize =>
+            {
+                leagueFees.Add(new LeagueFee
+                {
+                    Cost = 0,
+                    ExpenseKey = prize.ExpenseKey,
+                    ExpenseName = prize.ExpenseName,
+                    FeeType = prize.FeeType,
+                    IsActual = true,
+                    LeagueId = prize.LeagueId
+                });
+            });
+            listFees.ForEach(fee =>
+            {
+                leagueFees.Add(new LeagueFee
+                {
+                    Cost = 0,
+                    ExpenseKey = fee.ExpenseKey,
+                    ExpenseName = fee.ExpenseName,
+                    FeeType = fee.FeeType,
+                    IsActual = true,
+                    LeagueId = fee.LeagueId
+                });
+            });
+
             league.LeagueFees = leagueFees;
 
             league.UserId = userId;
@@ -178,7 +214,7 @@ namespace FLMS_BackEnd.Services.Impl
             var leagues = await leagueRepository.FindByCondition(league =>
             (request.searchLeagueName == null
                 || request.searchLeagueName == ""
-                || league.LeagueName.StartsWith(request.searchLeagueName))
+                || league.LeagueName.ToLower().Contains(request.searchLeagueName.ToLower()))
             &&
             (request.from == null
                 || request.from.GetValueOrDefault().CompareTo(league.StartDate) <= 0)
@@ -219,10 +255,12 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
-        public async Task<List<LeagueByUserDTO>> GetListLeagueByUser(int userId)
+        public async Task<List<LeagueInfoDTO>> GetListLeagueByUser(int userId)
         {
-            var listLeague = await leagueRepository.FindByCondition(l => l.UserId == userId).ToListAsync();
-            return mapper.Map<List<LeagueByUserDTO>>(listLeague);
+            var listLeague = await leagueRepository.FindByCondition(l => l.UserId == userId)
+                .Include(l => l.User)
+                .Include(l => l.LeagueFees).ToListAsync();
+            return mapper.Map<List<LeagueInfoDTO>>(listLeague);
         }
         public async Task<TopEventResponse> GetLeagueTopEvent(int leagueId)
         {
@@ -250,6 +288,7 @@ namespace FLMS_BackEnd.Services.Impl
                     })
                     .OrderByDescending(x => x.Record)
                     .ThenBy(x => x.PlayerName)
+                    .Take(Constants.TOP_EVENT_NUMBER)
                         .ToList();
 
                 var topAssist = listevent.Where(e => e.SubId != null).GroupBy(
@@ -264,6 +303,7 @@ namespace FLMS_BackEnd.Services.Impl
                     })
                     .OrderByDescending(x => x.Record)
                     .ThenBy(x => x.PlayerName)
+                    .Take(Constants.TOP_EVENT_NUMBER)
                         .ToList();
                 return new TopEventResponse
                 {
@@ -277,6 +317,8 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId)
                                     .Include(l => l.ClubClones).ThenInclude(cl => cl.Club)
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.ParticipateNodes).ThenInclude(pn => pn.MatchHomes).ThenInclude(m => m.MatchStats)
+                                    .Include(l => l.ClubClones).ThenInclude(cl => cl.ParticipateNodes).ThenInclude(pn => pn.MatchAways).ThenInclude(m => m.MatchStats)
                                     .FirstOrDefaultAsync();
             if (league == null)
             {
@@ -381,7 +423,11 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var league = await leagueRepository.FindByCondition(n => n.LeagueId == leagueId)
                     .Include(l => l.ParticipateNodes)
-                    .ThenInclude(n => n.ClubClone).ThenInclude(c => c.Club)
+                        .ThenInclude(n => n.ClubClone).ThenInclude(c => c.Club)
+                    .Include(l => l.ParticipateNodes)
+                        .ThenInclude(pn => pn.MatchHomes).ThenInclude(mh => mh.MatchEvents)
+                    .Include(l => l.ParticipateNodes)
+                        .ThenInclude(pn => pn.MatchAways).ThenInclude(ma => ma.MatchEvents)
                     .FirstOrDefaultAsync();
             if (league == null)
             {
@@ -438,5 +484,120 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
+        public async Task<TopLeaguePrizeResponse> GetLeagueTopPrize(int size)
+        {
+            var leagueFeesQuery = leagueRepository
+                .FindByCondition(l => l.LeagueFees
+                    .Any(fee => (fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
+                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString())) && !fee.IsActual))
+                .Include(l => l.LeagueFees)
+                .SelectMany(l => l.LeagueFees
+                    .Where(fee => (fee.FeeType.Equals(Constants.FeeType.Sponsored.ToString()) ||
+                        fee.FeeType.Equals(Constants.FeeType.Prize.ToString())) && !fee.IsActual)
+                    .Select(fee => new
+                    {
+                        LeagueId = l.LeagueId,
+                        FeeCost = fee.Cost
+                    }));
+
+            var groupedFeesQuery = leagueFeesQuery
+                .GroupBy(x => x.LeagueId)
+                .Select(g => new
+                {
+                    LeagueId = g.Key,
+                    TotalPrize = g.Sum(x => x.FeeCost)
+                });
+
+            var topPrizeQuery = groupedFeesQuery
+                .Where(x => x.TotalPrize > 0)
+                .Join(leagueRepository.FindAll(), x => x.LeagueId, l => l.LeagueId, (x, l) => new
+                {
+                    League = l,
+                    TotalPrize = x.TotalPrize
+                })
+                .OrderByDescending(x => x.TotalPrize)
+                .Take(size);
+
+            var listTopPrize = await topPrizeQuery.Select(x => new LeagueTotalPrizeDTO
+            {
+                League = x.League,
+                TotalPrize = x.TotalPrize
+            }).ToListAsync();
+
+            if (listTopPrize == null)
+            {
+                return new TopLeaguePrizeResponse();
+            }
+            return new TopLeaguePrizeResponse
+            {
+                Success = true,
+                TopLeaguePrizes = mapper.Map<List<TopLeaguePrizeDTO>>(listTopPrize)
+            };
+        }
+
+        public async Task<LeagueUpdateInfoResponse> GetLeagueUpdateInfo(int leagueId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == leagueId).FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            return new LeagueUpdateInfoResponse
+            {
+                Success = true,
+                Info = mapper.Map<LeagueUpdateInfoDTO>(league),
+            };
+        }
+
+        public async Task<LeagueUpdateInfoResponse> UpdateLeagueInfo(LeagueUpdateInfoRequest request, int UserId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != UserId)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (request.Logo == null || request.Logo.Equals(""))
+            {
+                league.Logo = null;
+            }
+            else
+            {
+                league.Logo = request.Logo;
+            }
+            league.LeagueName = request.LeagueName;
+            league.Fanpage = request.Fanpage;
+            league.Location = request.Location;
+            if (MethodUtils.CheckLeagueStatus(request.Status))
+            {
+                league.Status = request.Status;
+            }
+            var result = await leagueRepository.UpdateAsync(league);
+            if (result != null)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-LE-03",
+                    Info = mapper.Map<LeagueUpdateInfoDTO>(result)
+                };
+            }
+            return new LeagueUpdateInfoResponse { Success = false, MessageCode = "ER-LE-11" };
+        }
     }
 }

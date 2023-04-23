@@ -1,15 +1,47 @@
-<div class="club-detail-container">
-    <div class="club-detail-cover">
+<div *ngIf="clubdetail">
+    <p>
+        <mat-toolbar class="card">
+            <span>Club</span>
+            <div class="club-delete-button" style="margin-right: 10px;">
+                <button mat-raised-button style="width: 120px;" color="warn"
+                    (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
 
-    </div>
-    <div *ngIf = "clubdetail">
+                <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <button mat-raised-button style="width: 120px;" color="primary"
+                            (click)="openEditClub(clubId)">Edit</button>
+                    </button>
+                    <button mat-menu-item>
+                        <button mat-raised-button style="width: 120px;" color="warn"
+                            (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
+                    </button>
+                </mat-menu> -->
+
+            </div>
+            <div>
+                <button mat-raised-button style="width: 120px;" color="primary"
+                    (click)="openEditClub(clubId)">Edit</button>
+            </div>
+
+
+        </mat-toolbar>
+    </p>
+    <div class="club-detail-container">
+        <!-- <div class="club-detail-cover">
+
+    </div> -->
+
+
         <div class="club-detail-info row justify-content-center">
             <div class="col-10">
                 <mat-card class="club-detail-card">
                     <mat-card-header>
                         <div mat-card-avatar class="club-detail-logo">
                             <img mat-card-avatar class="club-detail-logo"
-                            [src]="clubdetail.logo != null ? clubdetail.logo : defaultLogo" alt="Club's Pic">
+                                [src]="clubdetail.logo != null ? clubdetail.logo : defaultLogo" alt="Club's Pic">
 
                         </div>
                         <div class="club-detail-title">
@@ -17,7 +49,8 @@
                             <mat-card-title>{{clubdetail.clubName}}</mat-card-title>
                             <mat-chip-list>
                                 <mat-chip style="background-color: #7bae37;" selected>Wins {{clubdetail.win}}</mat-chip>
-                                <mat-chip style="background-color: #f4bd1a;" selected>Draws {{clubdetail.draw}}</mat-chip>
+                                <mat-chip style="background-color: #f4bd1a;" selected>Draws
+                                    {{clubdetail.draw}}</mat-chip>
                                 <mat-chip color="warn" selected>Looses {{clubdetail.lose}}</mat-chip>
                             </mat-chip-list>
                         </div>
@@ -29,7 +62,8 @@
                             <p class="club-content">Phone: {{clubdetail.phoneNumber}}</p>
                         </div>
                         <div class="right-detail" style="text-align: center;">
-                            <p class="club-content">Social Cont: <a href="{{linkFb}}" target="_blank">{{clubdetail.socialCont}}</a>
+                            <p class="club-content">Fanpage: <a *ngIf="clubdetail.fanPage != null"
+                                    href="{{clubdetail.fanPage}}" target="_blank">{{clubdetail.clubName}}</a>
                             </p>
                             <p class="club-content">Email: {{clubdetail.email}}</p>
                         </div>
@@ -37,19 +71,8 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-xs-4 justify-content-center">
-                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="primary">Edit</button>
-                                </div>
-                            </div>
-                            <div class="col-xs-4 justify-content-center">
-                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="warn" (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
-                                </div>
-                            </div>
-                            <div class="col-xs-4 justify-content-center">
-                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;"><button
-                                        mat-raised-button style="width: 120px;" color="accent" (click)="openSendInvitation()">
-                                        Invite</button>
+                                <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
+
                                 </div>
                             </div>
                         </div>
@@ -65,7 +88,8 @@
                                 </mat-tab>
                                 <mat-tab label="Player">
                                     <ng-template matTabContent>
-                                        <app-club-player [id]="clubdetail.clubId" [clubName]="clubdetail.clubName"></app-club-player>
+                                        <app-club-player [id]="clubdetail.clubId"
+                                            [clubName]="clubdetail.clubName"></app-club-player>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="League History">

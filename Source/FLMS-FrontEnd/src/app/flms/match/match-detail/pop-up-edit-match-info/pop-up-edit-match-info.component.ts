@@ -21,6 +21,8 @@ export class PopUpEditMatchInfoComponent implements OnInit {
   loading = false;
   submitted = false;
 
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
+
   token: token;
   private headers: HttpHeaders;
 
@@ -43,7 +45,8 @@ export class PopUpEditMatchInfoComponent implements OnInit {
     this.form = new FormGroup({
       matchDate: new FormControl(),
       matchTime: new FormControl(),
-      stadium: new FormControl()
+      stadium: new FormControl(), 
+      round: new FormControl(),
     })
    }
 
@@ -53,8 +56,9 @@ export class PopUpEditMatchInfoComponent implements OnInit {
     this.form = this.formBuilder.group({
       matchId: this.data.matchId,
       matchDate: [null, Validators.required],
-      matchTime: [null, Validators.required],
-      stadium: [null, Validators.required]
+      matchTime: [null, [Validators.required, Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')]],
+      stadium: [null, [Validators.required, Validators.maxLength(100), this.noWhitespaceValidator]],
+      round:[ null,]
     })
   }
 
@@ -62,20 +66,23 @@ export class PopUpEditMatchInfoComponent implements OnInit {
 
   initDataSource() {
     this.getMatchInfoById(this.data.matchId);
-
-
+    
   }
 
   bindValueIntoForm(res: MatchDetail) {
     this.form.controls['matchDate'].patchValue(res.matchDate);
     this.form.controls['matchTime'].patchValue(res.matchTime);
     this.form.controls['stadium'].patchValue(res.stadium);
-    
+    this.form.controls['round'].patchValue(res.round);
+    this.form.controls['round'].disable();
   }
 
   getMatchInfoById(matchId: number) {
     this.MatchService.getMatchInfoById(matchId).pipe(
-      map ((res: MatchDetailResponse) => this.matchDetail = res.match))
+      map ((res: MatchDetailResponse) => {
+        this.matchDetail = res.match;
+        this.bindValueIntoForm(res.match);
+      }))
       .subscribe();
   }
 
@@ -91,9 +98,9 @@ export class PopUpEditMatchInfoComponent implements OnInit {
     this.MatchService.editMatchInfo(this.form.value)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.initDataSource();
-          this.commonService.sendMessage('Update match success', 'success');
+          this.commonService.sendMessage(response.message, 'success');
 
           this.dialogRef.close()
         },
@@ -103,5 +110,11 @@ export class PopUpEditMatchInfoComponent implements OnInit {
         }
       });
 
+  }
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
   }
 }

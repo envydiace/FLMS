@@ -41,9 +41,9 @@ export class PopUpRemoveEvemtComponent implements OnInit {
      this.loading = true;
      this.matchService.removeEvent(this.data.eventId)
        .subscribe({
-         next: () => {
+         next: response => {
            this.dialogRef.close();
-           this.commonService.sendMessage('Renove match event success!','success')
+           this.commonService.sendMessage(response.message,'success')
            
          },
          error: error => {

@@ -26,7 +26,7 @@
                 </ng-container>
                 <!-- clubB Column -->
                 <ng-container matColumnDef="W-D-L">
-                    <mat-header-cell *matHeaderCellDef> Wins-Draws-Looses </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef> W-D-L </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.won}}-{{element.draw}}-{{element.loss}} </mat-cell>
                 </ng-container>
                 <!-- Symbol Column -->
@@ -41,7 +41,16 @@
                 </ng-container>
                 <ng-container matColumnDef="History">
                     <mat-header-cell *matHeaderCellDef> History </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.history}}</mat-cell>
+                    <mat-cell *matCellDef="let element">
+                        <div *ngFor="let history of element.history">
+                            <img *ngIf="history == 'W'" style="height: 20px; margin-right: 2px;"
+                                src="./../../../../../assets/image/W_icon_128px.png">
+                            <img *ngIf="history == 'D'" style="height: 20px; margin-right: 2px;"
+                                src="./../../../../../assets/image/D_icon_128px.png">
+                            <img *ngIf="history == 'L'" style="height: 20px; margin-right: 2px;"
+                                src="./../../../../../assets/image/L_icon_128px.png">
+                        </div>
+                    </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayLeagueStandingColumns"></mat-header-row>
@@ -50,7 +59,7 @@
             </mat-table>
         </div>
 
-        <div *ngIf="leagueType == 'KO'" class="col-sm-8" style="background-color: #e7e7e7;">
+        <div *ngIf="leagueType == 'KO'" class="col-sm-8" style="background-color: #e7e7e7; overflow: scroll;">
             <ng-container *ngIf="singleEliminationTournament">
                 <ngtt-single-elimination-tree [tournament]="singleEliminationTournament"
                     [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>

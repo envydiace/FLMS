@@ -8,6 +8,8 @@ import { token } from 'src/app/models/token.model';
 import { MatDialog } from '@angular/material/dialog';
 import { LeagueService } from '../league.service';
 import { PopupDeleteLeagueComponent } from '../popup-delete-league/popup-delete-league.component';
+import { PopUpEditLeagueComponent } from '../pop-up-edit-league/pop-up-edit-league.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-league-detail',
@@ -19,7 +21,9 @@ export class LeagueDetailComponent implements OnInit {
   leagueId: number;
   private headers: HttpHeaders;
   token: token;
-  defaultLogo: string = './../../../../assets/image/premier-league-new-logo-D22A0CE87E-seeklogo.com.png';
+  // defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
+  userRole: any;
 
 
   constructor(
@@ -27,7 +31,8 @@ export class LeagueDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public authen: AuthService,
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
@@ -44,6 +49,7 @@ export class LeagueDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
   }
 
   initDataSource() {
@@ -52,12 +58,24 @@ export class LeagueDetailComponent implements OnInit {
     ).subscribe();
   }
 
-  openDeleteLeaguePopup(clubId: number): void {
+  openDeleteLeaguePopup(leagueId: number): void {
     const dialogRef = this.dialog.open(PopupDeleteLeagueComponent, {
       width: '50%',
       data: { leagueId: this.leagueId }
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openEditLeague(leagueId: number): void {
+    const dialogRef = this.dialog.open(PopUpEditLeagueComponent, {
+      width: '80%',
+      data: { leagueId: this.leagueId },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
     });
   }

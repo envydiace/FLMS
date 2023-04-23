@@ -16,6 +16,7 @@ import { MatchEvent } from './../../models/match-event-detail.model';
 import { leagueFee } from 'src/app/models/league-prize.model';
 import { createLeagueInfo } from 'src/app/models/create-league-info.model';
 import { LeagueStatisticResponse } from '../../models/league-statistics-response.model';
+import { LeagueStatisticTypeKO } from 'src/app/models/league-statistic-type-ko.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,15 +54,23 @@ export class LeagueService {
     return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`);
   }
 
-  getmatch(leagueId: number): Observable<MatchScheduleResponse> {
+  getmatch(
+    leagueId: number,
+    from: string,
+    to: string,
+    clubName: string
+  ): Observable<MatchScheduleResponse> {
     let params = new HttpParams();
 
-    params = params.append("leagueId", String(leagueId))
+    params = params.append("leagueId", String(leagueId));
+    params = params.append('from', from);
+    params = params.append('to', to);
+    params = params.append('searchClubName', clubName);
 
     return this.http.get<any>(`${environment.apiUrl}/api/Match/GetLeagueSchedule`, { params }).pipe(
       map((res: MatchScheduleResponse) => res),
       catchError(err => throwError(err))
-    )
+    );
   }
 
   findbyUserId(): Observable<LeagueListbyUser[]> {
@@ -72,7 +81,7 @@ export class LeagueService {
     )
   }
 
-  sendRegistration(leagueId: number, clubId: number) {
+  sendRegistration(leagueId: number, clubId: number): Observable<any> {
     let body = {
       leagueId,
       clubId
@@ -95,11 +104,15 @@ export class LeagueService {
     leagueName: string,
     page: number,
     size: number,
+    from: string,
+    to: string
   ): Observable<any> {
     let params = new HttpParams();
     params = params.append('searchLeagueName', leagueName);
     params = params.append('page', String(page));
     params = params.append('size', String(size));
+    params = params.append('from', from);
+    params = params.append('to', to);
 
     return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueFilters`, { params })
   }
@@ -139,7 +152,7 @@ export class LeagueService {
     )
   }
 
-  createLeague(league: createLeagueInfo) {
+  createLeague(league: createLeagueInfo): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/League/CreateLeague`, league, { headers: this.headers });
   }
 
@@ -150,5 +163,10 @@ export class LeagueService {
 
   exportLeagueSchedule(leagueId: number): Observable<any> {
     return this.http.get(`${environment.apiUrl}/api/Export/ExporLeagueSchedule/${leagueId}`, { responseType: 'arraybuffer' });
+  }
+
+  getLeagueStatisticTypeKO(leagueId: number): Observable<LeagueStatisticTypeKO> {
+    return this.http.get(`${environment.apiUrl}/api/League/GetKnockOutStatistic/${leagueId}`).pipe(map((res: LeagueStatisticTypeKO) => res),
+      catchError(err => throwError(err)));
   }
 }

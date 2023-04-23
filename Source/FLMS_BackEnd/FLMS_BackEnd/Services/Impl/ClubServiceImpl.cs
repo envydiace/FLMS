@@ -28,7 +28,10 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<ClubResponse> GetClubById(int id)
         {
-            var club = await clubRepository.FindByCondition(c => c.ClubId == id).Include(c => c.User).FirstOrDefaultAsync();
+            var club = await clubRepository.FindByCondition(c => c.ClubId == id)
+                .Include(c => c.User)
+                .Include(c => c.ClubClones)
+                .FirstOrDefaultAsync();
             if (club == null)
             {
                 return new ClubResponse
@@ -64,18 +67,20 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request)
         {
             var clubs = await clubRepository.FindByCondition(club =>
-            (request.searchClubName == null || request.searchClubName == "" || club.ClubName.StartsWith(request.searchClubName))
-                && (request.searchManagerName == null || request.searchManagerName == "" || club.User.FullName.StartsWith(request.searchManagerName))
+                request.Search == null ||
+                request.Search == "" ||
+                club.ClubName.ToLower().Contains(request.Search.ToLower()) ||
+                club.User.FullName.ToLower().Contains(request.Search.ToLower())
             ).Include(club => club.User).ToListAsync();
             int total = clubs.Count;
-            var result = mapper.Map<List<ClubDTO>>(clubs.Skip((request.page - 1) * request.pageSize).Take(request.pageSize).ToList());
+            var result = mapper.Map<List<ClubDTO>>(clubs.Skip((request.Page - 1) * request.PageSize).Take(request.PageSize).ToList());
             return new ListClubResponse
             {
                 Success = true,
                 Clubs = result,
                 Total = total,
-                PageIndex = request.page,
-                PageSize = request.pageSize
+                PageIndex = request.Page,
+                PageSize = request.PageSize
             };
         }
 
@@ -158,7 +163,8 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new List<ClubHistoryDTO>();
             }
-            var result = mapper.Map<List<ClubHistoryDTO>>(club.ClubClones.ToList());
+            var result = mapper.Map<ICollection<ClubHistoryDTO>>(club.ClubClones).OrderByDescending(ch => ch.JoinedDate).ToList();
+
             return result;
         }
 
@@ -198,7 +204,9 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     SquadId = s.SquadId,
                     ClubName = s.IsHome ? s.Match.Home.ClubClone.Club.ClubName : s.Match.Away.ClubClone.Club.ClubName,
+                    ClubLogo = s.IsHome ? s.Match.Home.ClubClone.Club.Logo : s.Match.Away.ClubClone.Club.Logo,
                     Against = s.IsHome ? s.Match.Away.ClubClone.Club.ClubName : s.Match.Home.ClubClone.Club.ClubName,
+                    AgainstLogo = s.IsHome ? s.Match.Home.ClubClone.Club.Logo : s.Match.Away.ClubClone.Club.Logo,
                     Ha = s.IsHome ? Constants.HOME : Constants.AWAY,
                     LeagueName = s.Match.League.LeagueName,
                     Round = s.Match.Round,
@@ -232,7 +240,7 @@ namespace FLMS_BackEnd.Services.Impl
                     lmatches.AddRange(matches);
                 }
             }
-            var listMatch = mapper.Map<List<MatchDTO>>(lmatches.OrderBy(m => m.MatchDate));
+            var listMatch = mapper.Map<List<MatchDTO>>(lmatches.OrderByDescending(m => m.MatchDate));
             listMatch.ForEach(m =>
             {
                 var match = lmatches.Where(x => x.MatchId == m.MatchId).FirstOrDefault();
@@ -250,6 +258,81 @@ namespace FLMS_BackEnd.Services.Impl
                 Success = true,
                 listMatch = listMatch
             };
+        }
+
+        public async Task<ClubUpdateInfoResponse> GetClubUpdateInfo(int clubId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == clubId).FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            return new ClubUpdateInfoResponse
+            {
+                Success = true,
+                Info = mapper.Map<ClubUpdateInfoDTO>(club),
+            };
+        }
+
+        public async Task<ClubUpdateInfoResponse> UpdateClubInfo(UpdateClubInfoRequest request, int UserId)
+        {
+            var club = await clubRepository.FindByCondition(c => c.ClubId == request.ClubId).FirstOrDefaultAsync();
+            if (club == null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-02"
+                };
+            }
+            if (club.UserId != UserId)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-08"
+                };
+            }
+            if (request.Logo == null || request.Logo.Equals(""))
+            {
+                club.Logo = null;
+            }
+            else
+            {
+                club.Logo = request.Logo;
+            }
+            club.FanPage = request.FanPage;
+            club.Email = request.Email;
+            club.PhoneNumber = request.PhoneNumber;
+            var result = await clubRepository.UpdateAsync(club);
+            if (result != null)
+            {
+                return new ClubUpdateInfoResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-CL-03",
+                    Info = mapper.Map<ClubUpdateInfoDTO>(result)
+                };
+            }
+            return new ClubUpdateInfoResponse { Success = false, MessageCode = "ER-CL-06" };
+        }
+
+        public async Task<List<ClubStatsInfoDTO>> GetTopMostWinClubs(int numberOfClub)
+        {
+            var clubs = await clubRepository.FindAll()
+                    .Include(c => c.ClubClones)
+                    .Include(c => c.User)
+                    .OrderByDescending(c => c.ClubClones.Sum(cl => cl.Won))
+                    .ThenByDescending(c => c.ClubClones.Sum(cl => cl.Draw))
+                    .ThenBy(c => c.ClubClones.Sum(cl => cl.Loss))
+                    .ThenBy(c => c.ClubName)
+                    .Take(numberOfClub)
+                    .ToListAsync();
+            return mapper.Map<List<ClubStatsInfoDTO>>(clubs);
         }
     }
 }

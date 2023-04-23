@@ -67,7 +67,8 @@ export interface ClubMatchSchedule {
     isFinish: boolean,
     ha: string,
     round: string,
-    stadium: string
+    stadium: string,
+    logo: string,
 }
 
 export class ClubMatchSchedule implements ClubMatchSchedule {
@@ -81,7 +82,9 @@ export class ClubMatchSchedule implements ClubMatchSchedule {
         isFinish: boolean,
         ha: string,
         round: string,
-        stadium: string
+        stadium: string,
+        logo: string,
+
     ) {
         this.matchId = matchId,
             this.leagueId = leagueId,
@@ -92,6 +95,7 @@ export class ClubMatchSchedule implements ClubMatchSchedule {
             this.isFinish = isFinish,
             this.ha = ha,
             this.round = round,
-            this.stadium = stadium
+            this.stadium = stadium,
+            this.logo = logo
     }
 }

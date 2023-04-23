@@ -4,6 +4,6 @@ namespace FLMS_BackEnd.Response
 {
     public class ListPlayerResponse : BaseResponse
     {
-        public List<PlayerDTO> Players { get; set; }
+        public List<PlayerStatisticInfoDTO> Players { get; set; }
     }
 }

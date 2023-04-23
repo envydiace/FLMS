@@ -6,7 +6,7 @@ import { ClubListPlayer } from './../../../../models/club-list-player.model';
 import { ClubListPlayerResponse } from './../../../../models/club-list-player-response.model';
 import { Club } from 'src/app/models/match-schedule.model';
 import { map, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PopUpConfirmDeletePlayerComponent } from '../../pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
 
 @Component({
@@ -28,8 +28,10 @@ export class ClubPlayerComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private clubService: ClubService
-  ) { }
+    private clubService: ClubService,
+    private route: ActivatedRoute
+  ) { 
+  }
 
   ngOnInit(): void {
     this.initDataSource();
@@ -60,7 +62,7 @@ export class ClubPlayerComponent implements OnInit {
   }
 
   navigateToPlayerInfo(playerId: number, clubId: number) {
-    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId, clubId: clubId } });
+    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId, clubId: this.id } });
   }
 
   openDeleteplayerConfirm(playerId: number, clubId: number): void {

@@ -1,0 +1,165 @@
+.create-league-action {
+    margin: 0 0 0 auto;
+}
+
+.create-league-containner {
+    margin: 0;
+    padding: 15px 90px;
+
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50%;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+        color: #3F51B5;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 10px;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: none;
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .create-league-input {
+        width: 100%;
+    }
+
+    .league-input-number {
+        margin: 0 40px 0 0;
+
+        mat-form-field {
+            width: 100%;
+        }
+    }
+
+    .fee-header {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        display: flex;
+
+        img {
+            height: 20px;
+            margin: 0 5px;
+        }
+
+        .fee-title {
+            width: 150px;
+        }
+    }
+
+    .fee-total-header {
+        width: 400px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        display: flex;
+        font-weight: 500;
+        color: #3F51B5;
+        background-color: rgba(33, 40, 50, 0.03);
+
+        .prize-title {
+            width: 180px;
+        }
+    }
+
+    .league-card {
+
+        .league-card-content {
+            background-color: #FFFFFF;
+            width: 100%;
+            height: 100%;
+        }
+
+        .create-league-card {
+            height: 100%;
+
+            .league-logo {
+                background-color: rgba(63, 81, 181, 0.5);
+                border-radius: 8px;
+                height: 380px;
+                padding: 38px 12px;
+                text-align: center;
+
+                p {
+                    font-weight: 500;
+                    font-size: 20px;
+                    color: #293477;
+                }
+
+                img {
+                    margin-bottom: 20px;
+                }
+            }
+
+            .prize-info-content {
+                padding: 10px 15px;
+                display: flex;
+
+                img {
+                    height: 20px;
+                    margin: 0 5px;
+                }
+
+                .prize-title {
+                    width: 120px;
+                }
+            }
+
+            .card-header {
+                padding: 10px 15px;
+                display: flex;
+
+                .prize-title {
+                    width: 150px;
+                }
+            }
+
+            .league-header-image {
+                background-color: white;
+                height: 200px;
+                width: 200px;
+                border: 3px solid #4f66e3;
+            }
+
+            mat-card-title,
+            mat-card-subtitle {
+                margin: 10px 0;
+            }
+        }
+    }
+}
+.back-submit-button{
+    margin: 0 0 0 auto;
+}

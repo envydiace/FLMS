@@ -5,22 +5,28 @@
                 <mat-card class="match-detail-card">
                     <mat-card class="score-container">
                         <mat-card-header class="team-1">
+                            <img mat-card-avatar class="match-detail-logo"
+                                [src]="matchDetail.home.logo != null ? matchDetail.home.logo : defaultLogo" />
                             <div class="match-detail-title">
                                 {{matchDetail.home.name}}
                             </div>
                         </mat-card-header>
+
                         <div class="score-content">
                             <div class="goal-data">
                                 <span>{{matchDetail.home.score}}</span>
-                                <span>:</span>
+                                <span> - </span>
                                 <span>{{matchDetail.away.score}}</span>
                             </div>
                         </div>
                         <mat-card-header class="team-2">
-                            <div class="match-detail-title">
+                            <img mat-card-avatar class="match-detail-logo"
+                                [src]="matchDetail.away.logo != null ? matchDetail.away.logo : defaultLogo" />
+                            <span class="match-detail-title">
                                 {{matchDetail.away.name}}
-                            </div>
+                            </span>
                         </mat-card-header>
+
                     </mat-card>
                     <p class="match-detail-content" style="margin-top: 20px;"> MatchInfo: </p>
                     <form [formGroup]="form">
@@ -29,26 +35,32 @@
 
                                 <mat-form-field class="example-full-width">
                                     <mat-label> Round: </mat-label>
-                                    <input matInput ngModel="{{matchDetail.round}}" formControlName="round"
-                                        disabled>
+                                    <input matInput formControlName="round">
                                 </mat-form-field>
                                 <mat-form-field class="example-full-width">
                                     <mat-label> Stadium:</mat-label>
-                                    <input matInput ngModel="{{matchDetail.stadium}}" formControlName="stadium">
+                                    <input matInput formControlName="stadium">
+                                    <mat-error
+                                        *ngIf="!form.controls['stadium'].valid && form.controls['stadium'].touched">
+                                        Required, the valid match's stadium max length is 100
+                                    </mat-error>
                                 </mat-form-field>
 
                             </div>
                             <div class="right-detail" style="text-align: center;">
                                 <mat-form-field class="example-full-width">
                                     <mat-label> Match Date</mat-label>
-                                    <input matInput [matDatepicker]="matchDate" ngModel="{{matchDetail.matchDate}}"
-                                        formControlName="matchDate">
+                                    <input matInput [matDatepicker]="matchDate" formControlName="matchDate" disabled>
                                     <mat-datepicker-toggle matSuffix [for]="matchDate"></mat-datepicker-toggle>
-                                    <mat-datepicker #matchDate></mat-datepicker>
+                                    <mat-datepicker #matchDate disabled="false"></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="example-full-width">
                                     <mat-label> Match Time</mat-label>
-                                    <input matInput ngModel="{{matchDetail.matchTime}}" formControlName="matchTime">
+                                    <input matInput formControlName="matchTime">
+                                    <mat-error
+                                        *ngIf="!form.controls['matchTime'].valid && form.controls['matchTime'].touched">
+                                        Required, the valid match's time is HH:MM
+                                    </mat-error>
 
                                 </mat-form-field>
                             </div>

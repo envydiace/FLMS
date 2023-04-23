@@ -1,11 +1,11 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { first, map } from 'rxjs/operators';
 import { CommonService } from 'src/app/common/common/common.service';
 import { MatchDetailResponse } from 'src/app/models/match-detail-response.model';
 import { MatchDetail } from 'src/app/models/match-detail.model';
-import { MatchSquad, SquadPosition, UpdateSquad } from 'src/app/models/match-squad.model';
+import { Coordinate, MatchSquad, SquadPosition, UpdateCoordinate, UpdateSquad } from 'src/app/models/match-squad.model';
 import { Player } from 'src/app/models/player.model';
 import { MatchService } from '../match.service';
 
@@ -25,6 +25,11 @@ export class EditLineUpComponent implements OnInit {
   unsquadPlayers: SquadPosition[] = [];
   updateSquadModel: UpdateSquad;
   position = ['ST', 'LM', 'RM', 'LB', 'RB', 'CB', 'GK'];
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  defaultAvatar: string = './../../../../assets/image/default-avatar-profile-icon.webp';
+  temp: any;
+  panelMainSquadState: boolean = true;
+  panelSubstituteState: boolean = false;
 
   constructor(
     private MatchService: MatchService,
@@ -55,33 +60,29 @@ export class EditLineUpComponent implements OnInit {
     ).subscribe();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<SquadPosition[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      console.log(this.startingSquad);
-      console.log(this.substitution);
-      console.log(this.unsquadPlayers);
-
       this.resetPositionKey();
+
+      console.log(this.startingSquad);
     } else {
-      if (event.previousContainer.data[event.currentIndex] != undefined) {
+      if (event.container.data[event.currentIndex] != undefined) {
+        // swap Coordinate
+        let tempCoordinate = event.previousContainer.data[event.previousIndex].coordinate;
+        event.previousContainer.data[event.previousIndex].coordinate = event.container.data[event.currentIndex].coordinate;
+        event.container.data[event.currentIndex].coordinate = tempCoordinate;
+
         let oldtarget = event.previousContainer.data[event.previousIndex];
         event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
         event.container.data[event.currentIndex] = oldtarget;
-      } else {
-        if (this.startingSquad.length < 7) {
-          transferArrayItem(event.previousContainer.data,
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex);
+
+        this.resetPositionKey();
+
+        if (event.previousContainer.data[event.previousIndex].playerId == null) {
+          event.previousContainer.data.splice(event.previousIndex, 1);
         }
       }
-
-
-      console.log(this.startingSquad);
-      console.log(this.substitution);
-      console.log(this.unsquadPlayers);
-
     }
   }
 
@@ -92,19 +93,35 @@ export class EditLineUpComponent implements OnInit {
   }
 
   onSubmit() {
-    let mains: number[] = [];
-    let subs: number[] = [];
+    let mains: UpdateCoordinate[] = [];
+    let subs: UpdateCoordinate[] = [];
 
     this.startingSquad.forEach(element => {
-      const newUsersArray = mains;
-      newUsersArray.push(element.playerId);
-      mains = [...newUsersArray];
+      if (element.playerId != null) {
+        let tempCoordinate: UpdateCoordinate = {
+          playerId: element.playerId,
+          x: element.coordinate.x,
+          y: element.coordinate.y
+        }
+
+        const newUsersArray = mains;
+        newUsersArray.push(tempCoordinate);
+        mains = [...newUsersArray];
+      }
     });
 
     this.substitution.forEach(element => {
-      const newUsersArray = subs;
-      newUsersArray.push(element.playerId);
-      subs = [...newUsersArray];
+      if (element.playerId != null) {
+        let tempCoordinate: UpdateCoordinate = {
+          playerId: element.playerId,
+          x: element.coordinate.x,
+          y: element.coordinate.y
+        }
+
+        const newUsersArray = subs;
+        newUsersArray.push(tempCoordinate);
+        subs = [...newUsersArray];
+      }
     });
 
     const updateSquadModel = new UpdateSquad(this.squadId, mains, subs);
@@ -112,12 +129,17 @@ export class EditLineUpComponent implements OnInit {
     this.MatchService.updateSquad(updateSquadModel)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.commonService.sendMessage('Update success!', 'success')
+        next: repsonse => {
+          this.commonService.sendMessage(repsonse.message, 'success')
         },
         error: error => {
           this.commonService.sendMessage(error.error.message, 'fail')
         }
       });
+  }
+
+  dragEnd($event: CdkDragEnd, squadPositionId: number) {
+    const coordinate: Coordinate = $event.source.getFreeDragPosition();
+    this.startingSquad.find(x => x.squadPositionId == squadPositionId).coordinate = coordinate;
   }
 }

@@ -2,37 +2,51 @@
 
   <!-- Position Column -->
   <ng-container matColumnDef="leagueName">
-    <mat-header-cell *matHeaderCellDef> League Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.leagueName}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="name-header" > League Name </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="name-content"> {{element.leagueName}} </mat-cell>
   </ng-container>
 
   <!-- Position Column -->
   <ng-container matColumnDef="matchDate">
-    <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.matchDate}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="date-header"> Date </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="date-content"> 
+      {{element.matchDate | date:'dd/MM/yyyy'}} 
+    </mat-cell>
   </ng-container>
 
   <!-- Name Column -->
   <ng-container matColumnDef="matchTime">
-    <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.matchTime}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="time-header"> Time </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="time-content"> 
+      {{element.matchTime}} 
+    </mat-cell>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="against">
-    <mat-header-cell *matHeaderCellDef> Against </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.against}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="team1-header"> Against </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="team1-content">
+      <div class="avatar-header-image">
+        <img mat-card-avatar class="avatar-detail-logo"
+          [src]="element.logo != null ? element.logo : defaultLogo" alt="Club's Pic">
+      </div>
+      {{element.against}} 
+    </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="round">
+    <mat-header-cell *matHeaderCellDef class="round-header"> Round </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="round-content"> {{element.round}} </mat-cell>
+  </ng-container>
   <!-- Symbol Column -->
   <ng-container matColumnDef="stadium">
-    <mat-header-cell *matHeaderCellDef> Stadium </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.stadium}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="stadium-header"> Stadium </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="stadium-content"> {{element.stadium}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="ha">
-    <mat-header-cell *matHeaderCellDef> H/A </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.ha}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="ha-header"> H/A </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="ha-content">{{element.ha}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

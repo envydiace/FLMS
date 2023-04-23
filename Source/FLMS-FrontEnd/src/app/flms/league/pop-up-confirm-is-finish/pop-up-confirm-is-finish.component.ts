@@ -37,9 +37,9 @@ export class ConfirmIsFinishComponent implements OnInit {
     this.leagueService.finishMatchConfirm(this.data.matchId)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: response => {
           this.dialogRef.close();
-          this.commonService.sendMessage('Finish match success!','success');
+          this.commonService.sendMessage(response.message,'success');
         },
         error: error => {
           this.loading = false;

@@ -15,6 +15,9 @@ export class MatchHistoryComponent implements OnInit {
   displayedColumns: string[] = ['League Name','Date', 'Time','Team1', 'Match','Team2','Round', 'Stadium'];
   clubId: number;
   listMatch: MatchDetail[];
+
+  defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,

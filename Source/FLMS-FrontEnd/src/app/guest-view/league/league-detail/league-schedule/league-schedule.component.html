@@ -3,71 +3,77 @@
         <div class="container">
             <div class="row justify-content-left">
                 <div class="col-xs-6 justify-content-left">
+                    <form [formGroup]="filterForm">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Form</mat-label>
+                            <input matInput [matDatepicker]="from" formControlName="from" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                            <mat-datepicker #from disabled="false"></mat-datepicker>
+                        </mat-form-field>
 
-                    <mat-form-field appearance="fill">
-                        <mat-label>Form</mat-label>
-                        <input matInput [matDatepicker]="from">
-                        <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
-                        <mat-datepicker #from></mat-datepicker>
-                    </mat-form-field>
+                        <mat-form-field appearance="fill" style="margin-left: 20px;">
+                            <mat-label>To</mat-label>
+                            <input matInput [matDatepicker]="to" formControlName="to" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                            <mat-datepicker #to disabled="false"></mat-datepicker>
+                        </mat-form-field>
 
-
-
-                    <mat-form-field appearance="fill" style="margin-left: 20px;">
-                        <mat-label>To</mat-label>
-                        <input matInput [matDatepicker]="to">
-                        <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
-                        <mat-datepicker #to></mat-datepicker>
-                    </mat-form-field>
-
-                    <mat-form-field class="example-full-width" style="max-width: 240px; margin-left: 20px;">
-                        <mat-label>Club</mat-label>
-                        <input matInput>
-                        <mat-icon matSuffix>search</mat-icon>
-                    </mat-form-field>
-
+                        <mat-form-field class="example-full-width" style="max-width: 240px; margin-left: 20px;">
+                            <mat-label>Club</mat-label>
+                            <input matInput formControlName="clubName">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </form>
                 </div>
-
             </div>
             <div class="row justify-content-right">
                 <div class=" justify-content-right" style="display: inline block; ">
+                    <button mat-raised-button color="" (click)="clearFilter()">Clear Filter</button>
                     <button mat-raised-button color="primary" (click)="exportLeagueSchedule()">Export</button>
-
-                   
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>
 <div>
-    <mat-table [dataSource]="listMatch" class="mat-elevation-z8">
-         <!-- Name Column -->
-         <ng-container matColumnDef="time">
-            <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.matchTime}} </mat-cell>
+    <mat-table [dataSource]="listMatch" matSort class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="time">
+            <mat-header-cell *matHeaderCellDef class="time-header"> Time </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="time-content"
+                (click)="navigateToMatchDetail(element.matchId)">{{element.matchTime}} </mat-cell>
         </ng-container>
         <!-- Name Column -->
-        <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.matchDate}}</mat-cell>
+        <ng-container matColumnDef="matchDate">
+            <mat-header-cell *matHeaderCellDef class="date-header" mat-sort-header> Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="date-content"
+                (click)="navigateToMatchDetail(element.matchId)">{{element.matchDate | date:'dd-MM-yyyy'}}</mat-cell>
         </ng-container>
         <!-- clubA Column -->
-        <ng-container matColumnDef="home">
-            <mat-header-cell *matHeaderCellDef> Home </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.home.name}} </mat-cell>
-        </ng-container>
-        <!-- clubB Column -->
-        <ng-container matColumnDef="away">
-            <mat-header-cell *matHeaderCellDef> Away </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                {{element.away.name}}
+        <ng-container matColumnDef="home.name">
+            <mat-header-cell *matHeaderCellDef class="club-header" mat-sort-header> Home </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="club-cell" (click)="navigateToMatchDetail(element.matchId)">
+                <div class="club-name">
+                    {{element.home.name}}
+                </div>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="vs" style="width: 10px;">
-            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-            <mat-cell *matCellDef="let element">
+        <!-- clubB Column -->
+        <ng-container matColumnDef="away.name">
+            <mat-header-cell *matHeaderCellDef class="club-header" mat-sort-header> Away </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="club-cell" (click)="navigateToMatchDetail(element.matchId)">
+                <div class="club-name">
+                    {{element.away.name}}
+                </div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="vs" style="width: 60px;" class="score-col">
+            <mat-header-cell *matHeaderCellDef class="score-header"> </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="score-cell" (click)="navigateToMatchDetail(element.matchId)">
+                <div mat-card-avatar class="avatar-header-image">
+                    <img mat-card-avatar class="avatar-detail-logo"
+                        [src]="element.home.logo != null ? element.home.logo : defaultLogo" alt="Club's Pic">
+                </div>
                 <div *ngIf="element.isFinish == true">
                     {{element.home.score}} - {{element.away.score}}
                 </div>
@@ -75,22 +81,27 @@
                 <div *ngIf="element.isFinish != true">
                     - vs -
                 </div>
+                <div mat-card-avatar class="avatar-header-image">
+                    <img mat-card-avatar class="avatar-detail-logo"
+                        [src]="element.away.logo != null ? element.away.logo : defaultLogo" alt="Club's Pic">
+                </div>
             </mat-cell>
         </ng-container>
         <!-- Symbol Column -->
-        <ng-container matColumnDef="group">
-            <mat-header-cell *matHeaderCellDef> Round </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.round}} </mat-cell>
+        <ng-container matColumnDef="round">
+            <mat-header-cell *matHeaderCellDef class="round-header" mat-sort-header> Round </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="round-cell" (click)="navigateToMatchDetail(element.matchId)">
+                {{element.round}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="stadium">
-            <mat-header-cell *matHeaderCellDef> Stadium </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.stadium}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef class="stadium-header" mat-sort-header> Stadium </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="stadium-cell" (click)="navigateToMatchDetail(element.matchId)">
+                {{element.stadium}} </mat-cell>
         </ng-container>
-        
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let element; columns: displayedColumns;"
-            class="example-element-row"
-            (click)="navigateToMatchDetail(element.matchId)"></mat-row>
+        <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"></mat-row>
     </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

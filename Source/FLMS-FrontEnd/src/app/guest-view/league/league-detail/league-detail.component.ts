@@ -6,6 +6,7 @@ import { LeagueService } from '../league.service';
 import { PopUpSendRegistrationComponent } from './pop-up-send-registration/pop-up-send-registration.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-league-detail',
@@ -13,14 +14,17 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./league-detail.component.scss']
 })
 export class LeagueDetailComponent implements OnInit {
-  leagueDetail: LeagueDetail= null;
+  leagueDetail: LeagueDetail = null;
   leagueId: number;
+  role: string;
+  defaultLogo: string = './../../../../assets/image/default-logo.png';
 
   constructor(
     private LeagueService: LeagueService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
-  ) { 
+    public dialog: MatDialog,
+    public authen: AuthService,
+  ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
     });
@@ -28,6 +32,7 @@ export class LeagueDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.role = this.authen.getUserRole();
   }
 
   initDataSource() {
@@ -37,10 +42,10 @@ export class LeagueDetailComponent implements OnInit {
   }
 
 
-  openSendRegistation(): void{
+  openSendRegistation(): void {
     const dialogRef = this.dialog.open(PopUpSendRegistrationComponent, {
       width: '100%',
-      data: { leagueId: this.leagueId}
+      data: { leagueId: this.leagueId }
     });
 
     dialogRef.afterClosed().subscribe(result => {

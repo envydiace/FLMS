@@ -54,9 +54,9 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.Email).HasMaxLength(200);
 
-                entity.Property(e => e.PhoneNumber).HasMaxLength(15);
+                entity.Property(e => e.FanPage).HasColumnType("text");
 
-                entity.Property(e => e.SocialCont).HasMaxLength(255);
+                entity.Property(e => e.PhoneNumber).HasMaxLength(15);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Clubs)
@@ -96,7 +96,7 @@ namespace FLMS_BackEnd.Models
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Fanpage).HasMaxLength(255);
+                entity.Property(e => e.Fanpage).HasColumnType("text");
 
                 entity.Property(e => e.LeagueName).HasMaxLength(100);
 
@@ -105,6 +105,8 @@ namespace FLMS_BackEnd.Models
                 entity.Property(e => e.Location).HasMaxLength(255);
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Leagues)
@@ -296,7 +298,7 @@ namespace FLMS_BackEnd.Models
             modelBuilder.Entity<RefreshToken>(entity =>
             {
                 entity.HasKey(e => e.TokenId)
-                    .HasName("PK__RefreshT__658FEEEA7CEE0709");
+                    .HasName("PK__RefreshT__658FEEEA92400388");
 
                 entity.ToTable("RefreshToken");
 
@@ -357,7 +359,7 @@ namespace FLMS_BackEnd.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.FullName)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Password)
@@ -372,7 +374,13 @@ namespace FLMS_BackEnd.Models
                     .HasMaxLength(15)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ResetToken)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Role).HasMaxLength(255);
+
+                entity.Property(e => e.TokenExpire).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);

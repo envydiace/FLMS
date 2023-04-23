@@ -15,6 +15,8 @@ export class PopUpUpdateFeeComponent implements OnInit {
   feeName: string;
   feeCost: number;
 
+  isErrorEn = false;
+  isErrorC = false;
   constructor(
     public dialogRef: MatDialogRef<PopUpUpdateFeeComponent>,
     private changeDetectorRefs: ChangeDetectorRef,
@@ -42,15 +44,30 @@ export class PopUpUpdateFeeComponent implements OnInit {
   }
 
   addFeeIntoList() {
-    const feeTemp: leaguePrize = {
-      expenseKey: 'Ff',
-      expenseName: this.feeName,
-      cost: this.feeCost
-    }
+    if (this.feeName == null || this.feeName == '' || this.feeCost == null) {
+      if (this.feeName == null || this.feeName == '') {
+        this.isErrorEn = true;
+      } else {
+        if (this.feeName.trim() == '') {
+          this.isErrorEn = true;
+        } else {
+          this.isErrorEn = false;
+        }
+      }
+      if (this.feeCost == null) { this.isErrorC = true; } else this.isErrorC = false;
+    } else {
+      this.isErrorEn = false;
+      this.isErrorC = false;
+      const feeTemp: leaguePrize = {
+        expenseKey: 'Ff',
+        expenseName: this.feeName,
+        cost: this.feeCost
+      }
 
-    const newUsersArray = this.listLeagueFee;
-    newUsersArray.push(feeTemp);
-    this.listLeagueFee = [...newUsersArray];
+      const newUsersArray = this.listLeagueFee;
+      newUsersArray.push(feeTemp);
+      this.listLeagueFee = [...newUsersArray];
+    }
     this.getTotal();
   }
 

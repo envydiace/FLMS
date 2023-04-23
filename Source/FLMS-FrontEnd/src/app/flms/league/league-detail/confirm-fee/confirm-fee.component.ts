@@ -27,6 +27,8 @@ export class ConfirmFeeComponent implements OnInit {
   clubName: string;
   leagueName: string;
   logo: string;
+  imgSrc: string = './../../../../../assets/image/default-logo.png';
+  
 
   loading = false;
   submitted = false;
@@ -60,7 +62,8 @@ export class ConfirmFeeComponent implements OnInit {
           this.noParticipate = res.noParticipate,
           this.total = res.total,
           this.clubName = res.clubName,
-          this.leagueName = res.leagueName
+          this.leagueName = res.leagueName,
+          this.logo = res.logo
       })
     ).subscribe(res => {
 
@@ -68,7 +71,21 @@ export class ConfirmFeeComponent implements OnInit {
   }
 
   showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      let file = event.target.files[0];
+      if (file.type == "image/png" || file.type == "image/jpeg" && file.size < 5000000) {
+        console.log('Correct');
+        const reader = new FileReader();
+        reader.onload = (e: any) => this.imgSrc = e.target.result;
+        reader.readAsDataURL(event.target.files[0]);
+        this.selectedImage = event.target.files[0];
+      } else {
+        this.commonService.sendMessage('Invalid Image', 'fail');
+      }
+    } else {
+      this.imgSrc = './../../../../../assets/image/default-logo.png';
+      this.selectedImage = null;
+    }
   }
 
   onSubmit() {
@@ -80,7 +97,7 @@ export class ConfirmFeeComponent implements OnInit {
     // }
 
     this.loading = true;
-    const nameImg = 'league/' + this.leagueName + '/evidence/' + this.clubName + '/' + this.getCurrentDateTime() + this.selectedImage.name;
+    const nameImg = 'league/' + this.data.leagueId + '/evidence/' + this.clubName + '/' + this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
 
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
@@ -94,13 +111,13 @@ export class ConfirmFeeComponent implements OnInit {
 
           this.LeagueService.confirmRegistFee(fee)
             .pipe(first()).subscribe({
-              next: () => {
+              next: response => {
                 this.dialogRef.close();
-                this.commonService.sendMessage('Confirm success!', 'success');
+                this.commonService.sendMessage(response.message, 'success');
               },
               error: error => {
                 this.loading = false;
-                this.commonService.sendMessage('Confirm fail!, please re-check and upload club evidence again.', 'fail');
+                this.commonService.sendMessage(error.error.message, 'fail');
               }
             });
 

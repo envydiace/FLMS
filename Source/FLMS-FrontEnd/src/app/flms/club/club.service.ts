@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AddClub } from '../../models/club-detail.model';
+import { AddClub, GetUpdateClubDetail } from '../../models/club-detail.model';
 import { token } from '../../models/token.model';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ClubList } from './../../models/club-list.model';
 import { Player, PLayerInfo } from 'src/app/models/player.model';
-import { ClubDetailResponse } from './../../models/club-detail-response.model';
+import { ClubDetailResponse, UpdateClubDetailResponse } from './../../models/club-detail-response.model';
 import { ClubListbyUser } from 'src/app/models/club-detail.model';
 import { ClubListPlayerResponse } from './../../models/club-list-player-response.model'
 import { ClubMatchScheduleResponse } from 'src/app/models/match-schedule-response.model';
 import { ClubIncomingMatches } from 'src/app/models/club-incoming-matches.model';
-import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
-import { ClubListPlayer } from 'src/app/models/club-list-player.model';
+import { ClubPlayerInfoResponse, PlayerInfobyClubManaResponse } from 'src/app/models/player-info-response.model';
+import { ClubListPlayer, PlayerbyClubMana } from 'src/app/models/club-list-player.model';
 import { ClubLeagueHistory } from 'src/app/models/club-league-history.model';
 import { ClubMatchHistoryResponse } from './../../models/club-match-history-response.model';
 
@@ -34,7 +34,7 @@ export class ClubService {
     this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
   }
 
-  addClub(club: AddClub) {
+  addClub(club: AddClub):Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/Club/CreateClub`, club, { headers: this.headers });
   }
 
@@ -81,7 +81,7 @@ export class ClubService {
     );
   }
 
-  public addPlayer(player: Player) {
+  public addPlayer(player: Player):Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/Player/CreatePlayer`, player, { headers: this.headers });
   }
 
@@ -131,9 +131,20 @@ export class ClubService {
         catchError(err => throwError(err)))
   }
 
-  editPlayer(player: ClubListPlayer) {
+  getPlayerInfobyClubMana(playerId: number, clubId: number): Observable<PlayerInfobyClubManaResponse> {
+    let params = new HttpParams();
+
+    params = params.append('playerId' , '' + playerId);
+    params = params.append('clubId', '' + clubId);
+    return this.http.get<any>(`${environment.apiUrl}/api/Player/GetPlayerByClubManager`,{params, headers: this.headers} )
+      .pipe(map((res: PlayerInfobyClubManaResponse) => res),
+        catchError(err => throwError(err)))
+  }
+
+  editPlayer(player: PlayerbyClubMana):Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Player/UpdatePlayer`, player, { headers: this.headers });
   }
+  
   removePlayerfromClub(playerId: number, clubId: number): Observable<any> {
     const options = {
       headers: this.headers,
@@ -173,4 +184,16 @@ export class ClubService {
       catchError(err => throwError(err))
     );
   }
+
+  getUpdateClubInfo(clubId: number): Observable<UpdateClubDetailResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClubUpdateInfo/${clubId}`,{ headers: this.headers }).pipe(
+      map((res: UpdateClubDetailResponse) => res),
+      catchError(err => throwError(err))
+    );
+  }
+
+  updateClub(club: GetUpdateClubDetail) {
+    return this.http.put(`${environment.apiUrl}/api/Club/UpdateClubInfo`, club, { headers: this.headers });
+  }
+
 }
