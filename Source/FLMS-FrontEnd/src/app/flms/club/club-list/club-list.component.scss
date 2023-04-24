@@ -4,63 +4,83 @@
     margin: 25px 0;
     margin-top: 50px;
     padding: 6px 15px 0;
-
+  
     .list-id {
-        display: block;
-        padding: 6px 15px;
-        margin-top: 10px;
+      display: block;
+      padding: 6px 15px;
+      margin-top: 10px;
     }
-
+  
     .list-img {
-        margin-top: -35px;
-        position: relative;
+      margin-top: -35px;
+      position: relative;
     }
-
+  
     .list-heading {
-        margin: 10px 0;
+      margin: 10px 0;
     }
-}
-
-.league-list-card {
+  
+    .club-action {
+      width: 190px;
+      border-radius: 0 0 4px 4px;
+    }
+  }
+  
+  .club-list-card {
     max-width: 400px;
-}
-
-.league-header-image {
-    height: 200px;
-    width: 200px;
-}
-
-.league-paginator {
-    text-align: center;
-}
-
-.landing-banner {
+   // background-color: #EEEEEE;
+    padding: 31px 0px 12px 0px;
+    border-radius: 16px;
+    transition: 0.3s;
+  
+    mat-card-title {
+      font-size: 20px;
+    }
+  
+    .club-header-image {
+      height: 180px;
+      width: 180px;
+      margin: 10px 0px;
+      background-color: white;
+    }
+  }
+  
+  .club-list-card:hover {
+    background-color: #9CA5D7;
+    box-shadow: 0px 0px 0px 2px #3F51B5 inset;
+  
+    .club-header-image {
+      box-shadow: 0px 0px 0px 4px #3F51B5;
+    }
+  }
+  
+  .club-paginator {
+    width: 100%;
+  }
+  
+  .landing-banner {
     background-color: #b2b2b2;
     background-image: url(./../../../../assets/image/ClubWP.jpg);
-    // background-blend-mode: multiply;
     background-size: 115%;
     background-position: 31% 100%;
     width: 100%;
     text-align: center;
     overflow: hidden;
     padding: 60px 0;
-    min-height: 300px;
-    // max-height: 500px;
+    min-height: 200px;
     margin-bottom: 10px;
-}
-
-.club-list-form {
+  }
+  
+  .club-list-form {
     min-width: 150px;
-    // max-width: 500px;
-    // width: 100%;
-}
-
-.club-list-full-width {
+  }
+  
+  .club-list-full-width {
     width: 80%;
     padding-top: 8px;
-}
-
-.nav-search {
+  }
+  
+  .nav-search {
     background-color: #fff;
     border-radius: 30px;
-}
+  }
