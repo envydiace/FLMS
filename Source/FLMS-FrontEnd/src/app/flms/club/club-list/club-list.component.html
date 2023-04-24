@@ -1,6 +1,7 @@
 <section class="landing-banner">
-    <div class="container" style="margin-top: 45px;">
-        <div class="col-sm-12 col-xs-12 text-center nav-search" style="display: flex;">
+    <div class="container" >
+        <div class="col-sm-8 col-xs-12 text-center nav-search" style="display: flex; margin: 0 auto;">
+
             <div style="flex: 1;">
                 <mat-form-field class="club-list-full-width">
                     <mat-label>Search by Club's Name</mat-label>
@@ -9,14 +10,14 @@
                     <mat-icon matSuffix>search</mat-icon>
                 </mat-form-field>
             </div>
-            <div style="flex: 1;">
+            <!-- <div style="flex: 1;">
                 <mat-form-field class="club-list-full-width">
                     <mat-label>Search by Manager</mat-label>
                     <input matInput type="text" [(ngModel)]="managerName"
                         (input)="findClubsByName(clubName, managerName)" placeholder="Enter Manager Name">
                     <mat-icon matSuffix>search</mat-icon>
                 </mat-form-field>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
@@ -44,11 +45,11 @@
             <div *ngFor="let club of clubListByUser" class="col-sm-3">
                 <div class="list-container">
                     <a (click)="navigateToClubDetail(club.clubId)" style="cursor: pointer;">
-                        <mat-card class="league-list-card">
+                        <mat-card class="club-list-card">
 
                             <mat-card-title>{{club.clubName}}</mat-card-title>
                             <mat-card-subtitle></mat-card-subtitle>
-                            <img mat-card-avatar class="league-header-image"
+                            <img mat-card-avatar class="club-header-image"
                                 [src]="club.logo != null ? club.logo : defaultLogo" 
                                 alt="club logo">
                             <mat-card-actions>
