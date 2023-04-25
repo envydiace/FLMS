@@ -53,8 +53,8 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       leagueFeeId: this.data.leagueFeeId,
-      expenseName: ['', Validators.required],
-      cost: ['', Validators.required],
+      expenseName: ['', [Validators.required, Validators.maxLength(255)]],
+      cost: ['', [Validators.required, Validators.max(999999999)]],
       feeType: ['',],
       feeKey: ['',]
     })
@@ -119,10 +119,5 @@ export class PopUpLeagueFeeDetailComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  getErrorexpenseName() {
-    return this.form.get('expenseName').hasError('required') ? 'Field Name is required' : '';
-  }
-  getErrorCost() {
-    return this.form.get('cost').hasError('required') ? 'Field cost is required' : '';
-  }
+
 }

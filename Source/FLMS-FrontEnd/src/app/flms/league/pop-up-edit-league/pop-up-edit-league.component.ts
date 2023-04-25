@@ -71,7 +71,7 @@ export class PopUpEditLeagueComponent implements OnInit {
       leagueName: [null, [Validators.required, this.noWhitespaceValidator]],
       logo: [null,],
       fanpage: [null,],
-      location: [null, [this.noWhitespaceValidator]],
+      location: [null, [this.noWhitespaceValidator, Validators.maxLength(255)]],
       status: [null, ]
 
     });

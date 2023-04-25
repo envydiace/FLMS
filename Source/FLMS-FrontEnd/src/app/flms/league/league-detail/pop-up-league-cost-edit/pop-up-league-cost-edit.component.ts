@@ -52,8 +52,8 @@ export class PopUpLeagueCostEditComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       leagueFeeId: this.data.leagueFeeId,
-      expenseName: ['', Validators.required],
-      cost: ['',Validators.required],
+      expenseName: ['', [Validators.required, Validators.maxLength(255)]],
+      cost: ['',[Validators.required, Validators.max(999999999)]],
       feeType: ['',],
       feeKey: ['',]
     })
