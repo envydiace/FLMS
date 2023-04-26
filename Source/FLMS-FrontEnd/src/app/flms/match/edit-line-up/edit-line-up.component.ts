@@ -30,6 +30,7 @@ export class EditLineUpComponent implements OnInit {
   temp: any;
   panelMainSquadState: boolean = true;
   panelSubstituteState: boolean = false;
+  panelTeamMembersState: boolean = true;
 
   constructor(
     private MatchService: MatchService,

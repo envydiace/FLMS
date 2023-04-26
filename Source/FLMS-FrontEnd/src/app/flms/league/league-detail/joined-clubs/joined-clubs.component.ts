@@ -5,7 +5,7 @@ import { ClubDetailResponse } from '../../../../models/club-detail-response.mode
 import { LeagueService } from '../../league.service';
 import { ClubListByLeagueResponse } from '../../../../models/club-list-by-league-response.model';
 import { ClubListByLeague } from '../../../../models/club-list-by-league.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmFeeComponent } from '../confirm-fee/confirm-fee.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MailDataResponse } from 'src/app/models/mail-data-response.model';
@@ -34,6 +34,7 @@ export class JoinedClubsComponent implements OnInit {
     private route: ActivatedRoute,
     private leagueService: LeagueService,
     public dialog: MatDialog,
+    private router: Router,
     public commonService: CommonService
   ) {
     this.route.queryParams.subscribe(params => {
@@ -67,6 +68,9 @@ export class JoinedClubsComponent implements OnInit {
       this.initDataSource();
       console.log('The dialog was closed');
     });
+  }
+  navigateToClubInfo(clubId: number) {
+    this.router.navigate(['club-info'], { queryParams: {  clubId: clubId } });
   }
 
   // RemoveJoinedClub(clubId: number) {

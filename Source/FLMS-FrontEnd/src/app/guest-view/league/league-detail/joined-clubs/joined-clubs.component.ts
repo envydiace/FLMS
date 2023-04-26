@@ -5,7 +5,7 @@ import { ClubDetailResponse } from 'src/app/models/club-detail-response.model';
 import { LeagueService } from '../../league.service';
 import { ClubListByLeagueResponse } from 'src/app/models/club-list-by-league-response.model';
 import { ClubListByLeague } from 'src/app/models/club-list-by-league.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -23,7 +23,9 @@ export class JoinedClubsComponent implements OnInit {
   
   constructor(
     private route: ActivatedRoute,
-    private leagueService: LeagueService
+    private leagueService: LeagueService,
+    private router: Router,
+
   ) {
     this.route.queryParams.subscribe(params => {
       this.leagueId = params['leagueId'];
@@ -32,6 +34,10 @@ export class JoinedClubsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+  }
+
+  navigateToClubInfo(clubId: number) {
+    this.router.navigate(['/club-info'], { queryParams: {  clubId: clubId } });
   }
 
   initDataSource() {
