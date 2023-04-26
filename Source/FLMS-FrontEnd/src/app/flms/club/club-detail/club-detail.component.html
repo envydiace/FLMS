@@ -2,7 +2,7 @@
     <p>
         <mat-toolbar class="card">
             <span>Club</span>
-            <div class="club-delete-button" style="margin-right: 10px;">
+            <div class="club-delete-button" style="margin-right: 10px;" *ngIf="userRole == 'CLUB_MANAGER'">
                 <button mat-raised-button style="width: 120px;" color="warn"
                     (click)="openDeleteClubPopup(clubdetail.clubId)">Delete</button>
 
@@ -21,7 +21,7 @@
                 </mat-menu> -->
 
             </div>
-            <div>
+            <div *ngIf="userRole == 'CLUB_MANAGER'">
                 <button mat-raised-button style="width: 120px;" color="primary"
                     (click)="openEditClub(clubId)">Edit</button>
             </div>

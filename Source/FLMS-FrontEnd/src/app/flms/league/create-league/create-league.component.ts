@@ -94,14 +94,14 @@ export class CreateLeagueComponent implements OnInit {
 
   createForm() {
     this.createLeagueForm = this.formBuilder.group({
-      'leagueName': [null, [Validators.required]],
+      'leagueName': [null, [Validators.required, Validators.maxLength(100) ]],
       'noParticipate': [null, [Validators.required, Validators.min(2), Validators.max(20)]],
       'startDate': [null, [Validators.required]],
       'endDate': [null, [Validators.required]],
       'maxNoPlayer': [null, [Validators.required, Validators.min(7), Validators.max(30)]],
       'noPlayerSquad': [null, [Validators.required, Validators.min(5), Validators.max(11)]],
-      'location': [null, []],
-      'fanpage': [null, []],
+      'location': [null, [Validators.maxLength(255)]],
+      'fanpage': [null, [Validators.maxLength(255)]],
       'leagueType': [null, [Validators.required]],
       'noRound': [null],
       'description': [null, []],

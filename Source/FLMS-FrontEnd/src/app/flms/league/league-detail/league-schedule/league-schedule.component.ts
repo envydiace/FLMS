@@ -136,6 +136,7 @@ export class LeagueScheduleComponent implements OnInit {
       data: { matchId: matchId }
     });
     dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
       console.log('The dialog was closed');
     });
   }

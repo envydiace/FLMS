@@ -11,7 +11,7 @@
                             <input matInput formControlName="expenseName">
                             <mat-error
                                 *ngIf="!form.controls['expenseName'].valid && form.controls['expenseName'].touched">
-                                {{ getErrorexpenseName() }}
+                                Field Name is required and must not have more than 255 characters
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -26,7 +26,7 @@
                                 <span matSuffix> &nbsp; VND</span>
 
                                 <mat-error *ngIf="!form.controls['cost'].valid && form.controls['cost'].touched">
-                                    {{ getErrorCost() }}
+                                    Field cost is required and cost must not more than 999999999
                                 </mat-error>
                             </mat-form-field>
                         </div>
