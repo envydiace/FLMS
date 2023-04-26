@@ -100,7 +100,7 @@ export class MatchService {
 
   }
 
-  addListEvent(events: AddMatchEvent[]) {
+  addListEvent(events: AddMatchEvent[]): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/Event/AddMultipleMatchEvent`, events, { headers: this.headers });
   }
 

@@ -71,12 +71,11 @@ export class MatchEventComponent implements OnInit {
     this.matchService.addListEvent(addmatchEvent)
       .pipe(first())
       .subscribe({
-        next: () => {
-          
-          this.initDataSource();
-
+        next: response => {
+          this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
+          this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
   }

@@ -50,14 +50,14 @@ export class PopUpAddPlayerComponent implements OnInit {
     this.addPlayerFormGroup = this.formBuilder.group({
       'playerName': [null, [Validators.required, this.noWhitespaceValidator]],
       'number': [null, [Validators.required, Validators.max(999), Validators.min(0)]],
-      'playerHeight': [null, [ Validators.pattern('^[0-9]+[m][0-9]+$')]],
+      'playerHeight': [null, [Validators.pattern('^[0-9]+[m][0-9]+$')]],
       'address': [null,],
-      'email': [null, [ Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      'email': [null, [Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'nickname': [null, [Validators.required, Validators.minLength(3)]],
       'dob': [null, [Validators.required]],
-      'weight': [null, [ Validators.pattern('^[0-9,]+[k][g]$')]],
-      'phoneNumber': [null, [ Validators.pattern('^[0-9]{1,15}$')]],
-      'socialCont': [null, [ Validators.pattern('^[0-9]{1,15}$')]],
+      'weight': [null, [Validators.pattern('^[0-9,]+[k][g]$')]],
+      'phoneNumber': [null, [Validators.pattern('^[0-9]{1,15}$')]],
+      'socialCont': [null, [Validators.pattern('^[0-9]{1,15}$')]],
       'clubName': [null,],
       'avatar': [null,]
     });
@@ -175,6 +175,8 @@ export class PopUpAddPlayerComponent implements OnInit {
                 this.bindPLayerFromNickName(res);
                 this.disableFormAfterGetFromNickName();
                 this.commonService.sendMessage(res.playerInfo.name, 'success');
+              } else {
+                this.enableFormAfterGetFromNickName();
               }
             },
             error: error => {
@@ -223,6 +225,21 @@ export class PopUpAddPlayerComponent implements OnInit {
     this.getControl('phoneNumber').enable();
     this.getControl('email').enable();
     this.getControl('socialCont').enable();
+
+    this.addPlayerFormGroup.patchValue({
+      playerName: null,
+      number: null,
+      playerHeight: null,
+      address: null,
+      email: null,
+      dob: null,
+      weight: null,
+      phoneNumber: null,
+      socialCont: null,
+      clubName: null,
+      avatar: null
+    });
+    this.imgSrc = './../../../../assets/image/default-avatar-profile-icon.webp';
   }
 
   public noWhitespaceValidator(control: FormControl) {
