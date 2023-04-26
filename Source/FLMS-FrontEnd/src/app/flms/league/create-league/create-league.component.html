@@ -16,6 +16,9 @@
                             <mat-form-field appearance="" class="create-league-input">
                                 <mat-label>Enter League Name</mat-label>
                                 <input matInput formControlName="leagueName">
+                                <mat-error *ngIf="!createLeagueForm.controls['leagueName'].valid">
+                                    'leagueName' max length is 100 character
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -26,6 +29,9 @@
                             <mat-form-field appearance="" class="create-league-input">
                                 <mat-label>Enter Location</mat-label>
                                 <input matInput formControlName="location">
+                                <mat-error *ngIf="!createLeagueForm.controls['location'].valid">
+                                    'location' max length is 255 character
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -76,7 +82,7 @@
                                 <mat-form-field appearance="">
                                     <mat-label>Ex. 30</mat-label>
                                     <input matInput type="number" formControlName="maxNoPlayer">
-                                    <mat-error *ngIf="!createLeagueForm.controls['noParticipate'].valid">
+                                    <mat-error *ngIf="!createLeagueForm.controls['noParticipate'].valid ">
                                         Must be between 7 and 30 players.
                                     </mat-error>
                                 </mat-form-field>
@@ -111,6 +117,9 @@
                                 <mat-form-field appearance="" class="create-league-input">
                                     <mat-label>Enter Fanpage</mat-label>
                                     <input matInput formControlName="fanpage">
+                                    <mat-error *ngIf="!createLeagueForm.controls['fanpage'].valid">
+                                        'fanpage' max length is 255 character
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -160,17 +169,17 @@
                         <div class="fee-header">
                             <img src="../../../../assets/image/Blue_circle_frame.png">
                             <div class="fee-title"><span>{{fee.expenseName}}</span></div>
-                            <span>{{fee.cost}} VND</span>
+                            <span>{{fee.cost| currency:'VND':''}} đ</span>
                         </div>
                     </div>
 
                     <div class="fee-total-header">
                         <div class="prize-title"><span>Total Fee</span></div>
-                        <span>{{feeCostTotal}} VND</span>
+                        <span>{{feeCostTotal| currency:'VND':''}} đ</span>
                     </div>
                     <div class="fee-total-header">
                         <div class="prize-title"><span>Registration Fee</span></div>
-                        <span>{{registrationFee}} VND</span>
+                        <span>{{registrationFee| currency:'VND':''}} đ</span>
                     </div>
                 </div>
             </div>
@@ -196,17 +205,17 @@
                         <div class="prize-info-content">
                             <img src="../../../../assets/image/gold-medal.png">
                             <div class="prize-title"><span>Gold Prize</span></div>
-                            <span>{{listPrize[0].cost}} VND</span>
+                            <span>{{listPrize[0].cost| currency:'VND':''}} đ</span>
                         </div>
                         <div class="prize-info-content">
                             <img src="../../../../assets/image/silver-medal.png">
                             <div class="prize-title"><span>Silver Prize</span></div>
-                            <span>{{listPrize[1].cost}} VND</span>
+                            <span>{{listPrize[1].cost| currency:'VND':''}} đ</span>
                         </div>
                         <div class="prize-info-content">
                             <img src="../../../../assets/image/silver-medal.png">
                             <div class="prize-title"><span>Bronze Prize</span></div>
-                            <span>{{listPrize[2].cost}} VND</span>
+                            <span>{{listPrize[2].cost| currency:'VND':''}} đ</span>
                         </div>
 
                         <div class="card-header">Personal Prize</div>
@@ -214,12 +223,12 @@
                             <div *ngIf="i > 2" class="prize-info-content">
                                 <img src="../../../../assets/image/Blue_circle_frame.png">
                                 <div class="prize-title"><span>{{listPrize[i].expenseName}}</span></div>
-                                <span>{{listPrize[i].cost}} VND</span>
+                                <span>{{listPrize[i].cost| currency:'VND':''}} đ</span>
                             </div>
                         </div>
                         <div class="card-header">
                             <div class="prize-title"><span>Total Prize</span></div>
-                            <span>{{prizeCostTotal}} VND</span>
+                            <span>{{prizeCostTotal| currency:'VND':''}} đ</span>
                         </div>
                         <div>
                             <!-- Registration Fee: 20000000 VND -->

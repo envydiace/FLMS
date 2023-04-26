@@ -35,6 +35,9 @@
                             <mat-form-field appearance="" class="create-league-input">
                                 <mat-label>Enter Location</mat-label>
                                 <input matInput formControlName="location">
+                                <mat-error *ngIf="!form.controls['location'].valid">
+                                    'location' max length is 255 character
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -47,6 +50,9 @@
                                 <mat-form-field appearance="" class="create-league-input">
                                     <mat-label>Enter Fanpage</mat-label>
                                     <input matInput formControlName="fanpage">
+                                    <mat-error *ngIf="!form.controls['fanpage'].valid">
+                                        'fanpage' max length is 255 character
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                         </div>

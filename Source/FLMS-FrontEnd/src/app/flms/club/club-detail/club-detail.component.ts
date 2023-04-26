@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PopUpDeleteClubComponent } from '../pop-up-delete-club/pop-up-delete-club.component';
 import { PopUpEditClubComponent } from '../pop-up-edit-club/pop-up-edit-club.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-club-detail',
@@ -18,11 +19,14 @@ export class ClubDetailComponent implements OnInit {
   clubId: number;
   clubdetail: ClubDetail = null;
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
+  userRole: any;
 
   constructor(
     private clubService: ClubService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public authen: AuthService,
+
   ) {
     this.route.queryParams.subscribe(params => {
       this.clubId = params['clubId'];
@@ -31,6 +35,8 @@ export class ClubDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initDataSource();
+    this.userRole = this.authen.getUserRole();
+
   }
   tabLoadTimes: Date[] = [];
 
