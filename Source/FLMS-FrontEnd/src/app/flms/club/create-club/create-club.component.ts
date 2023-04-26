@@ -71,7 +71,7 @@ export class CreateClubComponent implements OnInit {
 
   bindDataIntoClub() {
     this.clubInfo = {
-      clubName: this.getControl('clubName').value.trim(),
+      clubName: this.getControl('clubName').value,
       email: this.getControl('email').value,
       phoneNumber: this.getControl('phoneNumber').value,
       fanPage: this.getControl('fanPage').value,

@@ -55,6 +55,8 @@ import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Title } from '@angular/platform-browser';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -103,6 +105,8 @@ import { Title } from '@angular/platform-browser';
     MatFormFieldModule,
     MatTableModule,
     MatSnackBarModule,
+    DragDropModule,
+    MatExpansionModule,
     MatChipsModule,
     MatCardModule,
     CdkTableModule,

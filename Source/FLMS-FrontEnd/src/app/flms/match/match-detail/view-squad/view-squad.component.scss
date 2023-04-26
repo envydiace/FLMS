@@ -14,8 +14,9 @@
     }
 
     .card-header {
-        padding: 1rem 1.35rem;
+        padding: 10px 1.35rem;
         margin-bottom: 0;
+        font-size: 17px;
         background-color: rgba(33, 40, 50, 0.03);
         border-bottom: 1px solid rgba(33, 40, 50, 0.125);
     }
@@ -23,26 +24,23 @@
     .card-body {
 
         .line-up-field {
-            width: 100%;
-            height: 470px;
-            margin: 0;
+            max-width: 710px;
+            min-width: 710px;
+            max-height: 700px;
+            min-height: 700px;
+            margin: 0 auto;
             background-image: url('../../../../../assets/image/Field.png');
             background-color: #cccccc;
             background-position: center;
             background-repeat: no-repeat;
             background-size: 100%;
             position: relative;
-
-            .positon-st {
-                margin-top: 58px;
-            }
-
-            mat-card-subtitle {
-                font-weight: bold;
-            }
         }
     }
 
+    ::ng-deep mat-expansion-panel-header>.mat-expansion-indicator:after {
+        color: black;
+    }
 }
 
 .player-list {
@@ -63,35 +61,89 @@
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
+    cursor: move;
     background: white;
     font-size: 14px;
     width: 100%;
 }
 
+.player-box:hover {
+    .player-header-image, mat-card-subtitle {
+        box-shadow: 0px 0px 0px 4px #6173d4;
+    }
+
+    .avatar-header-image {
+        box-shadow: 0px 0px 0px 4px #6173d4;
+    }
+}
+
 .player-position {
     display: block;
     padding: 0;
-    margin: 0 auto;
+    // margin: 0 auto;
     border: none;
     text-align: center;
+    cursor: move;
     background: none;
     font-size: 14px;
     width: 150px;
     box-shadow: none;
+    position: absolute;
+
+    mat-card-subtitle {
+        line-height: 35px;
+        margin-bottom: 0;
+        color: #FFFFFF;
+        background-color: #0000009e;
+        border-radius: 10px;
+    }
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.player-box:last-child {
+    border: none;
+}
+
+.player-list.cdk-drop-list-dragging .player-box:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.player-list.cdk-drop-list-dragging .player-positon:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .avatar-header-image {
-    height: 35px;
-    width: 35px;
+    background-size: cover;
+    height: 50px;
+    width: 50px;
     margin: 2px 0px 0px 2px;
-    background-color: white;
+    background-color: #EEEEEE;
+    border: 2px solid #c5c5c5;
+    transition: 0.3s;
 }
 
 .player-header-image {
-    height: 40px;
-    width: 40px;
+    height: 70px;
+    width: 70px;
+    background-color: #FFFFFF;
+    border: 3px solid #EEEEEE;
     margin: 0 auto;
-    background-color: white;
+    transition: 0.3s;
 }
 
 .position-title {
