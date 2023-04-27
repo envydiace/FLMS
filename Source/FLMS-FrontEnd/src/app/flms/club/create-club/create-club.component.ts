@@ -2,12 +2,16 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClubService } from '../club.service';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { finalize } from "rxjs/operators";
 import { AngularFireStorage } from '@angular/fire/storage';
 import { CommonService } from 'src/app/common/common/common.service';
 import { AddClub } from 'src/app/models/club-detail.model';
+import { token } from 'src/app/models/token.model';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserProfile } from 'src/app/models/user-profile.model';
+import { UserProfileResponse } from 'src/app/models/user-profile-response.model';
 
 interface Role {
   value: string;
@@ -26,12 +30,14 @@ export class CreateClubComponent implements OnInit {
   roles: string[] = ['Club Manager', 'League Manager']
   imgSrc: string = './../../../../assets/image/clubDefaultLogo.png';
   selectedImage: any = null;
-
+  token: token;
   clubInfo: AddClub;
+  user: UserProfile;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private router: Router,
     private clubService: ClubService,
     public commonService: CommonService,
@@ -44,19 +50,28 @@ export class CreateClubComponent implements OnInit {
       fanPage: new FormControl(),
       logo: new FormControl(),
       kit: new FormControl()
-    })
+    });
+
+    this.token = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
     this.createFrom();
-
+    if (this.token != null) {
+      this.getCurrentUser();
+    }
   }
 
+  getCurrentUser() {
+    this.authService.getCurrentUser().pipe(
+      map((res: UserProfileResponse) => this.user = res.userProfile)
+    ).subscribe();
+  }
   createFrom() {
     this.form = this.formBuilder.group({
       'clubName': [null, [Validators.required, Validators.nullValidator, Validators.pattern('^(\s+\S+\s*)*(?!\s).*$'), this.noWhitespaceValidator]],
-      'email': [null, [ Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      'phoneNumber': [null, [ Validators.pattern('^[0-9]{1,15}$')]],
+      'email': [null, [Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      'phoneNumber': [null, [Validators.pattern('^[0-9]{1,15}$')]],
       'fanPage': [null,],
       // 'email': [null, Validators.required,],
       // 'phoneNumber': [null, Validators.required],
@@ -115,12 +130,12 @@ export class CreateClubComponent implements OnInit {
 
     this.loading = true;
     if (this.selectedImage != null) {
-    // upload image to firebase
-    const nameImg = 'club/' + this.clubInfo.clubName +
-      '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
-    const fileRef = this.storage.ref(nameImg)
+      // upload image to firebase
+      const nameImg = 'club/' + this.clubInfo.clubName +
+        '/logo/' + this.getCurrentDateTime() + this.selectedImage.name;
+      const fileRef = this.storage.ref(nameImg)
 
-  
+
       this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
@@ -143,7 +158,7 @@ export class CreateClubComponent implements OnInit {
         })
       ).subscribe();
     } else {
-  
+
 
       this.clubService.addClub(this.clubInfo)
         .pipe(first()).subscribe({
