@@ -555,7 +555,11 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<LeagueUpdateInfoResponse> UpdateLeagueInfo(LeagueUpdateInfoRequest request, int UserId)
         {
-            var league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId)
+                    .Include(l => l.Participations)
+                    .Include(l => l.ParticipateNodes).ThenInclude(pn => pn.ClubClone)
+                    .Include(l => l.Matches)
+                    .FirstOrDefaultAsync();
             if (league == null)
             {
                 return new LeagueUpdateInfoResponse
@@ -585,6 +589,83 @@ namespace FLMS_BackEnd.Services.Impl
             league.Location = request.Location;
             if (MethodUtils.CheckLeagueStatus(request.Status))
             {
+                var status = MethodUtils.GetLeagueStatusByName(request.Status);
+                var leagueStatus = MethodUtils.GetLeagueStatusByName(league.Status);
+                switch (leagueStatus)
+                {
+                    case Constants.LeagueStatus.New:
+                        switch (status)
+                        {
+                            case Constants.LeagueStatus.OnGoing:
+                                if (league.Participations.Where(p => p.Confirmed).Count() < league.NoParticipate)
+                                {
+                                    return new LeagueUpdateInfoResponse
+                                    {
+                                        Success = false,
+                                        MessageCode = "ER-LE-12"
+                                    };
+                                }
+                                if (league.LeagueType.Equals(Constants.LeagueType.KO.ToString()) && league.ParticipateNodes.Any(pn => pn.LeftId == 0 && pn.ClubClone != null && pn.ClubClone.ClubId == null))
+                                {
+                                    return new LeagueUpdateInfoResponse
+                                    {
+                                        Success = false,
+                                        MessageCode = "ER-LE-14"
+                                    };
+                                }
+                                break;
+                            case Constants.LeagueStatus.Finished:
+                                return new LeagueUpdateInfoResponse
+                                {
+                                    Success = false,
+                                    MessageCode = "ER-LE-13"
+                                };
+                            default:
+                                break;
+                        }
+                        break;
+                    case Constants.LeagueStatus.OnGoing:
+                        switch (status)
+                        {
+                            case Constants.LeagueStatus.New:
+                                if (league.Matches.Any(m => m.IsFinish))
+                                {
+                                    return new LeagueUpdateInfoResponse
+                                    {
+                                        Success = false,
+                                        MessageCode = "ER-LE-15"
+                                    };
+                                }
+                                break;
+                            case Constants.LeagueStatus.Finished:
+                                if (league.Matches.Any(m => !m.IsFinish))
+                                {
+                                    return new LeagueUpdateInfoResponse
+                                    {
+                                        Success = false,
+                                        MessageCode = "ER-LE-16"
+                                    };
+                                }
+                                ///TODO: calculate rank
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case Constants.LeagueStatus.Finished:
+                        switch (status)
+                        {
+                            case Constants.LeagueStatus.New:
+                                break;
+                            case Constants.LeagueStatus.OnGoing:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
                 league.Status = request.Status;
             }
             var result = await leagueRepository.UpdateAsync(league);

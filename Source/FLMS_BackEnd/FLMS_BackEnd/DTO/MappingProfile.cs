@@ -51,7 +51,10 @@ namespace FLMS_BackEnd.DTO
                                 p.ClubId == clubClone.ClubId &&
                                 p.LeagueId == clubClone.LeagueId)
                         .Select(p => p.JoinDate)
-                            .FirstOrDefault()));
+                            .FirstOrDefault()))
+                .ForMember(history => history.Rank,
+                map => map.MapFrom(
+                    clubClone => clubClone != null && clubClone.Rank != null ? clubClone.Rank : "Not Yet"));
 
             CreateMap<Club, ClubBasicInfoDTO>();
 
