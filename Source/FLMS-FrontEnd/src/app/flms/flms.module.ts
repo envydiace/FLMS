@@ -80,6 +80,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { PopUpRemoveJoinedClubComponent } from './league/league-detail/pop-up-remove-joined-club/pop-up-remove-joined-club.component';
 import { PopUpReuestConfirmationComponent } from './request-list/pop-up-reuest-confirmation/pop-up-reuest-confirmation.component';
 import { PopUpConfirmEditLeagueComponent } from './league/league-detail/pop-up-confirm-edit-league/pop-up-confirm-edit-league.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { PopUpChooseLosingTeamComponent } from './league/pop-up-choose-losing-team/pop-up-choose-losing-team.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -134,7 +137,8 @@ import { PopUpConfirmEditLeagueComponent } from './league/league-detail/pop-up-c
     PopUpEditLeagueComponent,
     PopUpRemoveJoinedClubComponent,
     PopUpReuestConfirmationComponent,
-    PopUpConfirmEditLeagueComponent
+    PopUpConfirmEditLeagueComponent,
+    PopUpChooseLosingTeamComponent
   ],
   imports: [
     CommonModule,
@@ -143,10 +147,12 @@ import { PopUpConfirmEditLeagueComponent } from './league/league-detail/pop-up-c
     MatGridListModule,
     MatFormFieldModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     MatToolbarModule,
     MatProgressBarModule,
     MatMenuModule,
     MatSortModule,
+    MatRadioModule,
     MatTableModule,
     MatSelectModule,
     MatPaginatorModule,

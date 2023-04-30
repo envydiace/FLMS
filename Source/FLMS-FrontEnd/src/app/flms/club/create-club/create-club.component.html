@@ -47,7 +47,7 @@
                             <div>
                                 <mat-form-field appearance="">
                                     <mat-label>Ex. club@gmail.com</mat-label>
-                                    <input matInput type="number" formControlName="email">
+                                    <input matInput  formControlName="email">
                                     <mat-error *ngIf="!form.controls['email'].valid && form.controls['email'].touched">
                                         {{ getErrorEmail() }}
                                     </mat-error>

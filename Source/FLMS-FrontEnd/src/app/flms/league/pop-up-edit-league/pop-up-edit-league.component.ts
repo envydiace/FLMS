@@ -72,13 +72,9 @@ export class PopUpEditLeagueComponent implements OnInit {
       logo: [null,],
       fanpage: [null,],
       location: [null, [this.noWhitespaceValidator, Validators.maxLength(255)]],
-      status: [null, ]
+      status: [null,]
 
     });
-
-    this.conStatus ;
-
-
   }
 
   get f() { return this.form.controls; }
@@ -144,25 +140,26 @@ export class PopUpEditLeagueComponent implements OnInit {
     }
   }
 
-  openConfirmEditLeague( conStatus: boolean): void {
+  openConfirmEditLeague(): void {
     const dialogRef = this.dialog.open(PopUpConfirmEditLeagueComponent, {
       width: '60%',
-      data: { conStatus: conStatus },
+      data: {  },
       disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(conStatus = false){
-        console.log('The dialog was closed');
-      }else{
-        this.initDataSource();
+      this.conStatus=result;
+      if(result ==true ){
         this.onSubmit();
-        console.log('The dialog was closed');
+      }else{
+        return;
       }
     });
+
   }
 
 
   public onSubmit() {
+
     this.submitted = true;
     this.bindDataIntoLeague();
 
@@ -170,6 +167,7 @@ export class PopUpEditLeagueComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+
     this.loading = true;
 
 

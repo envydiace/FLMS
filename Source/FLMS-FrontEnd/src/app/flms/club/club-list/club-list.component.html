@@ -1,5 +1,5 @@
 <section class="landing-banner">
-    <div class="container" >
+    <div class="container">
         <div class="col-sm-8 col-xs-12 text-center nav-search" style="display: flex; margin: 0 auto;">
 
             <div style="flex: 1;">
@@ -46,12 +46,13 @@
                 <div class="list-container">
                     <a (click)="navigateToClubDetail(club.clubId)" style="cursor: pointer;">
                         <mat-card class="club-list-card">
-
-                            <mat-card-title>{{club.clubName}}</mat-card-title>
+                            <mat-card-title>
+                                {{ club.clubName.length > 18 ? club.clubName.substring(0,18)+"..." :
+                                club.clubName }}
+                            </mat-card-title>
                             <mat-card-subtitle></mat-card-subtitle>
                             <img mat-card-avatar class="club-header-image"
-                                [src]="club.logo != null ? club.logo : defaultLogo" 
-                                alt="club logo">
+                                [src]="club.logo != null ? club.logo : defaultLogo" alt="club logo">
                             <mat-card-actions>
                             </mat-card-actions>
                         </mat-card>

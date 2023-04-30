@@ -106,10 +106,22 @@
                 <mat-header-cell *matHeaderCellDef class="action-header"> Action </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div *ngIf="element.isFinish != true" style="width: 100%; text-align: center;">
-                        <button mat-raised-button color="warn" style="margin-left: 10px;"
-                            (click)="openDialogConfirmIsFinished(element.matchId)">Finish</button> -
-                        <button mat-raised-button color="primary"
-                            (click)="openEditMatchInfo(element.matchId)">Edit</button>
+                        <button mat-mini-fab style="margin-left: 10px;"
+                            (click)="openDialogConfirmIsFinished(element.matchId)">
+                            <mat-icon>check_circle_outline</mat-icon>
+                            
+                        </button> -
+                        <button mat-mini-fab color="primary"
+                            (click)="openEditMatchInfo(element.matchId)">
+                            <mat-icon>edit</mat-icon>
+                            
+                        </button> - 
+                        <button mat-mini-fab color="warn"
+                        (click)="openChooseTheLosingTeam(element.matchId)"
+                       >
+                        <mat-icon>block</mat-icon>
+                        
+                    </button>
                     </div>
                 </mat-cell>
             </ng-container>

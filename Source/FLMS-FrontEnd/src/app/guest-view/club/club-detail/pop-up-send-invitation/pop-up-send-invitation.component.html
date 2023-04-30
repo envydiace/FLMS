@@ -1,3 +1,9 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
+</div>
 <p>
     <mat-toolbar class="card">
         <span> Your Leagues</span>
@@ -9,7 +15,10 @@
             <div *ngFor="let league of leagueListByUser" class="col-sm-3">
                 <div class="list-container">
                     <mat-card class="league-list-card">
-                        <mat-card-title>{{league.leagueName}}</mat-card-title>
+                        <mat-card-title>
+                            {{ league.leagueName.length > 18 ? league.leagueName.substring(0,18)+"..." :
+                            league.leagueName }}
+                        </mat-card-title>
                         <img mat-card-avatar class="league-header-image"
                             [src]="league.logo != null ? league.logo : defaultLogo"
                              alt="League logo">

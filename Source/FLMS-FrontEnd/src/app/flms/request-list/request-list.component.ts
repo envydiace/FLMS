@@ -25,6 +25,8 @@ export class RequestListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Request>();
   token: token;
   userRole: string = null;
+
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 

@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, first, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -13,6 +13,7 @@ import { GetUpdateClubDetail } from 'src/app/models/club-detail.model';
 import { token } from 'src/app/models/token.model';
 import { ClubService } from '../club.service';
 import { formatDate } from '@angular/common';
+import { PopUpConfirmEditLeagueComponent } from '../../league/league-detail/pop-up-confirm-edit-league/pop-up-confirm-edit-league.component';
 
 @Component({
   selector: 'app-pop-up-edit-club',
@@ -39,6 +40,7 @@ export class PopUpEditClubComponent implements OnInit {
     public authSer: AuthService,
     public common: CommonService,
     public clubService: ClubService,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<PopUpEditClubComponent>,
     @Inject(AngularFireStorage) private storage: AngularFireStorage,
     @Inject(MAT_DIALOG_DATA)
@@ -123,6 +125,20 @@ export class PopUpEditClubComponent implements OnInit {
       this.selectedImage = null;
     }
   }
+  
+
+  // openConfirmEdit(): void {
+  //   const dialogRef = this.dialog.open(PopUpConfirmEditLeagueComponent, {
+  //     width: '1000px',
+  //     data: {  },
+  //     disableClose: true
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+      
+  //     console.log('The dialog was closed');
+  //   });
+  // }
 
   public onSubmit() {
     this.submitted = true;
