@@ -1,29 +1,40 @@
-<div class="card">
-    <h4 class="card-header">Login</h4>
-    <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="username">E-mail</label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+<section class="login">
+    <div class="login_box">
+        <mat-tab-group mat-align-tabs="center" style="width: 100%;">
+            <mat-tab label="Login">
+                <div class="left">
+                    <div class="contact">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div style="width: 100%; text-align: center;">
+                                <img src="./../../../assets/image/Logo.png" alt="">
+                            </div>
+                            
+                            <h3 style="font-size: 25px; font-weight: 500;">SIGN IN</h3>
+                            <mat-form-field class="login-full-width" appearance="fill">
+                                <mat-label>E-mail</mat-label>
+                                <input matInput type="text" formControlName="username">
+                                <mat-error *ngIf="!form.controls['username'].valid">
+                                    Username is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="login-full-width" appearance="fill">
+                                <mat-label>Password</mat-label>
+                                <input matInput type="password" formControlName="password">
+                                <mat-error *ngIf="!form.controls['password'].valid">
+                                    Password is required
+                                </mat-error>
+                            </mat-form-field>
+                            <a routerLink="../forgot-pass-change" class="btn btn-link"
+                                style="margin: auto; display: block;">Forgot your password?</a>
+                            <button mat-raised-button color="primary" class="submit" type="submit">Login</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                </div>
-            </div>
-            <a routerLink="../forgot-pass-change" class="btn btn-link">Forgot your password?</a>
-            <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Login
-                </button>
-                <a routerLink="../register" class="btn btn-link">Register</a>
-            </div>
-        </form>
+            </mat-tab>
+            <mat-tab label="Register">
+                <app-register></app-register>
+            </mat-tab>
+        </mat-tab-group>
     </div>
-</div>
+</section>
