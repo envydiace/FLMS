@@ -12,24 +12,24 @@
 </div>
 <div class="container">
     <div class="row">
-
         <div *ngFor="let club of listClubByLeague" class="col-sm-6">
             <div class="player-container">
                 <mat-card class="player-list-card">
-                    <a (click)="navigateToClubInfo(club.clubId)" style="cursor: pointer;">
                     <mat-card-header>
                         <div mat-card-avatar class="profile-image">
-                            <img mat-card-avatar class="profile-image"
-                                [src]="club.logo != null ? club.logo : defaultLogo" alt="club logo">
+                            <a (click)="navigateToClubInfo(club.clubId)" style="cursor: pointer;">
+                                <img mat-card-avatar class="profile-image"
+                                    [src]="club.logo != null ? club.logo : defaultLogo" alt="club logo">
+                            </a>
                         </div>
                         <mat-card-title style="line-height: 85px;">{{club.clubName}}</mat-card-title>
                         <div>
-
                             <div style="text-align: right; 
                                 position:absolute; right:10px; top: 40px; display: inline;">
                                 <div class="button-container">
                                     <div *ngIf="club.confirmed != true">
-                                        <button mat-mini-fab color="primary" style="margin-right: 10px;" (click)="openLeagueClubFee(club.clubId)">
+                                        <button mat-mini-fab color="primary" style="margin-right: 10px;"
+                                            (click)="openLeagueClubFee(club.clubId)">
                                             <mat-icon>check</mat-icon>
                                         </button>
                                         <button mat-mini-fab color="warn"
@@ -40,10 +40,7 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </mat-card-header>
-                </a>
                 </mat-card>
             </div>
         </div>
