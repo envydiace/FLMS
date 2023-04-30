@@ -742,5 +742,44 @@ namespace FLMS_BackEnd.Services.Impl
                     break;
             }
         }
+
+        public async Task<UploadRuleResponse> UploadRule(UploadRuleRequest request, int UserId)
+        {
+            var league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+            if (league == null)
+            {
+                return new UploadRuleResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+            }
+            if (league.UserId != UserId)
+            {
+                return new UploadRuleResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (request.Rules == null || request.Rules.Equals(""))
+            {
+                league.Rules = null;
+            }
+            else
+            {
+                league.Rules = request.Rules;
+            }
+            var result = await leagueRepository.UpdateAsync(league);
+            if (result != null)
+            {
+                return new UploadRuleResponse
+                {
+                    Success = true,
+                    MessageCode = "MS-LE-04"
+                };
+            }
+            return new UploadRuleResponse { Success = false, MessageCode = "ER-LE-12" };
+        }
     }
 }
