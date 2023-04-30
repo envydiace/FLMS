@@ -32,6 +32,8 @@ export class CreateLeagueComponent implements OnInit {
   user: UserProfile;
   token: token;
   registrationFee: number = 0;
+  
+
 
   listPrize: leaguePrize[] = [
     { expenseKey: 'F1', expenseName: 'Gold Medal', cost: 0 },
