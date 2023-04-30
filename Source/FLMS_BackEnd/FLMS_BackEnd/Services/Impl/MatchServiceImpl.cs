@@ -71,7 +71,7 @@ namespace FLMS_BackEnd.Services.Impl
                             }
                         }
                     }
-                    else
+                    if (matchClub.AwayId == node.ParticipateNodeId)
                     {
                         matchClub.HA = "Away";
                         if (match != null && match.Home != null && match.Home.ClubClone != null)

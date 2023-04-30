@@ -10,7 +10,6 @@ import { ForgotPassComponent } from './forgot-pass/forgot-pass/forgot-pass.compo
 import { LeagueListComponent } from './league/league-list/league-list.component';
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
-import { PlayerInfoComponent } from './club/player-info/player-info.component';
 import { ForgotPassChangeComponent } from './forgot-pass/forgot-pass-change/forgot-pass-change.component';
 
 const routes: Routes = [
@@ -64,10 +63,7 @@ const routes: Routes = [
     path : 'match-info',
     component: MatchDetailComponent
   },
-  {  
-    path : 'player-info',
-    component: PlayerInfoComponent
-  },
+
 ];
 
 @NgModule({

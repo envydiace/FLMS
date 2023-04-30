@@ -45,7 +45,6 @@ import { MatchDetailComponent } from './match/match-detail/match-detail.componen
 import { MatchStatisticComponent } from './match/match-detail/match-statistic/match-statistic.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MatchEventComponent } from './match/match-detail/match-event/match-event.component';
-import { PlayerInfoComponent } from './club/player-info/player-info.component';
 import { ViewSquadComponent } from './match/match-detail/view-squad/view-squad.component';
 import { ForgotPassChangeComponent } from './forgot-pass/forgot-pass-change/forgot-pass-change.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass/forgot-pass.component';
@@ -55,6 +54,9 @@ import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Title } from '@angular/platform-browser';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { PopUpViewPlayerInfoComponent } from './club/club-detail/pop-up-view-player-info/pop-up-view-player-info.component';
 
 @NgModule({
   declarations: [
@@ -83,12 +85,12 @@ import { Title } from '@angular/platform-browser';
     MatchStatisticComponent,
     NotFoundComponent,
     MatchEventComponent,
-    PlayerInfoComponent,
     ViewSquadComponent,
     ForgotPassChangeComponent,
     ForgotPassComponent,
     FooterComponent,
-    TournamentTreeGvComponent
+    TournamentTreeGvComponent,
+    PopUpViewPlayerInfoComponent
   ],
   imports: [
     CommonModule,
@@ -103,6 +105,8 @@ import { Title } from '@angular/platform-browser';
     MatFormFieldModule,
     MatTableModule,
     MatSnackBarModule,
+    DragDropModule,
+    MatExpansionModule,
     MatChipsModule,
     MatCardModule,
     CdkTableModule,

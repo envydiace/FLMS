@@ -1,10 +1,10 @@
 
-<div class="card">
-    <h4 class="card-header">Register</h4>
+<div class="">
     <div class="container">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
 
-            <mat-form-field class="form-element">
+            <mat-form-field class="form-element" appearance="fill">
+                <mat-label>E-mail</mat-label>
                 <input matInput type="email" placeholder="Email" formControlName="email" required>
                 <mat-error *ngIf="!form.controls['email'].valid || form.controls['email'].touched">
                     Required field, must be in email format
@@ -14,37 +14,42 @@
             </mat-error> -->
             </mat-form-field>
 
-            <mat-form-field class="form-element">
+            <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Password</mat-label>
                 <input matInput [type]="hide ? 'password' :'text'" placeholder="Password" formControlName="password"
                     required>
                 <mat-hint>Choose a password of at least six characters and one uppercase letter</mat-hint>
                 <mat-error *ngIf="!form.controls['password'].valid">
-                    Must have between 6 to 32 characters and one uppercase letter!
+                    Must between 6 to 32 characters, one uppercase letter and one number!
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="form-element">
+            <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Verify Password</mat-label>
                 <input type="password" matInput placeholder="Verify Password" formControlName="confirmPassword" required>
                 <mat-error *ngIf="!form.controls['confirmPassword'].valid">
                     Must match with inputed password!
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="form-element">
+            <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Fullname</mat-label>
                 <input matInput placeholder="Fullname" formControlName="fullName" required>
                 <mat-error *ngIf="!form.controls['fullName'].valid">
                     FieldName is required and max length is 50
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="form-element">
+            <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Phone</mat-label>
                 <input matInput placeholder="Phone" formControlName="phone">
                 <mat-error *ngIf="!form.controls['phone'].valid">
                     Contains number only and within 15 numbers!
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="form-element">
+            <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Address</mat-label>
                 <input matInput placeholder="Address" formControlName="address">
                 <mat-error *ngIf="!form.controls['address'].valid">
                 </mat-error>
@@ -61,9 +66,9 @@
                 </mat-error>
             </mat-form-field>
 
-            <div class="form-element">
-                <button mat-raised-button [disabled]="loading" type="submit" class="button btn-primary">Signup</button>
-                <a routerLink="../login" class="btn btn-link">Login</a>
+            <div class="form-element" style="text-align: center;">
+                <button mat-raised-button color="primary" class="submit" type="submit">Sign Up</button>
+
             </div>
 
         </form>

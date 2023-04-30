@@ -29,7 +29,7 @@
                     <input matInput type="number" [(ngModel)]="element.cost" (input)="getTotal()">
                 </mat-form-field>
             </td>
-            <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{feeCostTotal}} VND
+            <td mat-footer-cell *matFooterCellDef style="font-size: 20px; font-weight: bold;"> {{feeCostTotal| currency:'VND':''}} đ
             </td>
         </ng-container>
 
