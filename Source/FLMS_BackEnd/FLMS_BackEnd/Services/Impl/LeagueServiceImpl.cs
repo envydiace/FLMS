@@ -1,12 +1,10 @@
-﻿
-using FLMS_BackEnd.DTO;
+﻿using FLMS_BackEnd.DTO;
 using FLMS_BackEnd.Models;
 using FLMS_BackEnd.Repositories;
 using FLMS_BackEnd.Request;
 using FLMS_BackEnd.Response;
 using FLMS_BackEnd.Utils;
 using Microsoft.EntityFrameworkCore;
-using static FLMS_BackEnd.Utils.Constants;
 
 namespace FLMS_BackEnd.Services.Impl
 {
@@ -14,11 +12,13 @@ namespace FLMS_BackEnd.Services.Impl
     {
         private readonly LeagueRepository leagueRepository;
         private readonly MatchRepository matchRepository;
+        private readonly ClubCloneRepository clubCloneRepository;
 
-        public LeagueServiceImpl(LeagueRepository leagueRepository, MatchRepository matchRepository)
+        public LeagueServiceImpl(LeagueRepository leagueRepository, MatchRepository matchRepository, ClubCloneRepository clubCloneRepository)
         {
             this.leagueRepository = leagueRepository;
             this.matchRepository = matchRepository;
+            this.clubCloneRepository = clubCloneRepository;
         }
 
         public async Task<CreateLeagueResponse> CreateLeague(CreateLeagueRequest request, int userId)
@@ -555,12 +555,8 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<LeagueUpdateInfoResponse> UpdateLeagueInfo(LeagueUpdateInfoRequest request, int UserId)
         {
-            var league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId)
-                    .Include(l => l.Participations)
-                    .Include(l => l.ParticipateNodes).ThenInclude(pn => pn.ClubClone)
-                    .Include(l => l.Matches)
-                    .FirstOrDefaultAsync();
-            if (league == null)
+            var checkLeague = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+            if (checkLeague == null)
             {
                 return new LeagueUpdateInfoResponse
                 {
@@ -568,12 +564,49 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-05"
                 };
             }
-            if (league.UserId != UserId)
+            if (checkLeague.UserId != UserId)
             {
                 return new LeagueUpdateInfoResponse
                 {
                     Success = false,
                     MessageCode = "ER-LE-06"
+                };
+            }
+            if (checkLeague.Status.Equals(Constants.LeagueStatus.Finished.ToString()))
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-17"
+                };
+            }
+            League? league;
+            if (checkLeague.LeagueType.Equals(Constants.LeagueType.LEAGUE.ToString()))
+            {
+                league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId)
+                    .Include(l => l.Participations)
+                    .Include(l => l.ParticipateNodes).ThenInclude(pn => pn.ClubClone)
+                    .Include(l => l.Matches)
+                    .FirstOrDefaultAsync();
+            }
+            else if (checkLeague.LeagueType.Equals(Constants.LeagueType.KO.ToString()))
+            {
+                league = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId)
+                    .Include(l => l.Participations)
+                    .Include(l => l.ClubClones).ThenInclude(cl => cl.ParticipateNodes)
+                    .Include(l => l.Matches)
+                    .FirstOrDefaultAsync();
+            }
+            else
+            {
+                return new LeagueUpdateInfoResponse { Success = false, MessageCode = "ER-LE-11" };
+            }
+            if (league == null)
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-05"
                 };
             }
             if (request.Logo == null || request.Logo.Equals(""))
@@ -589,82 +622,17 @@ namespace FLMS_BackEnd.Services.Impl
             league.Location = request.Location;
             if (MethodUtils.CheckLeagueStatus(request.Status))
             {
-                var status = MethodUtils.GetLeagueStatusByName(request.Status);
-                var leagueStatus = MethodUtils.GetLeagueStatusByName(league.Status);
-                switch (leagueStatus)
+                try
                 {
-                    case Constants.LeagueStatus.New:
-                        switch (status)
-                        {
-                            case Constants.LeagueStatus.OnGoing:
-                                if (league.Participations.Where(p => p.Confirmed).Count() < league.NoParticipate)
-                                {
-                                    return new LeagueUpdateInfoResponse
-                                    {
-                                        Success = false,
-                                        MessageCode = "ER-LE-12"
-                                    };
-                                }
-                                if (league.LeagueType.Equals(Constants.LeagueType.KO.ToString()) && league.ParticipateNodes.Any(pn => pn.LeftId == 0 && pn.ClubClone != null && pn.ClubClone.ClubId == null))
-                                {
-                                    return new LeagueUpdateInfoResponse
-                                    {
-                                        Success = false,
-                                        MessageCode = "ER-LE-14"
-                                    };
-                                }
-                                break;
-                            case Constants.LeagueStatus.Finished:
-                                return new LeagueUpdateInfoResponse
-                                {
-                                    Success = false,
-                                    MessageCode = "ER-LE-13"
-                                };
-                            default:
-                                break;
-                        }
-                        break;
-                    case Constants.LeagueStatus.OnGoing:
-                        switch (status)
-                        {
-                            case Constants.LeagueStatus.New:
-                                if (league.Matches.Any(m => m.IsFinish))
-                                {
-                                    return new LeagueUpdateInfoResponse
-                                    {
-                                        Success = false,
-                                        MessageCode = "ER-LE-15"
-                                    };
-                                }
-                                break;
-                            case Constants.LeagueStatus.Finished:
-                                if (league.Matches.Any(m => !m.IsFinish))
-                                {
-                                    return new LeagueUpdateInfoResponse
-                                    {
-                                        Success = false,
-                                        MessageCode = "ER-LE-16"
-                                    };
-                                }
-                                ///TODO: calculate rank
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    case Constants.LeagueStatus.Finished:
-                        switch (status)
-                        {
-                            case Constants.LeagueStatus.New:
-                                break;
-                            case Constants.LeagueStatus.OnGoing:
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    default:
-                        break;
+                    this.CheckLeagueStatus(league, request.Status);
+                }
+                catch (Exception e)
+                {
+                    return new LeagueUpdateInfoResponse
+                    {
+                        Success = false,
+                        MessageCode = e.Message
+                    };
                 }
                 league.Status = request.Status;
             }
@@ -679,6 +647,100 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             return new LeagueUpdateInfoResponse { Success = false, MessageCode = "ER-LE-11" };
+        }
+        private void CheckLeagueStatus(League league, string requestStatus)
+        {
+            var status = MethodUtils.GetLeagueStatusByName(requestStatus);
+            var leagueStatus = MethodUtils.GetLeagueStatusByName(league.Status);
+            switch (leagueStatus)
+            {
+                case Constants.LeagueStatus.New:
+                    switch (status)
+                    {
+                        case Constants.LeagueStatus.OnGoing:
+                            if (league.Participations.Where(p => p.Confirmed).Count() < league.NoParticipate)
+                            {
+                                throw new Exception("ER-LE-12");
+                            }
+                            if (league.LeagueType.Equals(Constants.LeagueType.KO.ToString()) && league.ParticipateNodes.Any(pn => pn.LeftId == 0 && pn.ClubClone != null && pn.ClubClone.ClubId == null))
+                            {
+                                throw new Exception("ER-LE-14");
+                            }
+                            break;
+                        case Constants.LeagueStatus.Finished:
+                            throw new Exception("ER-LE-13");
+                        default:
+                            break;
+                    }
+                    break;
+                case Constants.LeagueStatus.OnGoing:
+                    switch (status)
+                    {
+                        case Constants.LeagueStatus.New:
+                            if (league.Matches.Any(m => m.IsFinish))
+                            {
+                                throw new Exception("ER-LE-15");
+                            }
+                            break;
+                        case Constants.LeagueStatus.Finished:
+                            if (league.Matches.Any(m => !m.IsFinish))
+                            {
+                                throw new Exception("ER-LE-16");
+                            }
+                            this.CalculateRank(league);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Constants.LeagueStatus.Finished:
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void CalculateRank(League league)
+        {
+            switch (MethodUtils.GetLeagueTypeByName(league.LeagueType))
+            {
+                case Constants.LeagueType.LEAGUE:
+                    int standing = 1;
+                    var clubClones = league.ParticipateNodes.Select(pn => pn.ClubClone != null ? pn.ClubClone : new ClubClone());
+                    clubClones
+                   .OrderByDescending(cl => cl.Won * 3 + cl.Draw)
+                   .ThenByDescending(cl => cl.GoalsFor - cl.GoalsAgainst)
+                   .ToList()
+                   .ForEach(cl =>
+                   {
+                       string rank = "";
+                       rank = standing switch
+                       {
+                           1 => Constants.LeagueRank.GoldMedal,
+                           2 => Constants.LeagueRank.SilverMedal,
+                           3 => Constants.LeagueRank.BronzeMedal,
+                           _ => Constants.LeagueRank.Top + standing,
+                       };
+                       standing++;
+                       cl.Rank = rank;
+                   });
+                    break;
+                case Constants.LeagueType.KO:
+                    league.ClubClones.ToList().ForEach(cl =>
+                    {
+                        int deep = cl.ParticipateNodes.Min(pn => pn.Deep);
+                        string rank = "";
+                        rank = deep switch
+                        {
+                            1 => Constants.LeagueRank.GoldMedal,
+                            2 => Constants.LeagueRank.SilverMedal,
+                            _ => rank = Constants.LeagueRank.Top + Convert.ToInt32(Math.Pow(2, deep - 1)),
+                        };
+                        cl.Rank = rank;
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

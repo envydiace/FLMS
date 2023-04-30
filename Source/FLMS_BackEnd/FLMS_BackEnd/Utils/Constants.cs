@@ -61,6 +61,13 @@ namespace FLMS_BackEnd.Utils
             public const string DrawKey = "D";
             public const string LossKey = "L";
         }
+        public static class LeagueRank
+        {
+            public const string GoldMedal = "Champion";
+            public const string SilverMedal = "Silver Medal";
+            public const string BronzeMedal = "Bronze Medal";
+            public const string Top = "Top ";
+        }
         public static class MailType
         {
             public const string Invitation = "Invitation";
@@ -161,6 +168,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-14","League doesn't finish setting" },
             {"ER-LE-15","Some match has been finished" },
             {"ER-LE-16","Some matches are not finished yet" },
+            {"ER-LE-17","Can not update finished league" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
