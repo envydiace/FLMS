@@ -81,6 +81,7 @@ import { PopUpRemoveJoinedClubComponent } from './league/league-detail/pop-up-re
 import { PopUpReuestConfirmationComponent } from './request-list/pop-up-reuest-confirmation/pop-up-reuest-confirmation.component';
 import { PopUpConfirmEditLeagueComponent } from './league/league-detail/pop-up-confirm-edit-league/pop-up-confirm-edit-league.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { PopUpChooseLosingTeamComponent } from './league/pop-up-choose-losing-team/pop-up-choose-losing-team.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     PopUpEditLeagueComponent,
     PopUpRemoveJoinedClubComponent,
     PopUpReuestConfirmationComponent,
-    PopUpConfirmEditLeagueComponent
+    PopUpConfirmEditLeagueComponent,
+    PopUpChooseLosingTeamComponent
   ],
   imports: [
     CommonModule,
