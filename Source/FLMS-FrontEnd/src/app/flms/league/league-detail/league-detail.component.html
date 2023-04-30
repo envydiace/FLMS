@@ -7,7 +7,7 @@
                     (click)="openDeleteLeaguePopup(leagueDetail.leagueId)">Delete
                 </button>
             </div>
-            
+
             <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
             </button>
@@ -24,9 +24,13 @@
             </mat-menu> -->
 
         </div>
-        <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+        <div *ngIf="userRole == 'LEAGUE_MANAGER'" style="margin-right: 10px;">
             <button mat-raised-button style="width: 120px;" color="primary"
                 (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
+        </div>
+        <div *ngIf="userRole == 'LEAGUE_MANAGER'">
+            <button mat-raised-button style="width: 120px;"
+                (click)="openUploadRule()">Upload Rules</button>
         </div>
     </mat-toolbar>
 </p>
@@ -70,7 +74,8 @@
                             <p class="league-detail-content">Description: </p>
                             <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
                             </p>
-                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}} đ</p>
+                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}}
+                                đ</p>
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>
@@ -78,7 +83,7 @@
                         <div class="row justify-content-center">
                             <div class="col-xs-4 justify-content-center">
                                 <div style="line-height: 10px; margin-top: 25px; padding-inline: 50px;">
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -89,7 +94,8 @@
                             <mat-tab-group>
                                 <mat-tab label="Schedule">
                                     <ng-template matTabContent>
-                                        <app-league-schedule [leagueName]="leagueDetail.leagueName"></app-league-schedule>
+                                        <app-league-schedule
+                                            [leagueName]="leagueDetail.leagueName"></app-league-schedule>
                                     </ng-template>
                                 </mat-tab>
                                 <mat-tab label="Clubs">
@@ -110,7 +116,8 @@
 
                                     </ng-template>
                                 </mat-tab>
-                                <mat-tab *ngIf="leagueDetail.leagueType == 'KO' && userRole == 'LEAGUE_MANAGER'" label="League Settings">
+                                <mat-tab *ngIf="leagueDetail.leagueType == 'KO' && userRole == 'LEAGUE_MANAGER'"
+                                    label="League Settings">
                                     <ng-template matTabContent>
                                         <app-league-settings></app-league-settings>
 

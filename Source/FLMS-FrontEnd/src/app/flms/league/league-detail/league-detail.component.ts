@@ -10,6 +10,7 @@ import { LeagueService } from '../league.service';
 import { PopupDeleteLeagueComponent } from '../popup-delete-league/popup-delete-league.component';
 import { PopUpEditLeagueComponent } from '../pop-up-edit-league/pop-up-edit-league.component';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PopUpUploadRulesComponent } from './pop-up-upload-rules/pop-up-upload-rules.component';
 
 @Component({
   selector: 'app-league-detail',
@@ -80,4 +81,14 @@ export class LeagueDetailComponent implements OnInit {
     });
   }
 
+  openUploadRule(): void {
+    const dialogRef = this.dialog.open(PopUpUploadRulesComponent, {
+      width: '30%',
+      data: { leagueId: this.leagueId },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
+  }
 }
