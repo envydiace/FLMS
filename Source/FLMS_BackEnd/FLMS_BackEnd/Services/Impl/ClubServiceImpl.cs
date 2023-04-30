@@ -26,7 +26,7 @@ namespace FLMS_BackEnd.Services.Impl
             this.matchRepository = matchRepository;
             this.participateNodeRepository = participateNodeRepository;
         }
-        public async Task<ClubResponse> GetClubById(int id)
+        public async Task<ClubResponse> GetClubById(int id, int userId)
         {
             var club = await clubRepository.FindByCondition(c => c.ClubId == id)
                 .Include(c => c.User)
@@ -38,6 +38,14 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     Success = false,
                     MessageCode = "ER-CL-02"
+                };
+            }
+            if (userId !=0 && club.UserId != userId)
+            {
+                return new ClubResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-CL-08"
                 };
             }
             return new ClubResponse
@@ -101,7 +109,7 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     Success = true,
                     MessageCode = "MS-CL-03",
-                    ClubInfo = this.GetClubById(result.ClubId).Result.ClubInfo
+                    ClubInfo = this.GetClubById(result.ClubId, 0).Result.ClubInfo
                 };
             }
             return new UpdateClubResponse { Success = false, MessageCode = "ER-CL-06" };

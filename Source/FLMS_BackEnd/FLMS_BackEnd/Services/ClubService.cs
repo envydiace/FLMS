@@ -6,7 +6,7 @@ namespace FLMS_BackEnd.Services
 {
     public interface ClubService
     {
-        Task<ClubResponse> GetClubById(int id);
+        Task<ClubResponse> GetClubById(int id, int userId);
         Task<CreateResponse> CreateClub(CreateClubRequest request, int UserId);
         Task<ListClubResponse> GetListClubFilter(ListClubFilterRequest request);
         Task<List<ClubByUserDTO>> GetListClubByUser(int userId);

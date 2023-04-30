@@ -397,5 +397,17 @@ namespace FLMS_BackEnd.Utils
 
             return result;
         }
+        public static Constants.LeagueStatus? GetLeagueStatusByName(string name)
+        {
+            try
+            {
+                return (Constants.LeagueStatus)Enum.Parse(typeof(Constants.LeagueStatus), name);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
     }
 }

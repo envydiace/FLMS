@@ -14,6 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PopUpChooseLosingTeamComponent } from '../../pop-up-choose-losing-team/pop-up-choose-losing-team.component';
 
 @Component({
   selector: 'app-league-schedule',
@@ -132,6 +133,17 @@ export class LeagueScheduleComponent implements OnInit {
 
   openDialogConfirmIsFinished(matchId: number): void {
     const dialogRef = this.dialog.open(ConfirmIsFinishComponent, {
+      width: '50%',
+      data: { matchId: matchId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
+  }
+
+  openChooseTheLosingTeam(matchId: number): void {
+    const dialogRef = this.dialog.open(PopUpChooseLosingTeamComponent, {
       width: '50%',
       data: { matchId: matchId }
     });

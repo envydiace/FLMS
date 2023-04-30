@@ -35,7 +35,11 @@
                 <a (click)="navigateToLeagueDetail(leagues.leagueId)" style="cursor: pointer;">
                     <mat-card class="league-list-card">
 
-                        <mat-card-title>{{leagues.leagueName}}</mat-card-title>
+                        <mat-card-title>
+                            {{ leagues.leagueName.length > 18 ? leagues.leagueName.substring(0,18)+"..." :
+                            leagues.leagueName }}
+
+                        </mat-card-title>
                         <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
                         <img mat-card-avatar class="league-header-image"
                             [src]="leagues.logo != null ? leagues.logo : defaultLogo" alt="Club's Pic">

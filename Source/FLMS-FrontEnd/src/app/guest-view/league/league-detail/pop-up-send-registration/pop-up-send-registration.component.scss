@@ -1,35 +1,121 @@
 .list-container {
-    text-align: center;
-    width: 100%;
-    margin: 25px 0;
-    margin-top: 50px;
-    padding: 6px 15px 0;
-  
-    .list-id {
-      display: block;
-      padding: 6px 15px;
-      margin-top: 10px;
-    }
-  
-    .list-img {
-      margin-top: -35px;
-      position: relative;
-    }
-  
-    .list-heading {
-      margin: 10px 0;
-    }
+  text-align: center;
+  width: 100%;
+  margin: 25px 0;
+  margin-top: 50px;
+  padding: 6px 15px 0;
+
+  .list-id {
+    display: block;
+    padding: 6px 15px;
+    margin-top: 10px;
   }
-  
+
+  .list-img {
+    margin-top: -35px;
+    position: relative;
+  }
+
+  .list-heading {
+    margin: 10px 0;
+  }
+
+  .league-action {
+    width: 190px;
+    border-radius: 0 0 4px 4px;
+  }
+}
+
+// .league-list-card {
+//     width: 190px;
+//     border-radius: 0 0 4px 4px;
+// }
+
+// .league-header-image {
+//     height: 200px;
+//     width: 200px;
+// }
+
+.league-paginator {
+  text-align: center;
+}
+
 .league-list-card {
-    max-width: 250px;
+  max-width: 400px;
+  background-color: #f3f3f3;
+  padding: 31px 0px 12px 0px;
+  border-radius: 16px;
+  transition: 0.3s;
+
+  mat-card-title {
+    font-size: 20px;
   }
-  
+
   .league-header-image {
-    height: 150px;
-    width: 150px;
+    height: 180px;
+    width: 180px;
+    margin: 10px 0px;
+    background-color: white;
   }
-  
-  .league-paginator {
-    text-align: center;
+}
+
+.league-list-card:hover {
+  background-color: #9CA5D7;
+  box-shadow: 0px 0px 0px 2px #3F51B5 inset;
+
+  .league-header-image {
+    box-shadow: 0px 0px 0px 4px #3F51B5;
   }
+}
+
+.landing-banner {
+  background-color: #b2b2b2;
+  // background-image: url(./../../../../assets/image/CoverFB.jpg);
+  // background-blend-mode: multiply;
+  background-size: 50%;
+  background-position: bottom;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  padding: 60px 0;
+  min-height: 300px;
+  margin-bottom: 10px;
+}
+
+.landing-banner {
+  height: 45px;
+  font-size: 18px;
+}
+
+// article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+//   display: block;
+// }
+
+.league-list-form {
+  min-width: 150px;
+  // max-width: 500px;
+  // width: 100%;
+}
+
+.league-list-full-width {
+  width: 80%;
+  padding-top: 8px;
+}
+
+.nav-search {
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+.example-loading-shade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

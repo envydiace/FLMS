@@ -57,6 +57,7 @@ import { Title } from '@angular/platform-browser';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PopUpViewPlayerInfoComponent } from './club/club-detail/pop-up-view-player-info/pop-up-view-player-info.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { PopUpViewPlayerInfoComponent } from './club/club-detail/pop-up-view-pla
     MatProgressBarModule,
     MatFormFieldModule,
     MatTableModule,
+    MatProgressSpinnerModule,
     MatSnackBarModule,
     DragDropModule,
     MatExpansionModule,
