@@ -35,7 +35,7 @@ namespace FLMS_BackEnd.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<ActionResult<ClubResponse>> GetClub(int id)
         {
-            var response = await clubService.GetClubById(id);
+            var response = await clubService.GetClubById(id, UserID);
             if (response.Success)
             {
                 return Ok(response);
