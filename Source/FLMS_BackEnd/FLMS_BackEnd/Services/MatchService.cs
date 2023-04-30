@@ -10,5 +10,6 @@ namespace FLMS_BackEnd.Services
         Task<MatchInfoResponse> GetMatchInfo(int matchId);
         Task<FinishMatchResponse> FinishMatch(int matchId, int userId);
         Task<UpdateMatchInfoResponse> UpdateMatchInfo(UpdateMatchInfoRequest request,int UserId);
+        Task<LoseJudgeResponse> LoseJudge(LoseJudgeRequest request, int userId);
     }
 }

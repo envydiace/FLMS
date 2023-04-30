@@ -1,3 +1,9 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
+</div>
 <div class="modal-header">
     <h4 class="modal-title" style="font-size: 20px;">Confirm
         <h4 style="font-size: 20px; display: contents" *ngIf="stringType == 'AcceptRegistration'">

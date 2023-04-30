@@ -433,6 +433,92 @@ namespace FLMS_BackEnd.Services.Impl
             }
             return new UpdateMatchInfoResponse { Success = false, MessageCode = "ER-MA-11" };
         }
+
+        public async Task<LoseJudgeResponse> LoseJudge(LoseJudgeRequest request, int userId)
+        {
+            var match = await matchRepository.FindByCondition(m => m.MatchId == request.MatchId)
+                    .Include(m => m.League)
+                    .Include(m => m.MatchStats)
+                    .Include(m => m.Home).ThenInclude(h => h.ClubClone)
+                    .Include(m => m.Away).ThenInclude(a => a.ClubClone)
+                        .FirstOrDefaultAsync();
+            if (match == null)
+            {
+                return new LoseJudgeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-01"
+                };
+            }
+
+            if (match.League.UserId != userId)
+            {
+                return new LoseJudgeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (match.IsFinish)
+            {
+                return new LoseJudgeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-02"
+                };
+            }
+            if (match.Home.ClubClone == null ||
+                match.Home.ClubClone.ClubId == null ||
+                match.Away.ClubClone == null ||
+                match.Away.ClubClone.ClubId == null
+                )
+            {
+                return new LoseJudgeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-06"
+                };
+            }
+            bool isHome;
+            if (match.Home.ClubClone.ClubId == request.ClubId)
+            {
+                isHome = true;
+            }
+            else if (match.Away.ClubClone.ClubId == request.ClubId)
+            {
+                isHome = false;
+            }
+            else
+            {
+                return new LoseJudgeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-07"
+                };
+            }
+            for (int i = 0; i < Constants.Judge.DEFAULT_SCORE; i++)
+            {
+                MatchEvent matchEvent = new MatchEvent
+                {
+                    EventType = Constants.MatchEventType.Goal.ToString(),
+                    EventTime = Constants.Judge.DEFAULT_TIME,
+                    MatchId = request.MatchId,
+                    MainId = Constants.Judge.ANONYMOUS_PLAYER_ID,
+                    IsHome = isHome
+                };
+                var result = await matchEventRepository.CreateAsync(matchEvent);
+                if (!result)
+                {
+                    return new LoseJudgeResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-EV-04"
+                    };
+                }
+            }
+            await this.FinishMatch(request.MatchId, userId);
+            return new LoseJudgeResponse { Success = true, MessageCode = "MS-MA-03" };
+        }
     }
 }
 

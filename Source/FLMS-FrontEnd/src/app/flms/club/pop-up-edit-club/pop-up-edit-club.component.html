@@ -1,93 +1,95 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
+</div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-<p>
     <mat-toolbar class="card">
-        <span>Edit</span>
-        <div class="edit-submit-button">
-            <button mat-raised-button style="width: 120px;" color="primary"
-           >Update</button>
+        <span style="text-transform: uppercase;">Edit club</span>
+        <div class="create-league-action">
+            <button mat-raised-button type="submit" type="submit" color="primary">Update</button>
         </div>
     </mat-toolbar>
-</p>
 
+    <div class="create-league-containner row">
+        <div class="col-xl-9">
+            <div class="card mb-4">
+                <div class="card-body ">
+                    <div class="card-header">Club basic Infomation</div>
+                    <div class="" style="margin: 0 15px;">
+                        <label class="create-league-label">Your Club Name: </label>
+                        <div>
+                            <mat-form-field appearance="" class="create-league-input">
+                                <mat-label>Enter Club Name</mat-label>
+                                <input matInput formControlName="clubName">
+                              
+                            </mat-form-field>
+                        </div>
+                    </div>
 
-    <mat-card class="example-card">
-        <mat-card-header>
+                    <div class="row gx-3 mb-3" style="margin: 0;">
+                        
 
-            <mat-card-title> </mat-card-title>
-            <br />
-            <mat-card-subtitle> </mat-card-subtitle>
-        </mat-card-header>
-
-        <mat-card-content>
-            <div class="row">
-             
-                <div class="col-xl-9">
-
-                    <div class="card mb-4">
-                        <div class="card-header">Club Info</div>
-                        <div class="card-body">
-
-                            <div class="mb-3">
-                                <!-- <label class="small mb-1" for="inputUsername">Username </label>  -->
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Club Name</mat-label>
-                                    <input matInput formControlName="clubName">
-                                   
+                        <div class="league-input-number col-md-5">
+                            <label class="create-league-label">Phone Number: </label>
+                            <div>
+                                <mat-form-field appearance="">
+                                    <mat-label>Ex. 0912345678</mat-label>
+                                    <span matPrefix>+84 &nbsp;</span>
+                                    <input matInput type="tel" formControlName="phoneNumber">
+                                  
                                 </mat-form-field>
                             </div>
-
-                            <div class="row gx-3 mb-3">
-                                <div class="col-md-6">
-
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Telephone</mat-label>
-                                        <span matPrefix>+84 &nbsp;</span>
-                                        <input type="tel" matInput formControlName="phoneNumber"
-                                        placeholder="0912345678">
-                                        <mat-icon matSuffix>mode_edit</mat-icon>
-                                       
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-md-6">
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Fan Page</mat-label>
-                                        <input matInput formControlName="fanPage">
-                                        
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Email</mat-label>
-                                    <input type="email"  matInput formControlName="email"
-                                        placeholder="Ex. pat@example.com">
+                        </div>
+                        <div class="league-input-number col-md-5">
+                            <label class="create-league-label">Email: </label>
+                            <div>
+                                <mat-form-field appearance="">
+                                    <mat-label>Ex. club@gmail.com</mat-label>
+                                    <input matInput formControlName="email">
+                                    
                                 </mat-form-field>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-3">
-                    <div class="card mb-4 mb-xl-0">
-                        <div class="card-header">Club Logo</div>
-                        <div class="card-body text-center">
-                            <img class="img-account-profile rounded-circle mb-2" [src]="defaultLogo" alt="profile's Pic">
-                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                            <input type="file" style="margin: 10px 0;" (change)="showPreview($event)">
+
+
+                    <div class="" style="margin: 0 15px;">
+                        <label class="create-league-label">Fanpage: </label>
+                        <div>
+                            <mat-form-field appearance="" class="create-league-input">
+                                <mat-label>Enter Fan Page</mat-label>
+                                <input matInput formControlName="fanPage">
+                                
+                            </mat-form-field>
                         </div>
                     </div>
 
-                    <!-- <img mat-card-image src="" alt="Photo of a Shiba Inu"> -->
                 </div>
             </div>
-        </mat-card-content>
+        </div>
+        <div class="col-xl-3">
+            <div class="card mb-4 mb-xl-0 league-card">
+                <mat-card class="create-league-card">
+                    <div class="league-logo">
+                        <img mat-card-avatar class="league-header-image border-gradient" [src]="defaultLogo"><br>
+                        <p>Upload Logo</p>
+                        <input type="file" (change)="showPreview($event)">
+                    </div>
+                    <!-- <div style="text-align: center; margin: 30px 0;">
+                        <mat-card-title>{{getControl('clubName').value != null ? getControl('clubName').value :
+                            'Your League Name'}}</mat-card-title>
+                        <mat-card-subtitle>{{user != undefined ? user.fullName : ''}}</mat-card-subtitle>
+                    </div> -->
 
-        <mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </div>
 
-            <!-- <a routerLink="../../change-password" class="btn btn-primary right" type="button">Change Pass</a> -->
-        </mat-card-actions>
-
-    </mat-card>
 </form>
+
 <p>
     <mat-toolbar class="card"> 
         <div class="back-submit-button">

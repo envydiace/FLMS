@@ -1,3 +1,9 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
+</div>
 <p>
     <mat-toolbar class="card">
         <span> Player's info</span>
@@ -183,7 +189,7 @@
                 </mat-card-content>
             </form>
             <mat-card-actions>
-                <button mat-raised-button>Back</button>
+                <!-- <button mat-raised-button>Back</button> -->
                 <!-- <button mat-raised-button color="warn">Delete</button> -->
             </mat-card-actions>
 

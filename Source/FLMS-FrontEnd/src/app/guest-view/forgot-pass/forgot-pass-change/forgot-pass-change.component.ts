@@ -44,6 +44,7 @@ export class ForgotPassChangeComponent implements OnInit {
     this.forgotPassService.getEmailForgotPassword(email).pipe(first())
       .subscribe({
         next: response => {
+          this.loading = false;
           this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
