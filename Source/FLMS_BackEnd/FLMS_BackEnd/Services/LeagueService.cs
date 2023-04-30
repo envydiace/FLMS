@@ -18,5 +18,6 @@ namespace FLMS_BackEnd.Services
         Task<DeleteLeagueResponse> DeleteLeague(int leagueId, int userId);
         Task<LeagueUpdateInfoResponse> GetLeagueUpdateInfo(int leagueId);
         Task<LeagueUpdateInfoResponse> UpdateLeagueInfo(LeagueUpdateInfoRequest request, int UserId);
+        Task<UploadRuleResponse> UploadRule(UploadRuleRequest request, int UserId);
     }
 }
