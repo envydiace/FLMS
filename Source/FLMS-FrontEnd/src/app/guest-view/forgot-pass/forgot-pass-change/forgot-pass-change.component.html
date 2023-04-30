@@ -1,3 +1,9 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
+</div>
 <section class="forgot_pass">
     <div class="forgot_pass_box">
         <mat-tab-group mat-align-tabs="center" style="width: 100%;">
