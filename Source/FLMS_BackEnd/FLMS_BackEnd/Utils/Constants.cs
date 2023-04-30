@@ -165,7 +165,6 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-10","Wrong league type" },
             {"ER-LE-11","Update league info failed" },
             {"ER-LE-12","Upload league rules failed" },
-
             {"ER-LE-13","Can not finish a new league" },
             {"ER-LE-14","League doesn't finish setting" },
             {"ER-LE-15","Some match has been finished" },

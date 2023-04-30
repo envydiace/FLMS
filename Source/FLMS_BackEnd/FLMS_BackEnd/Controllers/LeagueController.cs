@@ -50,7 +50,7 @@ namespace FLMS_BackEnd.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<ActionResult<LeagueInfoResponse>> GetListLeagueInfo(int id)
         {
-            var response = await leagueService.GetLeagueInfo(id);
+            var response = await leagueService.GetLeagueInfo(id, UserID);
             if (response.Success)
             {
                 return Ok(response);

@@ -234,24 +234,33 @@ namespace FLMS_BackEnd.Services.Impl
             };
         }
 
-        public async Task<LeagueInfoResponse> GetLeagueInfo(int leagueId)
+        public async Task<LeagueInfoResponse> GetLeagueInfo(int leagueId, int userId)
         {
             var league = await leagueRepository.FindByCondition(league => league.LeagueId == leagueId)
                 .Include(league => league.User)
                 .Include(league => league.LeagueFees)
                 .FirstOrDefaultAsync();
-            if (league != null)
+            if (league == null)
             {
                 return new LeagueInfoResponse
                 {
-                    Success = true,
-                    leagueInfo = mapper.Map<LeagueInfoDTO>(league)
+                    Success = false,
+                    MessageCode = "ER-LE-05"
+                };
+                
+            }
+            if (userId != 0 && league.UserId != userId)
+            {
+                return new LeagueInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
                 };
             }
             return new LeagueInfoResponse
             {
-                Success = false,
-                MessageCode = "ER-LE-05"
+                Success = true,
+                leagueInfo = mapper.Map<LeagueInfoDTO>(league)
             };
         }
 
