@@ -1,13 +1,35 @@
-<div class="modal-header">
-    <h4 class="modal-title" style="font-size: 20px;">Chose the team</h4>
-    <button type="button" class="close" aria-label="Close" (click)="onNoClick()" >
-      <span aria-hidden="true">&times;</span>
-    </button>
+<p>
+  <mat-toolbar class="card">
+    <span>Please choose the lose club </span>
+  </mat-toolbar>
+</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="list-container">
+        <mat-card class="club-list-card" style="margin: 0 auto;" (click)="openConfirm(data.club1.clubId)">
+          <mat-card-title>
+            {{ data.club1.name.length > 18 ? data.club1.name.substring(0,18)+"..." :
+            data.club1.name }}
+          </mat-card-title>
+          <img mat-card-avatar class="club-header-image" [src]="data.club1.logo != null ? data.club1.logo : defaultLogo"
+            alt="Club's Pic">
+        </mat-card>
+
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="list-container">
+        <mat-card class="club-list-card" style="margin: 0 auto;" (click)="openConfirm(data.club2.clubId)">
+          <mat-card-title>
+            {{ data.club2.name.length > 18 ? data.club2.name.substring(0,18)+"..." :
+            data.club2.name }}
+          </mat-card-title>
+          <img mat-card-avatar class="club-header-image" [src]="data.club2.logo != null ? data.club2.logo : defaultLogo"
+            alt="Club's Pic">
+        </mat-card>
+
+      </div>
+    </div>
   </div>
-  <div class="modal-body" style="font-size: 20px">
-    Choose the losing team ?
-  </div>
-  <div class="modal-footer">
-    <button mat-raised-button color="warn" (click)="onNoClick()"  >Cancel</button>
-    <button mat-raised-button color="primary"  >Confirm</button>
-  </div>
+</div>

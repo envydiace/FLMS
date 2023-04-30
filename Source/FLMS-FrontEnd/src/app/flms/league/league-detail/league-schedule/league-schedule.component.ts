@@ -144,8 +144,8 @@ export class LeagueScheduleComponent implements OnInit {
 
   openChooseTheLosingTeam(matchId: number, club1: Club, club2: Club ): void {
     const dialogRef = this.dialog.open(PopUpChooseLosingTeamComponent, {
-      width: '50%',
-      data: { matchId: matchId, }
+      width: '60%',
+      data: { matchId: matchId, club1: club1, club2: club2 }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
