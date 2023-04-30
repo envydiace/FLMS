@@ -163,12 +163,13 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-09","Unable to delete a league that already has participation" },
             {"ER-LE-10","Wrong league type" },
             {"ER-LE-11","Update league info failed" },
-            {"ER-LE-12","Not enough participate" },
+
             {"ER-LE-13","Can not finish a new league" },
             {"ER-LE-14","League doesn't finish setting" },
             {"ER-LE-15","Some match has been finished" },
             {"ER-LE-16","Some matches are not finished yet" },
             {"ER-LE-17","Can not update finished league" },
+            {"ER-LE-18","Not enough participate" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},

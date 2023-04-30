@@ -660,7 +660,7 @@ namespace FLMS_BackEnd.Services.Impl
                         case Constants.LeagueStatus.OnGoing:
                             if (league.Participations.Where(p => p.Confirmed).Count() < league.NoParticipate)
                             {
-                                throw new Exception("ER-LE-12");
+                                throw new Exception("ER-LE-18");
                             }
                             if (league.LeagueType.Equals(Constants.LeagueType.KO.ToString()) && league.ParticipateNodes.Any(pn => pn.LeftId == 0 && pn.ClubClone != null && pn.ClubClone.ClubId == null))
                             {
