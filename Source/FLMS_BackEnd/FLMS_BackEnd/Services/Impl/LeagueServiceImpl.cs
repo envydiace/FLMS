@@ -771,11 +771,15 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
-            if (request.Rules == null || request.Rules.Equals(""))
+            if (league.Status.Equals(Constants.LeagueStatus.Finished.ToString()))
             {
-                league.Rules = null;
+                return new UploadRuleResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-07"
+                };
             }
-            else
+            if (request.Rules != null && !request.Rules.Equals(""))
             {
                 league.Rules = request.Rules;
             }
