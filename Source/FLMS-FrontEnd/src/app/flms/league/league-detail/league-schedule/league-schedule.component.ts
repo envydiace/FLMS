@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatchSchedule } from '../../../../models/match-schedule.model';
+import { Club, MatchSchedule } from '../../../../models/match-schedule.model';
 import { LeagueService } from '../../league.service';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { MatchScheduleResponse } from '../../../../models/match-schedule-response.model';
@@ -142,10 +142,10 @@ export class LeagueScheduleComponent implements OnInit {
     });
   }
 
-  openChooseTheLosingTeam(matchId: number): void {
+  openChooseTheLosingTeam(matchId: number, club1: Club, club2: Club ): void {
     const dialogRef = this.dialog.open(PopUpChooseLosingTeamComponent, {
       width: '50%',
-      data: { matchId: matchId }
+      data: { matchId: matchId, }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();

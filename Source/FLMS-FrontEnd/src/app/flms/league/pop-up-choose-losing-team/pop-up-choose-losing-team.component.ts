@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LeagueService } from '../league.service';
 
 @Component({
   selector: 'app-pop-up-choose-losing-team',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PopUpChooseLosingTeamComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private leagueService: LeagueService,
+    public dialogRe: MatDialog,
+    public dialogRef: MatDialogRef<PopUpChooseLosingTeamComponent>,
+  ) {
+
+   }
 
   ngOnInit(): void {
   }
-
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

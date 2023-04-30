@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h4 class="modal-title" style="font-size: 20px;">Chose the team</h4>
-    <button type="button" class="close" aria-label="Close" >
+    <button type="button" class="close" aria-label="Close" (click)="onNoClick()" >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -8,6 +8,6 @@
     Choose the losing team ?
   </div>
   <div class="modal-footer">
-    <button mat-raised-button color="warn"  >Cancel</button>
+    <button mat-raised-button color="warn" (click)="onNoClick()"  >Cancel</button>
     <button mat-raised-button color="primary"  >Confirm</button>
   </div>
