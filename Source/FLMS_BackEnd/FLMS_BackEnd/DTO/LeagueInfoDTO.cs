@@ -22,5 +22,6 @@ namespace FLMS_BackEnd.DTO
         public string? Logo { get; set; }
         public decimal TotalPrize { get; set; }
         public string Status { get; set; } = null!;
+        public string? Rules { get; set; }
     }
 }

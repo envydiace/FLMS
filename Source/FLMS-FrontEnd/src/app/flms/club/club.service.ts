@@ -75,7 +75,7 @@ export class ClubService {
   }
 
   getdetailinfo(id: number): Observable<ClubDetailResponse> {
-    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClub/${id}`).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/api/Club/GetClub/${id}`, { headers: this.headers }).pipe(
       map((res: ClubDetailResponse) => res),
       catchError(err => throwError(err))
     );

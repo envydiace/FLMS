@@ -61,6 +61,13 @@ namespace FLMS_BackEnd.Utils
             public const string DrawKey = "D";
             public const string LossKey = "L";
         }
+        public static class LeagueRank
+        {
+            public const string GoldMedal = "Champion";
+            public const string SilverMedal = "Silver Medal";
+            public const string BronzeMedal = "Bronze Medal";
+            public const string Top = "Top ";
+        }
         public static class MailType
         {
             public const string Invitation = "Invitation";
@@ -79,7 +86,12 @@ namespace FLMS_BackEnd.Utils
             public const string AnnounceMatch = "Reminder - Upcoming Match in 2 Days";
             public const string AnnounceSquad = "Reminder to review squad before tomorrow's match";
         }
-
+        public static class Judge
+        {
+            public const int ANONYMOUS_PLAYER_ID = 1;
+            public const int DEFAULT_TIME = 1;
+            public const int DEFAULT_SCORE = 3;
+        }
         public static class DataColumn
         {
             public const string Time = "Time";
@@ -158,6 +170,12 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-10","Wrong league type" },
             {"ER-LE-11","Update league info failed" },
             {"ER-LE-12","Upload league rules failed" },
+            {"ER-LE-13","Can not finish a new league" },
+            {"ER-LE-14","League doesn't finish setting" },
+            {"ER-LE-15","Some match has been finished" },
+            {"ER-LE-16","Some matches are not finished yet" },
+            {"ER-LE-17","Can not update finished league" },
+            {"ER-LE-18","Not enough participate" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
@@ -249,6 +267,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-MA-01","Finish match success" },
             {"MS-MA-02","Update match success" },
+            {"MS-MA-03","The defeat has been processed successfully" },
             {"ER-MA-01","Match not found" },
             {"ER-MA-02","This match has been finished" },
             {"ER-MA-03","This match is not belonged to this user" },
