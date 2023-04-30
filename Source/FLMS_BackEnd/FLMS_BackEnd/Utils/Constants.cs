@@ -86,7 +86,12 @@ namespace FLMS_BackEnd.Utils
             public const string AnnounceMatch = "Reminder - Upcoming Match in 2 Days";
             public const string AnnounceSquad = "Reminder to review squad before tomorrow's match";
         }
-
+        public static class Judge
+        {
+            public const int ANONYMOUS_PLAYER_ID = 1;
+            public const int DEFAULT_TIME = 1;
+            public const int DEFAULT_SCORE = 3;
+        }
         public static class DataColumn
         {
             public const string Time = "Time";
@@ -262,6 +267,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-MA-01","Finish match success" },
             {"MS-MA-02","Update match success" },
+            {"MS-MA-03","The defeat has been processed successfully" },
             {"ER-MA-01","Match not found" },
             {"ER-MA-02","This match has been finished" },
             {"ER-MA-03","This match is not belonged to this user" },

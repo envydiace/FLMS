@@ -771,11 +771,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
-            if (request.Rules == null || request.Rules.Equals(""))
-            {
-                league.Rules = null;
-            }
-            else
+            if (request.Rules != null && !request.Rules.Equals(""))
             {
                 league.Rules = request.Rules;
             }
