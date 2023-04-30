@@ -86,7 +86,12 @@ namespace FLMS_BackEnd.Utils
             public const string AnnounceMatch = "Reminder - Upcoming Match in 2 Days";
             public const string AnnounceSquad = "Reminder to review squad before tomorrow's match";
         }
-
+        public static class Judge
+        {
+            public const int ANONYMOUS_PLAYER_ID = 1;
+            public const int DEFAULT_TIME = 1;
+            public const int DEFAULT_SCORE = 3;
+        }
         public static class DataColumn
         {
             public const string Time = "Time";

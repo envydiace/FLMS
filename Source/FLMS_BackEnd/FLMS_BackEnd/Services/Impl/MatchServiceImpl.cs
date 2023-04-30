@@ -496,15 +496,14 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-07"
                 };
             }
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < Constants.Judge.DEFAULT_SCORE; i++)
             {
                 MatchEvent matchEvent = new MatchEvent
                 {
                     EventType = Constants.MatchEventType.Goal.ToString(),
-                    EventTime = 1,
+                    EventTime = Constants.Judge.DEFAULT_TIME,
                     MatchId = request.MatchId,
-                    MainId = 2,
-                    SubId = 2,
+                    MainId = Constants.Judge.ANONYMOUS_PLAYER_ID,
                     IsHome = isHome
                 };
                 var result = await matchEventRepository.CreateAsync(matchEvent);
