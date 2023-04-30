@@ -84,5 +84,19 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<LoseJudgeResponse>> LoseJudge(LoseJudgeRequest request)
+        {
+            var response = await matchService.LoseJudge(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

@@ -249,6 +249,7 @@ namespace FLMS_BackEnd.Utils
 
             {"MS-MA-01","Finish match success" },
             {"MS-MA-02","Update match success" },
+            {"MS-MA-03","The defeat has been processed successfully" },
             {"ER-MA-01","Match not found" },
             {"ER-MA-02","This match has been finished" },
             {"ER-MA-03","This match is not belonged to this user" },
