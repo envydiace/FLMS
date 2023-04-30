@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first, map } from 'rxjs/operators';
-import { CommonService } from 'src/app/common/common/common.service';
+import { ClubListPlayerClub } from 'src/app/models/club-list-player-club.model';
 import { ClubListPlayer } from 'src/app/models/club-list-player.model';
+import { ClubService } from '../../club.service';
+import { CommonService } from 'src/app/common/common/common.service';
 import { ClubPlayerInfoResponse } from 'src/app/models/player-info-response.model';
-import { ClubService } from '../club.service';
-import { ClubListPlayerClub } from './../../../models/club-list-player-club.model'
-import { ClubDetailResponse } from 'src/app/models/club-detail-response.model';
-import { ClubDetail } from 'src/app/models/club-detail.model';
+import { map } from 'rxjs/operators';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-player-info',
-  templateUrl: './player-info.component.html',
-  styleUrls: ['./player-info.component.scss']
+  selector: 'app-pop-up-view-player-info',
+  templateUrl: './pop-up-view-player-info.component.html',
+  styleUrls: ['./pop-up-view-player-info.component.scss']
 })
-export class PlayerInfoComponent implements OnInit {
+export class PopUpViewPlayerInfoComponent implements OnInit {
   playerInfo: ClubListPlayer = null;
   playerClub: ClubListPlayerClub[];
   form: FormGroup;
@@ -25,20 +24,22 @@ export class PlayerInfoComponent implements OnInit {
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   defaultAvatar: string = './../../../../assets/image/Default_pfp.svg.png';
 
-
   playerNum: number;
+
   constructor(
-    private formBuilder: FormBuilder,
+   private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private clubService: ClubService,
     public commonService: CommonService,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      playerId: number;
+    },
 
   ) {
-    this.route.queryParams.subscribe(params => {
-      this.playerId = params['playerId'];
-    });
-  }
+  
+   }
 
   ngOnInit(): void {
     this.initDataSource();
@@ -60,15 +61,14 @@ export class PlayerInfoComponent implements OnInit {
 
   }
 
+
   get f() { return this.form.controls; }
 
   initDataSource() {
     this.getPlayerInfo();
   }
-
-
   getPlayerInfo() {
-    this.clubService.getPlayerInfo(this.playerId).pipe(
+    this.clubService.getPlayerInfo(this.data.playerId).pipe(
       map((res: ClubPlayerInfoResponse) =>
         //  {
         this.playerInfo = res.playerInfo
@@ -80,7 +80,6 @@ export class PlayerInfoComponent implements OnInit {
     }
     );
   }
-
 
   bindValueIntoForm(res: ClubListPlayer) {
     this.playerClub = res.playerClubs
@@ -109,8 +108,5 @@ export class PlayerInfoComponent implements OnInit {
     this.form.controls['socialCont'].disable();
 
   }
-
-
-
 
 }

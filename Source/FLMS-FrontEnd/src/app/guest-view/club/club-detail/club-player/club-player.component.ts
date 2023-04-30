@@ -7,6 +7,7 @@ import { ClubListPlayerResponse } from './../../../../models/club-list-player-re
 import { Club } from 'src/app/models/match-schedule.model';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { PopUpViewPlayerInfoComponent } from '../pop-up-view-player-info/pop-up-view-player-info.component';
 
 @Component({
   selector: 'app-club-player',
@@ -55,7 +56,19 @@ export class ClubPlayerComponent implements OnInit {
     ).subscribe();
   }
 
-  navigateToPlayerInfo(playerId: number) {
-    this.router.navigate(['/player-info'], { queryParams: {playerId : playerId}});
+  // navigateToPlayerInfo(playerId: number) {
+  //   this.router.navigate(['/player-info'], { queryParams: {playerId : playerId}});
+  // }
+
+  openViewPlayerInfo(playerId: number): void {
+    const dialogRef = this.dialog.open(PopUpViewPlayerInfoComponent, {
+      width: '80%',
+      data: { playerId: playerId },
+      // disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
   }
 }

@@ -5,8 +5,8 @@
 </p>
 
 <section class="landing-banner">
-    <div class="container" style="    margin-top: 45px;">
-        <div class="col-sm-12 col-xs-12 text-center nav-search">
+    <div class="container" style=" margin: 0 auto;">
+        <div class="col-sm-8 col-xs-12 text-center nav-search" >
             <!-- <form action="" method="">
                 <div class="form-group">
                     <input type="text" class="form-control" name="key" placeholder="League's Name">
@@ -15,15 +15,13 @@
             </form> -->
 
             <form class="league-list-form">
-                <div class="input-group">
-                    <mat-form-field class="league-list-full-width">
-                        <mat-label>Search by League's name</mat-label>
-                        <input matInput type="text" 
-                      
-                        placeholder="Enter league name" >
-                        <mat-icon matSuffix>search</mat-icon>
-                    </mat-form-field>
-                </div>
+
+                <mat-form-field class="league-list-full-width" style="flex: 1;">
+                    <mat-label>Search by League's name</mat-label>
+                    <input matInput type="text" placeholder="Enter league name">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+
             </form>
         </div>
     </div>
@@ -36,13 +34,11 @@
             <div class="list-container">
                 <a (click)="navigateToLeagueDetail(leagues.leagueId)" style="cursor: pointer;">
                     <mat-card class="league-list-card">
-                       
+
                         <mat-card-title>{{leagues.leagueName}}</mat-card-title>
                         <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
                         <img mat-card-avatar class="league-header-image"
-                            [src]="leagues.logo != null ? leagues.logo : defaultLogo"
-                            alt="Club's Pic">
-
+                            [src]="leagues.logo != null ? leagues.logo : defaultLogo" alt="league's Pic">
                     </mat-card>
                 </a>
             </div>
