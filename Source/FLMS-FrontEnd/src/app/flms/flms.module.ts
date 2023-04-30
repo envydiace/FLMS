@@ -82,6 +82,7 @@ import { PopUpReuestConfirmationComponent } from './request-list/pop-up-reuest-c
 import { PopUpConfirmEditLeagueComponent } from './league/league-detail/pop-up-confirm-edit-league/pop-up-confirm-edit-league.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { PopUpChooseLosingTeamComponent } from './league/pop-up-choose-losing-team/pop-up-choose-losing-team.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -151,6 +152,7 @@ import { PopUpChooseLosingTeamComponent } from './league/pop-up-choose-losing-te
     MatProgressBarModule,
     MatMenuModule,
     MatSortModule,
+    MatRadioModule,
     MatTableModule,
     MatSelectModule,
     MatPaginatorModule,
