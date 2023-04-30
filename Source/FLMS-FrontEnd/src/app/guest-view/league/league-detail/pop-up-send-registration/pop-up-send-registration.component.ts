@@ -33,7 +33,7 @@ export class PopUpSendRegistrationComponent implements OnInit {
   clubListByUser: ClubListbyUser[] = [];
   pageEvent: PageEvent;
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
-
+  loading = false;
 
   constructor(
     private clubService: ClubService,
@@ -64,13 +64,16 @@ export class PopUpSendRegistrationComponent implements OnInit {
   }
 
   sendRegistration(clubId: number): void {
+    this.loading = true;
     this.LeagueService.sendRegistration(this.data.leagueId, clubId)
       .pipe(first())
       .subscribe({
         next: response => {
+          this.loading = false;
           this.commonService.sendMessage(response.message, 'success');
         },
         error: error =>{
+          this.loading = false;
           this.commonService.sendMessage(error.error.message, 'fail');
         }
       });
