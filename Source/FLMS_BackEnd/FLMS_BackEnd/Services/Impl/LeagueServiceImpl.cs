@@ -619,6 +619,14 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
+            if (league.Status.Equals(Constants.LeagueStatus.Finished.ToString()))
+            {
+                return new UploadRuleResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-07"
+                };
+            }
             if (request.Rules == null || request.Rules.Equals(""))
             {
                 league.Rules = null;
