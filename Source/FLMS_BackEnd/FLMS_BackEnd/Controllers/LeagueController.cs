@@ -158,5 +158,20 @@ namespace FLMS_BackEnd.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpPut("[action]")]
+        [Authorize(Roles = "LEAGUE_MANAGER")]
+        public async Task<ActionResult<UploadRuleResponse>> UploadRule(UploadRuleRequest request)
+        {
+            var response = await leagueService.UploadRule(request, UserID);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

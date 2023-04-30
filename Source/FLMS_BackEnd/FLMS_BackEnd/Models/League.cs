@@ -31,6 +31,7 @@ namespace FLMS_BackEnd.Models
         public int? NoRound { get; set; }
         public string? Logo { get; set; }
         public string Status { get; set; } = null!;
+        public string? Rules { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ClubClone> ClubClones { get; set; }
