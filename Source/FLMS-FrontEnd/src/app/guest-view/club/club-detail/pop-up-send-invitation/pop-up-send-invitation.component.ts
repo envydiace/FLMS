@@ -34,6 +34,7 @@ export class PopUpSendInvitationComponent implements OnInit {
   leagueListByUser: LeagueListbyUser[] = [];
   pageEvent: PageEvent;
   defaultLogo: string = './../../../../assets/image/default-logo.png';
+  loading = false;
 
   constructor(
     private leagueService: LeagueService,
@@ -62,13 +63,16 @@ export class PopUpSendInvitationComponent implements OnInit {
     ).subscribe();
   }
   sendInvitation(leagueId: number): void {
+    this.loading = true;
     this.clubService.sendInvitation(leagueId, this.data.clubId)
       .pipe(first())
       .subscribe({
         next: response => {
+          this.loading = false;
           this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
+          this.loading = false;
           this.commonService.sendMessage(error.error.message, 'fail');
         }
       });

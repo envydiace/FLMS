@@ -1,27 +1,37 @@
-<div class="bg-container">
-    <div class="container">
-        <mat-card class="example-card">
-        <mat-card-content>
-            <h3>
-                <span>Enter your email to receive the new password</span>
-            </h3>
-        </mat-card-content>
-        <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <input matInput formControlName="email" class="form-control"/>
-                    <mat-error *ngIf="!form.controls['email'].valid && form.controls['email'].touched">
-                        Email is required
-                    </mat-error>
-                </div>
-            </form>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button class="button btn-primary" type="submit" (click)="onSubmit()" mat-raised-button color="primary">Send</button>
-        </mat-card-actions>
-        <mat-card-content>
-            <a [routerLink]="['/login']">Login</a>
-        </mat-card-content>
-        </mat-card>
-    </div>
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
 </div>
+<section class="forgot_pass">
+    <div class="forgot_pass_box">
+        <mat-tab-group mat-align-tabs="center" style="width: 100%;">
+            <mat-tab label="Forgot Password">
+                <div class="content">
+                    <div class="forgot-page">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div style="width: 100%; text-align: center;">
+                                <img src="./../../../assets/image/Logo.png" alt="">
+                            </div>
+                            <h3>
+                                FORGOT PASSWORD
+                            </h3>
+                            <mat-form-field class="forgot_pass-full-width" appearance="fill">
+                                <mat-label>Enter Your Email</mat-label>
+                                <input matInput type="email" formControlName="email" placeholder="example@web.com" />
+                                <mat-error *ngIf="!form.controls['email'].valid">
+                                    Email is required
+                                </mat-error>
+                            </mat-form-field>
+                            <button mat-raised-button class="submit" type="submit" mat-raised-button
+                                color="primary">Send</button>
+                            <a [routerLink]="['/login']" class="btn btn-link"
+                                style="margin: auto; display: block;">Back To Login</a>
+                        </form>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</section>

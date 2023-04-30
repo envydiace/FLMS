@@ -6,7 +6,7 @@
 
 <section class="landing-banner">
     <div class="container" style=" margin: 0 auto;">
-        <div class="col-sm-8 col-xs-12 text-center nav-search" >
+        <div class="col-sm-8 col-xs-12 text-center nav-search">
             <!-- <form action="" method="">
                 <div class="form-group">
                     <input type="text" class="form-control" name="key" placeholder="League's Name">
@@ -35,7 +35,11 @@
                 <a (click)="navigateToLeagueDetail(leagues.leagueId)" style="cursor: pointer;">
                     <mat-card class="league-list-card">
 
-                        <mat-card-title>{{leagues.leagueName}}</mat-card-title>
+                        <mat-card-title>
+
+                            {{ leagues.leagueName.length > 18 ? leagues.leagueName.substring(0,18)+"..." :
+                            leagues.leagueName }}
+                        </mat-card-title>
                         <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
                         <img mat-card-avatar class="league-header-image"
                             [src]="leagues.logo != null ? leagues.logo : defaultLogo" alt="league's Pic">

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class PopUpConfirmEditLeagueComponent implements OnInit {
   loading = false;
-  
+  conStatus = true;
   constructor(
     private commonService: CommonService,
     private leagueService: LeagueService,
@@ -19,8 +19,7 @@ export class PopUpConfirmEditLeagueComponent implements OnInit {
     public dialogRef: MatDialogRef<PopUpConfirmEditLeagueComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      leagueId: number;
-      conStatus: boolean;
+     
     },
     private router: Router ,
   ) { }
@@ -34,11 +33,5 @@ export class PopUpConfirmEditLeagueComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onSubmit() {
-    // stop here if form is invalid
-    this.loading = true;
-    this.data.conStatus = this.loading;
-    this.dialogRef.close();
-
-  }
+  
 }

@@ -1,8 +1,14 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
+</div>
 <mat-toolbar class="card">
     <span style="color: #3F51B5; text-transform: uppercase;">Edit League</span>
     <div class="create-league-action">
         <button mat-raised-button 
-        (click)="openConfirmEditLeague(conStatus)"
+        (click)="openConfirmEditLeague()"
         color="primary">Update</button>
     </div>
 </mat-toolbar>

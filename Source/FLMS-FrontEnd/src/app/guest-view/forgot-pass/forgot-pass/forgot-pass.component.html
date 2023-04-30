@@ -1,30 +1,36 @@
-<div class="bg-container">
-    <div class="container">
-        <mat-card class="example-card">
-            <mat-card-content>
-                <h3>
-                    <span>Enter your new password</span>
-                </h3>
-            </mat-card-content>
-            <mat-card-content>
-                <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                    <div class="form-group">
-                        <input matInput [type]="hide ? 'password' :'text'" formControlName="newPassword" class="form-control" />
-                        <mat-error *ngIf="!form.controls['newPassword'].valid && form.controls['newPassword'].touched">
-                           Must between 6 to 32 charactes with one uppercase letter and one number ! 
-                        </mat-error>
+<section class="forgot_pass">
+    <div class="forgot_pass_box">
+        <mat-tab-group mat-align-tabs="center" style="width: 100%;">
+            <mat-tab label="Reset Password">
+                <div class="content">
+                    <div class="forgot-page">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div style="width: 100%; text-align: center;">
+                                <img src="./../../../assets/image/Logo.png" alt="">
+                            </div>
+                            <h3>
+                                RESET PASSWORD
+                            </h3>
+                            <mat-form-field class="forgot_pass-full-width" appearance="fill">
+                                <mat-label>Enter You New Password</mat-label>
+                                <input matInput [type]="hide ? 'password' :'text'" formControlName="newPassword" />
+                                <mat-error *ngIf="!form.controls['newPassword'].valid">
+                                    Must between 6 to 32 charactes with 1 uppercase letter and 1 number
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="forgot_pass-full-width" appearance="fill" style="margin-top: 10px;">
+                                <mat-label>Re-enter Your Password</mat-label>
+                                <input matInput input matInput [type]="hide ? 'password' :'text'"
+                                    formControlName="rePassword" />
+                            </mat-form-field>
+                            <button mat-raised-button class="submit" type="submit" mat-raised-button
+                                color="primary">Change</button>
+                            <a [routerLink]="['/login']" class="btn btn-link"
+                                style="margin: auto; display: block;">Back To Login</a>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <input matInput [type]="hide ? 'password' :'text'" formControlName="rePassword" class="form-control" />
-                    </div>
-                </form>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-raised-button type="submit" class="button btn-primary" (click)="onSubmit()" mat-raised-button color="primary">Send</button>
-            </mat-card-actions>
-            <mat-card-content>
-                <a href="#">Back to login</a>
-            </mat-card-content>
-        </mat-card>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
     </div>
-</div>
+</section>
