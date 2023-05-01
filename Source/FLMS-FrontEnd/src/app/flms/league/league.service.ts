@@ -202,6 +202,12 @@ export class LeagueService {
   updateLeague(league: GetUpdateLeagueDetail) {
     return this.http.put(`${environment.apiUrl}/api/League/UpdateLeagueBasicInfo`, league, { headers: this.headers });
   }
-
+  loseJudge(matchId: number, clubId: number): Observable<any> {
+    let body = {
+      matchId,
+      clubId
+    }
+    return this.http.put<any>(`${environment.apiUrl}/api/Match/LoseJudge`, body, { headers: this.headers });
+  }
 
 }
