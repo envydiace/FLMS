@@ -59,25 +59,10 @@ export class MatchEventComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) this.addlistMatchEvent(result);
-     
-
+      // if (result != null) this.addlistMatchEvent(result);
       this.initDataSource();
       console.log('The dialog was closed');
     });
-  }
-
-  public addlistMatchEvent(addmatchEvent: AddMatchEvent[]) {
-    this.matchService.addListEvent(addmatchEvent)
-      .pipe(first())
-      .subscribe({
-        next: response => {
-          this.commonService.sendMessage(response.message, 'success');
-        },
-        error: error => {
-          this.commonService.sendMessage(error.error.message, 'fail');
-        }
-      });
   }
 
 }

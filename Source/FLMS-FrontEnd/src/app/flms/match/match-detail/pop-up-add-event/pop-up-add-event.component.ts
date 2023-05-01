@@ -22,6 +22,7 @@ export class PopUpAddEventComponent implements OnInit {
   matchId: number;
   matchDetail: MatchDetail;
   addmatchEvent: AddMatchEvent[] = [];
+  loading = false;
 
   listPlayer: getListPlayerJoinMatch[] = [];
   matchEvent: MatchEvent[] = [];
@@ -62,7 +63,26 @@ export class PopUpAddEventComponent implements OnInit {
 
   getMatchEvent(matchId: number) {
     this.matchService.getMatchEvent(matchId).pipe(
-      map((res: MatchEvent[]) => this.matchEvent = res)
+      map((matchEvent: MatchEvent[]) => {
+        matchEvent.forEach(element => {
+          let tempEvent: AddMatchEvent = {
+            matchId: element.matchId,
+            eventTime: element.eventTime,
+            eventType: element.eventType,
+            clubId: element.clubId,
+            mainId: element.main.playerId,
+            subId: element.sub == null ? null : element.sub.playerId,
+            mainName: element.main.name,
+            subName: element.sub == null ? null : element.sub.name,
+            clubName: null,
+            isHome: element.isHome
+          }
+
+          const newUsersArray = this.addmatchEvent;
+          newUsersArray.push(tempEvent);
+          this.addmatchEvent = [...newUsersArray];
+        });
+      })
     ).subscribe();
   }
 
@@ -81,7 +101,7 @@ export class PopUpAddEventComponent implements OnInit {
   }
 
   onChangeTypeAndTeam($event: any) {
-    // alert(this.type + this.clubId);
+    this.getControl('sub').disable();
     if (this.getControl('eventType').value != null && this.getControl('eventType').value != undefined
       && this.getControl('clubId').value != null && this.getControl('clubId').value != undefined) {
       if (this.getControl('eventType').value == 'OwnGoal') {
@@ -90,7 +110,12 @@ export class PopUpAddEventComponent implements OnInit {
       } else {
         this.tempClubId = this.getControl('clubId').value;
       }
+      if (this.getControl('eventType').value == 'Goal') {
+        this.getControl('sub').enable();
+      }
 
+      this.getControl('main').setValue(null);
+      this.getControl('sub').setValue(null);
       this.matchService.getListPlayerJoinMatch(this.tempClubId, this.data.matchId).pipe(map((res: getListPlayerJoinMatch[]) => {
         this.listPlayer = res
       })
@@ -100,8 +125,6 @@ export class PopUpAddEventComponent implements OnInit {
     }
   }
 
-
-
   addEventIntoList() {
     // stop here if form is invalid
     if (this.matchDetailForm.invalid) {
@@ -109,8 +132,6 @@ export class PopUpAddEventComponent implements OnInit {
     }
 
     let eventTime: number = +this.getControl('eventTime').value;
-    // if (eventTime >= 0 || eventTime <= 90) {
-    //   eventTime = eventTime;
 
     const MatchEvent: AddMatchEvent = {
       matchId: this.matchId,
@@ -121,16 +142,13 @@ export class PopUpAddEventComponent implements OnInit {
       subId: this.getControl('sub').value == null ? null : this.getControl('sub').value.playerId,
       mainName: this.getControl('main').value.name,
       subName: this.getControl('sub').value == null ? null : this.getControl('sub').value.name,
-      clubName: this.matchDetail.home.clubId == this.getControl('clubId').value ? this.matchDetail.home.name : this.matchDetail.away.name
+      clubName: this.matchDetail.home.clubId == this.getControl('clubId').value ? this.matchDetail.home.name : this.matchDetail.away.name,
+      isHome: null
     }
-    // this.addmatchEvent.push(MatchEvent);
 
     const newUsersArray = this.addmatchEvent;
     newUsersArray.push(MatchEvent);
     this.addmatchEvent = [...newUsersArray];
-    // }else{
-
-    // }
   }
 
   openConfirmedRemoveEvent(eventId: number): void {
@@ -145,10 +163,28 @@ export class PopUpAddEventComponent implements OnInit {
     });
   }
 
-  removeNewEvent(position: number) {
+  removeTempOldEvent(position: number) {
     const newUsersArray = this.addmatchEvent;
     newUsersArray.splice(position, 1);
     this.addmatchEvent = [...newUsersArray];
+  }
+
+  addlistMatchEvent() {
+    this.loading = true;
+
+    this.matchService.addListEvent(this.addmatchEvent)
+      .pipe(first())
+      .subscribe({
+        next: response => {
+          this.loading = false;
+          this.dialogRef.close();
+          this.commonService.sendMessage(response.message, 'success');
+        },
+        error: error => {
+          this.loading = false;
+          this.commonService.sendMessage(error.error.message, 'fail');
+        }
+      });
   }
 }
 

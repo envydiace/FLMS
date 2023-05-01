@@ -1,10 +1,10 @@
 <div>
     <div *ngIf="userRole == 'LEAGUE_MANAGER'">
-    <button mat-raised-button color="primary" (click)="openAddMatchEvent(matchId)"
-    style="margin-top: 10px; margin-bottom: 10px;">Add</button>
+        <button mat-raised-button color="primary" (click)="openAddMatchEvent(matchId)"
+            style="margin: 10px;">Update</button>
     </div>
 </div>
-<div style="background-color: #f8f8f8;">
+<div style="background-color: #f8f8f8; padding: 10px; text-align: center;">
     <div *ngFor="let matchEvent of matchEvent">
         <div class="match-event-info">
             <div class="match-event row justify-content-center">
@@ -50,4 +50,5 @@
             <div class="vl"></div>
         </div>
     </div>
+    <p style="font-size: 25px; font-weight: 500; margin-top: 20px;">Full-time</p>
 </div>
