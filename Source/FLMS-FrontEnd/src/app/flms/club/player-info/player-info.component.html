@@ -66,7 +66,7 @@
                                             <input matInput formControlName="name">
                                             <mat-error
                                                 *ngIf="!form.controls['name'].valid && form.controls['name'].touched">
-                                                Required
+                                                Required, and player name can't have more than 200 characters
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
@@ -131,7 +131,7 @@
                                                 <input matInput formControlName="address">
                                                 <mat-error
                                                     *ngIf="!form.controls['address'].valid && form.controls['address'].touched">
-                                                    Required
+                                                    Address can't have more than 255 characters
                                                 </mat-error>
                                             </mat-form-field>
                                         </div>
