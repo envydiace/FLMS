@@ -482,11 +482,11 @@ namespace FLMS_BackEnd.Services.Impl
             bool isHome;
             if (match.Home.ClubClone.ClubId == request.ClubId)
             {
-                isHome = true;
+                isHome = false;
             }
             else if (match.Away.ClubClone.ClubId == request.ClubId)
             {
-                isHome = false;
+                isHome = true;
             }
             else
             {
@@ -500,7 +500,7 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 MatchEvent matchEvent = new MatchEvent
                 {
-                    EventType = Constants.MatchEventType.Goal.ToString(),
+                    EventType = Constants.MatchEventType.OwnGoal.ToString(),
                     EventTime = Constants.Judge.DEFAULT_TIME,
                     MatchId = request.MatchId,
                     MainId = Constants.Judge.ANONYMOUS_PLAYER_ID,
