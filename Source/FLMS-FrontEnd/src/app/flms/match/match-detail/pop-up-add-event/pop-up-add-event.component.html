@@ -1,9 +1,12 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+</div>
+
 <p>
     <mat-toolbar class="card">
         <span>Update Event</span>
         <div style="margin: 0 0 0 auto;">
-            <button mat-raised-button type="submit" color="primary" [mat-dialog-close]="addmatchEvent"
-                cdkFocusInitial>Save</button>
+            <button mat-raised-button type="submit" color="primary" (click)="addlistMatchEvent()">Save</button>
         </div>
     </mat-toolbar>
 </p>
@@ -12,7 +15,7 @@
 <div class="list-fee">
     <form [formGroup]="matchDetailForm">
 
-        <table mat-table [dataSource]="matchEvent" class="mat-elevation-z8">
+        <table mat-table [dataSource]="addmatchEvent" class="mat-elevation-z8">
             <ng-container matColumnDef="time">
                 <th mat-header-cell *matHeaderCellDef> Time </th>
                 <td mat-cell *matCellDef="let element;"> {{element.eventTime}} </td>
@@ -35,14 +38,14 @@
             <ng-container matColumnDef="player">
                 <th mat-header-cell *matHeaderCellDef> Player </th>
                 <td mat-cell *matCellDef="let element">
-                    {{element.main.name}}
+                    {{element.mainName}}
                 </td>
 
             </ng-container>
             <ng-container matColumnDef="assist">
                 <th mat-header-cell *matHeaderCellDef> Assist </th>
                 <td mat-cell *matCellDef="let element">
-                    {{element.sub != null ? element.sub.name : ''}}
+                    {{element.subName != null ? element.subName : ''}}
                 </td>
             </ng-container>
 
@@ -50,8 +53,7 @@
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let element; let i = index">
                     <!-- <button mat-raised-button color="primary" style="margin-right: 10px;">Accept</button> -->
-                    <button mat-raised-button color="warn"
-                        (click)="openConfirmedRemoveEvent(element.matchEventId)">Delete</button>
+                    <button mat-raised-button color="warn" (click)="removeTempOldEvent(i)">Delete</button>
                 </td>
             </ng-container>
 
@@ -129,7 +131,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </form>
-
+<!-- 
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -181,7 +183,7 @@
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    </table> -->
 
 
 </div>

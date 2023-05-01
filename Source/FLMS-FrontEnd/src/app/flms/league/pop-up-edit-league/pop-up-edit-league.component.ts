@@ -141,16 +141,20 @@ export class PopUpEditLeagueComponent implements OnInit {
   }
 
   openConfirmEditLeague(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(PopUpConfirmEditLeagueComponent, {
       width: '60%',
-      data: {  },
+      data: {},
       disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.conStatus=result;
-      if(result ==true ){
+      this.conStatus = result;
+      if (result == true) {
         this.onSubmit();
-      }else{
+      } else {
         return;
       }
     });

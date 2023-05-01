@@ -8,6 +8,7 @@ export interface MatchEvent {
     isHome: boolean,
     main: Player,
     sub: Player,
+    clubId: number,
 }
 
 
@@ -19,8 +20,8 @@ export class MatchEvent implements MatchEvent {
         eventTime: number,
         isHome: boolean,
         main: Player,
-        sub: Player
-
+        sub: Player,
+        clubId: number,
     ) {
         this.matchEventId = matchEventId;
         this.matchId = matchId;
@@ -28,7 +29,8 @@ export class MatchEvent implements MatchEvent {
         this.eventTime = eventTime;
         this.isHome = isHome;
         this.main = main;
-        this.sub = sub
+        this.sub = sub;
+        this.clubId = clubId;
     }
 }
 
@@ -42,7 +44,8 @@ export interface AddMatchEvent {
     clubId: number,
     mainName: string,
     subName: string,
-    clubName: string
+    clubName: string,
+    isHome: boolean,
 }
 
 export class AddMatchEvent implements AddMatchEvent {
@@ -55,7 +58,8 @@ export class AddMatchEvent implements AddMatchEvent {
         clubId: number,
         mainName: string,
         subName: string,
-        clubName: string
+        clubName: string,
+        isHome: boolean
     ) {
         this.mainId = mainId;
         this.subId = subId;
@@ -66,5 +70,6 @@ export class AddMatchEvent implements AddMatchEvent {
         this.mainName = mainName;
         this.subName = subName;
         this.clubName = clubName;
+        this.isHome = isHome;
     }
 }
