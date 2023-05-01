@@ -1,3 +1,10 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner  [hidden]="!loading"></mat-spinner>
+    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div> -->
+</div>
+
 <h1 mat-dialog-title style="font-weight: 600;">Add Player for {{data.clubName}}</h1>
 
 <form [formGroup]="addPlayerFormGroup">
