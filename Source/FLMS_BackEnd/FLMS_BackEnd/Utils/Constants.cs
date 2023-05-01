@@ -323,6 +323,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-EV-05","Sub player invalid" },
             {"ER-EV-06","Event doesn't exist" },
             {"ER-EV-07","Delete match event fail" },
+            {"ER-EV-08","The parent match has been finished" },
 
             {"ER-CC-01","This club clone is not existed" },
         };
