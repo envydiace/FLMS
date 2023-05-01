@@ -54,13 +54,25 @@ export class PopUpAddActualComponent implements OnInit {
   }
 
   addActualFeetoList() {
-    if (this.expenseName == null || this.expenseName == '' || this.feeCost == null || this.type == null) {
-      if (this.expenseName == null || this.expenseName == '') {
+    const pattern = /^[a-zA-Z]*$/;
+    if (this.expenseName == null || this.expenseName == '' || this.expenseName.trim().length == 0 || this.expenseName.trim().length > 50 ||
+      this.feeCost == null || this.type == null) {
+      if (this.expenseName == null || this.expenseName == '' || this.expenseName.trim().length == 0 || this.expenseName.length > 50
+      ) {
         this.isErrorEn = true;
       } else {
-        if (this.expenseName.trim() == '') {
+        if (this.expenseName.trim().length == 0) {
           this.isErrorEn = true;
-        } else {
+        }
+        else if (this.expenseName.length > 50) {
+          this.isErrorEn = true;
+        }
+        else if (this.expenseName == '') {
+          this.isErrorEn = true;
+        } else if (this.expenseName == null) {
+          this.isErrorEn = true;
+        }
+        else {
           this.isErrorEn = false;
         }
       }
