@@ -415,5 +415,10 @@ namespace FLMS_BackEnd.Utils
             }
 
         }
+        public static int GetClubIdOfEvent(MatchEvent matchEvent)
+        {
+            var clubClone = (matchEvent.IsHome ? matchEvent.Match.Home : matchEvent.Match.Away).ClubClone;
+            return clubClone != null && clubClone.ClubId != null ? clubClone.ClubId.Value : 0;
+        }
     }
 }

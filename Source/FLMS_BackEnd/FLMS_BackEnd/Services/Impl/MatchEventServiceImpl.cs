@@ -23,6 +23,8 @@ namespace FLMS_BackEnd.Services.Impl
         public async Task<List<MatchEventDTO>> GetMatchEvent(int matchId)
         {
             var matchEvents = await matchEventRepository.FindByCondition(e => e.MatchId == matchId)
+                                    .Include(e => e.Match).ThenInclude(m => m.Home).ThenInclude(h => h.ClubClone)
+                                    .Include(e => e.Match).ThenInclude(m => m.Away).ThenInclude(a => a.ClubClone)
                                     .Include(e => e.Main)
                                     .Include(e => e.Sub)
                                         .OrderBy(e => e.EventTime)
@@ -234,6 +236,14 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
+            if (match.League.Status.Equals(Constants.LeagueStatus.Finished.ToString()))
+            {
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-07"
+                };
+            }
             if (match.Home.ClubClone == null || match.Home.ClubClone.ClubId == null ||
                 match.Away.ClubClone == null || match.Away.ClubClone.ClubId == null)
             {
@@ -243,39 +253,91 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-06"
                 };
             }
-            foreach(var ev in match.MatchEvents)
+            List<MatchEvent> matchEvents = new List<MatchEvent>();
+            try
+            {
+                matchEvents = this.GenerateMatchEvents(requests, match);
+            }
+            catch (Exception e)
+            {
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = e.Message
+                };
+            }
+            if (match.IsFinish)
+            {
+                var listNewGoal = matchEvents.Where(ev =>
+                    ev.EventType.Equals(Constants.MatchEventType.Goal.ToString()) ||
+                    ev.EventType.Equals(Constants.MatchEventType.OwnGoal.ToString())
+                ).ToList();
+                if (listNewGoal.Count > 0)
+                {
+                    var listOldGoal = match.MatchEvents.Where(ev =>
+                        ev.EventType.Equals(Constants.MatchEventType.Goal.ToString()) ||
+                        ev.EventType.Equals(Constants.MatchEventType.OwnGoal.ToString())
+                    ).ToList();
+                    //Calculate new result
+
+                    //Calculate old result
+                    switch (MethodUtils.GetLeagueTypeByName(match.League.LeagueType))
+                    {
+                        case Constants.LeagueType.LEAGUE:
+                            break;
+                        case Constants.LeagueType.KO:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            foreach (var ev in match.MatchEvents)
             {
                 await matchEventRepository.DeleteAsync(ev);
             }
+            matchEvents.ForEach(matchEvent =>
+            {
+                match.MatchEvents.Add(matchEvent);
+            });
+            var result = await matchRepository.UpdateAsync(match);
+            if (result != null)
+            {
+                return new AddMatchEventResponse { Success = true, MessageCode = "MS-EV-01" };
+            }
+            else
+            {
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-EV-04"
+                };
+            }
+        }
+        private List<MatchEvent> GenerateMatchEvents(List<AddMatchEventRequest> requests, Match match)
+        {
+            var result = new List<MatchEvent>();
             foreach (var request in requests)
             {
                 request.EventType = request.EventType.Trim();
 
                 bool isHome;
-                if (match.Home.ClubClone.ClubId == request.ClubId)
+                if (match.Home.ClubClone != null && match.Home.ClubClone.ClubId == request.ClubId)
                 {
                     isHome = true;
                 }
-                else if (match.Away.ClubClone.ClubId == request.ClubId)
+                else if (match.Away.ClubClone != null && match.Away.ClubClone.ClubId == request.ClubId)
                 {
                     isHome = false;
                 }
                 else
                 {
-                    return new AddMatchEventResponse
-                    {
-                        Success = false,
-                        MessageCode = "ER-MA-07"
-                    };
+                    throw new Exception("ER-MA-07");
                 }
                 request.SubId = request.SubId != 0 ? request.SubId : null;
                 if (request.MainId == request.SubId)
                 {
-                    return new AddMatchEventResponse
-                    {
-                        Success = false,
-                        MessageCode = "ER-EV-01"
-                    };
+                    throw new Exception("ER-EV-01");
                 }
                 bool checkHome;
                 switch (MethodUtils.GetMatchEventTypeByName(request.EventType))
@@ -293,11 +355,7 @@ namespace FLMS_BackEnd.Services.Impl
                         request.SubId = null;
                         break;
                     default:
-                        return new AddMatchEventResponse
-                        {
-                            Success = false,
-                            MessageCode = "ER-EV-02"
-                        };
+                        throw new Exception("ER-EV-02");
                 }
                 MatchEvent matchEvent = new()
                 {
@@ -308,21 +366,9 @@ namespace FLMS_BackEnd.Services.Impl
                     SubId = request.SubId,
                     IsHome = isHome
                 };
-                match.MatchEvents.Add(matchEvent);
+                result.Add(matchEvent);
             }
-            var result = await matchRepository.UpdateAsync(match);
-            if (result != null)
-            {
-                return new AddMatchEventResponse { Success = true, MessageCode = "MS-EV-01" };
-            }
-            else
-            {
-                return new AddMatchEventResponse
-                {
-                    Success = false,
-                    MessageCode = "ER-EV-04"
-                };
-            }
+            return result;
         }
     }
 }
