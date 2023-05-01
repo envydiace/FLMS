@@ -12,7 +12,7 @@
                                 cdkDragBoundary=".line-up-field" [cdkDragFreeDragPosition]="player.coordinate"
                                 cdkDragDisabled="true" cdkDrag>
                                 <img mat-card-avatar class="player-header-image"
-                                    [src]="player.playerAvatar != null ? player.playerAvatar : defaultAvatar"><br>
+                                    [src]="player.playerAvatar != null ? player.playerAvatar : imgSrc"><br>
                                 <mat-card-subtitle>{{player.playerName !=
                                     null ?
                                     player.playerName : '_'}} - {{player.number}}</mat-card-subtitle>
@@ -63,7 +63,7 @@
                                 cdkDragBoundary=".line-up-field" [cdkDragFreeDragPosition]="player.coordinate"
                                 cdkDragDisabled="true" cdkDrag>
                                 <img mat-card-avatar class="player-header-image"
-                                    [src]="player.playerAvatar != null ? player.playerAvatar : defaultAvatar"><br>
+                                    [src]="player.playerAvatar != null ? player.playerAvatar : imgSrc"><br>
                                 <mat-card-subtitle>{{player.playerName !=
                                     null ?
                                     player.playerName : '_'}} - {{player.number}}</mat-card-subtitle>
