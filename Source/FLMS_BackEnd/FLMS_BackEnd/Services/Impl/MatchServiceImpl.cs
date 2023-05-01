@@ -183,6 +183,7 @@ namespace FLMS_BackEnd.Services.Impl
                                 .Include(m => m.Home).ThenInclude(h => h.ClubClone)
                                 .Include(m => m.Away).ThenInclude(a => a.ClubClone)
                                 .Include(m => m.Squads).ThenInclude(s => s.SquadPositions)
+                                .AsNoTracking()
                                     .FirstOrDefaultAsync();
             if (match == null)
             {
