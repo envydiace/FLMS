@@ -60,7 +60,7 @@ namespace FLMS_BackEnd.Controllers
         [Authorize(Roles = "LEAGUE_MANAGER")]
         public async Task<ActionResult<FinishMatchResponse>> FinishMatch(int id)
         {
-            var response = await matchService.FinishMatch(id, UserID);
+            var response = await matchService.FinishMatch(id, UserID, false);
             if (response.Success)
             {
                 return Ok(response);

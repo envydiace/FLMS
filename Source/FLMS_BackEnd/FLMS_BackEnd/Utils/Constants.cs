@@ -205,6 +205,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-16","Some matches are not finished yet" },
             {"ER-LE-17","Can not update finished league" },
             {"ER-LE-18","Not enough participate" },
+            {"ER-LE-19","The league hasn't started yet" },
 
             {"MS-PL-01","Add player successfully"},
             {"MS-PL-02","Player deleted successfully"},
@@ -293,6 +294,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-SQ-09","User doesn't have permission to remove player from position" },
             {"ER-SQ-10","Squad size does not valid" },
             {"ER-SQ-11","Update squad fail" },
+            {"ER-SQ-12","Match's squads do not complete" },
 
             {"MS-MA-01","Finish match success" },
             {"MS-MA-02","Update match success" },

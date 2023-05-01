@@ -40,7 +40,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-CL-02"
                 };
             }
-            if (userId !=0 && club.UserId != userId)
+            if (userId != 0 && club.UserId != userId)
             {
                 return new ClubResponse
                 {
@@ -185,6 +185,8 @@ namespace FLMS_BackEnd.Services.Impl
                 return result;
             }
             var squads = await squadRepository.FindByCondition(s =>
+                            !s.Match.IsFinish &&
+                            s.Match.League.Status.Equals(Constants.LeagueStatus.OnGoing.ToString()) &&
                             s.Match.Home.ClubClone != null &&
                             s.Match.Away.ClubClone != null &&
                             s.Match.Home.ClubClone.ClubId != null &&
@@ -198,8 +200,7 @@ namespace FLMS_BackEnd.Services.Impl
                                     !s.IsHome &&
                                     clubIds.Contains(s.Match.Away.ClubClone.ClubId.Value)
                                 )
-                            ) &&
-                            !s.Match.IsFinish
+                            )
                             )
                             .Include(s => s.Match).ThenInclude(m => m.Home).ThenInclude(h => h.ClubClone).ThenInclude(cl => cl.Club)
                             .Include(s => s.Match).ThenInclude(m => m.Away).ThenInclude(h => h.ClubClone).ThenInclude(cl => cl.Club)
