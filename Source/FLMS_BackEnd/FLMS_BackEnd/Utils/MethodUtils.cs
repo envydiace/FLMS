@@ -55,14 +55,21 @@ namespace FLMS_BackEnd.Utils
             List<Squad> result = new List<Squad>();
             if (MaxPlayerInTeam < NoPlayerInSquad)
             {
-                return null;
+                return new List<Squad>();
+            }
+            var positionDic = Constants.DefaultSquadCoordinate.GetValueOrDefault(NoPlayerInSquad);
+            if (positionDic == null)
+            {
+                return new List<Squad>();
             }
             List<SquadPosition> homeSquads = new List<SquadPosition>();
             List<SquadPosition> awaySquads = new List<SquadPosition>();
             for (int i = 0; i < NoPlayerInSquad; i++)
             {
-                homeSquads.Add(new SquadPosition { PositionKey = "P" + (i + 1) });
-                awaySquads.Add(new SquadPosition { PositionKey = "P" + (i + 1) });
+                string positionKey = "P" + (i + 1);
+                CoordinateDTO coordinate = positionDic.GetValueOrDefault(positionKey) != null ? positionDic[positionKey] : new CoordinateDTO();
+                homeSquads.Add(new SquadPosition { PositionKey = positionKey, CoordinateX = coordinate.X, CoordinateY = coordinate.Y });
+                awaySquads.Add(new SquadPosition { PositionKey = positionKey, CoordinateX = coordinate.X, CoordinateY = coordinate.Y });
             }
             for (int i = 0; i < MaxPlayerInTeam - NoPlayerInSquad; i++)
             {
