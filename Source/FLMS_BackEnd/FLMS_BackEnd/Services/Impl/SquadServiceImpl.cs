@@ -24,7 +24,9 @@ namespace FLMS_BackEnd.Services.Impl
         {
             var matchSquad = await squadRepository.FindByCondition(s => s.MatchId == matchId)
                                     .Include(s => s.Match).ThenInclude(m => m.League)
-                                    .Include(s => s.SquadPositions).ThenInclude(p => p.Player)
+                                    .Include(s => s.SquadPositions).ThenInclude(p => p.Player).ThenInclude(p => p.PlayerClubs)
+                                    .Include(s => s.Match).ThenInclude(m => m.Home).ThenInclude(h => h.ClubClone)
+                                    .Include(s => s.Match).ThenInclude(m => m.Away).ThenInclude(h => h.ClubClone)
                                         .ToListAsync();
             return new MatchSquadResponse
             {
@@ -400,7 +402,7 @@ namespace FLMS_BackEnd.Services.Impl
             mainSquadPositions.ForEach(sp =>
             {
                 var position = request.Mains.ElementAt(mainIndex);
-               
+
                 if (position != null)
                 {
                     sp.PlayerId = position.PlayerId;

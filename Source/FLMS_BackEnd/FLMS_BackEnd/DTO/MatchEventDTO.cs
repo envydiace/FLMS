@@ -9,5 +9,6 @@
         public bool IsHome { get; set; }
         public virtual MatchEventPlayerDTO Main { get; set; } = null!;
         public virtual MatchEventPlayerDTO? Sub { get; set; }
+        public int ClubId { get; set; }
     }
 }

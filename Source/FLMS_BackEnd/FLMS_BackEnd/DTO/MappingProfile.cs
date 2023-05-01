@@ -373,7 +373,11 @@ namespace FLMS_BackEnd.DTO
                 ;
 
             //MatchEvent
-            CreateMap<MatchEvent, MatchEventDTO>();
+            CreateMap<MatchEvent, MatchEventDTO>()
+                .ForMember(dto => dto.ClubId,
+                map => map.MapFrom(
+                    ev => MethodUtils.GetClubIdOfEvent(ev)
+                    ));
 
             CreateMap<Player, MatchEventPlayerDTO>();
 
