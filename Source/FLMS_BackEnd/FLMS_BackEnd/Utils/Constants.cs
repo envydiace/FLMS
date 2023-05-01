@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FLMS_BackEnd.DTO;
+using System.Collections.Generic;
 
 namespace FLMS_BackEnd.Utils
 {
@@ -109,6 +110,34 @@ namespace FLMS_BackEnd.Utils
 
         public const string HOME = "Home";
         public const string AWAY = "Away";
+
+        public static readonly Dictionary<int, Dictionary<string, CoordinateDTO>> DefaultSquadCoordinate = new Dictionary<int, Dictionary<string, CoordinateDTO>>
+        {
+            {7,new Dictionary<string, CoordinateDTO>
+            {
+                {"P1", new CoordinateDTO{X = 279, Y=595 } },
+                {"P2", new CoordinateDTO{X = 279, Y=461 } },
+                {"P3", new CoordinateDTO{X = 487, Y=373 } },
+                {"P4", new CoordinateDTO{X = 72, Y=370 } },
+                {"P5", new CoordinateDTO{X = 395, Y=205 } },
+                {"P6", new CoordinateDTO{X = 156, Y=205 } },
+                {"P7", new CoordinateDTO{X = 277, Y=61 } }
+            } },
+            {11, new Dictionary<string, CoordinateDTO>
+            {
+                {"P1", new CoordinateDTO{X = 279, Y=595 } },
+                {"P2", new CoordinateDTO{X = 276, Y=177 } },
+                {"P3", new CoordinateDTO{X = 99, Y=133 } },
+                {"P4", new CoordinateDTO{X = 455, Y=135 } },
+                {"P5", new CoordinateDTO{X = 278, Y=39 } },
+                {"P6", new CoordinateDTO{X = 27, Y=400 } },
+                {"P7", new CoordinateDTO{X = 177, Y=454 } },
+                {"P8", new CoordinateDTO{X = 383, Y=454 } },
+                {"P9", new CoordinateDTO{X = 532, Y=401 } },
+                {"P10", new CoordinateDTO{X = 174, Y=316 } },
+                {"P11", new CoordinateDTO{X = 386, Y=316 } }
+            } }
+        };
 
         public static readonly Dictionary<string, string> SystemMessage = new Dictionary<string, string>
         {
