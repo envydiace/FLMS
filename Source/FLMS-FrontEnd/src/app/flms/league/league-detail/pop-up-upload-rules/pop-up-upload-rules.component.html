@@ -1,0 +1,40 @@
+<div class="example-loading-shade" *ngIf="loading">
+    <mat-spinner [hidden]="!loading"></mat-spinner>
+</div>
+<div>
+    <p>
+        <mat-toolbar class="card">
+            <span>Upload Rules</span>
+        </mat-toolbar>
+    </p>
+</div>
+
+
+<div class="card">
+    <div class="">
+        <div class="card mb-4 mb-xl-0">
+            <div class="card-body text-center">
+                <img class="img-account-profile rounded-circle mb-2"
+                    [src]="data.leagueLogo != null ? data.leagueLogo : imgSrc" alt="">
+                <div class="bold mb-4" style="font-size: 25px; font-weight: 500;">{{data.leagueName}}</div>
+
+                <!-- <mat-form-field class="example-full-width">
+                    <mat-label>Registration Fee</mat-label>
+                    <input matInput value="{{total}}" disabled>
+                </mat-form-field> -->
+
+                <div>
+                    <mat-label>File Rules: </mat-label>
+                    <input type="file" (change)="showPreview($event)">
+                </div>
+                <div class="small font-italic text-muted mb-4">PDF no larger than 5 MB</div>
+
+                <div style="justify-content: center;">
+                    <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

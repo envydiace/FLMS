@@ -10,6 +10,7 @@ import { LeagueService } from '../league.service';
 import { PopupDeleteLeagueComponent } from '../popup-delete-league/popup-delete-league.component';
 import { PopUpEditLeagueComponent } from '../pop-up-edit-league/pop-up-edit-league.component';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PopUpUploadRulesComponent } from './pop-up-upload-rules/pop-up-upload-rules.component';
 
 @Component({
   selector: 'app-league-detail',
@@ -48,14 +49,27 @@ export class LeagueDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initDataSource();
     this.userRole = this.authen.getUserRole();
+
+    this.initDataSource();
   }
 
   initDataSource() {
-    this.LeagueService.getLeagueInfo(this.leagueId).pipe(
-      map((res: LeagueDetailResponse) => this.leagueDetail = res.leagueInfo)
-    ).subscribe();
+    if (this.userRole == 'LEAGUE_MANAGER') {
+      this.LeagueService.getLeagueInfo(this.leagueId).pipe(
+        map((res: LeagueDetailResponse) => this.leagueDetail = res.leagueInfo)
+      ).subscribe({
+        next: response => {
+        },
+        error: error => {
+          this.router.navigate(['/not-found']);
+        }
+      });
+    } else {
+      this.LeagueService.getLeagueInfoRoleClub(this.leagueId).pipe(
+        map((res: LeagueDetailResponse) => this.leagueDetail = res.leagueInfo)
+      ).subscribe();
+    }
   }
 
   openDeleteLeaguePopup(leagueId: number): void {
@@ -80,4 +94,18 @@ export class LeagueDetailComponent implements OnInit {
     });
   }
 
+  openUploadRule(): void {
+    const dialogRef = this.dialog.open(PopUpUploadRulesComponent, {
+      width: '30%',
+      data: {
+        leagueId: this.leagueId,
+        leagueName: this.leagueDetail.leagueName,
+        leagueLogo: this.leagueDetail.logo
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      console.log('The dialog was closed');
+    });
+  }
 }

@@ -11,6 +11,7 @@ import { LeagueListComponent } from './league/league-list/league-list.component'
 import { LeagueDetailComponent } from './league/league-detail/league-detail.component';
 import { MatchDetailComponent } from './match/match-detail/match-detail.component';
 import { ForgotPassChangeComponent } from './forgot-pass/forgot-pass-change/forgot-pass-change.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 const routes: Routes = [
   {
@@ -63,7 +64,10 @@ const routes: Routes = [
     path : 'match-info',
     component: MatchDetailComponent
   },
-
+  {  
+    path : 'forbidden',
+    component: ForbiddenComponent
+  },
 ];
 
 @NgModule({

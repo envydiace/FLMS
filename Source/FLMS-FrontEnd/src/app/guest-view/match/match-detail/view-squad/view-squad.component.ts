@@ -10,7 +10,7 @@ import { MatchService } from '../../match.service';
 })
 export class ViewSquadComponent implements OnInit {
   @Input() matchId: number;
-  imgSrc: string = './../../../../assets/image/Default_pfp.svg.png';
+  imgSrc: string = './../../../../../assets/image/Default_pfp.svg.png';
   viewMatchSquad: ViewMatchSquad;
 
   homeStartingSquad: SquadPosition[] = [];

@@ -75,8 +75,7 @@
 
             <div class="card-body text-center">
                 <img class="img-account-profile rounded-circle mb-2" src="{{logo}}" alt="">
-                <div class="bold mb-4"> {{clubName}}</div>
-                <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                <div class="bold mb-4" style="font-size: 25px; font-weight: 500;"> {{clubName}}</div>
 
                 <mat-form-field class="example-full-width">
                     <mat-label>Registration Fee</mat-label>
@@ -87,8 +86,10 @@
                     <mat-label>Evidence: </mat-label>
                     <input type="file" (change)="showPreview($event)">
                 </div>
-                <div class="col-sm-4" style="justify-content: center;">
-                    <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+                <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+
+                <div style="justify-content: center;">
+                    <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
 
                 </div>
             </div>

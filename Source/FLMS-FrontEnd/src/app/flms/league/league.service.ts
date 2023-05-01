@@ -56,6 +56,12 @@ export class LeagueService {
     return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueInfo/${leagueId}`, { headers: this.headers });
   }
 
+  public getLeagueInfoRoleClub(
+    leagueId: number
+  ): Observable<LeagueDetailResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/api/League/GetListLeagueInfo/${leagueId}`);
+  }
+
   findClubByLeague(
     leagueId: string,
     clubName: string

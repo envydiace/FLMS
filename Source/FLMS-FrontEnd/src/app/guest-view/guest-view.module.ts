@@ -58,6 +58,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PopUpViewPlayerInfoComponent } from './club/club-detail/pop-up-view-player-info/pop-up-view-player-info.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ForgotPassComponent,
     FooterComponent,
     TournamentTreeGvComponent,
-    PopUpViewPlayerInfoComponent
+    PopUpViewPlayerInfoComponent,
+    ForbiddenComponent
   ],
   imports: [
     CommonModule,

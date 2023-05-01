@@ -74,6 +74,11 @@ export class EditLineUpComponent implements OnInit {
         event.previousContainer.data[event.previousIndex].coordinate = event.container.data[event.currentIndex].coordinate;
         event.container.data[event.currentIndex].coordinate = tempCoordinate;
 
+        // swap Coordinate
+        let tempSquadPositionId = event.previousContainer.data[event.previousIndex].squadPositionId;
+        event.previousContainer.data[event.previousIndex].squadPositionId = event.container.data[event.currentIndex].squadPositionId;
+        event.container.data[event.currentIndex].squadPositionId = tempSquadPositionId;
+
         let oldtarget = event.previousContainer.data[event.previousIndex];
         event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
         event.container.data[event.currentIndex] = oldtarget;
@@ -139,7 +144,7 @@ export class EditLineUpComponent implements OnInit {
       });
   }
 
-  dragEnd($event: CdkDragEnd, squadPositionId: number) {
+  dragEnd($event: CdkDragEnd, squadPositionId: any) {
     const coordinate: Coordinate = $event.source.getFreeDragPosition();
     this.startingSquad.find(x => x.squadPositionId == squadPositionId).coordinate = coordinate;
   }
