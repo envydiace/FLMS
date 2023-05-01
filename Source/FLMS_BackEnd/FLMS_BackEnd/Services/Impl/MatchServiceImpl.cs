@@ -60,7 +60,7 @@ namespace FLMS_BackEnd.Services.Impl
                         matchClub.HA = "Home";
                         if (match != null && match.Away != null && match.Away.ClubClone != null)
                         {
-                            if (match.Away.ClubClone.Club != null )
+                            if (match.Away.ClubClone.Club != null)
                             {
                                 matchClub.Against = match.Away.ClubClone.Club.ClubName.Trim();
                                 matchClub.Logo = match.Away.ClubClone.Club.Logo;
@@ -175,13 +175,14 @@ namespace FLMS_BackEnd.Services.Impl
                 Match = result
             };
         }
-        public async Task<FinishMatchResponse> FinishMatch(int matchId, int userId)
+        public async Task<FinishMatchResponse> FinishMatch(int matchId, int userId, bool isJudge)
         {
             var match = await matchRepository.FindByCondition(m => m.MatchId == matchId)
                                 .Include(m => m.League)
                                 .Include(m => m.MatchStats)
                                 .Include(m => m.Home).ThenInclude(h => h.ClubClone)
                                 .Include(m => m.Away).ThenInclude(a => a.ClubClone)
+                                .Include(m => m.Squads).ThenInclude(s => s.SquadPositions)
                                     .FirstOrDefaultAsync();
             if (match == null)
             {
@@ -206,6 +207,30 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     Success = false,
                     MessageCode = "ER-MA-02"
+                };
+            }
+            if (!isJudge && match.Squads.SelectMany(s => s.SquadPositions).Any(sp => !sp.PositionKey.Equals("P0") && sp.PlayerId == null))
+            {
+                return new FinishMatchResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-SQ-12"
+                };
+            }
+            if (match.League.Status.Equals(Constants.LeagueStatus.New.ToString()))
+            {
+                return new FinishMatchResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-19"
+                };
+            }
+            if (match.League.Status.Equals(Constants.LeagueStatus.Finished.ToString()))
+            {
+                return new FinishMatchResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-07"
                 };
             }
             if (match.Home.ClubClone == null ||
@@ -459,6 +484,14 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-06"
                 };
             }
+            if (match.League.Status.Equals(Constants.LeagueStatus.New.ToString()))
+            {
+                return new LoseJudgeResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-19"
+                };
+            }
             if (match.IsFinish)
             {
                 return new LoseJudgeResponse
@@ -516,8 +549,15 @@ namespace FLMS_BackEnd.Services.Impl
                     };
                 }
             }
-            await this.FinishMatch(request.MatchId, userId);
-            return new LoseJudgeResponse { Success = true, MessageCode = "MS-MA-03" };
+            var response = await this.FinishMatch(request.MatchId, userId, true);
+            if (response.Success)
+            {
+                return new LoseJudgeResponse { Success = true, MessageCode = "MS-MA-03" };
+            }
+            else
+            {
+                return new LoseJudgeResponse { Success = false, MessageCode = response.MessageCode };
+            }
         }
     }
 }
