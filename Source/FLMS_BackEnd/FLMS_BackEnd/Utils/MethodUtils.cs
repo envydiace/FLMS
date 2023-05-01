@@ -259,7 +259,6 @@ namespace FLMS_BackEnd.Utils
             }
             return 0;
         }
-
         public static int GetNodeScore(ParticipateNode node)
         {
             bool isHome;

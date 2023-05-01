@@ -175,7 +175,7 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-EV-06"
                 };
             }
-            if(matchEvent.Match.League.UserId != userId)
+            if (matchEvent.Match.League.UserId != userId)
             {
                 return new DeleteMatchEventResponse
                 {
@@ -191,7 +191,8 @@ namespace FLMS_BackEnd.Services.Impl
                     Success = true,
                     MessageCode = "MS-EV-02"
                 };
-            }else
+            }
+            else
             {
                 return new DeleteMatchEventResponse
                 {
@@ -203,11 +204,125 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<AddMatchEventResponse> AddMultipleEvent(List<AddMatchEventRequest> requests, int userId)
         {
-            foreach(var request in requests)
+            if (requests == null || requests.Count == 0)
             {
-                await this.AddEvent(request, userId);
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-EV-04"
+                };
             }
-            return new AddMatchEventResponse { Success = true, MessageCode = "MS-EV-01" };
+            var match = await matchRepository.FindByCondition(m => m.MatchId == requests.First().MatchId)
+                    .Include(m => m.MatchEvents)
+                    .Include(m => m.Home).ThenInclude(p => p.ClubClone)
+                    .Include(m => m.Away).ThenInclude(p => p.ClubClone)
+                    .Include(m => m.League)
+                    .FirstOrDefaultAsync();
+            if (match == null)
+            {
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-01"
+                };
+            }
+            if (match.League.UserId != userId)
+            {
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-06"
+                };
+            }
+            if (match.Home.ClubClone == null || match.Home.ClubClone.ClubId == null ||
+                match.Away.ClubClone == null || match.Away.ClubClone.ClubId == null)
+            {
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-MA-06"
+                };
+            }
+            foreach(var ev in match.MatchEvents)
+            {
+                await matchEventRepository.DeleteAsync(ev);
+            }
+            foreach (var request in requests)
+            {
+                request.EventType = request.EventType.Trim();
+
+                bool isHome;
+                if (match.Home.ClubClone.ClubId == request.ClubId)
+                {
+                    isHome = true;
+                }
+                else if (match.Away.ClubClone.ClubId == request.ClubId)
+                {
+                    isHome = false;
+                }
+                else
+                {
+                    return new AddMatchEventResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-MA-07"
+                    };
+                }
+                request.SubId = request.SubId != 0 ? request.SubId : null;
+                if (request.MainId == request.SubId)
+                {
+                    return new AddMatchEventResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-EV-01"
+                    };
+                }
+                bool checkHome;
+                switch (MethodUtils.GetMatchEventTypeByName(request.EventType))
+                {
+                    case Constants.MatchEventType.Goal:
+                        checkHome = isHome;
+                        break;
+                    case Constants.MatchEventType.YellowCard:
+                    case Constants.MatchEventType.RedCard:
+                        request.SubId = null;
+                        checkHome = isHome;
+                        break;
+                    case Constants.MatchEventType.OwnGoal:
+                        checkHome = !isHome;
+                        request.SubId = null;
+                        break;
+                    default:
+                        return new AddMatchEventResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-EV-02"
+                        };
+                }
+                MatchEvent matchEvent = new()
+                {
+                    EventType = request.EventType,
+                    EventTime = request.EventTime,
+                    MatchId = request.MatchId,
+                    MainId = request.MainId,
+                    SubId = request.SubId,
+                    IsHome = isHome
+                };
+                match.MatchEvents.Add(matchEvent);
+            }
+            var result = await matchRepository.UpdateAsync(match);
+            if (result != null)
+            {
+                return new AddMatchEventResponse { Success = true, MessageCode = "MS-EV-01" };
+            }
+            else
+            {
+                return new AddMatchEventResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-EV-04"
+                };
+            }
         }
     }
 }
