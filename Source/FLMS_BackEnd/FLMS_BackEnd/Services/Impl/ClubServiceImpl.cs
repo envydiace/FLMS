@@ -18,13 +18,15 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly SquadRepository squadRepository;
         private readonly MatchRepository matchRepository;
         private readonly ParticipateNodeRepository participateNodeRepository;
+        private readonly ParticipateRequestRepository participateRequestRepository;
 
-        public ClubServiceImpl(ClubRepository clubRepository, SquadRepository squadRepository, MatchRepository matchRepository, ParticipateNodeRepository participateNodeRepository)
+        public ClubServiceImpl(ClubRepository clubRepository, SquadRepository squadRepository, MatchRepository matchRepository, ParticipateNodeRepository participateNodeRepository, ParticipateRequestRepository participateRequestRepository)
         {
             this.clubRepository = clubRepository;
             this.squadRepository = squadRepository;
             this.matchRepository = matchRepository;
             this.participateNodeRepository = participateNodeRepository;
+            this.participateRequestRepository = participateRequestRepository;
         }
         public async Task<ClubResponse> GetClubById(int id, int userId)
         {
@@ -117,7 +119,6 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<DeleteClubResponse> DeleteClub(int id, int userId)
         {
-            //TODO: check number of player in club
             var club = await clubRepository.FindByCondition(club => club.ClubId == id)
                         .Include(c => c.ClubClones)
                         .Include(c => c.ParticipateRequests)
@@ -135,13 +136,18 @@ namespace FLMS_BackEnd.Services.Impl
             {
                 return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-03" };
             }
-            if (club.ParticipateRequests.Any())
+            if (club.ParticipateRequests.Any(r => r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString())))
             {
                 return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-10" };
             }
             if (club.ClubClones.Any() || club.Participations.Any())
             {
                 return new DeleteClubResponse { Success = false, MessageCode = "ER-CL-09" };
+            }
+            var requests = club.ParticipateRequests;
+            foreach(var request in requests)
+            {
+                await participateRequestRepository.DeleteAsync(request);
             }
             Club result = await clubRepository.DeleteAsync(club);
             if (result != null)
