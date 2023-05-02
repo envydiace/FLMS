@@ -77,7 +77,7 @@ export class RequestListComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 }

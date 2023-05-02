@@ -15,7 +15,6 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./club-detail.component.scss']
 })
 export class ClubDetailComponent implements OnInit {
-  linkFb: string = 'https://www.facebook.com/profile.php?id=100009422590770';
   clubId: number;
   clubdetail: ClubDetail = null;
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
@@ -60,7 +59,7 @@ export class ClubDetailComponent implements OnInit {
       data: { clubId: clubId }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -72,7 +71,7 @@ export class ClubDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 

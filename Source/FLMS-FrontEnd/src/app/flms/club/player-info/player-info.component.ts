@@ -225,7 +225,7 @@ export class PlayerInfoComponent implements OnInit {
   //     data: { playerId: playerId , clubId: this.clubId}
   //   });
   //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
+  //     
 
 
   //   });

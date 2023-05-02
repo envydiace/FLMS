@@ -89,7 +89,7 @@ export class LeagueFeeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
       // this.getTotal();
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -102,7 +102,7 @@ export class LeagueFeeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
       // this.getTotal();
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -145,7 +145,7 @@ export class LeagueFeeComponent implements OnInit {
 
       }
 
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -188,7 +188,7 @@ export class LeagueFeeComponent implements OnInit {
       }
       //this.initDataSource();
       // this.getTotal();
-      console.log('The dialog was closed');
+      
     });
   }
 

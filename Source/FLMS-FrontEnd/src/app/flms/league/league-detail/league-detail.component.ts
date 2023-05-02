@@ -78,7 +78,7 @@ export class LeagueDetailComponent implements OnInit {
       data: { leagueId: this.leagueId }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -90,7 +90,7 @@ export class LeagueDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -105,7 +105,7 @@ export class LeagueDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 

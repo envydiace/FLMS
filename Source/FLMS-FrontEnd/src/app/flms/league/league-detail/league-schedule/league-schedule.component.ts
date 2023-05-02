@@ -127,7 +127,7 @@ export class LeagueScheduleComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -138,7 +138,7 @@ export class LeagueScheduleComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -149,7 +149,7 @@ export class LeagueScheduleComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 
