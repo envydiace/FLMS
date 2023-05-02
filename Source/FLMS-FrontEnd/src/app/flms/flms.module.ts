@@ -62,7 +62,6 @@ import { ClubIncomingMatchComponent } from './match/club-incoming-match/club-inc
 import { PopUpAddEventComponent } from './match/match-detail/pop-up-add-event/pop-up-add-event.component';
 import { PopUpRemoveEvemtComponent } from './match/match-detail/pop-up-remove-evemt/pop-up-remove-event.component';
 import { LeagueHistoryComponent } from './club/club-detail/league-history/league-history.component';
-import { PlayerInfoComponent } from './club/player-info/player-info.component';
 import { PopUpDeleteClubComponent } from './club/pop-up-delete-club/pop-up-delete-club.component';
 import { PopUpConfirmDeletePlayerComponent } from './club/pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
 import { PopupDeleteLeagueComponent } from './league/popup-delete-league/popup-delete-league.component';
@@ -81,9 +80,10 @@ import { PopUpRemoveJoinedClubComponent } from './league/league-detail/pop-up-re
 import { PopUpReuestConfirmationComponent } from './request-list/pop-up-reuest-confirmation/pop-up-reuest-confirmation.component';
 import { PopUpConfirmEditLeagueComponent } from './league/league-detail/pop-up-confirm-edit-league/pop-up-confirm-edit-league.component';
 import { PopUpUploadRulesComponent } from './league/league-detail/pop-up-upload-rules/pop-up-upload-rules.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PopUpChooseLosingTeamComponent } from './league/pop-up-choose-losing-team/pop-up-choose-losing-team.component';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { PopUpPlayerInfoComponent } from './club/pop-up-player-info/pop-up-player-info.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +124,6 @@ import {MatRadioModule} from '@angular/material/radio';
     PopUpRemoveEvemtComponent,
     PopUpDeleteClubComponent,
     PopupDeleteLeagueComponent,
-    PlayerInfoComponent,
     PopUpDeleteClubComponent,
     PopUpConfirmDeletePlayerComponent,
     TournamentMatchComponent,
@@ -141,7 +140,8 @@ import {MatRadioModule} from '@angular/material/radio';
     PopUpConfirmEditLeagueComponent,
     PopUpUploadRulesComponent,
     PopUpConfirmEditLeagueComponent,
-    PopUpChooseLosingTeamComponent
+    PopUpChooseLosingTeamComponent,
+    PopUpPlayerInfoComponent
   ],
   imports: [
     CommonModule,
@@ -180,6 +180,6 @@ import {MatRadioModule} from '@angular/material/radio';
     DragDropModule,
     NgTournamentTreeModule
   ],
-  providers: [{provide: MAT_DATE_LOCALE, useValue: 'en-GB'}]
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }]
 })
 export class FlmsModule { }
