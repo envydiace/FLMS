@@ -28,7 +28,7 @@ export class AuthService {
     private router: Router
   ) {
     this.token = JSON.parse(localStorage.getItem('user'));
-    if(this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
+    if (this.token != null) this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token.accessToken}`);
     this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user') || '{}'));
     this.user = this.userSubject.asObservable();
   }
@@ -50,7 +50,7 @@ export class AuthService {
       (response) => {
         localStorage.removeItem('user');
         this.userSubject.next(null as any);
-        window.location.href= environment.localUrl;
+        window.location.href = environment.localUrl;
         return response;
       }
     );
@@ -63,11 +63,22 @@ export class AuthService {
   }
 
   getUserRole() {
-    if(this.token != null) {
+    if (this.token != null) {
       this.token = JSON.parse(localStorage.getItem('user'));
       const decodedToken = jwt_decode(this.token.accessToken);
-      const role = (decodedToken as {role: string}).role;
+      const role = (decodedToken as { role: string }).role;
       return role;
+    } else {
+      return null;
+    }
+  }
+
+  getUserId() {
+    if (this.token != null) {
+      this.token = JSON.parse(localStorage.getItem('user'));
+      const decodedToken = jwt_decode(this.token.accessToken);
+      const nameid = (decodedToken as { nameid: string }).nameid;
+      return nameid;
     } else {
       return null;
     }

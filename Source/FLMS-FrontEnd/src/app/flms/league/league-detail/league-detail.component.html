@@ -29,8 +29,7 @@
                 (click)="openEditLeague(leagueDetail.leagueId)">Edit</button>
         </div>
         <div *ngIf="userRole == 'LEAGUE_MANAGER'">
-            <button mat-raised-button style="width: 120px;"
-                (click)="openUploadRule()">Upload Rules</button>
+            <button mat-raised-button style="width: 120px;" (click)="openUploadRule()">Upload Rules</button>
         </div>
     </mat-toolbar>
 </p>
@@ -54,7 +53,10 @@
                             <mat-card-title>{{leagueDetail.leagueName}}</mat-card-title>
                         </div>
                     </mat-card-header>
-                    <br>
+                    <mat-card-actions style="width: 100%; text-align: right;">
+                        <button *ngIf="leagueDetail.rules != null" mat-raised-button color="primary"
+                            (click)="downloadFileRule()">Download Rules</button>
+                    </mat-card-actions>
                     <section class="league-detail-container">
                         <div class="left-detail" style="text-align: center;">
                             <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}
@@ -67,7 +69,6 @@
                                     target="_blank">{{leagueDetail.leagueName}}</a>
                             </p>
                             <p class="league-detail-content">League Status: {{leagueDetail.status}} </p>
-
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>

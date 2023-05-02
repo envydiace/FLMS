@@ -19,6 +19,7 @@ export interface LeagueDetail {
     totalPrize: number;
     isFinished: boolean;
     status: string;
+    rules: string;
 }
 
 export class LeagueDetail implements LeagueDetail {
@@ -42,6 +43,7 @@ export class LeagueDetail implements LeagueDetail {
         totalPrize: number,
         isFinished: boolean,
         status: string,
+        rules: string
     ) {
         this.leagueId = leagueId;
         this.userId = userId;
@@ -62,6 +64,7 @@ export class LeagueDetail implements LeagueDetail {
         this.totalPrize = totalPrize;
         this.isFinished = isFinished;
         this.status = status;
+        this.rules = rules;
     }
 }
 
