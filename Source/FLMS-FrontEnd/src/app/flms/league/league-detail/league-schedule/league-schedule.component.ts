@@ -32,6 +32,7 @@ export class LeagueScheduleComponent implements OnInit {
   filterForm: FormGroup;
   userRole: any;
   @Input() leagueName: string;
+  @Input() leagueStatus: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
