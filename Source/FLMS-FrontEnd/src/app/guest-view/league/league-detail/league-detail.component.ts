@@ -52,4 +52,22 @@ export class LeagueDetailComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  downloadFileRule(): void {
+    const url = this.leagueDetail.rules;
+
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = () => {
+      const blob = xhr.response;
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = 'test.pdf';
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+    };
+    xhr.open('GET', url);
+    xhr.send();
+  }
 }

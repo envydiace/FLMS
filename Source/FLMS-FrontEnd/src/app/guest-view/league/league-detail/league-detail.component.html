@@ -10,14 +10,17 @@
                         <div mat-card-avatar class="league-detail-logo">
                             <img mat-card-avatar class="league-detail-logo"
                                 [src]="leagueDetail.logo != null ? leagueDetail.logo : defaultLogo" alt="League's Pic">
-
                         </div>
                         <div class="league-detail-title">
                             <mat-card-subtitle>COMPETITION</mat-card-subtitle>
                             <mat-card-title>{{leagueDetail.leagueName}}</mat-card-title>
                         </div>
                     </mat-card-header>
-                    <br>
+                    <mat-card-actions style="width: 100%; text-align: right;">
+                        <button *ngIf="leagueDetail.rules != null" mat-raised-button color="primary"
+                            (click)="downloadFileRule()">Download Rules</button>
+                    </mat-card-actions>
+                    <!-- <br> -->
                     <section class="league-detail-container">
                         <div class="left-detail" style="text-align: center;">
                             <p class="league-detail-content">Start date: {{leagueDetail.startDate | date: 'dd/MM/yyyy'}}
@@ -37,7 +40,8 @@
                             <p class="league-detail-content">Description: </p>
                             <p class="league-detail-content">Number of players in squad: {{leagueDetail.maxNoPlayer}}
                             </p>
-                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}} đ</p>
+                            <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}}
+                                đ</p>
                             <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
                         </div>
                     </section>

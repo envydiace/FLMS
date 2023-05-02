@@ -1,9 +1,12 @@
 import { formatDate } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { finalize } from 'rxjs/operators';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { finalize, first } from 'rxjs/operators';
 import { CommonService } from 'src/app/common/common/common.service';
+import { LeagueService } from '../../league.service';
+import { ConfirmFeeComponent } from '../confirm-fee/confirm-fee.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-pop-up-upload-rules',
@@ -18,6 +21,9 @@ export class PopUpUploadRulesComponent implements OnInit {
 
   constructor(
     public commonService: CommonService,
+    public authService: AuthService,
+    public dialogRef: MatDialogRef<ConfirmFeeComponent>,
+    private LeagueService: LeagueService,
     @Inject(AngularFireStorage) private storage: AngularFireStorage,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -31,33 +37,25 @@ export class PopUpUploadRulesComponent implements OnInit {
   }
 
   onSubmit() {
-
-    // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   return;
-    // }
-
     this.loading = true;
-    const nameImg = 'league/' + this.data.leagueId + '/evidence/'  + '/' + this.getCurrentDateTime() + this.selectedImage.name;
+    let userId = this.authService.getUserId();
+    const nameImg = 'league/' + userId + '/' + this.data.leagueName + '/rules/' + this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
 
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe((url) => {
-
-
-          // this.LeagueService.confirmRegistFee(fee)
-          //   .pipe(first()).subscribe({
-          //     next: response => {
-          //       this.dialogRef.close();
-          //       this.commonService.sendMessage(response.message, 'success');
-          //     },
-          //     error: error => {
-          //       this.loading = false;
-          //       this.commonService.sendMessage(error.error.message, 'fail');
-          //     }
-          //   });
-
+          this.LeagueService.uploadRules(this.data.leagueId, url)
+            .pipe(first()).subscribe({
+              next: response => {
+                this.dialogRef.close();
+                this.commonService.sendMessage(response.message, 'success');
+              },
+              error: error => {
+                this.loading = false;
+                this.commonService.sendMessage(error.error.message, 'fail');
+              }
+            });
         });
       })
     ).subscribe();
@@ -78,7 +76,7 @@ export class PopUpUploadRulesComponent implements OnInit {
         reader.readAsDataURL(event.target.files[0]);
         this.selectedImage = event.target.files[0];
       } else {
-        this.commonService.sendMessage('Invalid Image', 'fail');
+        this.commonService.sendMessage('Invalid File', 'fail');
       }
     } else {
       this.imgSrc = './../../../../../assets/image/default-logo.png';
