@@ -70,8 +70,6 @@ export class EditLineUpComponent implements OnInit {
       let tempCoordinate = event.previousContainer.data[event.previousIndex].coordinate;
       event.previousContainer.data[event.previousIndex].coordinate = event.container.data[event.currentIndex].coordinate;
       event.container.data[event.currentIndex].coordinate = tempCoordinate;
-
-      console.log(this.startingSquad);
     } else {
       if (event.container.data[event.currentIndex] != undefined) {
         // swap Coordinate

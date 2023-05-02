@@ -76,7 +76,7 @@ export class CreateLeagueComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null || result != undefined) this.listFee = result;
       this.getTotal();
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -90,7 +90,7 @@ export class CreateLeagueComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null || result != undefined) this.listPrize = result;
       this.getTotal();
-      console.log('The dialog was closed');
+      
     });
   }
 

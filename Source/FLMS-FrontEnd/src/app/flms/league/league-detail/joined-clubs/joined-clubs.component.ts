@@ -66,7 +66,7 @@ export class JoinedClubsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
   navigateToClubInfo(clubId: number) {
@@ -88,7 +88,7 @@ export class JoinedClubsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 }

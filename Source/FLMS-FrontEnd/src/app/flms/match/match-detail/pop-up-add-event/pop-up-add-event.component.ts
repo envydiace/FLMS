@@ -159,7 +159,7 @@ export class PopUpAddEventComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();
-      console.log('The dialog was closed');
+      
     });
   }
 
