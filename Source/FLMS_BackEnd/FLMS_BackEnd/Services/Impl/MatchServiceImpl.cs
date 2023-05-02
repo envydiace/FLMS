@@ -17,12 +17,14 @@ namespace FLMS_BackEnd.Services.Impl
         private readonly MatchRepository matchRepository;
         private readonly MatchEventRepository matchEventRepository;
         private readonly ParticipateNodeRepository participateNodeRepository;
+        private readonly MatchEventService matchEventService;
 
-        public MatchServiceImpl(MatchRepository matchRepository, MatchEventRepository matchEventRepository, ParticipateNodeRepository participateNodeRepository)
+        public MatchServiceImpl(MatchRepository matchRepository, MatchEventRepository matchEventRepository, ParticipateNodeRepository participateNodeRepository, MatchEventService matchEventService)
         {
             this.matchRepository = matchRepository;
             this.matchEventRepository = matchEventRepository;
             this.participateNodeRepository = participateNodeRepository;
+            this.matchEventService = matchEventService;
         }
         public async Task<ClubScheduleResponse> GetClubSchedule(int ClubId)
         {
@@ -476,7 +478,6 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-01"
                 };
             }
-
             if (match.League.UserId != userId)
             {
                 return new LoseJudgeResponse
@@ -493,14 +494,6 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-LE-19"
                 };
             }
-            if (match.IsFinish)
-            {
-                return new LoseJudgeResponse
-                {
-                    Success = false,
-                    MessageCode = "ER-MA-02"
-                };
-            }
             if (match.Home.ClubClone == null ||
                 match.Home.ClubClone.ClubId == null ||
                 match.Away.ClubClone == null ||
@@ -514,13 +507,16 @@ namespace FLMS_BackEnd.Services.Impl
                 };
             }
             bool isHome;
+            int clubId;
             if (match.Home.ClubClone.ClubId == request.ClubId)
             {
                 isHome = false;
+                clubId = match.Away.ClubClone.ClubId.Value;
             }
             else if (match.Away.ClubClone.ClubId == request.ClubId)
             {
                 isHome = true;
+                clubId = match.Home.ClubClone.ClubId.Value;
             }
             else
             {
@@ -530,34 +526,61 @@ namespace FLMS_BackEnd.Services.Impl
                     MessageCode = "ER-MA-07"
                 };
             }
-            for (int i = 0; i < Constants.Judge.DEFAULT_SCORE; i++)
+            if (match.IsFinish)
             {
-                MatchEvent matchEvent = new MatchEvent
+                List<AddMatchEventRequest> addMatchEventRequests = new List<AddMatchEventRequest>();
+                for (int i = 0; i < Constants.Judge.DEFAULT_SCORE; i++)
                 {
-                    EventType = Constants.MatchEventType.OwnGoal.ToString(),
-                    EventTime = Constants.Judge.DEFAULT_TIME,
-                    MatchId = request.MatchId,
-                    MainId = Constants.Judge.ANONYMOUS_PLAYER_ID,
-                    IsHome = isHome
-                };
-                var result = await matchEventRepository.CreateAsync(matchEvent);
-                if (!result)
-                {
-                    return new LoseJudgeResponse
+                    addMatchEventRequests.Add(new AddMatchEventRequest
                     {
-                        Success = false,
-                        MessageCode = "ER-EV-04"
-                    };
+                        EventType = Constants.MatchEventType.OwnGoal.ToString(),
+                        EventTime = Constants.Judge.DEFAULT_TIME,
+                        MatchId = request.MatchId,
+                        MainId = Constants.Judge.ANONYMOUS_PLAYER_ID,
+                        ClubId = clubId
+                    });
                 }
-            }
-            var response = await this.FinishMatch(request.MatchId, userId, true);
-            if (response.Success)
-            {
-                return new LoseJudgeResponse { Success = true, MessageCode = "MS-MA-03" };
+                var response = await matchEventService.AddMultipleEvent(addMatchEventRequests, userId);
+                if (response.Success)
+                {
+                    return new LoseJudgeResponse { Success = true, MessageCode = "MS-MA-03" };
+                }
+                else
+                {
+                    return new LoseJudgeResponse { Success = false, MessageCode = response.MessageCode };
+                }
             }
             else
             {
-                return new LoseJudgeResponse { Success = false, MessageCode = response.MessageCode };
+                for (int i = 0; i < Constants.Judge.DEFAULT_SCORE; i++)
+                {
+                    MatchEvent matchEvent = new MatchEvent
+                    {
+                        EventType = Constants.MatchEventType.OwnGoal.ToString(),
+                        EventTime = Constants.Judge.DEFAULT_TIME,
+                        MatchId = request.MatchId,
+                        MainId = Constants.Judge.ANONYMOUS_PLAYER_ID,
+                        IsHome = isHome
+                    };
+                    var result = await matchEventRepository.CreateAsync(matchEvent);
+                    if (!result)
+                    {
+                        return new LoseJudgeResponse
+                        {
+                            Success = false,
+                            MessageCode = "ER-EV-04"
+                        };
+                    }
+                }
+                var response = await this.FinishMatch(request.MatchId, userId, true);
+                if (response.Success)
+                {
+                    return new LoseJudgeResponse { Success = true, MessageCode = "MS-MA-03" };
+                }
+                else
+                {
+                    return new LoseJudgeResponse { Success = false, MessageCode = response.MessageCode };
+                }
             }
         }
     }
