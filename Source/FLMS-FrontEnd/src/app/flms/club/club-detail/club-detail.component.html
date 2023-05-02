@@ -58,14 +58,18 @@
                     <br>
                     <section class="club-detail-container">
                         <div class="left-detail" style="text-align: center;">
-                            <p class="club-content">Manager: {{clubdetail.managerName}}</p>
+                            <p class="club-content">Manager:
+                                {{ clubdetail.managerName.length > 15 ? clubdetail.managerName.slice(0, 15) + '...' : clubdetail.managerName }}
+                            </p>
                             <p class="club-content">Phone: {{clubdetail.phoneNumber}}</p>
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="club-content">Fanpage: <a *ngIf="clubdetail.fanPage != null"
                                     href="{{clubdetail.fanPage}}" target="_blank">{{clubdetail.clubName}}</a>
                             </p>
-                            <p class="club-content">Email: {{clubdetail.email}}</p>
+                            <p class="club-content">Email:
+                                {{ clubdetail.email.length > 15 ? clubdetail.email.slice(0, 15) + '...' : clubdetail.email }}
+                            </p>
                         </div>
                     </section>
                     <div class="container">

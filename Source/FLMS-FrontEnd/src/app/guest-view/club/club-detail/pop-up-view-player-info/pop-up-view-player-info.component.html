@@ -3,7 +3,11 @@
 
         <p>
             <mat-toolbar class="card">
-                <span>{{playerInfo.name}}</span>
+                <span>
+                   
+                    {{ playerInfo.name.length > 15 ? playerInfo.name.slice(0, 15) + '...' : playerInfo.name }}
+
+                </span>
             </mat-toolbar>
         </p>
 

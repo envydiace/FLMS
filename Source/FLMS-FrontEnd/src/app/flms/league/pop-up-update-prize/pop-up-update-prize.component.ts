@@ -43,7 +43,8 @@ export class PopUpUpdatePrizeComponent implements OnInit {
   }
 
   addPrizeIntoList() {
-    if (this.prizeName == null || this.prizeName === '' || this.prizeName.trim().length === 0 || this.prizeName.length > 50
+    if (this.prizeName == null || this.prizeName.trim() === ''
+      || this.prizeName.trim().length === 0 || this.prizeName.length > 50
       || this.prizeCost == null) {
       if (this.prizeName == null || this.prizeName === '' || this.prizeName.trim().length === 0) {
         this.isErrorEn = true;
@@ -78,6 +79,8 @@ export class PopUpUpdatePrizeComponent implements OnInit {
       this.listLeaguePrize = [...newUsersArray];
     }
     this.getTotal();
+    this.prizeName = '';
+    this.prizeCost = null;
   }
 
   removeFee(position: number) {

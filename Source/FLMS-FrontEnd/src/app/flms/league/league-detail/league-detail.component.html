@@ -77,7 +77,10 @@
                             </p>
                             <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}}
                                 đ</p>
-                            <p class="league-detail-content">Location: {{leagueDetail.location}}</p>
+                            <p class="league-detail-content">Location: 
+                           
+                                {{ leagueDetail.location.length > 15 ? leagueDetail.location.slice(0, 15) + '...' : leagueDetail.location }}
+                            </p>
                         </div>
                     </section>
                     <div class="container">

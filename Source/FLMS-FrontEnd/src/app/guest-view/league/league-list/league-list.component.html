@@ -52,7 +52,10 @@
                                 {{ league.leagueName.length > 18 ? league.leagueName.substring(0,18)+"..." :
                                 league.leagueName }}
                             </mat-card-title>
-                            <mat-card-subtitle>{{league.location}}</mat-card-subtitle>
+                            <mat-card-subtitle>
+                                {{ league.location.length > 18 ? league.location.substring(0,18)+"..." :
+                                league.location }}
+                            </mat-card-subtitle>
                             <img mat-card-avatar class="league-header-image"
                                 [src]="league.logo != null ? league.logo : defaultLogo" alt="Club's Pic">
                         </mat-card>

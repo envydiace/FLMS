@@ -40,7 +40,10 @@
                             leagues.leagueName }}
 
                         </mat-card-title>
-                        <mat-card-subtitle>{{leagues.location}}</mat-card-subtitle>
+                        <mat-card-subtitle>
+                            {{ leagues.location.length > 18 ? leagues.location.substring(0,18)+"..." :
+                            leagues.location }}
+                        </mat-card-subtitle>
                         <img mat-card-avatar class="league-header-image"
                             [src]="leagues.logo != null ? leagues.logo : defaultLogo" alt="Club's Pic">
 
