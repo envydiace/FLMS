@@ -8,6 +8,7 @@ import { Club } from 'src/app/models/match-schedule.model';
 import { map, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PopUpConfirmDeletePlayerComponent } from '../../pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
+import { PopUpPlayerInfoComponent } from '../../pop-up-player-info/pop-up-player-info.component';
 
 @Component({
   selector: 'app-club-player',
@@ -61,14 +62,26 @@ export class ClubPlayerComponent implements OnInit {
     ).subscribe();
   }
 
-  navigateToPlayerInfo(playerId: number, clubId: number) {
-    this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId, clubId: this.id } });
-  }
+  // navigateToPlayerInfo(playerId: number, clubId: number) {
+  //   this.router.navigate(['/manager/player-detail'], { queryParams: { playerId: playerId, clubId: this.id } });
+  // }
 
   openDeleteplayerConfirm(playerId: number, clubId: number): void {
     const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
       width: '50%',
       data: { playerId: playerId, clubId: this.id }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.initDataSource();
+      
+    });
+  }
+
+  openViewPlayerInfo(playerId: number): void {
+    const dialogRef = this.dialog.open(PopUpPlayerInfoComponent, {
+      width: '80%',
+      data: { playerId: playerId , clubId: this.id},
+      // disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       this.initDataSource();

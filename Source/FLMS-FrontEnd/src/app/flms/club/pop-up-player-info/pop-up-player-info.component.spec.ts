@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlayerInfoComponent } from './player-info.component';
+import { PopUpPlayerInfoComponent } from './pop-up-player-info.component';
 
-describe('PlayerInfoComponent', () => {
-  let component: PlayerInfoComponent;
-  let fixture: ComponentFixture<PlayerInfoComponent>;
+describe('PopUpPlayerInfoComponent', () => {
+  let component: PopUpPlayerInfoComponent;
+  let fixture: ComponentFixture<PopUpPlayerInfoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayerInfoComponent ]
+      declarations: [ PopUpPlayerInfoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlayerInfoComponent);
+    fixture = TestBed.createComponent(PopUpPlayerInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

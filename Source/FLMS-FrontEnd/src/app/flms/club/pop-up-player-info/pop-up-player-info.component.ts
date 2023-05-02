@@ -1,30 +1,28 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, first, map } from 'rxjs/operators';
 import { CommonService } from 'src/app/common/common/common.service';
-import { ClubListPlayerClub } from 'src/app/models/club-list-player-club.model';
-import { ClubListPlayer, PlayerbyClubMana } from 'src/app/models/club-list-player.model';
-import { ClubPlayerInfoResponse, PlayerInfobyClubManaResponse } from 'src/app/models/player-info-response.model';
+import { PlayerbyClubMana } from 'src/app/models/club-list-player.model';
 import { ClubService } from '../club.service';
-import { DatePipe, formatDate } from '@angular/common';
-import { PopUpConfirmDeletePlayerComponent } from '../pop-up-confirm-delete-player/pop-up-confirm-delete-player.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize, first, map } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
+import { PlayerInfobyClubManaResponse } from 'src/app/models/player-info-response.model';
 
 @Component({
-  selector: 'app-player-info',
-  templateUrl: './player-info.component.html',
-  styleUrls: ['./player-info.component.scss']
+  selector: 'app-pop-up-player-info',
+  templateUrl: './pop-up-player-info.component.html',
+  styleUrls: ['./pop-up-player-info.component.scss']
 })
-export class PlayerInfoComponent implements OnInit {
+export class PopUpPlayerInfoComponent implements OnInit {
   playerInfo: PlayerbyClubMana = null;
   // playerClub: ClubListPlayerClub[];
   form: FormGroup;
   loading = false;
   submitted = false;
   playerId: number;
-  clubId: number;
+ 
 
   defaultLogo: string = './../../../../assets/image/clubDefaultLogo.png';
   defaultAvatar: string = './../../../../assets/image/Default_pfp.svg.png';
@@ -32,8 +30,6 @@ export class PlayerInfoComponent implements OnInit {
   playerNum: number;
   Dob: Date;
   selectedImage: any = null;
-
-
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -41,14 +37,15 @@ export class PlayerInfoComponent implements OnInit {
     public commonService: CommonService,
     private clubService: ClubService,
     public dialog: MatDialog,
-    @Inject(AngularFireStorage) private storage: AngularFireStorage
-
-
+    public dialogRef: MatDialogRef<PopUpPlayerInfoComponent>,
+    @Inject(AngularFireStorage) private storage: AngularFireStorage,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      playerId: number;
+      clubId: number;
+    },
   ) {
-    this.route.queryParams.subscribe(params => {
-      this.playerId = params['playerId'];
-      this.clubId = params['clubId']
-    });
+
   }
 
   ngOnInit(): void {
@@ -56,12 +53,12 @@ export class PlayerInfoComponent implements OnInit {
 
 
     this.form = this.formBuilder.group({
-      clubId: this.clubId,
-      playerId: this.playerId,
+      clubId: this.data.clubId,
+      playerId: this.data.playerId,
       name: [null, [Validators.required, this.noWhitespaceValidator, Validators.maxLength(200)]],
       nickName: [null,],
       avatar: [null,],
-      number: [null, [Validators.required,Validators.pattern('^[0-9]{1,2}$')]],
+      number: [null, [Validators.required, Validators.pattern('^[0-9]{1,2}$')]],
       dob: [null, Validators.required],
       height: [null, [Validators.pattern('^[0-9]+[m][0-9]+$')]],
       weight: [null, [Validators.pattern('^[0-9,]+[k][g]$')]],
@@ -74,12 +71,11 @@ export class PlayerInfoComponent implements OnInit {
     })
   }
 
-
   get f() { return this.form.controls; }
 
 
   initDataSource() {
-    this.clubService.getPlayerInfobyClubMana(this.playerId, this.clubId).pipe(
+    this.clubService.getPlayerInfobyClubMana(this.data.playerId, this.data.clubId).pipe(
       map((res: PlayerInfobyClubManaResponse) =>
         //  {
         this.playerInfo = res.playerInfo,
@@ -119,24 +115,6 @@ export class PlayerInfoComponent implements OnInit {
       this.defaultAvatar = res.avatar;
     }
   }
-
-  // bindingDataIntoPlayer() {
-  //   this.playerInfo = {
-  //     clubId: this.clubId,
-  //     playerId: this.playerId,
-  //     name: this.getControl('name').value,
-  //     nickName: this.getControl('nickName').value,
-  //     number: this.getControl('number').value,
-  //     dob: this.getControl('dob').value,
-  //     height: this.getControl('height').value,
-  //     weight: this.getControl('weight').value,
-  //     address: this.getControl('address').value,
-  //     phoneNumber: this.getControl('phoneNumber').value,
-  //     email: this.getControl('email').value,
-  //     socialCont: this.getControl('socialCont').value
-  //   }
-  // }
-
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
       let file = event.target.files[0];
@@ -188,9 +166,10 @@ export class PlayerInfoComponent implements OnInit {
               .pipe(first())
               .subscribe({
                 next: response => {
+                  this.loading = false;
                   this.initDataSource();
                   this.commonService.sendMessage(response.message, 'success');
-                  this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);  
+                  this.dialogRef.close();
                 },
                 error: error => {
                   this.loading = false;
@@ -206,10 +185,11 @@ export class PlayerInfoComponent implements OnInit {
         .pipe(first())
         .subscribe({
           next: response => {
+            this.loading = false;
             this.initDataSource();
             this.commonService.sendMessage(response.message, 'success');
             // this.router.navigate(['/manager/club-detail?clubId=' + this.clubId]);  
-            this.router.navigateByUrl('/manager/club-detail?clubId=' + this.clubId);
+            this.dialogRef.close();
           },
           error: error => {
             this.loading = false;
@@ -218,28 +198,11 @@ export class PlayerInfoComponent implements OnInit {
         });
     }
   }
-
-  // openDeleteplayerConfirm(playerId: number, clubId:number): void {
-  //   const dialogRef = this.dialog.open(PopUpConfirmDeletePlayerComponent, {
-  //     width: '50%',
-  //     data: { playerId: playerId , clubId: this.clubId}
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     
-
-
-  //   });
-  // }
-
-
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true };
   }
 
-  backClicked() {
-
-  }
 
 }
