@@ -6,7 +6,10 @@
 </div>
 <p>
     <mat-toolbar class="card">
-        <span> Player's info</span>
+        <span> 
+            {{ playerInfo.name.length > 15 ? playerInfo.name.slice(0, 15) + '...' : playerInfo.name }}
+           
+        </span>
     </mat-toolbar>
 </p>
 <div *ngIf="playerInfo">
