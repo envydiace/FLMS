@@ -54,27 +54,34 @@ export class PopUpAddActualComponent implements OnInit {
   }
 
   addActualFeetoList() {
-    const pattern = /^[a-zA-Z]*$/;
-    if (this.expenseName == null || this.expenseName == '' || this.expenseName.trim().length == 0 || this.expenseName.trim().length > 50 ||
+    const pattern = /^[a-zA-Z1-9]*$/;
+    if (this.expenseName == null || this.expenseName === '' ||
+      this.expenseName.trim().length === 0 || this.expenseName.trim().length > 50 ||
+      !pattern.test(this.expenseName.trim()) ||
       this.feeCost == null || this.type == null) {
-      if (this.expenseName == null || this.expenseName == '' || this.expenseName.trim().length == 0 || this.expenseName.length > 50
+      if (this.expenseName == null || this.expenseName === ''
+        || this.expenseName.trim().length === 0 || this.expenseName.length > 50
+        || !pattern.test(this.expenseName.trim())
       ) {
         this.isErrorEn = true;
       } else {
-        if (this.expenseName.trim().length == 0) {
+        if (this.expenseName.trim().length === 0) {
           this.isErrorEn = true;
         }
         else if (this.expenseName.length > 50) {
           this.isErrorEn = true;
         }
-        else if (this.expenseName == '') {
+        else if (this.expenseName === '') {
           this.isErrorEn = true;
         } else if (this.expenseName == null) {
+          this.isErrorEn = true;
+        } else if (!pattern.test(this.expenseName.trim())) {
           this.isErrorEn = true;
         }
         else {
           this.isErrorEn = false;
         }
+        this.isErrorEn = false;
       }
       if (this.feeCost == null) { this.isErrorC = true } else this.isErrorC = false;
       if (this.type == null) { this.isErrorT = true } else this.isErrorT = false;

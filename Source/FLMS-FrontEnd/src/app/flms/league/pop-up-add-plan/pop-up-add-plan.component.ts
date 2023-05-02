@@ -55,15 +55,29 @@ export class PopUpAddPlanComponent implements OnInit {
   }
 
   addPlanCostToList() {
-    if (this.expenseName == null || this.expenseName.trim().length == 0|| this.planCost == null || this.type == null) {
-      if (this.expenseName == null || this.expenseName.trim().length == 0) { 
-        this.isErrorEn = true 
+    const pattern = /^[a-zA-Z]*$/;
+    if (this.expenseName == null || this.expenseName === '' ||
+      this.expenseName.trim().length == 0 || this.expenseName.trim().length > 50 ||
+      !pattern.test(this.expenseName.trim()) ||
+      this.planCost == null || this.type == null) {
+      if (this.expenseName == null || this.expenseName === '' || this.expenseName.trim().length == 0 || this.expenseName.trim().length > 50) {
+        this.isErrorEn = true
       } else {
-        if (this.expenseName.trim() == '') {
+        if (this.expenseName.trim() === '') {
           this.isErrorEn = true;
-        } else {
+        } else if (this.expenseName == null) {
+          this.isErrorEn = true;
+        } else if (this.expenseName.trim().length === 0) {
+          this.isErrorEn = true;
+        } else if (this.expenseName.trim().length > 50) {
+          this.isErrorEn = true;
+        } else if (!pattern.test(this.expenseName.trim())) {
+          this.isErrorEn = true;
+        }
+        else {
           this.isErrorEn = false;
         }
+        this.isErrorEn = false;
       }
       if (this.planCost == null) { this.isErrorC = true } else this.isErrorC = false;
       if (this.type == null) { this.isErrorT = true } else this.isErrorT = false;

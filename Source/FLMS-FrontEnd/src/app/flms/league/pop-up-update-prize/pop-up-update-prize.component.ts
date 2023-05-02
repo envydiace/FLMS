@@ -43,16 +43,18 @@ export class PopUpUpdatePrizeComponent implements OnInit {
   }
 
   addPrizeIntoList() {
-    if (this.prizeName == null || this.prizeName == '' || this.prizeName.trim().length == 0
+    if (this.prizeName == null || this.prizeName === '' || this.prizeName.trim().length === 0 || this.prizeName.length > 50
       || this.prizeCost == null) {
-      if (this.prizeName == null || this.prizeName == '' || this.prizeName.trim().length == 0) {
+      if (this.prizeName == null || this.prizeName === '' || this.prizeName.trim().length === 0) {
         this.isErrorEn = true;
       } else {
-        if (this.prizeName == '') {
+        if (this.prizeName === '') {
           this.isErrorEn = true;
-        } else if (this.prizeName.trim().length == 0) {
+        } else if (this.prizeName.trim().length === 0) {
           this.isErrorEn = true;
         } else if (this.prizeName == null) {
+          this.isErrorEn = true;
+        } else if (this.prizeName.length > 50) {
           this.isErrorEn = true;
         }
         else {
