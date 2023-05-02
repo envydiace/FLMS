@@ -43,17 +43,29 @@ export class PopUpUpdatePrizeComponent implements OnInit {
   }
 
   addPrizeIntoList() {
-    if (this.prizeName == null || this.prizeName == '' || this.prizeCost == null) {
-      if (this.prizeName == null || this.prizeName == '') {
+    if (this.prizeName == null || this.prizeName === '' || this.prizeName.trim().length === 0 || this.prizeName.length > 50
+      || this.prizeCost == null) {
+      if (this.prizeName == null || this.prizeName === '' || this.prizeName.trim().length === 0) {
         this.isErrorEn = true;
       } else {
-        if (this.prizeName.trim() == '') {
+        if (this.prizeName === '') {
           this.isErrorEn = true;
-        } else {
+        } else if (this.prizeName.trim().length === 0) {
+          this.isErrorEn = true;
+        } else if (this.prizeName == null) {
+          this.isErrorEn = true;
+        } else if (this.prizeName.length > 50) {
+          this.isErrorEn = true;
+        }
+        else {
           this.isErrorEn = false;
         }
       }
-      if (this.prizeCost == null) { this.isErrorC = true; } else this.isErrorC = false;
+      if (this.prizeCost == null) {
+        this.isErrorC = true;
+      } else {
+        this.isErrorC = false;
+      }
     } else {
       const prizeTemp: leaguePrize = {
         expenseKey: 'Fx',
