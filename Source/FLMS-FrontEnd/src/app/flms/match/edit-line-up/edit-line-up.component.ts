@@ -66,6 +66,11 @@ export class EditLineUpComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.resetPositionKey();
 
+      // swap Coordinate
+      let tempCoordinate = event.previousContainer.data[event.previousIndex].coordinate;
+      event.previousContainer.data[event.previousIndex].coordinate = event.container.data[event.currentIndex].coordinate;
+      event.container.data[event.currentIndex].coordinate = tempCoordinate;
+
       console.log(this.startingSquad);
     } else {
       if (event.container.data[event.currentIndex] != undefined) {
@@ -74,7 +79,7 @@ export class EditLineUpComponent implements OnInit {
         event.previousContainer.data[event.previousIndex].coordinate = event.container.data[event.currentIndex].coordinate;
         event.container.data[event.currentIndex].coordinate = tempCoordinate;
 
-        // swap Coordinate
+        // swap Position Id
         let tempSquadPositionId = event.previousContainer.data[event.previousIndex].squadPositionId;
         event.previousContainer.data[event.previousIndex].squadPositionId = event.container.data[event.currentIndex].squadPositionId;
         event.container.data[event.currentIndex].squadPositionId = tempSquadPositionId;
