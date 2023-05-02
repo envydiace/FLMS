@@ -44,13 +44,22 @@ export class PopUpUpdateFeeComponent implements OnInit {
   }
 
   addFeeIntoList() {
-    if (this.feeName == null || this.feeName == '' || this.feeCost == null) {
-      if (this.feeName == null || this.feeName == '') {
+    if (this.feeName == null || this.feeName.trim() === '' || this.feeName.trim().length === 0 || this.feeName.length > 50
+      || this.feeCost == null) {
+      if (this.feeName == null || this.feeName === '' || this.feeName.trim().length === 0 || this.feeName.length > 50) {
         this.isErrorEn = true;
       } else {
-        if (this.feeName.trim() == '') {
+        if (this.feeName.trim() === '') {
           this.isErrorEn = true;
-        } else {
+        }else if (this.feeName == null){
+          this.isErrorEn = true;
+        }else if (this.feeName.trim().length === 0 ){
+          this.isErrorEn = true;
+        }else if (this.feeName.length > 50 ){
+          this.isErrorEn = true;
+        }
+        
+        else {
           this.isErrorEn = false;
         }
       }
