@@ -39,7 +39,11 @@
                         [src]="user.avatar != null ? user.avatar : defaultLogo" alt="Club's Pic">
 
                 </div>
-                <mat-card-title style="line-height: 38px;">{{user.fullName}}</mat-card-title>
+                <mat-card-title style="line-height: 38px;">
+                    <!-- {{user.fullName}}
+                    {{ user.fullName | slice:0:15 }}{{ user.fullName.length > 15 ? '...' : '' }} -->
+                    {{ user.fullName.length > 15 ? user.fullName.slice(0, 15) + '...' : user.fullName }}
+                </mat-card-title>
                 <button mat-icon-button [matMenuTriggerFor]="menu">
                     <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
