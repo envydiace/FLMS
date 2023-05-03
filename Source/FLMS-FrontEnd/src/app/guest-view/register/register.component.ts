@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
 import { RegisterService } from '../../guest-view/register/register.service';
 import { LoginComponent } from '../login/login.component';
+import { MatTabGroup } from '@angular/material/tabs';
 
 interface Role {
   value: string;
@@ -29,7 +30,8 @@ export class RegisterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private RegisterService: RegisterService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public Logincomponent: LoginComponent
   ) {
     this.form = new FormGroup({
       email: new FormControl(),
@@ -45,9 +47,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', [Validators.required,Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,32}$')]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,32}$')]],
       confirmPassword: ['', Validators.required],
-      fullName: ['', [Validators.required,this.noWhitespaceValidator, Validators.maxLength(50)]],
+      fullName: ['', [Validators.required, this.noWhitespaceValidator, Validators.maxLength(50)]],
       phone: ['', Validators.pattern('^[0-9]{1,15}$')],
       address: [''],
       role: ['', Validators.required]
@@ -69,7 +71,11 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: response => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login']).then(()=>{
+            this.commonService.sendMessage(response.message, 'success');
+            this.Logincomponent.activeTab(0);
+            this.ClearFromAfterRegister();
+          });
           this.commonService.sendMessage(response.message, 'success');
         },
         error: error => {
@@ -78,7 +84,19 @@ export class RegisterComponent implements OnInit {
         }
       });
   }
- 
+
+  ClearFromAfterRegister(){
+    this.form.patchValue({
+      email: null,
+      password: null,
+      confirmPassword: null,
+      fullName: null,
+      phone: null,
+      address: null,
+      role: null
+    });
+  }
+
   hide = true;
 
   public noWhitespaceValidator(control: FormControl) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/common/common/common.service';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   loading = false;
   submitted = false;
+  @ViewChild('tabGroup') tabGroup: MatTabGroup;
 
   constructor(
     private commonService: CommonService,
@@ -29,6 +31,10 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
+
+  activeTab(index: number) {
+    this.tabGroup.selectedIndex = index;
   }
 
   // convenience getter for easy access to form fields
