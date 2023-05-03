@@ -28,44 +28,47 @@
                         </mat-card-header>
 
                     </mat-card>
-                    <p class="match-detail-content" style="margin-top: 20px;"> MatchInfo: </p>
-                    <form [formGroup]="form">
-                        <section class="match-detail-container">
-                            <div class="left-detail" style="text-align: center;">
+                    <div  >
+                        <p class="match-detail-content" style="margin-top: 20px;"> MatchInfo: </p>
+                        <form [formGroup]="form">
+                            <section class="match-detail-container">
+                                <div class="left-detail" style="text-align: center;">
 
-                                <mat-form-field class="example-full-width">
-                                    <mat-label> Round: </mat-label>
-                                    <input matInput formControlName="round">
-                                </mat-form-field>
-                                <mat-form-field class="example-full-width">
-                                    <mat-label> Stadium:</mat-label>
-                                    <input matInput formControlName="stadium">
-                                    <mat-error
-                                        *ngIf="!form.controls['stadium'].valid && form.controls['stadium'].touched">
-                                        Required, the valid match's stadium max length is 100
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label> Round: </mat-label>
+                                        <input matInput formControlName="round">
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label> Stadium:</mat-label>
+                                        <input matInput formControlName="stadium">
+                                        <mat-error
+                                            *ngIf="!form.controls['stadium'].valid && form.controls['stadium'].touched">
+                                            Required, the valid match's stadium max length is 100
+                                        </mat-error>
+                                    </mat-form-field>
 
-                            </div>
-                            <div class="right-detail" style="text-align: center;">
-                                <mat-form-field class="example-full-width">
-                                    <mat-label> Match Date</mat-label>
-                                    <input matInput [matDatepicker]="matchDate" formControlName="matchDate" disabled>
-                                    <mat-datepicker-toggle matSuffix [for]="matchDate"></mat-datepicker-toggle>
-                                    <mat-datepicker #matchDate disabled="false"></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field class="example-full-width">
-                                    <mat-label> Match Time</mat-label>
-                                    <input matInput formControlName="matchTime">
-                                    <mat-error
-                                        *ngIf="!form.controls['matchTime'].valid && form.controls['matchTime'].touched">
-                                        Required, the valid match's time is HH:MM
-                                    </mat-error>
+                                </div>
+                                <div class="right-detail" style="text-align: center;">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label> Match Date</mat-label>
+                                        <input matInput [matDatepicker]="matchDate" formControlName="matchDate"
+                                            disabled>
+                                        <mat-datepicker-toggle matSuffix [for]="matchDate"></mat-datepicker-toggle>
+                                        <mat-datepicker #matchDate disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label> Match Time</mat-label>
+                                        <input matInput formControlName="matchTime">
+                                        <mat-error
+                                            *ngIf="!form.controls['matchTime'].valid && form.controls['matchTime'].touched">
+                                            Required, the valid match's time is HH:MM
+                                        </mat-error>
 
-                                </mat-form-field>
-                            </div>
-                        </section>
-                    </form>
+                                    </mat-form-field>
+                                </div>
+                            </section>
+                        </form>
+                    </div>
                 </mat-card>
                 <button class="btn btn-primary" type="submit" (click)="onSubmit()">Save changes</button>
             </div>

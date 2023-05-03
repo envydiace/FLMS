@@ -6,7 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { token } from './../../models/token.model';
 import { Router } from '@angular/router';
 import { MatchDetailResponse } from '../../models/match-detail-response.model';
-import { MatchDetail } from '../../models/match-detail.model';
+import { EditMatchDetail, MatchDetail } from '../../models/match-detail.model';
 import { MatchStats } from '../../models/match-statistics.model';
 import { MatchStatisticsResponse } from '../../models/match-statistic-response.model';
 import { AddMatchEvent, MatchEvent } from './../../models/match-event-detail.model';
@@ -69,7 +69,11 @@ export class MatchService {
     );
   }
 
-  editMatchInfo(body: MatchDetail):Observable<any> {
+  // editMatchInfo(body: MatchDetail):Observable<any> {
+  //   return this.http.put(`${environment.apiUrl}/api/Match/UpdateMatch`, body, { headers: this.headers });
+
+  // }
+  editMatchInfo(body: EditMatchDetail):Observable<any> {
     return this.http.put(`${environment.apiUrl}/api/Match/UpdateMatch`, body, { headers: this.headers });
 
   }

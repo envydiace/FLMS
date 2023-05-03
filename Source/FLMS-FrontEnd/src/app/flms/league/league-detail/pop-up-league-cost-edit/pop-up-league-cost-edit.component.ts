@@ -52,7 +52,7 @@ export class PopUpLeagueCostEditComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       leagueFeeId: this.data.leagueFeeId,
-      expenseName: ['', [Validators.required, Validators.maxLength(255)]],
+      expenseName: ['', [Validators.required, Validators.maxLength(255), this.noWhitespaceValidator]],
       cost: ['',[Validators.required, Validators.max(999999999)]],
       feeType: ['',],
       feeKey: ['',]
@@ -125,5 +125,10 @@ export class PopUpLeagueCostEditComponent implements OnInit {
     return this.form.get('cost').hasError('required') ? 'Field cost is required' : '';
   }
 
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
 
 }

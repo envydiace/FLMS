@@ -37,10 +37,12 @@
                             <p class="club-content">Fanpage: <a *ngIf="clubdetail.fanPage != null"
                                     href="{{clubdetail.fanPage}}" target="_blank">{{clubdetail.clubName}}</a>
                             </p>
-                            <p class="club-content">Email:
+                            <p *ngIf="clubdetail.email != null" class="club-content">Email:
                                 {{ clubdetail.email.length > 15 ? clubdetail.email.slice(0, 15) + '...' :
                                 clubdetail.email }}
-
+                            </p>
+                            <p *ngIf="clubdetail.email == null" class="club-content">Email:
+                                {{ clubdetail.email}}
                             </p>
                         </div>
                     </section>
