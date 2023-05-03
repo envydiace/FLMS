@@ -16,11 +16,12 @@ namespace FLMS_BackEnd.Listeners.Events
         public virtual async Task OnSendMailReached(SendMailEventArgs e)
         {
             var mailRequest = e.MailRequest;
-            var sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
-            if (!sendResult)
-            {
-                Console.WriteLine($"Failed to send email: {mailRequest}");
-            }
+            mailService.SendEmailAsync(mailRequest, new CancellationToken());
+            //var sendResult = await mailService.SendEmailAsync(mailRequest, new CancellationToken());
+            //if (!sendResult)
+            //{
+            //    Console.WriteLine($"Failed to send email: {mailRequest}");
+            //}
         }
     }
 }

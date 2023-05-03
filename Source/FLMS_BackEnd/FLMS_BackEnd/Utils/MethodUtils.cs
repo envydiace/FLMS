@@ -106,7 +106,7 @@ namespace FLMS_BackEnd.Utils
                     result = "Semi Final";
                     break;
                 case 3:
-                    result = "Quater Final";
+                    result = "Quarter Final";
                     break;
                 default:
                     result = "1/" + (Math.Pow(2, deep - 1));
