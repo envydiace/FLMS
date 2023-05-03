@@ -46,7 +46,7 @@ export interface AddClub {
 
     clubName: string,
     email: string,
-    phoneNumber: number,
+    phoneNumber: string,
     fanPage: number,
     logo: string,
     kit: string
@@ -56,7 +56,7 @@ export class AddClub implements AddClub {
     constructor(
         clubName: string,
         email: string,
-        phoneNumber: number,
+        phoneNumber: string,
         fanPage: number,
         logo: string,
         kit: string

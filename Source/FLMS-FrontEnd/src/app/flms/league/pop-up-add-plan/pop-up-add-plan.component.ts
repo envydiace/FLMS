@@ -55,19 +55,17 @@ export class PopUpAddPlanComponent implements OnInit {
   }
 
   addPlanCostToList() {
-    const pattern = /^[a-zA-Z]*$/;
-    if (this.expenseName == null || this.expenseName === '' ||
+    const pattern = /^[a-zA-Z ]*$/;
+    if (this.expenseName == null || 
       this.expenseName.trim().length == 0 || this.expenseName.trim().length > 50 ||
       !pattern.test(this.expenseName.trim()) ||
       this.planCost == null || this.type == null) {
       if (this.expenseName == null || this.expenseName === '' || this.expenseName.trim().length == 0 || this.expenseName.trim().length > 50) {
         this.isErrorEn = true
       } else {
-        if (this.expenseName.trim() === '') {
+         if (this.expenseName == null) {
           this.isErrorEn = true;
-        } else if (this.expenseName == null) {
-          this.isErrorEn = true;
-        } else if (this.expenseName.trim().length === 0) {
+        } else if (this.expenseName.trim().length == 0) {
           this.isErrorEn = true;
         } else if (this.expenseName.trim().length > 50) {
           this.isErrorEn = true;

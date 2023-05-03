@@ -53,10 +53,33 @@ export class MatchClub implements MatchClub {
         name: string,
         logo: string,
         score: number
-    ){
-      this.clubId = clubId;
-      this.name = name;
-      this.logo = logo;
-      this.score = score;
+    ) {
+        this.clubId = clubId;
+        this.name = name;
+        this.logo = logo;
+        this.score = score;
+    }
+}
+
+export interface EditMatchDetail {
+    matchId: number;
+    stadium: string;
+    matchDate: Date;
+    matchTime: string;
+
+}
+
+export class EditMatchDetail implements EditMatchDetail {
+    constructor(
+        matchId: number,
+        stadium: string,
+        matchDate: Date,
+        matchTime: string,
+
+    ) {
+        this.matchId = matchId;
+        this.stadium = stadium;
+        this.matchDate = matchDate;
+        this.matchTime = matchTime;
     }
 }

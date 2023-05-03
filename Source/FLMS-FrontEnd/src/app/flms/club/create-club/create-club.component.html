@@ -34,7 +34,7 @@
                                 <mat-form-field appearance="">
                                     <mat-label>Ex. 0912345678</mat-label>
                                     <span matPrefix>+84 &nbsp;</span>
-                                    <input matInput type="number" formControlName="phoneNumber">
+                                    <input matInput formControlName="phoneNumber">
                                     <mat-error
                                         *ngIf="!form.controls['phoneNumber'].valid && form.controls['phoneNumber'].touched">
                                         {{ getErrorPhoneNumber() }}
