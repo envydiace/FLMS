@@ -25,6 +25,44 @@ namespace FLMS_BackEnd.Services.Impl
         }
         public async Task<JoinResponse> SendJoinRequest(JoinRequest request, int UserId, Constants.RequestType type)
         {
+
+            var listRequest = await participateRequestRepository.FindByCondition(r =>
+                    r.ClubId == request.ClubId &&
+                    r.LeagueId == request.LeagueId)
+                .Include(r => r.League)
+                .ThenInclude(l => l.Participations)
+                .ToListAsync();
+
+            foreach (var r in listRequest)
+            {
+                if (r.League.Participations.FirstOrDefault(c => c.ClubId == request.ClubId) != null)
+                {
+                    return new JoinResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-RE-01"
+                    };
+                }
+
+                if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
+                    r.RequestType.Equals(Constants.RequestType.Register.ToString()))
+                {
+                    return new JoinResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-RE-02"
+                    };
+                }
+                if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
+                    r.RequestType.Equals(Constants.RequestType.Invite.ToString()))
+                {
+                    return new JoinResponse
+                    {
+                        Success = false,
+                        MessageCode = "ER-RE-03"
+                    };
+                }
+            }
             string leagueManagerFullName = "";
             string clubManagerFullName = "";
             string clubName = "";
@@ -133,43 +171,6 @@ namespace FLMS_BackEnd.Services.Impl
                     };
             }
 
-            var listRequest = await participateRequestRepository.FindByCondition(r =>
-                    r.ClubId == request.ClubId &&
-                    r.LeagueId == request.LeagueId)
-                .Include(r => r.League)
-                .ThenInclude(l => l.Participations)
-                .ToListAsync();
-
-            foreach (var r in listRequest)
-            {
-                if (r.League.Participations.FirstOrDefault(c => c.ClubId == request.ClubId) != null)
-                {
-                    return new JoinResponse
-                    {
-                        Success = false,
-                        MessageCode = "ER-RE-01"
-                    };
-                }
-
-                if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
-                    r.RequestType.Equals(Constants.RequestType.Register.ToString()))
-                {
-                    return new JoinResponse
-                    {
-                        Success = false,
-                        MessageCode = "ER-RE-02"
-                    };
-                }
-                if (r.RequestStatus.Equals(Constants.RequestStatus.Pending.ToString()) &&
-                    r.RequestType.Equals(Constants.RequestType.Invite.ToString()))
-                {
-                    return new JoinResponse
-                    {
-                        Success = false,
-                        MessageCode = "ER-RE-03"
-                    };
-                }
-            }
             var participateRequest = mapper.Map<ParticipateRequest>(request);
             participateRequest.RequestType = type.ToString();
             var result = await participateRequestRepository.CreateAsync(participateRequest);
