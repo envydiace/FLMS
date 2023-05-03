@@ -247,7 +247,7 @@ namespace FLMS_BackEnd.Services.Impl
                     Success = false,
                     MessageCode = "ER-LE-05"
                 };
-                
+
             }
             if (userId != 0 && league.UserId != userId)
             {
@@ -564,7 +564,9 @@ namespace FLMS_BackEnd.Services.Impl
 
         public async Task<LeagueUpdateInfoResponse> UpdateLeagueInfo(LeagueUpdateInfoRequest request, int UserId)
         {
-            var checkLeague = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId).FirstOrDefaultAsync();
+            var checkLeague = await leagueRepository.FindByCondition(l => l.LeagueId == request.LeagueId)
+                .Include(l => l.ParticipateNodes).ThenInclude(l => l.ClubClone)
+                .FirstOrDefaultAsync();
             if (checkLeague == null)
             {
                 return new LeagueUpdateInfoResponse
@@ -587,6 +589,15 @@ namespace FLMS_BackEnd.Services.Impl
                 {
                     Success = false,
                     MessageCode = "ER-LE-17"
+                };
+            }
+            if (checkLeague.LeagueType.Equals(Constants.LeagueType.KO.ToString()) && 
+                checkLeague.ParticipateNodes.Any(pn => pn.ClubClone!=null && pn.ClubClone.ClubId == null))
+            {
+                return new LeagueUpdateInfoResponse
+                {
+                    Success = false,
+                    MessageCode = "ER-LE-14"
                 };
             }
             League? league;
@@ -670,10 +681,6 @@ namespace FLMS_BackEnd.Services.Impl
                             if (league.Participations.Where(p => p.Confirmed).Count() < league.NoParticipate)
                             {
                                 throw new Exception("ER-LE-18");
-                            }
-                            if (league.LeagueType.Equals(Constants.LeagueType.KO.ToString()) && league.ParticipateNodes.Any(pn => pn.LeftId == 0 && pn.ClubClone != null && pn.ClubClone.ClubId == null))
-                            {
-                                throw new Exception("ER-LE-14");
                             }
                             break;
                         case Constants.LeagueStatus.Finished:
