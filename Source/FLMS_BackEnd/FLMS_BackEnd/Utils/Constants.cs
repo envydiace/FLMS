@@ -200,7 +200,7 @@ namespace FLMS_BackEnd.Utils
             {"ER-LE-11","Update league info failed" },
             {"ER-LE-12","Upload league rules failed" },
             {"ER-LE-13","Can not finish a new league" },
-            {"ER-LE-14","League doesn't finish setting" },
+            {"ER-LE-14","League's setting doesn't finish" },
             {"ER-LE-15","Some match has been finished" },
             {"ER-LE-16","Some matches are not finished yet" },
             {"ER-LE-17","Can not update finished league" },
