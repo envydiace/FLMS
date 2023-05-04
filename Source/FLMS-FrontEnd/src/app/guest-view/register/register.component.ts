@@ -50,8 +50,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,32}$')]],
       confirmPassword: ['', Validators.required],
       fullName: ['', [Validators.required, this.noWhitespaceValidator, Validators.maxLength(50)]],
-      phone: ['', Validators.pattern('^[0-9]{1,15}$')],
-      address: [''],
+      phone: ['', [Validators.required,Validators.pattern('^[0-9]{1,15}$')]],
+      address: ['',[Validators.required,Validators.maxLength(255)]],
       role: ['', Validators.required]
     });
   }

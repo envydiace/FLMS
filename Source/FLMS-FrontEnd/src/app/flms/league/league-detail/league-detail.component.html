@@ -68,18 +68,19 @@
                                 <a *ngIf="leagueDetail.fanpage != null" href="{{leagueDetail.fanpage}}"
                                     target="_blank">{{leagueDetail.leagueName}}</a>
                             </p>
-                            <p class="league-detail-content">League Status: {{leagueDetail.status}} </p>
+                            <p class="league-detail-content">Description: {{leagueDetail.description}}</p>
+
                         </div>
                         <div class="right-detail" style="text-align: center;">
                             <p class="league-detail-content">End date: {{leagueDetail.endDate | date: 'dd/MM/yyyy'}}</p>
-                            <p class="league-detail-content">Description: </p>
+                            <p class="league-detail-content">League Status: {{leagueDetail.status}} </p>
                             <p class="league-detail-content">Number of players in squad: {{leagueDetail.noPlayerSquad}}
                             </p>
                             <p class="league-detail-content">Prize pool: {{leagueDetail.totalPrize| currency:'VND':''}}
                                 đ</p>
-                            <p class="league-detail-content">Location: 
-                           
-                                {{ leagueDetail.location.length > 15 ? leagueDetail.location.slice(0, 15) + '...' : leagueDetail.location }}
+                            <p class="league-detail-content">Location:
+                                {{ leagueDetail.location.length > 15 ? leagueDetail.location.slice(0, 15) + '...' :
+                                leagueDetail.location }}
                             </p>
                         </div>
                     </section>
