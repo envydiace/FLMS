@@ -63,7 +63,7 @@ export class LeagueDetailComponent implements OnInit {
       const a = document.createElement('a');
       const objectUrl = URL.createObjectURL(blob);
       a.href = objectUrl;
-      a.download = 'test.pdf';
+      a.download = this.leagueDetail.leagueName + '-Rules.pdf';
       a.click();
       URL.revokeObjectURL(objectUrl);
     };
