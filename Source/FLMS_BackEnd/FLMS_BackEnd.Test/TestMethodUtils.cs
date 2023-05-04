@@ -106,7 +106,7 @@ namespace FLMS_BackEnd.Test
         {
             yield return new object[] { 1, "Final" };
             yield return new object[] { 2, "Semi Final" };
-            yield return new object[] { 3, "Quater Final" };
+            yield return new object[] { 3, "Quarter Final" };
             yield return new object[] { 4, "1/8" };
             yield return new object[] { 5, "1/16" };
             yield return new object[] { 6, "1/32" };

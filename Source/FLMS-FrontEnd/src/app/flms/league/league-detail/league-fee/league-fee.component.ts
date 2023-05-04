@@ -20,6 +20,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class LeagueFeeComponent implements OnInit {
   displayedColumns: string[] = ['expenseName', 'cost', 'expenseKey', 'editB']
+  displayedColumns2: string[] = ['expenseName', 'cost', 'expenseKey']
+
   leagueId: number;
   plan: FeeDetail[] = [];
   actual: FeeDetail[] = [];
